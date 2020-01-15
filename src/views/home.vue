@@ -8,10 +8,13 @@
     </div>
 
     <h1>Мой Бюджет</h1>
-    <h3>Семейный бюджет online</h3>
-    <a class='btn btn-large yellow grey-text text-darken-4 z-depth-0' href='#'>
-      Начать сейчас
-    </a>
+    <h5>Домашняя бухгалтерия онлайн</h5>
+
+    <div class='getstarted'>
+      <a class='btn btn-large yellow grey-text text-darken-4 z-depth-0' href='#'>
+        Начать сейчас
+      </a>
+    </div>
   </div>
 </template>
 
@@ -23,6 +26,12 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+h1
+  margin-bottom: 0px
+
+.getstarted
+  margin-top: 40px
+
 .top-header
   height: 40px
   padding: 20px
