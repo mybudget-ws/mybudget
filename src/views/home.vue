@@ -11,7 +11,7 @@
     <h5>Домашняя бухгалтерия онлайн</h5>
 
     <div class='getstarted'>
-      <a class='btn btn-large yellow grey-text text-darken-4 z-depth-0' href='#'>
+      <a class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0' href='#'>
         Начать сейчас
       </a>
     </div>
