@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <!--div class='top-header'>
+    <div class='top-header'>
       <div class='version'><span class='grey-text'>v2.0</span></div>
       <a class='right waves-effect waves-yellow btn-flat grey-text text-darken-4 z-depth-0' href='#'>
         Вход
@@ -11,11 +11,18 @@
     <h3>Семейный бюджет online</h3>
     <a class='btn btn-large yellow grey-text text-darken-4 z-depth-0' href='#'>
       Начать сейчас
-    </a-->
+    </a>
   </div>
 </template>
 
-<!--style scoped lang='sass'>
+<script>
+export default {
+  name: 'Home',
+  props: {}
+};
+</script>
+
+<style scoped lang='sass'>
 .top-header
   height: 40px
   padding: 20px
@@ -26,4 +33,4 @@
   left: 0
   top: 28px
   font-size: 12px
-</style-->
+</style>
