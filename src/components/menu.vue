@@ -3,11 +3,11 @@
     <div class='nav-wrapper container'>
       <router-link
         to='/'
-        class='brand-logo grey-text'
+        class='brand-logo grey-text left'
       >
         myBudget v2.0
       </router-link>
-      <ul id='nav-mobile' class='right hide-on-med-and-down'>
+      <ul id='nav-mobile' class='right'>
         <li>
           <router-link
             to='/currencies'

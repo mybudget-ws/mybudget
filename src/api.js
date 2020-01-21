@@ -39,6 +39,14 @@ export default {
     return data;
   },
 
+  async currencies() {
+    const query = '{ items:currencies { id name description usdRate } }';
+    const data = await this.client().request(query);
+    this.log('currencies', data);
+
+    return data.items;
+  },
+
   // async fetchUnits(token) {
   //   const query = `
   //     {
