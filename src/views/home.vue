@@ -1,33 +1,33 @@
 <template>
-  <div class='container'>
-    <div class='top-header'>
-      <div class='version'><span class='grey-text'>v2.0</span></div>
-      <a class='right waves-effect waves-yellow btn-flat grey-text text-darken-4 z-depth-0' href='#'>
-        Вход
-      </a>
-    </div>
+  <div>
+    <Menu />
+    <div class='container'>
+      <h1>Мой Бюджет</h1>
+      <h5>Домашняя бухгалтерия онлайн</h5>
 
-    <h1>Мой Бюджет</h1>
-    <h5>Домашняя бухгалтерия онлайн</h5>
+      <div class='getstarted'>
+        <a class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0' href='#'>
+          Начать сейчас
+        </a>
+      </div>
 
-    <div class='getstarted'>
-      <a class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0' href='#'>
-        Начать сейчас
-      </a>
-    </div>
-
-    <div>
-      <button @click='ping'>Ping</button>
-      <button @click='pingMutation'>Ping Mutation</button>
+      <!--div>
+        <button @click='ping'>Ping</button>
+        <button @click='pingMutation'>Ping Mutation</button>
+      </div-->
     </div>
   </div>
 </template>
 
 <script>
 import Api from '../api';
+import Menu from '@/components/menu';
 
 export default {
   name: 'Home',
+  components: {
+    Menu
+  },
   props: {},
   methods: {
     async ping() {
@@ -50,11 +50,7 @@ h1
 .top-header
   height: 40px
   padding: 20px
-  position: relative
 
-.version
-  position: absolute
-  left: 0
-  top: 28px
-  font-size: 12px
+.brand-logo
+  font-size: 11px
 </style>
