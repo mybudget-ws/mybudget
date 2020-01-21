@@ -15,13 +15,28 @@
         Начать сейчас
       </a>
     </div>
+
+    <div>
+      <button @click='ping'>Ping</button>
+      <button @click='pingMutation'>Ping Mutation</button>
+    </div>
   </div>
 </template>
 
 <script>
+import Api from '../api';
+
 export default {
   name: 'Home',
-  props: {}
+  props: {},
+  methods: {
+    async ping() {
+      await Api.ping();
+    },
+    async pingMutation() {
+      await Api.pingMutation();
+    }
+  }
 };
 </script>
 
