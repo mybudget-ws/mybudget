@@ -39,18 +39,18 @@ export default {
     isLoading: true,
     items: []
   }),
-  async created() {
-    this.items = await Api.currencies();
-    this.isLoading = false;
-  },
-  methods: {
-  },
   computed: {
     displayedItems() {
       if (this.isLoading) { return []; }
 
       return this.items.filter(v => v.name !== 'USD');
     }
+  },
+  async created() {
+    this.items = await Api.currencies();
+    this.isLoading = false;
+  },
+  methods: {
   }
 };
 </script>
