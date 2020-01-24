@@ -20,7 +20,7 @@
           </div>
 
           <Button
-            text='Войти'
+            text='Продолжить'
             :is-disabled='isSubmitting'
             :is-loading='isSubmitting'
             @click='submit'
