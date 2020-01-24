@@ -4,7 +4,7 @@ export default {
   namespaced: true,
 
   state: {
-    isLoading: 'true',
+    isLoading: true,
     items: []
   },
 

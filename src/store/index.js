@@ -4,6 +4,7 @@ import pathify, { make } from 'vuex-pathify';
 
 import api from '../api';
 import currencies from './modules/currencies';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
@@ -40,7 +41,8 @@ const store = new Vuex.Store({
   actions,
   mutations,
   modules: {
-    currencies
+    currencies,
+    user
   },
   plugins: [pathify.plugin]
 });

@@ -25,14 +25,13 @@ export default {
   async login(email, password) {
     const query = `
       query($email:String!, $password:String!) {
-        user:loginByPassword(email: $email, password: $password) {
+        user:signIn(email: $email, password: $password) {
           email
           token
         }
       }
     `;
     const vars = { email, password };
-
     const data = await this.client().request(query, vars);
     this.log('login', data);
 

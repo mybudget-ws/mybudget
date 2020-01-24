@@ -27,6 +27,10 @@
           />
         </form>
       </div>
+
+      <p v-if='isSignedIn'>
+        Signed In!
+      </p>
     </div>
   </div>
 </template>
@@ -35,6 +39,7 @@
 import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'SignIn',
@@ -50,12 +55,22 @@ export default {
     isSubmitting: false,
     isAuthError: false
   }),
-  computed: {},
+  computed: {
+    ...get('user/*')
+  },
   methods: {
-    submit() {
-      console.log('submit');
+    async submit() {
       this.isSubmitting = true;
-    }
+      // TODO: User user (login result) to redirect
+      await this.login({
+        email: 'alexander.kalinichev@gmail.com',
+        password: '123'
+      });
+      this.isSubmitting = false;
+    },
+    ...call([
+      'user/login'
+    ])
   }
 };
 </script>
