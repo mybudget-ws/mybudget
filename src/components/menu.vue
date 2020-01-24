@@ -18,7 +18,7 @@
         </li>
         <li>
           <router-link
-            to='/'
+            to='/login'
             class='waves-effect waves-yellow btn-flat grey-text text-darken-4 z-depth-0'
           >
             Вход

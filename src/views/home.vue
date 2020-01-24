@@ -6,9 +6,10 @@
       <h5>Домашняя бухгалтерия онлайн</h5>
 
       <div class='getstarted'>
-        <a class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0' href='#'>
-          Начать сейчас
-        </a>
+        <Button
+          text='Начать сейчас'
+          to='/'
+        />
       </div>
 
       <!--div>
@@ -21,12 +22,14 @@
 </template>
 
 <script>
+import Button from '@/components/button';
 import Menu from '@/components/menu';
 import { get, sync, call } from 'vuex-pathify';
 
 export default {
   name: 'Home',
   components: {
+    Button,
     Menu
   },
   props: {},
