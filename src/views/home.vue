@@ -50,7 +50,4 @@ h1
 .top-header
   height: 40px
   padding: 20px
-
-.brand-logo
-  font-size: 11px
 </style>

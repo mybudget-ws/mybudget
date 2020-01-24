@@ -47,41 +47,6 @@ export default {
     return data.items;
   },
 
-  // async fetchUnits(token) {
-  //   const query = `
-  //     {
-  //       units {
-  //         agreement {
-  //           id
-  //           fullNumber
-  //           amount
-  //         }
-  //         box {
-  //           id
-  //           number
-  //           size
-  //           capacity
-  //         }
-  //         level {
-  //           number
-  //         }
-  //         storage {
-  //           id
-  //           name
-  //           address
-  //           description
-  //           latitude
-  //           longitude
-  //         }
-  //       }
-  //     }
-  //   `;
-  //   const data = await this.client(token).request(query);
-  //   this.log('fetchUnits', data);
-
-  //   return data;
-  // },
-
   // async openDoor(token, slot) {
   //   const query = `
   //     mutation($slot:Int!) {
