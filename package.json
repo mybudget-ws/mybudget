@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "browser-cookies": "^1.2.0",
     "core-js": "^3.4.4",
     "eslint-plugin-import": "^2.20.0",
     "graphql-request": "^1.8.2",
