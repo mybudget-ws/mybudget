@@ -26,8 +26,9 @@
 </template>
 
 <script>
-import Api from '@/api';
 import Menu from '@/components/menu';
+// import { get, sync, call } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Currencies',
@@ -35,22 +36,19 @@ export default {
     Menu
   },
   props: {},
-  data: () => ({
-    isLoading: true,
-    items: []
-  }),
   computed: {
-    displayedItems() {
-      if (this.isLoading) { return []; }
-
-      return this.items.filter(v => v.name !== 'USD');
-    }
+    // items: get('currencies/displayedItems'),
+    // isLoading: get('currencies/*')
+    // ...sync('currencies/*')
+    ...get('currencies/*')
   },
   async created() {
-    this.items = await Api.currencies();
-    this.isLoading = false;
+    this.fetch();
   },
   methods: {
+    ...call([
+      'currencies/fetch'
+    ])
   }
 };
 </script>

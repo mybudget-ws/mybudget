@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import pathify, { make } from 'vuex-pathify';
-import Api from '../api';
+
+import api from '../api';
+import currencies from './modules/currencies';
 
 Vue.use(Vuex);
 
@@ -21,10 +23,10 @@ const actions = {
     alert(getters.message);
   },
   async ping() {
-    await Api.ping();
+    await api.ping();
   },
   async pingMutation() {
-    await Api.pingMutation();
+    await api.pingMutation();
   }
 };
 
@@ -33,15 +35,14 @@ const mutations = make.mutations(state);
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  // use the plugin
-  plugins: [
-    pathify.plugin
-  ],
-  // properties
   state,
   getters,
   actions,
-  mutations
+  mutations,
+  modules: {
+    currencies
+  },
+  plugins: [pathify.plugin]
 });
 
 export default store;
