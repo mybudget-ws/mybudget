@@ -12,6 +12,7 @@
       </div>
 
       <!--div>
+        <button @click='greet'>Greet</button>
         <button @click='ping'>Ping</button>
         <button @click='pingMutation'>Ping Mutation</button>
       </div-->
@@ -20,8 +21,8 @@
 </template>
 
 <script>
-import Api from '../api';
 import Menu from '@/components/menu';
+import { get, sync, call } from 'vuex-pathify';
 
 export default {
   name: 'Home',
@@ -29,13 +30,20 @@ export default {
     Menu
   },
   props: {},
+  computed: {
+    // NOTE: Just for test
+    message: get('message'),
+    ...sync('*')
+    //
+  },
   methods: {
-    async ping() {
-      await Api.ping();
-    },
-    async pingMutation() {
-      await Api.pingMutation();
-    }
+    // NOTE: Just for test
+    ...call([
+      'greet',
+      'ping',
+      'pingMutation'
+    ])
+    //
   }
 };
 </script>
