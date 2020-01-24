@@ -37,5 +37,5 @@ export default {
 
 <style scoped lang='sass'>
 .brand-logo
-  font-size: 12px
+  font-size: 14px
 </style>

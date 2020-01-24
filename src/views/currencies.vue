@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <h3>Курсы валют</h3>
+      <PageHeader name='Курсы валют' />
       <p v-if='isLoading'>Загрузка...</p>
       <table v-else>
         <thead>
@@ -27,13 +27,15 @@
 
 <script>
 import Menu from '@/components/menu';
+import PageHeader from '@/components/page_header';
 // import { get, sync, call } from 'vuex-pathify';
 import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Currencies',
   components: {
-    Menu
+    Menu,
+    PageHeader
   },
   props: {},
   computed: {
