@@ -8,13 +8,23 @@
         <form class='col s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col s12'>
-              <input id='email' type='email' class='validate'>
+              <input
+                id='email'
+                v-model='email'
+                type='email'
+                class='validate'
+              >
               <label for='email'>Email</label>
             </div>
           </div>
           <div class='row'>
             <div class='input-field col s12'>
-              <input id='password' type='password' class='validate'>
+              <input
+                id='password'
+                v-model='password'
+                type='password'
+                class='validate'
+              >
               <label for='password'>Пароль</label>
             </div>
           </div>
@@ -27,10 +37,6 @@
           />
         </form>
       </div>
-
-      <p v-if='isSignedIn'>
-        Signed In!
-      </p>
     </div>
   </div>
 </template>
@@ -56,21 +62,27 @@ export default {
     isAuthError: false
   }),
   computed: {
-    ...get('user/*')
+    isSignedIn: get('user/isSignedIn')
+  },
+  mounted() {
+    if (this.isSignedIn) {
+      this.$router.push('accounts');
+    }
   },
   methods: {
-    async submit() {
-      this.isSubmitting = true;
-      // TODO: User user (login result) to redirect
-      await this.login({
-        email: 'alexander.kalinichev@gmail.com',
-        password: '123'
-      });
-      this.isSubmitting = false;
-    },
     ...call([
       'user/login'
-    ])
+    ]),
+    async submit() {
+      this.isSubmitting = true;
+
+      const { email, password } = this;
+      const isSuccess = await this.login({ email, password });
+      this.isSubmitting = isSuccess;
+      if (isSuccess) {
+        this.$router.push('accounts');
+      }
+    }
   }
 };
 </script>

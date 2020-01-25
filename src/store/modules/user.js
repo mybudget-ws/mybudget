@@ -2,10 +2,10 @@ import CookieStore from '@/utils/cookie_store';
 
 import api from '@/api';
 
-const NAMESPACE = 'store#user';
+const NAMESPACE = 'mybudget#store#user';
 
-function syncToken(token) {
-  CookieStore.set(NAMESPACE, 'token', token);
+function saveCookies(key, value) {
+  CookieStore.set(NAMESPACE, key, value);
 }
 
 export default {
@@ -13,7 +13,7 @@ export default {
 
   state: {
     isSignedIn: true,
-    email: null,
+    email: CookieStore.get(NAMESPACE, 'email', null),
     token: CookieStore.get(NAMESPACE, 'token', null)
   },
 
@@ -31,7 +31,9 @@ export default {
       const { user } = await api.login(email, password);
       if (user != null) {
         commit('LOGIN', user);
+        return true;
       }
+      return false;
     },
     logout({ commit }) {
       commit('LOGOUT');
@@ -49,11 +51,13 @@ export default {
     LOGIN(state, { email, token }) {
       state.email = email;
       state.token = token;
-      syncToken(state.token);
+      saveCookies('email', state.email);
+      saveCookies('token', state.token);
     },
     LOGOUT(state) {
       Object.assign(state, { email: null, token: null });
-      syncToken(null);
+      saveCookies('email', null);
+      saveCookies('token', null);
     }
   }
 };
