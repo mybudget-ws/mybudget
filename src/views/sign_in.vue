@@ -47,6 +47,9 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+// NOTE: Toasts.
+// M.toast({html: 'I am a toast!'})
+// https://materializecss.com/toasts.html
 export default {
   name: 'SignIn',
   components: {
