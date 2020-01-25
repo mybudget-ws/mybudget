@@ -40,6 +40,11 @@
           </router-link>
         </li>
         <li>
+          <router-link to='/categories' :class='btnClasses'>
+            Категории
+          </router-link>
+        </li>
+        <li>
           <router-link to='/budgets' :class='btnClasses'>
             Бюджеты
           </router-link>
@@ -49,20 +54,20 @@
             Проекты
           </router-link>
         </li>
-        <li>
-          <router-link to='/currencies' :class='btnClasses'>
-            Курсы валют
-          </router-link>
-        </li>
-        <li>
-          <router-link to='/settings' :class='btnClasses'>
-            Настройки
-          </router-link>
-        </li>
         <li class='right' title='Выход'>
           <a href='#' :class='btnClasses'>
             <i class='material-icons'>exit_to_app</i>
           </a>
+        </li>
+        <li class='right' title='Настройки'>
+          <router-link to='/settings' :class='btnClasses'>
+            <i class='material-icons'>settings</i>
+          </router-link>
+        </li>
+        <li class='right' title='Курсы валют'>
+          <router-link to='/currencies' :class='btnClasses'>
+            <i class='material-icons'>euro_symbol</i>
+          </router-link>
         </li>
       </ul>
     </div>
