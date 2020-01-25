@@ -44,7 +44,7 @@ export default {
     // ...sync('currencies/*')
     ...get('currencies/*')
   },
-  async created() {
+  created() {
     this.fetch();
   },
   methods: {

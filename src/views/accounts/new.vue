@@ -15,7 +15,7 @@
       </div>
 
       <div class='row'>
-        <form class='col s12' @submit.prevent='submit'>
+        <form class='col l8 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col s12'>
               <input
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class='row'>
-            <div class='input-field col s12'>
+            <div class='input-field col s8'>
               <input
                 id='rest'
                 v-model='rest'
@@ -46,6 +46,17 @@
               >
                 Необязательно
               </span>
+            </div>
+            <div class='input-field col s4'>
+              <select ref='select'>
+                <option
+                  v-for='curr in currencies'
+                  :key='curr.id'
+                  :value='curr.id'
+                >
+                  {{ curr.name }}
+                </option>
+              </select>
             </div>
           </div>
 
@@ -65,7 +76,7 @@
 import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Accounts',
@@ -81,6 +92,7 @@ export default {
     isSubmitting: false
   }),
   computed: {
+    currencies: get('currencies/items'),
     isWizardFinished: get('user/isWizardFinished'),
     header() {
       return this.isWizardFinished ?
@@ -88,10 +100,17 @@ export default {
         'Ваш первый счет';
     }
   },
+  async mounted() {
+    await this.fetch();
+    /* eslint-disable */
+    this.select = M.FormSelect.init(this.$refs.select, {});
+    M.updateTextFields();
+    /* eslint-enable */
+  },
   methods: {
-    // ...call([
-    //   'currencies/fetch'
-    // ])
+    ...call([
+      'currencies/fetch'
+    ]),
     async submit() {
       this.isSubmitting = true;
 
