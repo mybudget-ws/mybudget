@@ -12,6 +12,7 @@
 <script>
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import { get } from 'vuex-pathify';
 
 export default {
   name: 'Transactions',
@@ -20,7 +21,13 @@ export default {
     PageHeader
   },
   props: {},
+  computed: {
+    isAllow: get('user/isWizardFinished')
+  },
   async created() {
+    if (!this.isAllow) {
+      this.$router.push({ name: 'new_account' });
+    }
     // TODO: Load accounts, if accounts is zero then show wizard
     //       to create the first.
   }
