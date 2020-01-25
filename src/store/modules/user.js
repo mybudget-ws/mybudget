@@ -12,9 +12,10 @@ export default {
   namespaced: true,
 
   state: {
-    isSignedIn: true,
     email: CookieStore.get(NAMESPACE, 'email', null),
-    token: CookieStore.get(NAMESPACE, 'token', null)
+    token: CookieStore.get(NAMESPACE, 'token', null),
+    isSignedIn: true,
+    isWizardFinished: false
   },
 
   getters: {

@@ -69,7 +69,7 @@ export default {
   },
   mounted() {
     if (this.isSignedIn) {
-      this.$router.push('accounts');
+      this.$router.push('transactions');
     }
   },
   methods: {

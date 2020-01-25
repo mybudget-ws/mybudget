@@ -19,7 +19,11 @@ export default {
     Menu,
     PageHeader
   },
-  props: {}
+  props: {},
+  async created() {
+    // TODO: Load accounts, if accounts is zero then show wizard
+    //       to create the first.
+  }
 };
 </script>
 
