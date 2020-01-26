@@ -15,9 +15,9 @@
       </div>
 
       <div class='row'>
-        <form class='col l8 s12' @submit.prevent='submit'>
+        <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col s12'>
+            <div class='input-field col s8'>
               <input
                 id='name'
                 v-model='name'
@@ -27,6 +27,18 @@
                 required
               >
               <label for='name' class='active'>Название счета</label>
+            </div>
+            <div class='input-field col s4'>
+              <select ref='selectColors' v-model='color'>
+                <option
+                  v-for='color in colors'
+                  :key='color.id'
+                  :value='color.id'
+                >
+                  {{ color.name }}
+                </option>
+              </select>
+              <label>Цвет</label>
             </div>
           </div>
           <div class='row'>
@@ -48,15 +60,16 @@
               </span>
             </div>
             <div class='input-field col s4'>
-              <select ref='select'>
+              <select ref='selectCurrencies' v-model='currency'>
                 <option
                   v-for='curr in currencies'
                   :key='curr.id'
-                  :value='curr.id'
+                  :value='curr.name'
                 >
                   {{ curr.name }}
                 </option>
               </select>
+              <label>Валюта</label>
             </div>
           </div>
 
@@ -89,9 +102,12 @@ export default {
   data: () => ({
     name: 'Наличные',
     rest: '0',
+    color: 'grey',
+    currency: 'RUB',
     isSubmitting: false
   }),
   computed: {
+    colors: get('colors/items'),
     currencies: get('currencies/items'),
     isWizardFinished: get('user/isWizardFinished'),
     header() {
@@ -103,7 +119,13 @@ export default {
   async mounted() {
     await this.fetch();
     /* eslint-disable */
-    this.select = M.FormSelect.init(this.$refs.select, {});
+    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+    M.updateTextFields();
+    /* eslint-enable */
+
+    await this.fetchColors();
+    /* eslint-disable */
+    this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
     M.updateTextFields();
     /* eslint-enable */
   },
@@ -111,6 +133,7 @@ export default {
     ...call([
       'currencies/fetch'
     ]),
+    fetchColors: call('colors/fetch'),
     async submit() {
       this.isSubmitting = true;
 

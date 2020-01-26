@@ -42,7 +42,15 @@ export default {
   async currencies() {
     const query = '{ items:currencies { id name description usdRate } }';
     const data = await this.client().request(query);
-    this.log('currencies', data);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  async colors() {
+    const query = '{ items:colors { id name } }';
+    const data = await this.client().request(query);
+    this.log(query, data);
 
     return data.items;
   },
@@ -69,13 +77,13 @@ export default {
     return token ? { authorization: `Bearer ${token}` } : {};
   },
 
-  log(method, data) {
+  log(query, data) {
     if (!process.env.NODE_ENV == 'development') { return; }
 
     if (data != null) {
-      console.log(method, JSON.stringify(data, undefined, 2));
+      console.log(query, JSON.stringify(data, undefined, 2));
     } else {
-      console.log(method, 'Data is NULL!');
+      console.log(query, 'Data is NULL!');
     }
   }
 };
