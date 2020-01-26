@@ -7,15 +7,16 @@
       <table v-else>
         <thead>
           <tr>
-            <th class='color-th' />
-            <th>Название</th>
+            <th colspan='2'>Название</th>
             <th>Баланс</th>
           </tr>
         </thead>
 
         <tbody>
           <tr v-for='item in items' :key='item.id'>
-            <td><div class='color' :class='item.color' /></td>
+            <td class='color-td'>
+              <div class='color' :class='item.color' />
+            </td>
             <td>{{ item.name }}</td>
             <td>
               {{ item.balance }}
@@ -62,6 +63,6 @@ export default {
   height: 20px
   border-radius: 3px
 
-.color-th
-  width: 40px
+.color-td
+  width: 32px
 </style>
