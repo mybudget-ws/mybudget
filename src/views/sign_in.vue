@@ -69,7 +69,7 @@ export default {
   },
   mounted() {
     if (this.isSignedIn) {
-      this.$router.push('transactions');
+      this.$router.push({ name: 'transactions' });
     }
   },
   methods: {
@@ -83,7 +83,7 @@ export default {
       const isSuccess = await this.login({ email, password });
       this.isSubmitting = isSuccess;
       if (isSuccess) {
-        this.$router.push('accounts');
+        this.$router.push({ name: 'transactions' });
       }
     }
   }

@@ -55,7 +55,7 @@
           </router-link>
         </li>
         <li class='right' title='Выход'>
-          <a href='#' :class='btnClasses'>
+          <a :class='btnClasses' @click='exit'>
             <i class='material-icons'>exit_to_app</i>
           </a>
         </li>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Menu',
@@ -88,6 +88,13 @@ export default {
       return this.isShortMenu ?
         'waves-effect waves-yellow btn-flat grey-text text-darken-4 z-depth-0' :
         'waves-effect blue-grey-text text-lighten-5';
+    }
+  },
+  methods: {
+    logout: call('user/logout'),
+    exit() {
+      this.logout();
+      this.$router.replace({ name: 'home' });
     }
   }
 };

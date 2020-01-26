@@ -55,18 +55,23 @@ export default {
     return data.items;
   },
 
-  // async openDoor(token, slot) {
-  //   const query = `
-  //     mutation($slot:Int!) {
-  //       openDoor(slot: $slot)
-  //     }
-  //   `;
-  //   const vars = { slot };
-  //   const data = await this.client(token).request(query, vars);
-  //   this.log('openDoor', data);
+  async createAccount(token, { name, color, rest, currency }) {
+    const query = `
+      mutation($name:String!, $color:String!, $rest:Float!, $currency:String!) {
+        createAccount(
+          $name:String!,
+          $color:String!,
+          $rest:Float!,
+          $currency:String!
+        )
+      }
+    `;
+    const vars = { name, color, rest, currency };
+    const data = await this.client(token).request(query, vars);
+    this.log('createAccount', data);
 
-  //   return data;
-  // },
+    return data;
+  },
 
   client(token) {
     return new GraphQLClient(ENDPOINT, { headers: this.headers(token) });
