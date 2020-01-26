@@ -103,13 +103,14 @@ export default {
     name: 'Наличные',
     rest: '0',
     color: 'blue',
-    currency: 'RUB',
-    isSubmitting: false
+    currency: 'RUB'
   }),
   computed: {
+    token: get('user/token'),
     colors: get('colors/items'),
     currencies: get('currencies/items'),
     isWizardFinished: get('user/isWizardFinished'),
+    ...get('accounts/*'),
     header() {
       return this.isWizardFinished ?
         'Новый счет' :
@@ -117,7 +118,7 @@ export default {
     }
   },
   async mounted() {
-    await this.fetch();
+    await this.fetchCurrencies();
     /* eslint-disable */
     this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
     M.updateTextFields();
@@ -130,21 +131,20 @@ export default {
     /* eslint-enable */
   },
   methods: {
-    ...call([
-      'currencies/fetch'
-    ]),
+    fetchCurrencies: call('currencies/fetch'),
     fetchColors: call('colors/fetch'),
+    create: call('accounts/create'),
     async submit() {
-      this.isSubmitting = true;
+      if (this.isSubmitting) { return; }
 
-      // const { name, rest } = this;
-      // const isSuccess = await this.login({ email, password });
-      // this.isSubmitting = isSuccess;
-      // if (isSuccess) {
-      //   this.$router.push('accounts');
-      // }
-
-      this.isSubmitting = false;
+      const { name, color, currency, rest, token } = this;
+      const account = { name, color, currency, rest };
+      const isSuccess = await this.create({ token, account });
+      if (isSuccess != null) {
+        this.$router.push({ name: 'accounts' });
+      } else {
+        alert('Error');
+      }
     }
   }
 };

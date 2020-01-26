@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import pathify, { make } from 'vuex-pathify';
 
 import api from '../api';
+import accounts from './modules/accounts';
 import colors from './modules/colors';
 import currencies from './modules/currencies';
 import user from './modules/user';
@@ -42,6 +43,7 @@ const store = new Vuex.Store({
   actions,
   mutations,
   modules: {
+    accounts,
     colors,
     currencies,
     user

@@ -57,12 +57,12 @@ export default {
 
   async createAccount(token, { name, color, rest, currency }) {
     const query = `
-      mutation($name:String!, $color:String!, $rest:Float!, $currency:String!) {
+      mutation($name:String!, $color:String!, $rest:String!, $currency:String!) {
         createAccount(
-          $name:String!,
-          $color:String!,
-          $rest:Float!,
-          $currency:String!
+          name: $name,
+          color: $color,
+          rest: $rest,
+          currency: $currency
         )
       }
     `;
@@ -70,7 +70,7 @@ export default {
     const data = await this.client(token).request(query, vars);
     this.log('createAccount', data);
 
-    return data;
+    return data.createAccount;
   },
 
   client(token) {
