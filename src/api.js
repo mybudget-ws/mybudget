@@ -6,21 +6,9 @@ const ENDPOINT = {
 }[process.env.NODE_ENV];
 
 export default {
-  async ping() {
-    const query = '{ ping }';
-    const data = await this.client().request(query);
-    this.log('ping', data);
-
-    return data;
-  },
-
-  async pingMutation() {
-    const query = 'mutation { pingMutation }';
-    const data = await this.client().request(query);
-    this.log('pingMutation', data);
-
-    return data;
-  },
+  // ---------------------------------
+  // User
+  // ---------------------------------
 
   async login(email, password) {
     const query = `
@@ -39,32 +27,12 @@ export default {
     return data;
   },
 
-  async currencies() {
-    const query = '{ items:currencies { id name description usdRate } }';
-    const data = await this.client().request(query);
-    this.log(query, data);
-
-    return data.items;
-  },
-
-  async colors() {
-    const query = '{ items:colors { id name } }';
-    const data = await this.client().request(query);
-    this.log(query, data);
-
-    return data.items;
-  },
+  // ---------------------------------
+  // Account
+  // ---------------------------------
 
   async accounts(token) {
-    const query = `{
-      items:accounts {
-        id
-        name
-        color
-        balance
-        currency { name }
-      }
-    }`;
+    const query = '{ items:accounts { id name color balance currency { name } } }';
     const data = await this.client(token).request(query);
     this.log(query, data);
 
@@ -88,6 +56,78 @@ export default {
 
     return data.createAccount;
   },
+
+  // ---------------------------------
+  // Project
+  // ---------------------------------
+
+  async projects(token) {
+    const query = '{ items:projects { id name color balance income spending } }';
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  async createProject(token, { name, color }) {
+    const query = `
+      mutation($name:String!, $color:String!) {
+        createProject(
+          name: $name,
+          color: $color
+        )
+      }
+    `;
+    const vars = { name, color };
+    const data = await this.client(token).request(query, vars);
+    this.log('createProject', data);
+
+    return data.createProject;
+  },
+
+  // ---------------------------------
+  // Common
+  // ---------------------------------
+
+  async currencies() {
+    const query = '{ items:currencies { id name description usdRate } }';
+    const data = await this.client().request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  async colors() {
+    const query = '{ items:colors { id name } }';
+    const data = await this.client().request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  // ---------------------------------
+  // Test
+  // ---------------------------------
+
+  async ping() {
+    const query = '{ ping }';
+    const data = await this.client().request(query);
+    this.log('ping', data);
+
+    return data;
+  },
+
+  async pingMutation() {
+    const query = 'mutation { pingMutation }';
+    const data = await this.client().request(query);
+    this.log('pingMutation', data);
+
+    return data;
+  },
+
+  // ---------------------------------
+  // Helpers
+  // ---------------------------------
 
   client(token) {
     return new GraphQLClient(ENDPOINT, { headers: this.headers(token) });

@@ -1,8 +1,12 @@
 <template>
-  <h3>
-    <!--button @click='$router.go(-1)'>Назад</button-->
-    {{ name }}
-  </h3>
+  <div class='row'>
+    <div class='col s12'>
+      <h3>
+        <!--button @click='$router.go(-1)'>Назад</button-->
+        {{ name }}
+      </h3>
+    </div>
+  </div>
 </template>
 
 <script>
