@@ -29,16 +29,16 @@
               <label for='name' class='active'>Название счета</label>
             </div>
             <div class='input-field col s4'>
-              <select ref='selectColors' v-model='color'>
+              <select ref='selectCurrencies' v-model='currency'>
                 <option
-                  v-for='color in colors'
-                  :key='color.id'
-                  :value='color.id'
+                  v-for='curr in currencies'
+                  :key='curr.id'
+                  :value='curr.name'
                 >
-                  {{ color.name }}
+                  {{ curr.name }}
                 </option>
               </select>
-              <label>Цвет</label>
+              <label>Валюта</label>
             </div>
           </div>
           <div class='row'>
@@ -50,7 +50,7 @@
                 class='validate'
                 pattern="[0-9,]+"
               >
-              <label for='rest' class='active'>Текущий баланс</label>
+              <label for='rest' class='active'>Текущий баланс, {{ currency }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
@@ -60,16 +60,16 @@
               </span>
             </div>
             <div class='input-field col s4'>
-              <select ref='selectCurrencies' v-model='currency'>
+              <select ref='selectColors' v-model='color'>
                 <option
-                  v-for='curr in currencies'
-                  :key='curr.id'
-                  :value='curr.name'
+                  v-for='color in colors'
+                  :key='color.id'
+                  :value='color.id'
                 >
-                  {{ curr.name }}
+                  {{ color.name }}
                 </option>
               </select>
-              <label>Валюта</label>
+              <label>Цвет</label>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ export default {
   data: () => ({
     name: 'Наличные',
     rest: '0',
-    color: 'grey',
+    color: 'blue',
     currency: 'RUB',
     isSubmitting: false
   }),
