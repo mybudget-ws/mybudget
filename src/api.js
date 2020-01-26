@@ -55,6 +55,22 @@ export default {
     return data.items;
   },
 
+  async accounts(token) {
+    const query = `{
+      items:accounts {
+        id
+        name
+        color
+        balance
+        currency { name }
+      }
+    }`;
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
   async createAccount(token, { name, color, rest, currency }) {
     const query = `
       mutation($name:String!, $color:String!, $rest:String!, $currency:String!) {

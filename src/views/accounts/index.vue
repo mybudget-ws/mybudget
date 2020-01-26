@@ -4,24 +4,27 @@
     <div class='container'>
       <PageHeader name='Счета' />
       <p v-if='isLoading'>Загрузка...</p>
-      <div>TODO</div>
-      <!--table v-else>
+      <table v-else>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>USD</th>
-            <th>Description</th>
+            <th class='color-th' />
+            <th>Название</th>
+            <th>Баланс</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr v-for='curr in displayedItems' :key='curr.id'>
-            <td>{{ curr.name }}</td>
-            <td>{{ curr.usdRate }}</td>
-            <td>{{ curr.description }}</td>
+          <tr v-for='item in items' :key='item.id'>
+            <td><div class='color' :class='item.color' /></td>
+            <td>{{ item.name }}</td>
+            <td>
+              {{ item.balance }}
+              &nbsp;
+              <span class='grey-text'>{{ item.currency.name }}</span>
+            </td>
           </tr>
         </tbody>
-      </table-->
+      </table>
     </div>
   </div>
 </template>
@@ -29,7 +32,7 @@
 <script>
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
-// import { get, call } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Accounts',
@@ -37,23 +40,28 @@ export default {
     Menu,
     PageHeader
   },
-  props: {}
-  // computed: {
-  //   // items: get('currencies/displayedItems'),
-  //   // isLoading: get('currencies/*')
-  //   // ...sync('currencies/*')
-  //   ...get('currencies/*')
-  // },
-  // async created() {
-  //   this.fetch();
-  // },
-  // methods: {
-  //   ...call([
-  //     'currencies/fetch'
-  //   ])
-  // }
+  props: {},
+  computed: {
+    token: get('user/token'),
+    ...get('accounts/*')
+  },
+  async created() {
+    this.fetch(this.token);
+  },
+  methods: {
+    ...call([
+      'accounts/fetch'
+    ])
+  }
 };
 </script>
 
 <style scoped lang='sass'>
+.color
+  width: 20px
+  height: 20px
+  border-radius: 3px
+
+.color-th
+  width: 40px
 </style>
