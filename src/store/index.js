@@ -7,6 +7,7 @@ import accounts from './modules/accounts';
 import colors from './modules/colors';
 import currencies from './modules/currencies';
 import projects from './modules/projects';
+import transactions from './modules/transactions';
 import user from './modules/user';
 
 Vue.use(Vuex);
@@ -48,6 +49,7 @@ const store = new Vuex.Store({
     colors,
     currencies,
     projects,
+    transactions,
     user
   },
   plugins: [pathify.plugin]

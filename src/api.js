@@ -86,6 +86,29 @@ export default {
   },
 
   // ---------------------------------
+  // Transaction
+  // ---------------------------------
+
+  async transactions(token, { page }) {
+    const query = `
+      query($page:Int) {
+        items:transactions(page: $page) {
+          id
+          amount
+          description
+          dateAt
+          account { name }
+        }
+      }
+    `;
+    const vars = { page };
+    const data = await this.client(token).request(query, vars);
+    this.log('transactions', data);
+
+    return data.items;
+  },
+
+  // ---------------------------------
   // Common
   // ---------------------------------
 

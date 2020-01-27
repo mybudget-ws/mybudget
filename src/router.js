@@ -32,7 +32,7 @@ export default new Router({
     {
       path: '/transactions',
       name: 'transactions',
-      component: () => import(/* webpackChunkName: "inner" */ '@/views/transactions'),
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/transactions/index'),
       beforeEnter: requireAuth
     },
     {
