@@ -3,24 +3,28 @@
     <Menu />
     <div class='container'>
       <PageHeader name='Курсы валют' />
-      <p v-if='isLoading'>Загрузка...</p>
-      <table v-else>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>USD</th>
-            <th>Description</th>
-          </tr>
-        </thead>
+      <div class='row'>
+        <div class='col s12'>
+          <p v-if='isLoading'>Загрузка...</p>
+          <table v-else>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>USD</th>
+                <th>Description</th>
+              </tr>
+            </thead>
 
-        <tbody>
-          <tr v-for='curr in displayedItems' :key='curr.id'>
-            <td>{{ curr.name }}</td>
-            <td>{{ curr.usdRate }}</td>
-            <td>{{ curr.description }}</td>
-          </tr>
-        </tbody>
-      </table>
+            <tbody>
+              <tr v-for='curr in displayedItems' :key='curr.id'>
+                <td>{{ curr.name }}</td>
+                <td>{{ curr.usdRate }}</td>
+                <td>{{ curr.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
