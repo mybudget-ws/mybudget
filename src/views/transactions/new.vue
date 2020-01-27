@@ -12,7 +12,7 @@
       <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col s8'>
+            <div class='input-field col l8 s12'>
               <input
                 id='amount'
                 ref='amount'
@@ -32,7 +32,7 @@
                 Например 20.4 или 10 + 3 * 2
               </span>
             </div>
-            <div class='input-field col s4'>
+            <div class='input-field col l4 s12'>
               <select ref='selectAccounts' v-model='accountId'>
                 <option
                   v-for='acc in accounts'
@@ -44,6 +44,14 @@
               </select>
               <label>Счет</label>
             </div>
+          </div>
+          <div class='switch'>
+            <label>
+              Расход
+              <input v-model='isIncome' type='checkbox'>
+              <span class='lever' />
+              Доход
+            </label>
           </div>
           <div class='row'>
             <div class='input-field col s12'>
@@ -94,7 +102,8 @@ export default {
   data: () => ({
     amount: '',
     description: '',
-    accountId: ''
+    accountId: '',
+    isIncome: false
   }),
   computed: {
     token: get('user/token'),
@@ -151,4 +160,7 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.switch
+  margin-top: -20px
+  margin-bottom: 10px
 </style>
