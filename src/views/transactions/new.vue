@@ -8,69 +8,58 @@
         </div>
       </div>
 
-      <div class='row'>
+      <p v-if='isLoading'>Загрузка...</p>
+      <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
-          <!--div class='row'>
-            <div class='input-field col s8'>
-              <input
-                id='name'
-                v-model='name'
-                type='text'
-                class='validate'
-                autofocus
-                required
-              >
-              <label for='name' class='active'>Название счета</label>
-            </div>
-            <div class='input-field col s4'>
-              <select ref='selectCurrencies' v-model='currency'>
-                <option
-                  v-for='curr in currencies'
-                  :key='curr.id'
-                  :value='curr.name'
-                >
-                  {{ curr.name }}
-                </option>
-              </select>
-              <label>Валюта</label>
-            </div>
-          </div>
           <div class='row'>
             <div class='input-field col s8'>
               <input
-                id='rest'
-                v-model='rest'
+                id='amount'
+                ref='amount'
+                v-model='amount'
                 type='text'
                 class='validate'
                 pattern="[0-9,]+"
+                autofocus
+                required
               >
-              <label for='rest' class='active'>Текущий баланс, {{ currency }}</label>
+              <label for='name' class='active'>{{ amountLable }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
                 data-success='Отлично'
               >
-                Необязательно
+                Например 20.4 или 10 + 3 * 2
               </span>
             </div>
             <div class='input-field col s4'>
-              <select ref='selectColors' v-model='color'>
+              <select ref='selectAccounts' v-model='accountId'>
                 <option
-                  v-for='color in colors'
-                  :key='color.id'
-                  :value='color.id'
+                  v-for='acc in accounts'
+                  :key='acc.id'
+                  :value='acc.id'
                 >
-                  {{ color.name }}
+                  {{ acc.name }}
                 </option>
               </select>
-              <label>Цвет</label>
+              <label>Счет</label>
             </div>
-          </div-->
+          </div>
+          <div class='row'>
+            <div class='input-field col s12'>
+              <input
+                id='description'
+                v-model='description'
+                type='text'
+              >
+              <label for='name' class='active'>Комментарий</label>
+            </div>
+          </div>
 
           <div class='row'>
             <div class='col'>
               <Button
-                text='Создать счет'
+                :text='submitText'
                 :is-disabled='isSubmitting'
                 :is-loading='isSubmitting'
                 @click='submit'
@@ -105,33 +94,42 @@ export default {
   data: () => ({
     amount: '',
     description: '',
-    account_id: ''
+    accountId: ''
   }),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
     isLoading: get('accounts/isLoading'),
-    isSubmitting: get('transactions/isSubmitting')
+    isLoaded: get('accounts/isLoaded'),
+    isSubmitting: get('transactions/isSubmitting'),
+    submitText() {
+      // TODO: Доход / Расход
+      return 'Создать расход';
+    },
+    amountLable() {
+      return `Величина, ${this.selectedAccount?.currency?.name}`;
+    },
+    selectedAccount() {
+      return this.accounts.find(v => v.id === this.accountId);
+    }
   },
   async created() {
-    await this.fetch(this.token);
-    if (!this.isLoading && this.accounts.length === 0) {
+    if (!this.isLoaded) {
+      await this.fetch(this.token);
+    }
+    if (this.isLoaded && !this.isLoading && this.accounts.length === 0) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
-    this.account_id = this.accounts[0].id;
+    this.accountId = this.accounts[0].id;
+    setTimeout(() => {
+      /* eslint-disable */
+      M.FormSelect.init(this.$refs.selectAccounts, {});
+      M.updateTextFields();
+      /* eslint-enable */
+    }, 50);
   },
-  async mounted() {
-    // await this.fetchCurrencies();
-    // /* eslint-disable */
-    // this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
-    // M.updateTextFields();
-    // /* eslint-enable */
-
-    // await this.fetchColors();
-    // /* eslint-disable */
-    // this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
-    // M.updateTextFields();
-    // /* eslint-enable */
+  mounted() {
+    this.$refs.amount.focus();
   },
   methods: {
     fetch: call('accounts/fetch'),

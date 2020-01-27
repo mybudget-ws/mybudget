@@ -20,6 +20,7 @@
             <div class='input-field col s8'>
               <input
                 id='name'
+                ref='name'
                 v-model='name'
                 type='text'
                 class='validate'
@@ -140,6 +141,8 @@ export default {
     this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
     M.updateTextFields();
     /* eslint-enable */
+
+    this.$refs.name.focus();
   },
   methods: {
     fetchCurrencies: call('currencies/fetch'),
