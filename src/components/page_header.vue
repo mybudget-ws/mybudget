@@ -4,7 +4,13 @@
       <h3>
         <!--button @click='$router.go(-1)'>Назад</button-->
         {{ name }}
-        <slot />
+        <router-link
+          v-if='action != null'
+          :to='action'
+          class='btn-floating waves-effect waves-light yellow z-depth-0'
+        >
+          <i class='material-icons grey-text text-darken-4'>add</i>
+        </router-link>
       </h3>
     </div>
   </div>
@@ -15,7 +21,8 @@ export default {
   name: 'PageHeader',
   components: {},
   props: {
-    name: { type: String, required: true }
+    name: { type: String, required: true },
+    action: { type: String, required: false, default: null }
   },
   computed: {},
   methods: {}

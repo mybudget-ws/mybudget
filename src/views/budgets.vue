@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Бюджеты' />
+      <PageHeader name='Бюджеты' action='/accounts/new' />
       <p v-if='isLoading'>Загрузка...</p>
       <div>TODO</div>
     </div>

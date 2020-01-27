@@ -36,6 +36,12 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/transactions/new',
+      name: 'new_transaction',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/transactions/new'),
+      beforeEnter: requireAuth
+    },
+    {
       path: '/accounts',
       name: 'accounts',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/accounts/index'),

@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Проекты' />
+      <PageHeader name='Проекты' action='/accounts/new' />
       <div class='row'>
         <div class='col s12'>
           <p v-if='isLoading'>Загрузка...</p>
@@ -13,9 +13,9 @@
                 TODO: Описание, чем могут быть полезны проекты...
               </p>
             </div>
-            <div class="card-action">
+            <!--div class="card-action">
               <a href="#">Создать проект</a>
-            </div>
+            </div-->
           </div>
           <table v-else>
             <thead>
