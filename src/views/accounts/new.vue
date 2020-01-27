@@ -6,7 +6,7 @@
         <div class='col s12'>
           <PageHeader :name='header' />
           <h6
-            v-if='!isWizardFinished'
+            v-if='isFirst'
             class='grey-text text-darken-1'
           >
             Чтобы начать создайте ваш основной счет
@@ -73,12 +73,21 @@
             </div>
           </div>
 
-          <Button
-            text='Создать счет'
-            :is-disabled='isSubmitting'
-            :is-loading='isSubmitting'
-            @click='submit'
-          />
+          <div class='row'>
+            <div class='col'>
+              <Button
+                text='Создать счет'
+                :is-disabled='isSubmitting'
+                :is-loading='isSubmitting'
+                @click='submit'
+              />
+            </div>
+            <div v-if='!isFirst' class='col'>
+              <router-link to='/accounts' class='btn-flat btn-large'>
+                Отмена
+              </router-link>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -109,10 +118,12 @@ export default {
     token: get('user/token'),
     colors: get('colors/items'),
     currencies: get('currencies/items'),
-    isWizardFinished: get('user/isWizardFinished'),
-    ...get('accounts/*'),
+    isSubmitting: get('accounts/isSubmitting'),
+    isFirst() {
+      return this.$route.query.first === 'true';
+    },
     header() {
-      return this.isWizardFinished ?
+      return this.isFirst ?
         'Новый счет' :
         'Ваш первый счет';
     }

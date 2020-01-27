@@ -4,6 +4,7 @@
       <h3>
         <!--button @click='$router.go(-1)'>Назад</button-->
         {{ name }}
+        <slot />
       </h3>
     </div>
   </div>

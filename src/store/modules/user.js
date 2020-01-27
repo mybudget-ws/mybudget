@@ -13,9 +13,7 @@ export default {
 
   state: {
     email: CookieStore.get(NAMESPACE, 'email', null),
-    token: CookieStore.get(NAMESPACE, 'token', null),
-    isSignedIn: true,
-    isWizardFinished: false
+    token: CookieStore.get(NAMESPACE, 'token', null)
   },
 
   getters: {

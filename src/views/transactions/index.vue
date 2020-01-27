@@ -2,7 +2,11 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Операции' />
+      <PageHeader name='Операции'>
+        <a class='btn-floating waves-effect waves-light yellow z-depth-0'>
+          <i class='material-icons grey-text text-darken-4'>add</i>
+        </a>
+      </PageHeader>
       <div class='row'>
         <div class='col s12'>
           <p v-if='isLoading'>Загрузка...</p>
@@ -35,7 +39,7 @@ export default {
   async created() {
     await this.fetch(this.token);
     if (!this.isAllow) {
-      this.$router.push({ name: 'new_account' });
+      this.$router.push({ name: 'new_account', query: { first: true } });
     }
   },
   methods: {

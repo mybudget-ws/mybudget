@@ -2,7 +2,14 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Счета' />
+      <PageHeader name='Счета'>
+        <router-link
+          to='/accounts/new'
+          class='btn-floating waves-effect waves-light yellow z-depth-0'
+        >
+          <i class='material-icons grey-text text-darken-4'>add</i>
+        </router-link>
+      </PageHeader>
       <div class='row'>
         <div class='col s12'>
           <p v-if='isLoading'>Загрузка...</p>

@@ -16,7 +16,6 @@ export default {
         user:signIn(email: $email, password: $password) {
           email
           token
-          isWizardFinished
         }
       }
     `;
