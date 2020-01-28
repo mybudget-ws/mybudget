@@ -78,6 +78,12 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/projects/new',
+      name: 'new_project',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/projects/new'),
+      beforeEnter: requireAuth
+    },
+    {
       path: '/currencies',
       name: 'currencies',
       component: () => import(/* webpackChunkName: "home-group" */ '@/views/currencies/index')

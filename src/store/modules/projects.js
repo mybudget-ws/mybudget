@@ -5,6 +5,7 @@ export default {
 
   state: {
     isLoading: true,
+    isLoaded: false,
     isSubmitting: false,
     items: []
   },
@@ -30,6 +31,7 @@ export default {
     FINISH_LOADING(state, items) {
       state.items = items;
       state.isLoading = false;
+      state.isLoaded = true;
     },
     START_SUBMITTING(state) {
       state.isSubmitting = true;

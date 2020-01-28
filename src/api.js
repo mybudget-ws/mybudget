@@ -74,7 +74,7 @@ export default {
         createProject(
           name: $name,
           color: $color
-        )
+        ) { id name color balance income spending }
       }
     `;
     const vars = { name, color };

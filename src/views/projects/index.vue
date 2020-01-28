@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Проекты' action='/accounts/new' />
+      <PageHeader name='Проекты' action='/projects/new' />
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
@@ -14,7 +14,7 @@
               </p>
             </div>
             <!--div class="card-action">
-              <a href="#">Создать проект</a>
+              <a href="#">Подробнее о проектах</a>
             </div-->
           </div>
           <table v-else>
@@ -26,10 +26,12 @@
 
             <tbody>
               <tr v-for='item in items' :key='item.id'>
-                <td class='color-td'>
-                  <div class='color' :class='item.color' />
+                <td>
+                  <div class='valign-wrapper'>
+                    <span class='color' :class='item.color' />
+                    <span>{{ item.name }}</span>
+                  </div>
                 </td>
-                <td>{{ item.name }}</td>
               </tr>
             </tbody>
           </table>
