@@ -83,7 +83,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "home-group" */ '@/views/currencies/index')
     },
     {
-      path: '/settings',
+      path: '/settings/:tab',
       name: 'settings',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/settings'),
       beforeEnter: requireAuth

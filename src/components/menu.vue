@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='row row-menu'>
     <nav v-if='isShortMenu' class='white z-depth-0 '>
       <div class='nav-wrapper container'>
         <router-link
@@ -62,7 +62,7 @@
             </a>
           </li>
           <li class='right' title='Настройки'>
-            <router-link to='/settings' :class='btnClasses'>
+            <router-link to='/settings/profile' :class='btnClasses'>
               <i class='material-icons'>settings</i>
             </router-link>
           </li>
@@ -132,4 +132,6 @@ export default {
 <style scoped lang='sass'>
 .brand-logo
   font-size: 14px
+.row-menu
+  margin-bottom: 0
 </style>
