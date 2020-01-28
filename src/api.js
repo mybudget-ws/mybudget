@@ -46,7 +46,7 @@ export default {
           color: $color,
           rest: $rest,
           currency: $currency
-        )
+        ) { id name color balance currency { name } }
       }
     `;
     const vars = { name, color, rest, currency };
