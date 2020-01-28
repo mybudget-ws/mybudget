@@ -5,7 +5,7 @@
       <PageHeader name='Курсы валют' />
       <div class='row'>
         <div class='col s12'>
-          <p v-if='isLoading'>Загрузка...</p>
+          <Loader v-if='isLoading' />
           <table v-else>
             <thead>
               <tr>
@@ -31,6 +31,7 @@
 
 <script>
 import Menu from '@/components/menu';
+import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -38,6 +39,7 @@ export default {
   name: 'Currencies',
   components: {
     Menu,
+    Loader,
     PageHeader
   },
   props: {},

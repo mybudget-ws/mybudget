@@ -3,7 +3,7 @@
     <Menu />
     <div class='container'>
       <PageHeader name='Категории' action='/accounts/new' />
-      <p v-if='isLoading'>Загрузка...</p>
+      <Loader v-if='isLoading' />
       <div>TODO</div>
     </div>
   </div>
@@ -11,12 +11,14 @@
 
 <script>
 import Menu from '@/components/menu';
+import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 
 export default {
   name: 'Categories',
   components: {
     Menu,
+    Loader,
     PageHeader
   },
   props: {}

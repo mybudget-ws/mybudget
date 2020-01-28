@@ -8,7 +8,7 @@
         </div>
       </div>
 
-      <p v-if='isLoading'>Загрузка...</p>
+      <Loader v-if='isLoading' />
       <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
@@ -88,6 +88,7 @@
 <script>
 import Button from '@/components/button';
 import Menu from '@/components/menu';
+import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -96,6 +97,7 @@ export default {
   components: {
     Button,
     Menu,
+    Loader,
     PageHeader
   },
   props: {},

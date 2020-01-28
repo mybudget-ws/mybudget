@@ -5,7 +5,7 @@
       <PageHeader name='Проекты' action='/accounts/new' />
       <div class='row'>
         <div class='col s12'>
-          <p v-if='isLoading'>Загрузка...</p>
+          <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey darken-1'>
             <div class='card-content white-text'>
               <span class='card-title'>На данный момент у вас нет Проектов</span>
@@ -41,6 +41,7 @@
 
 <script>
 import Menu from '@/components/menu';
+import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -48,6 +49,7 @@ export default {
   name: 'Projects',
   components: {
     Menu,
+    Loader,
     PageHeader
   },
   props: {},
