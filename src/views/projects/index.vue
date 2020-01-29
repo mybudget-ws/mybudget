@@ -21,6 +21,7 @@
             <thead>
               <tr>
                 <th>Название</th>
+                <th class='actions' />
               </tr>
             </thead>
 
@@ -31,6 +32,14 @@
                     <span class='color' :class='item.color' />
                     <span>{{ item.name }}</span>
                   </div>
+                </td>
+                <td>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
                 </td>
               </tr>
             </tbody>
@@ -67,8 +76,15 @@ export default {
   },
   methods: {
     ...call([
-      'projects/fetch'
-    ])
+      'projects/fetch',
+      'projects/destroy'
+    ]),
+    onDestroy(project) {
+      if (this.isDestroying) { return; }
+      if (confirm('Удалить проект. Вы уверены?')) {
+        this.destroy({ token: this.token, project });
+      }
+    }
   }
 };
 </script>
@@ -80,4 +96,8 @@ export default {
   border-radius: 3px
   display: inline-block
   margin-right: 10px
+
+.actions
+  width: 50px
+  text-align: right
 </style>

@@ -84,6 +84,19 @@ export default {
     return data.createProject;
   },
 
+  async destroyProject(token, id) {
+    const query = `
+      mutation($id:Int!) {
+        action:destroyProject(id: $id) { id }
+      }
+    `;
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log('destroyProject', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Transaction
   // ---------------------------------
