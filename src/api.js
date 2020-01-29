@@ -116,7 +116,6 @@ export default {
     const vars = { page };
     const data = await this.client(token).request(query, vars);
     this.log('transactions', data);
-
     return data.items;
   },
 

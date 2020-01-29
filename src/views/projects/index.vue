@@ -79,10 +79,16 @@ export default {
       'projects/fetch',
       'projects/destroy'
     ]),
-    onDestroy(project) {
+    async onDestroy(project) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить проект. Вы уверены?')) {
-        this.destroy({ token: this.token, project });
+        const res = await this.destroy({ token: this.token, project });
+        const message = res != null ?
+          'Проект успешно удален' :
+          'Непредвиденная ошибка';
+        /* eslint-disable */
+        M.toast({ html: message });
+        /* eslint-enable */
       }
     }
   }

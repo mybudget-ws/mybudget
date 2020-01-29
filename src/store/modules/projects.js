@@ -24,10 +24,15 @@ export default {
       return item;
     },
     async destroy({ commit }, { token, project }) {
-      commit('START_DESTROYING');
-      await api.destroyProject(token, project.id);
-      commit('FINISH_DESTROYING', project);
-      return project;
+      try {
+        commit('START_DESTROYING');
+        await api.destroyProject(token, project.id);
+        commit('FINISH_DESTROYING', project);
+        return project;
+      } catch {
+        commit('FINISH_DESTROYING', {});
+        return null;
+      }
     }
   },
 
