@@ -14,7 +14,36 @@
               </p>
             </div>
           </div>
-          <div v-else>TODO</div>
+          <table v-else>
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Величина</th>
+                <th class='actions' />
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr v-for='item in items' :key='item.id'>
+                <td>{{ item.dateAt }}</td>
+                <td>
+                  <!--div class='valign-wrapper'>
+                    <span class='color' :class='item.color' />
+                    <span>{{ item.name }}</span>
+                  </div-->
+                  {{ item.amount }}
+                </td>
+                <td>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -52,9 +81,10 @@ export default {
     if (this.isAlert) {
       await this.fetchAccounts(this.token);
     }
-    if (!this.isAllow) {
-      this.$router.push({ name: 'new_account', query: { first: true } });
-    }
+    // TODO: Fix account for new user.
+    // if (!this.isAllow) {
+    //   this.$router.push({ name: 'new_account', query: { first: true } });
+    // }
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
@@ -66,4 +96,7 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.actions
+  width: 50px
+  text-align: right
 </style>
