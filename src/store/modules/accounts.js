@@ -7,6 +7,7 @@ export default {
     isLoading: true,
     isLoaded: false,
     isSubmitting: false,
+    isDestroying: false,
     items: []
   },
 
@@ -21,6 +22,17 @@ export default {
       const item = await api.createAccount(token, account);
       commit('FINISH_SUBMITTING', item);
       return item;
+    },
+    async destroy({ commit }, { token, account }) {
+      try {
+        commit('START_DESTROYING');
+        await api.destroyAccount(token, account.id);
+        commit('FINISH_DESTROYING', account);
+        return account;
+      } catch {
+        commit('FINISH_DESTROYING', {});
+        return null;
+      }
     }
   },
 
@@ -39,6 +51,13 @@ export default {
     FINISH_SUBMITTING(state, item) {
       state.items = [...state.items, item];
       state.isSubmitting = false;
+    },
+    START_DESTROYING(state) {
+      state.isDestroying = true;
+    },
+    FINISH_DESTROYING(state, { id }) {
+      state.items = state.items.filter(v => v.id !== id);
+      state.isDestroying = false;
     }
   }
 };

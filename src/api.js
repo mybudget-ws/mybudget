@@ -56,6 +56,18 @@ export default {
     return data.createAccount;
   },
 
+  async destroyAccount(token, id) {
+    const query = `
+      mutation($id:Int!) {
+        action:destroyAccount(id: $id) { id }
+      }
+    `;
+    const data = await this.client(token).request(query, { id });
+    this.log('destroyAccount', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Project
   // ---------------------------------
@@ -90,8 +102,7 @@ export default {
         action:destroyProject(id: $id) { id }
       }
     `;
-    const vars = { id };
-    const data = await this.client(token).request(query, vars);
+    const data = await this.client(token).request(query, { id });
     this.log('destroyProject', data);
 
     return data.action;

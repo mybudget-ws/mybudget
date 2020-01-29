@@ -11,6 +11,7 @@
               <tr>
                 <th>Название</th>
                 <th>Баланс</th>
+                <th class='actions' />
               </tr>
             </thead>
 
@@ -26,6 +27,14 @@
                   {{ item.balance }}
                   &nbsp;
                   <span class='grey-text'>{{ item.currency.name }}</span>
+                </td>
+                <td>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
                 </td>
               </tr>
             </tbody>
@@ -59,8 +68,21 @@ export default {
   },
   methods: {
     ...call([
-      'accounts/fetch'
-    ])
+      'accounts/fetch',
+      'accounts/destroy'
+    ]),
+    async onDestroy(account) {
+      if (this.isDestroying) { return; }
+      if (confirm('Удалить счет. Вы уверены?')) {
+        const res = await this.destroy({ token: this.token, account });
+        const message = res != null ?
+          'Счет успешно удален' :
+          'Непредвиденная ошибка';
+        /* eslint-disable */
+        M.toast({ html: message });
+        /* eslint-enable */
+      }
+    }
   }
 };
 </script>
@@ -72,4 +94,8 @@ export default {
   border-radius: 3px
   display: inline-block
   margin-right: 10px
+
+.actions
+  width: 50px
+  text-align: right
 </style>
