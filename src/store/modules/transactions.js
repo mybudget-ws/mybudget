@@ -16,13 +16,13 @@ export default {
       const { page } = state;
       const items = await api.transactions(token, { page });
       commit('FINISH_LOADING', items);
+    },
+    async create({ commit }, { token, transaction }) {
+      commit('START_SUBMITTING');
+      const item = await api.createTransaction(token, transaction);
+      commit('FINISH_SUBMITTING', item);
+      return item;
     }
-    // async create({ commit }, { token, account }) {
-    //   commit('START_SUBMITTING');
-    //   const item = await api.createAccount(token, account);
-    //   commit('FINISH_SUBMITTING', item);
-    //   return item;
-    // }
   },
 
   mutations: {
@@ -37,7 +37,7 @@ export default {
       state.isSubmitting = true;
     },
     FINISH_SUBMITTING(state, item) {
-      state.items = [...state.items, item];
+      state.items = [item, ...state.items];
       state.isSubmitting = false;
     }
   }

@@ -34,11 +34,7 @@
             </div>
             <div class='input-field col l4 s12'>
               <select ref='selectAccounts' v-model='accountId'>
-                <option
-                  v-for='acc in accounts'
-                  :key='acc.id'
-                  :value='acc.id'
-                >
+                <option v-for='acc in accounts' :key='acc.id' :value='acc.id'>
                   {{ acc.name }}
                 </option>
               </select>
@@ -61,6 +57,16 @@
                 type='text'
               >
               <label for='name' class='active'>Комментарий</label>
+            </div>
+          </div>
+          <div v-if='isProjects' class='row'>
+            <div class='input-field col l4 s12'>
+              <select ref='selectProjects' v-model='projectId'>
+                <option v-for='project in projects' :key='project.id' :value='project.id'>
+                  {{ project.name }}
+                </option>
+              </select>
+              <label>Проект</label>
             </div>
           </div>
 
@@ -105,32 +111,43 @@ export default {
     amount: '',
     description: '',
     accountId: '',
+    projectId: null,
     isIncome: false
   }),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
-    isLoading: get('accounts/isLoading'),
-    isLoaded: get('accounts/isLoaded'),
+    projects: get('projects/items'),
+
+    isAccountsLoading: get('accounts/isLoading'),
+    isAccountsLoaded: get('accounts/isLoaded'),
+    isProjectsLoading: get('projects/isLoading'),
+    isProjectsLoaded: get('projects/isLoaded'),
+
     isSubmitting: get('transactions/isSubmitting'),
-    submitText() {
-      // TODO: Доход / Расход
-      return 'Создать расход';
-    },
+
+    isLoading() { return this.isAccountsLoading && this.isProjectsLoading; },
+    submitText() { return this.isIncome ? 'Создать доход' : 'Создать расход'; },
     amountLable() {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
     },
     selectedAccount() {
       return this.accounts.find(v => v.id === this.accountId);
-    }
+    },
+    isNotReadyToAdd() {
+      return this.isAccountsLoaded &&
+        !this.isAccountsLoading &&
+        this.accounts.length === 0;
+    },
+    isProjects() { return this.isProjectsLoaded && this.projects.length > 0; }
   },
   async created() {
-    if (!this.isLoaded) {
-      await this.fetch(this.token);
-    }
-    if (this.isLoaded && !this.isLoading && this.accounts.length === 0) {
+    if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
+    if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+    if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
+
     this.accountId = this.accounts[0].id;
     setTimeout(() => {
       /* eslint-disable */
@@ -138,12 +155,22 @@ export default {
       M.updateTextFields();
       /* eslint-enable */
     }, 50);
+    if (this.isProjects) {
+      this.projectId = this.projects[0].id;
+      setTimeout(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectProjects, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      }, 50);
+    }
   },
   mounted() {
     this.$refs.amount.focus();
   },
   methods: {
-    fetch: call('accounts/fetch'),
+    fetchAccounts: call('accounts/fetch'),
+    fetchProjects: call('projects/fetch'),
     create: call('transactions/create'),
     async submit() {
       if (this.isSubmitting) { return; }
