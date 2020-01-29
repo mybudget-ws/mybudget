@@ -148,7 +148,13 @@ export default {
         )
       }
     `;
-    const vars = { amount, isIncome, description, accountId: accountId.toString(), projectId: projectId.toString() };
+    const vars = {
+      amount,
+      isIncome,
+      description,
+      accountId: accountId.toString(),
+      projectId: projectId.toString()
+    };
     const data = await this.client(token).request(query, vars);
     this.log('createProject', data);
 
