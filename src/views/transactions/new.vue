@@ -62,6 +62,7 @@
           <div v-if='isProjects' class='row'>
             <div class='input-field col l4 s12'>
               <select ref='selectProjects' v-model='projectId'>
+                <option value='' selected>Без проекта</option>
                 <option v-for='project in projects' :key='project.id' :value='project.id'>
                   {{ project.name }}
                 </option>
@@ -99,7 +100,7 @@ import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
 export default {
-  name: 'Accounts',
+  name: 'NewTransaction',
   components: {
     Button,
     Menu,
@@ -111,7 +112,7 @@ export default {
     amount: '',
     description: '',
     accountId: '',
-    projectId: null,
+    projectId: '',
     isIncome: false
   }),
   computed: {
@@ -156,7 +157,6 @@ export default {
       /* eslint-enable */
     }, 50);
     if (this.isProjects) {
-      this.projectId = this.projects[0].id;
       setTimeout(() => {
         /* eslint-disable */
         M.FormSelect.init(this.$refs.selectProjects, {});
@@ -175,11 +175,11 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { name, color, currency, rest, token } = this;
-      const account = { name, color, currency, rest };
-      const isSuccess = await this.create({ token, account });
+      const { amount, isIncome, description, accountId, projectId, token } = this;
+      const transaction = { amount, isIncome, description, accountId, projectId };
+      const isSuccess = await this.create({ token, transaction });
       if (isSuccess != null) {
-        this.$router.push({ name: 'accounts' });
+        this.$router.push({ name: 'transactions' });
       } else {
         alert('Error');
       }

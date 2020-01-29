@@ -130,6 +130,31 @@ export default {
     return data.items;
   },
 
+  async createTransaction(token, { amount, isIncome, description, accountId, projectId }) {
+    const query = `
+      mutation(
+        $amount:String!,
+        $isIncome:Boolean!,
+        $description:String,
+        $accountId:String!,
+        $projectId:String
+      ) {
+        action:createTransaction(
+          amount: $amount,
+          isIncome: $isIncome,
+          description: $description,
+          accountId: $accountId,
+          projectId: $projectId,
+        )
+      }
+    `;
+    const vars = { amount, isIncome, description, accountId: accountId.toString(), projectId: projectId.toString() };
+    const data = await this.client(token).request(query, vars);
+    this.log('createProject', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Common
   // ---------------------------------
