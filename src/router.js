@@ -62,7 +62,7 @@ export default new Router({
     {
       path: '/categories',
       name: 'categories',
-      component: () => import(/* webpackChunkName: "inner" */ '@/views/categories'),
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/categories/index'),
       beforeEnter: requireAuth
     },
     {

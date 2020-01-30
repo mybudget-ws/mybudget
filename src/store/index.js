@@ -4,6 +4,7 @@ import pathify, { make } from 'vuex-pathify';
 
 import api from '../api';
 import accounts from './modules/accounts';
+import categories from './modules/categories';
 import colors from './modules/colors';
 import currencies from './modules/currencies';
 import projects from './modules/projects';
@@ -46,6 +47,7 @@ const store = new Vuex.Store({
   mutations,
   modules: {
     accounts,
+    categories,
     colors,
     currencies,
     projects,

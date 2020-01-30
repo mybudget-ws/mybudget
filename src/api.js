@@ -69,6 +69,18 @@ export default {
   },
 
   // ---------------------------------
+  // Category
+  // ---------------------------------
+
+  async categories(token) {
+    const query = '{ items:categories { id name color isFavourite } }';
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  // ---------------------------------
   // Project
   // ---------------------------------
 

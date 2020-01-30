@@ -9,9 +9,7 @@
           <div v-else-if='isAlert' class='card blue-grey darken-1'>
             <div class='card-content white-text'>
               <span class='card-title'>У вас пока нет операций</span>
-              <p>
-                Нажмите на "плюс", чтобы добавить ваш первых доход или расход
-              </p>
+              <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
             </div>
           </div>
           <table v-else>
