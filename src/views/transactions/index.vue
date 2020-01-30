@@ -89,8 +89,21 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetch'),
     ...call([
-      'transactions/fetch'
-    ])
+      'transactions/fetch',
+      'transactions/destroy'
+    ]),
+    async onDestroy(transaction) {
+      if (this.isDestroying) { return; }
+      if (confirm('Удалить операцию. Вы уверены?')) {
+        const res = await this.destroy({ token: this.token, transaction });
+        const message = res != null ?
+          'Операция успешно удалена' :
+          'Непредвиденная ошибка';
+        /* eslint-disable */
+        M.toast({ html: message });
+        /* eslint-enable */
+      }
+    }
   }
 };
 </script>

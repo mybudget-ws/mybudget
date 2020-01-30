@@ -6,6 +6,7 @@ export default {
   state: {
     isLoading: true,
     isSubmitting: false,
+    isDestroying: false,
     items: [],
     page: 1
   },
@@ -22,6 +23,19 @@ export default {
       const item = await api.createTransaction(token, transaction);
       commit('FINISH_SUBMITTING', item);
       return item;
+    },
+    async destroy({ commit, state }, { token, transaction }) {
+      try {
+        commit('START_DESTROYING');
+        await api.destroyTransaction(token, transaction.id);
+        commit('FINISH_DESTROYING', transaction);
+        const items = await api.transactions(token, { page: state.page });
+        commit('FINISH_LOADING', items);
+        return transaction;
+      } catch {
+        commit('FINISH_DESTROYING', {});
+        return null;
+      }
     }
   },
 
@@ -39,6 +53,13 @@ export default {
     FINISH_SUBMITTING(state, item) {
       state.items = [item, ...state.items];
       state.isSubmitting = false;
+    },
+    START_DESTROYING(state) {
+      state.isDestroying = true;
+    },
+    FINISH_DESTROYING(state, { id }) {
+      state.items = state.items.filter(v => v.id !== id);
+      state.isDestroying = false;
     }
   }
 };

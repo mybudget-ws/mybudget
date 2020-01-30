@@ -161,6 +161,18 @@ export default {
     return data.action;
   },
 
+  async destroyTransaction(token, id) {
+    const query = `
+      mutation($id:Int!) {
+        action:destroyTransaction(id: $id) { id }
+      }
+    `;
+    const data = await this.client(token).request(query, { id });
+    this.log('destroyTransaction', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Common
   // ---------------------------------
