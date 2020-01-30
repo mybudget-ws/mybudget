@@ -10,9 +10,9 @@
 
       <Loader v-if='isLoading' />
       <div v-else class='row'>
-        <form class='col l10 s12' @submit.prevent='submit'>
+        <form class='col l12 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col l8 s12'>
+            <div class='input-field col l4 s12'>
               <input
                 id='amount'
                 ref='amount'
@@ -22,6 +22,7 @@
                 pattern="[0-9,]+"
                 autofocus
                 required
+                @click='$refs.amount.focus()'
               >
               <label for='name' class='active'>{{ amountLable }}</label>
               <span
@@ -39,6 +40,16 @@
                 </option>
               </select>
               <label>Счет</label>
+            </div>
+            <div class='input-field col l4 s12'>
+              <input
+                id='date'
+                ref='datepicker'
+                type='text'
+                class='datepicker'
+                :value='defaultDate'
+              >
+              <label for='date' class='active'>Дата</label>
             </div>
           </div>
           <div class='switch'>
@@ -110,10 +121,12 @@ export default {
   props: {},
   data: () => ({
     amount: '',
+    date: new Date(),
     description: '',
     accountId: '',
     projectId: '',
-    isIncome: false
+    isIncome: false,
+    datepicker: null
   }),
   computed: {
     token: get('user/token'),
@@ -140,7 +153,11 @@ export default {
         !this.isAccountsLoading &&
         this.accounts.length === 0;
     },
-    isProjects() { return this.isProjectsLoaded && this.projects.length > 0; }
+    isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
+    defaultDate() {
+      // TODO: Set real date.
+      return '31 Янв, 2020';
+    }
   },
   async created() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
@@ -148,6 +165,53 @@ export default {
     if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
+
+    /* eslint-disable */
+    M.Datepicker.init(
+      this.$refs.datepicker,
+      {
+        format: 'dd mmm, yyyy',
+        firstDay: 1,
+        i18n: {
+          cancel: 'Закрыть',
+          months: [
+            'Январь',
+            'Февраль',
+            'Март',
+            'Апрель',
+            'Май',
+            'Июнь',
+            'Июль',
+            'Август',
+            'Сентябрь',
+            'Октябрь',
+            'Ноябрь',
+            'Декабрь'
+          ],
+          monthsShort: [
+            'Янв',
+            'Фев',
+            'Мар',
+            'Апр',
+            'Май',
+            'Июн',
+            'Июл',
+            'Авг',
+            'Сен',
+            'Окт',
+            'Ноя',
+            'Дек'
+          ],
+          weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+          weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+        }
+      }
+    );
+    /* eslint-enable */
+    /* eslint-disable */
+    // NOTE: Doesn't work!!!
+    // M.Datepicker.getInstance(this.$refs.datepicker).setDate();
+    /* eslint-enable */
 
     this.accountId = this.accounts[0].id;
     setTimeout(() => {
@@ -166,7 +230,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.amount.focus();
+    this.$refs?.amount?.focus();
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
