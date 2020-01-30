@@ -67,21 +67,20 @@ export default {
   computed: {
     token: get('user/token'),
     ...get('transactions/*'),
-    isAccountsLoading: get('accounts/isLoading'),
-    accounts: get('accounts/items'),
-    isAllow() {
-      return !this.isLoading && !this.isAccountsLoading && this.accounts.length !== 0;
-    },
+    // isAccountsLoading: get('accounts/isLoading'),
+    // accounts: get('accounts/items'),
+    // isAllow() {
+    //   return !this.isLoading && !this.isAccountsLoading && this.accounts.length !== 0;
+    // },
     isAlert() {
       return !this.isLoading && this.items.length === 0;
     }
   },
   async created() {
     await this.fetch(this.token);
-    if (this.isAlert) {
-      await this.fetchAccounts(this.token);
-    }
-    // TODO: Fix account for new user.
+    // if (this.isAlert) {
+    //   await this.fetchAccounts(this.token);
+    // }
     // if (!this.isAllow) {
     //   this.$router.push({ name: 'new_account', query: { first: true } });
     // }

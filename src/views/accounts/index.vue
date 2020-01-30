@@ -6,6 +6,16 @@
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
+          <div v-else-if='isAlert' class='card blue-grey darken-1'>
+            <div class='card-content white-text'>
+              <span class='card-title'>На данный момент у вас нет Счетов</span>
+              <p>
+                Чтобы начать учет доходов и расходов вам нужно иметь
+                как минимум один счет.
+                Нажмите на "плюс", чтобы добавить ваш первых счет
+              </p>
+            </div>
+          </div>
           <table v-else>
             <thead>
               <tr>
@@ -61,9 +71,12 @@ export default {
   props: {},
   computed: {
     token: get('user/token'),
-    ...get('accounts/*')
+    ...get('accounts/*'),
+    isAlert() {
+      return !this.isLoading && this.items.length === 0;
+    }
   },
-  async created() {
+  created() {
     this.fetch(this.token);
   },
   methods: {

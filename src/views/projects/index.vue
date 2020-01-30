@@ -71,7 +71,7 @@ export default {
       return !this.isLoading && this.items.length === 0;
     }
   },
-  async created() {
+  created() {
     this.fetch(this.token);
   },
   methods: {
