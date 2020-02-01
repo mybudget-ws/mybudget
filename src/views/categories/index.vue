@@ -83,18 +83,17 @@ export default {
     onEdit(category) {
       alert(category.id);
     },
-    onDestroy(category) {
-      alert(category.id);
-      // if (this.isDestroying) { return; }
-      // if (confirm('Удалить проект. Вы уверены?')) {
-      //   const res = await this.destroy({ token: this.token, project });
-      //   const message = res != null ?
-      //     'Проект успешно удален' :
-      //     'Непредвиденная ошибка';
-      //   /* eslint-disable */
-      //   M.toast({ html: message });
-      //   /* eslint-enable */
-      // }
+    async onDestroy(category) {
+      if (this.isDestroying) { return; }
+      if (confirm('Удалить категория. Вы уверены?')) {
+        const res = await this.destroy({ token: this.token, category });
+        const message = res != null ?
+          'Категория успешно удалена' :
+          'Непредвиденная ошибка';
+        /* eslint-disable */
+        M.toast({ html: message });
+        /* eslint-enable */
+      }
     }
   }
 };
