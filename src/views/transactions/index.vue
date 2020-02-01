@@ -30,6 +30,7 @@
                     <span>{{ item.name }}</span>
                   </div-->
                   {{ item.amount }}
+                  <span class='new badge' :class='item.account.color' :data-badge-caption='item.account.name' />
                 </td>
                 <td>
                   <a
