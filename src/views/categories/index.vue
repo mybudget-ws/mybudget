@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Категории' action='/accounts/new' />
+      <PageHeader name='Категории' action='/categories/new' />
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
@@ -16,7 +16,7 @@
             <thead>
               <tr>
                 <th>Название</th>
-                <th class='actions' />
+                <th />
               </tr>
             </thead>
 
@@ -28,7 +28,13 @@
                     <span>{{ item.name }}</span>
                   </div>
                 </td>
-                <td>
+                <td class='actions'>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onEdit(item)'
+                  >
+                    <i class='material-icons grey-text'>edit</i>
+                  </a>
                   <a
                     class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
@@ -74,8 +80,11 @@ export default {
       'categories/fetch',
       'categories/destroy'
     ]),
+    onEdit(category) {
+      alert(category.id);
+    },
     onDestroy(category) {
-      alert(category);
+      alert(category.id);
       // if (this.isDestroying) { return; }
       // if (confirm('Удалить проект. Вы уверены?')) {
       //   const res = await this.destroy({ token: this.token, project });
@@ -100,6 +109,9 @@ export default {
   margin-right: 10px
 
 .actions
-  width: 50px
+  width: 120px
   text-align: right
+
+.btn-flat
+  padding: 0 8px !important
 </style>
