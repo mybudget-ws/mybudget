@@ -25,12 +25,8 @@
               <tr v-for='item in items' :key='item.id'>
                 <td>{{ item.dateAt }}</td>
                 <td>
-                  <!--div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
-                  </div-->
                   {{ item.amount }}
-                  <span class='new badge' :class='item.account.color' :data-badge-caption='item.account.name' />
+                  <span class='new badge black-text' :class='item.account.color' :data-badge-caption='item.account.name' />
                 </td>
                 <td>
                   <a
