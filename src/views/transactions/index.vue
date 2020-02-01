@@ -15,8 +15,9 @@
           <table v-else>
             <thead>
               <tr>
-                <th>Дата</th>
-                <th>Величина</th>
+                <th class='date'>Дата</th>
+                <th class='amount'>Величина</th>
+                <th />
                 <th class='actions' />
               </tr>
             </thead>
@@ -24,9 +25,15 @@
             <tbody>
               <tr v-for='item in items' :key='item.id'>
                 <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-                <td>
+                <td class='amount'>
                   {{ item.amount }}
+                  <span class='grey-text'>{{ item.account.currency.name }}</span>
+                </td>
+                <td>
                   <span class='new badge black-text' :class='item.account.color' :data-badge-caption='item.account.name' />
+                  <span class='grey-text'>
+                    {{ item.description }}
+                  </span>
                 </td>
                 <td>
                   <a
@@ -110,7 +117,7 @@ export default {
       if (current.subtract(1, 'days').isSame(date, 'day')) {
         return 'Вчера';
       }
-      if (current.year === date.year) {
+      if (current.year() === date.year()) {
         return date.format('DD MMMM');
       }
 
@@ -124,6 +131,13 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.date
+  width: 86px
+
+.amount
+  width: 140px
+  text-align: right
+
 .actions
   width: 50px
   text-align: right

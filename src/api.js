@@ -156,7 +156,7 @@ export default {
           amount
           description
           dateAt
-          account { name color }
+          account { name color currency { name } }
         }
       }
     `;

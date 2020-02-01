@@ -35,8 +35,8 @@
             </div>
             <div class='input-field col l4 s12'>
               <select ref='selectAccounts' v-model='accountId'>
-                <option v-for='acc in accounts' :key='acc.id' :value='acc.id'>
-                  {{ acc.name }}
+                <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
+                  {{ v.name }}
                 </option>
               </select>
               <label>Счет</label>
@@ -165,6 +165,12 @@ export default {
       console.log(moment(date).format().toString());
       /* eslint-enable */
       return moment(this.date).format('DD MMM, YYYY');
+    },
+    orderedAccounts() {
+      return [
+        ...this.accounts.filter(v => v.isFavourite),
+        ...this.accounts.filter(v => !v.isFavourite)
+      ];
     }
   },
   async mounted() {
@@ -223,7 +229,7 @@ export default {
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 
-    this.accountId = this.accounts[0].id;
+    this.accountId = this.orderedAccounts[0].id;
     setTimeout(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectAccounts, {});
