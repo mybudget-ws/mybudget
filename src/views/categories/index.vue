@@ -26,9 +26,9 @@
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
                     <span>{{ item.name }}</span>
-                    <a class='btn-flat' @click='onFavourite(item)' :title='titleFavourite(item)'>
+                    <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
-                      <i v-else class='material-icons yellow-text text-accent-4'>star_border</i>
+                      <i v-else class='material-icons grey-text'>star_border</i>
                     </a>
                   </div>
                 </td>
@@ -100,6 +100,8 @@ export default {
       }
     },
     async onFavourite(category) {
+      if (this.isSubmitting) { return; }
+
       const isFavourite = await this.toggleIsFavourite({ token: this.token, category });
       const message = isFavourite ?
         'Категория добавлена в избранное' :

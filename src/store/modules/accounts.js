@@ -33,6 +33,13 @@ export default {
         commit('FINISH_DESTROYING', {});
         return null;
       }
+    },
+    async toggleIsFavourite({ commit }, { token, account }) {
+      commit('START_SUBMITTING');
+      const isFavourite = await api.toggleIsFavourite(token, account.id, 'account');
+      commit('TOGGLE_IS_FAVOURITE', { item:account, isFavourite });
+      commit('FINISH_SUBMITTING');
+      return isFavourite;
     }
   },
 
@@ -48,9 +55,17 @@ export default {
     START_SUBMITTING(state) {
       state.isSubmitting = true;
     },
-    FINISH_SUBMITTING(state, item) {
-      state.items = [...state.items, item];
+    FINISH_SUBMITTING(state) {
       state.isSubmitting = false;
+    },
+    ADD_ITEM(state, item) {
+      state.items = [...state.items, item];
+    },
+    TOGGLE_IS_FAVOURITE(state, { item, isFavourite }) {
+      const account = state.items.find(v => v.id === item.id);
+      if (account) {
+        account.isFavourite = isFavourite;
+      }
     },
     START_DESTROYING(state) {
       state.isDestroying = true;
