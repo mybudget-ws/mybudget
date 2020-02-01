@@ -164,11 +164,12 @@ export default {
     return data.items;
   },
 
-  async createTransaction(token, { amount, isIncome, description, accountId, projectId }) {
+  async createTransaction(token, { amount, isIncome, date, description, accountId, projectId }) {
     const query = `
       mutation(
         $amount:String!,
         $isIncome:Boolean!,
+        $date:String!,
         $description:String,
         $accountId:String!,
         $projectId:String
@@ -176,6 +177,7 @@ export default {
         action:createTransaction(
           amount: $amount,
           isIncome: $isIncome,
+          date: $date,
           description: $description,
           accountId: $accountId,
           projectId: $projectId,
@@ -185,6 +187,7 @@ export default {
     const vars = {
       amount,
       isIncome,
+      date,
       description,
       accountId: accountId.toString(),
       projectId: projectId.toString()

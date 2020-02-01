@@ -19,7 +19,7 @@
                 v-model='amount'
                 type='text'
                 class='validate'
-                pattern="[0-9,]+"
+                pattern="[0-9,+-*/]+"
                 autofocus
                 required
                 @click='$refs.amount.focus()'
@@ -47,7 +47,6 @@
                 ref='datepicker'
                 type='text'
                 class='datepicker'
-                :value='defaultDate'
               >
               <label for='date' class='active'>Дата</label>
             </div>
@@ -110,6 +109,10 @@ import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+// const moment = require('moment');
+const moment = require('moment/min/moment-with-locales');
+moment.locale('ru');
+
 export default {
   name: 'NewTransaction',
   components: {
@@ -154,12 +157,17 @@ export default {
         this.accounts.length === 0;
     },
     isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
-    defaultDate() {
-      // TODO: Set real date.
-      return '31 Янв, 2020';
+    formatDate() {
+      // return moment(this.date).format('MMM DD, YYYY');
+      // return moment(this.date).format('ll');
+      /* eslint-disable */
+      const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
+      console.log(moment(date).format().toString());
+      /* eslint-enable */
+      return moment(this.date).format('DD MMM, YYYY');
     }
   },
-  async created() {
+  async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
     if (this.isNotReadyToAdd) {
@@ -172,6 +180,9 @@ export default {
       {
         format: 'dd mmm, yyyy',
         firstDay: 1,
+        onSelect: this.onSelect,
+        setDefaultDate: true,
+        defaultDate: new Date(),
         i18n: {
           cancel: 'Закрыть',
           months: [
@@ -189,18 +200,18 @@ export default {
             'Декабрь'
           ],
           monthsShort: [
-            'Янв',
-            'Фев',
-            'Мар',
-            'Апр',
-            'Май',
-            'Июн',
-            'Июл',
-            'Авг',
-            'Сен',
-            'Окт',
-            'Ноя',
-            'Дек'
+            'янв.',
+            'февр.',
+            'мар.',
+            'апр.',
+            'мая',
+            'июня',
+            'июля',
+            'авг.',
+            'сент.',
+            'окт.',
+            'нояб.',
+            'дек.'
           ],
           weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
           weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
@@ -209,8 +220,7 @@ export default {
     );
     /* eslint-enable */
     /* eslint-disable */
-    // NOTE: Doesn't work!!!
-    // M.Datepicker.getInstance(this.$refs.datepicker).setDate();
+    M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 
     this.accountId = this.accounts[0].id;
@@ -228,8 +238,6 @@ export default {
         /* eslint-enable */
       }, 50);
     }
-  },
-  mounted() {
     this.$refs?.amount?.focus();
   },
   methods: {
@@ -239,14 +247,29 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
+      /* eslint-disable */
+      const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
+      // console.log(moment(date).format().toString());
+      /* eslint-enable */
       const { amount, isIncome, description, accountId, projectId, token } = this;
-      const transaction = { amount, isIncome, description, accountId, projectId };
+      const transaction = {
+        amount,
+        isIncome,
+        date: moment(date).format(),
+        description,
+        accountId,
+        projectId
+      };
       const isSuccess = await this.create({ token, transaction });
       if (isSuccess != null) {
         this.$router.push({ name: 'transactions' });
       } else {
         alert('Error');
       }
+    },
+    onSelect(date) {
+      console.log('test');
+      console.log(date);
     }
   }
 };

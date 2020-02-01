@@ -23,7 +23,7 @@
 
             <tbody>
               <tr v-for='item in items' :key='item.id'>
-                <td>{{ item.dateAt }}</td>
+                <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
                 <td>
                   {{ item.amount }}
                   <span class='new badge black-text' :class='item.account.color' :data-badge-caption='item.account.name' />
@@ -50,6 +50,9 @@ import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
+
+const moment = require('moment/min/moment-with-locales');
+moment.locale('ru');
 
 export default {
   name: 'Transactions',
@@ -97,6 +100,24 @@ export default {
         M.toast({ html: message });
         /* eslint-enable */
       }
+    },
+    dateFormat(transaction) {
+      const date = moment(transaction.dateAt);
+      const current = moment();
+      if (moment(date).isSame(current, 'day')) {
+        return 'Сегодня';
+      }
+      if (current.subtract(1, 'days').isSame(date, 'day')) {
+        return 'Вчера';
+      }
+      if (current.year === date.year) {
+        return date.format('DD MMMM');
+      }
+
+      return date.format('DD.MM.YYYY');
+    },
+    dateTitleFormat(transaction) {
+      return moment(transaction.dateAt).format('DD.MM.YYYY');
     }
   }
 };
