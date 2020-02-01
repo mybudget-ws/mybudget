@@ -20,7 +20,8 @@ export default {
     async create({ commit }, { token, category }) {
       commit('START_SUBMITTING');
       const item = await api.createCategory(token, category);
-      commit('FINISH_SUBMITTING', item);
+      commit('FINISH_SUBMITTING');
+      commit('ADD_ITEM', item);
       return item;
     },
     async destroy({ commit }, { token, category }) {
@@ -33,6 +34,13 @@ export default {
         commit('FINISH_DESTROYING', {});
         return null;
       }
+    },
+    async toggleIsFavourite({ commit }, { token, category }) {
+      commit('START_SUBMITTING');
+      const isFavourite = await api.toggleIsFavourite(token, category.id, 'category');
+      commit('TOGGLE_IS_FAVOURITE', { item:category, isFavourite });
+      commit('FINISH_SUBMITTING');
+      return isFavourite;
     }
   },
 
@@ -48,9 +56,17 @@ export default {
     START_SUBMITTING(state) {
       state.isSubmitting = true;
     },
-    FINISH_SUBMITTING(state, item) {
-      state.items = [...state.items, item];
+    FINISH_SUBMITTING(state) {
       state.isSubmitting = false;
+    },
+    ADD_ITEM(state, item) {
+      state.items = [...state.items, item];
+    },
+    TOGGLE_IS_FAVOURITE(state, { item, isFavourite }) {
+      const category = state.items.find(v => v.id === item.id);
+      if (category) {
+        category.isFavourite = isFavourite;
+      }
     },
     START_DESTROYING(state) {
       state.isDestroying = true;

@@ -209,6 +209,22 @@ export default {
   },
 
   // ---------------------------------
+  // Favourite
+  // ---------------------------------
+
+  async toggleIsFavourite(token, id, model) {
+    const query = `
+      mutation($id:Int!, $model:String!) {
+        action:toggleIsFavourite(id: $id, model: $model)
+      }
+    `;
+    const data = await this.client(token).request(query, { id, model });
+    this.log('toggleIsFavourite', data);
+
+    return data.action;
+  },
+
+  // ---------------------------------
   // Common
   // ---------------------------------
 

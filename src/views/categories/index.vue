@@ -26,6 +26,10 @@
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
                     <span>{{ item.name }}</span>
+                    <a class='btn-flat' @click='onFavourite(item)' :title='titleFavourite(item)'>
+                      <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
+                      <i v-else class='material-icons yellow-text text-accent-4'>star_border</i>
+                    </a>
                   </div>
                 </td>
                 <td class='actions'>
@@ -76,10 +80,10 @@ export default {
     this.fetch(this.token);
   },
   methods: {
-    ...call([
-      'categories/fetch',
-      'categories/destroy'
-    ]),
+    ...call('categories/*'),
+    titleFavourite(category) {
+      return category.isFavourite ? 'Удалить из избранного' : 'Добавить в избранное';
+    },
     onEdit(category) {
       alert(category.id);
     },
@@ -94,6 +98,15 @@ export default {
         M.toast({ html: message });
         /* eslint-enable */
       }
+    },
+    async onFavourite(category) {
+      const isFavourite = await this.toggleIsFavourite({ token: this.token, category });
+      const message = isFavourite ?
+        'Категория добавлена в избранное' :
+        'Категория удалена из избранного';
+      /* eslint-disable */
+      M.toast({ html: message });
+      /* eslint-enable */
     }
   }
 };
