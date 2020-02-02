@@ -19,7 +19,7 @@
                 v-model='amount'
                 type='text'
                 class='validate'
-                pattern="[0-9,+-*/]+"
+                pattern='[0-9,+-/*]+'
                 autofocus
                 required
                 @click='$refs.amount.focus()'
@@ -62,9 +62,11 @@
               Доход
             </label>
           </div>
+
           <div class='row'>
-            <div v-if='isCategories' class='col l4 s12'>
-              <p v-for='category in categories' :key='category.id'>
+            <div v-if='isCategories' class='categories col l4 s12'>
+              <h6 class='subtitle'>Категории</h6>
+              <p v-for='category in displayedCategories' :key='category.id'>
                 <label>
                   <input
                     :id='category.id'
@@ -75,26 +77,41 @@
                   <span>{{ category.name }}</span>
                 </label>
               </p>
-              <br>
-            </div>
-            <div class='input-field col l8 s12'>
-              <input
-                id='description'
-                v-model='description'
-                type='text'
+              <a
+                v-if='isNeedShowAll && !isShowAllCategories'
+                class='btn-flat btn-small waves-effect waves-teal'
+                @click='showAll'
               >
-              <label for='name' class='active'>Комментарий</label>
+                Показать все
+              </a>
+              <a
+                v-if='isNeedShowAll && isShowAllCategories'
+                class='btn-flat btn-small waves-effect waves-teal'
+                @click='hideAll'
+              >
+                Только избранные
+              </a>
             </div>
-          </div>
-          <div v-if='isProjects' class='row'>
-            <div class='input-field col l4 s12'>
-              <select ref='selectProjects' v-model='projectId'>
-                <option value='' selected>Без проекта</option>
-                <option v-for='project in projects' :key='project.id' :value='project.id'>
-                  {{ project.name }}
-                </option>
-              </select>
-              <label>Проект</label>
+            <div class='col l8 s12'>
+              <div class='row'>
+                <div class='input-field col s12'>
+                  <input
+                    id='description'
+                    v-model='description'
+                    type='text'
+                  >
+                  <label for='name' class='active'>Комментарий</label>
+                </div>
+                <div v-if='isProjects' class='input-field col l6 s12'>
+                  <select ref='selectProjects' v-model='projectId'>
+                    <option value='' selected>Без проекта</option>
+                    <option v-for='project in projects' :key='project.id' :value='project.id'>
+                      {{ project.name }}
+                    </option>
+                  </select>
+                  <label>Проект</label>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -147,7 +164,8 @@ export default {
     projectId: '',
     isIncome: false,
     datepicker: null,
-    categoryIds: []
+    categoryIds: [],
+    isShowAllCategories: false
   }),
   computed: {
     token: get('user/token'),
@@ -192,6 +210,18 @@ export default {
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
+    },
+    favouriteCategories() {
+      return this.categories.filter(v => v.isFavourite);
+    },
+    isNeedShowAll() {
+      return this.favouriteCategories.length > 0;
+    },
+    displayedCategories() {
+      if (this.isNeedShowAll > 0 && !this.isShowAllCategories) {
+        return this.favouriteCategories;
+      }
+      return this.categories;
     }
   },
   async mounted() {
@@ -208,7 +238,7 @@ export default {
       {
         format: 'dd mmm, yyyy',
         firstDay: 1,
-        onSelect: this.onSelect,
+        // onSelect: this.onSelect,
         setDefaultDate: true,
         defaultDate: new Date(),
         i18n: {
@@ -296,10 +326,12 @@ export default {
         alert('Error');
       }
     },
-    onSelect(date) {
-      console.log('test');
-      console.log(date);
-    }
+    // onSelect(date) {
+    //   console.log('test');
+    //   console.log(date);
+    // },
+    showAll() { this.isShowAllCategories = true; },
+    hideAll() { this.isShowAllCategories = false; }
   }
 };
 </script>
@@ -308,4 +340,10 @@ export default {
 .switch
   margin-top: -20px
   margin-bottom: 10px
+
+h6.subtitle
+  padding-top: 16px
+
+.categories
+  padding-bottom: 30px
 </style>
