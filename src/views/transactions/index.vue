@@ -30,13 +30,19 @@
                   <span class='grey-text'>{{ item.account.currency.name }}</span>
                 </td>
                 <td>
-                  <span class='new badge black-text' :class='item.account.color' :data-badge-caption='item.account.name' />
+                  <span class='new badge black-text tag' :class='item.account.color' :data-badge-caption='item.account.name' />
                   <span
                     v-for='category in item.categories'
                     :key='category.id'
-                    class='new badge black-text category'
+                    class='new badge black-text tag'
                     :class='category.color'
                     :data-badge-caption='category.name'
+                  />
+                  <span
+                    v-if='item.project != null'
+                    class='new badge black-text tag'
+                    :class='item.project.color'
+                    :data-badge-caption='item.project.name'
                   />
 
                   <span class='grey-text'>
@@ -150,6 +156,6 @@ export default {
   width: 50px
   text-align: right
 
-.category
-  margin-left: 6px
+.tag
+  margin-right: 6px
 </style>
