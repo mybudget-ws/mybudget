@@ -31,6 +31,14 @@
                 </td>
                 <td>
                   <span class='new badge black-text' :class='item.account.color' :data-badge-caption='item.account.name' />
+                  <span
+                    v-for='category in item.categories'
+                    :key='category.id'
+                    class='new badge black-text category'
+                    :class='category.color'
+                    :data-badge-caption='category.name'
+                  />
+
                   <span class='grey-text'>
                     {{ item.description }}
                   </span>
@@ -132,7 +140,7 @@ export default {
 
 <style scoped lang='sass'>
 .date
-  width: 86px
+  width: 90px
 
 .amount
   width: 140px
@@ -141,4 +149,7 @@ export default {
 .actions
   width: 50px
   text-align: right
+
+.category
+  margin-left: 6px
 </style>

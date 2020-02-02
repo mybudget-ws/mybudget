@@ -310,11 +310,12 @@ export default {
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       // console.log(moment(date).format().toString());
       /* eslint-enable */
-      const { amount, isIncome, description, accountId, projectId, token } = this;
+      const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
       const transaction = {
         amount,
         isIncome,
         date: moment(date).format(),
+        categoryIds,
         description,
         accountId,
         projectId

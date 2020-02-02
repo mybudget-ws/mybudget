@@ -156,7 +156,8 @@ export default {
           amount
           description
           dateAt
-          account { name color currency { name } }
+          account { id name color currency { name } }
+          categories { id name color }
         }
       }
     `;
@@ -166,12 +167,16 @@ export default {
     return data.items;
   },
 
-  async createTransaction(token, { amount, isIncome, date, description, accountId, projectId }) {
+  async createTransaction(
+    token,
+    { amount, isIncome, date, description, accountId, projectId, categoryIds }
+  ) {
     const query = `
       mutation(
         $amount:String!,
         $isIncome:Boolean!,
         $date:String!,
+        $categoryIds:[Int!]!,
         $description:String,
         $accountId:String!,
         $projectId:String
@@ -180,6 +185,7 @@ export default {
           amount: $amount,
           isIncome: $isIncome,
           date: $date,
+          categoryIds: $categoryIds,
           description: $description,
           accountId: $accountId,
           projectId: $projectId,
@@ -190,6 +196,7 @@ export default {
       amount,
       isIncome,
       date,
+      categoryIds,
       description,
       accountId: accountId.toString(),
       projectId: projectId.toString()
