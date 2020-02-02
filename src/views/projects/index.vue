@@ -20,7 +20,8 @@
           <table v-else>
             <thead>
               <tr>
-                <th>Название</th>
+                <th class='name'>Название</th>
+                <th class='amount'>Баланс</th>
                 <th class='actions' />
               </tr>
             </thead>
@@ -33,7 +34,15 @@
                     <span>{{ item.name }}</span>
                   </div>
                 </td>
-                <td>
+                <td class='amount'>
+                  {{ item.balance }}
+                  <!--
+                    TODO: For each currencies!
+                  &nbsp;
+                  <span class='grey-text'>{{ item.currency.name }}</span>
+                  -->
+                </td>
+                <td class='actions'>
                   <a
                     class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
@@ -103,7 +112,17 @@ export default {
   display: inline-block
   margin-right: 10px
 
+.name
+  width: 200px
+
+.amount
+  width: 140px
+  text-align: right
+
 .actions
   width: 50px
   text-align: right
+
+  .btn-flat
+    padding: 0 8px !important
 </style>

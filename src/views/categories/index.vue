@@ -126,6 +126,6 @@ export default {
   width: 120px
   text-align: right
 
-.btn-flat
-  padding: 0 8px !important
+  .btn-flat
+    padding: 0 8px !important
 </style>
