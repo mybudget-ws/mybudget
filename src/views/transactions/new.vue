@@ -37,6 +37,9 @@
               <select ref='selectAccounts' v-model='accountId'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
+                  <!--span v-if='v.isFavourite' class='right'>
+                    <i class='material-icons yellow-text text-accent-4'>star</i>
+                  </span-->
                 </option>
               </select>
               <label>Счет</label>
@@ -60,7 +63,21 @@
             </label>
           </div>
           <div class='row'>
-            <div class='input-field col s12'>
+            <div v-if='isCategories' class='col l4 s12'>
+              <p v-for='category in categories' :key='category.id'>
+                <label>
+                  <input
+                    :id='category.id'
+                    v-model='categoryIds'
+                    type='checkbox'
+                    :value='category.id'
+                  >
+                  <span>{{ category.name }}</span>
+                </label>
+              </p>
+              <br>
+            </div>
+            <div class='input-field col l8 s12'>
               <input
                 id='description'
                 v-model='description'
@@ -129,17 +146,20 @@ export default {
     accountId: '',
     projectId: '',
     isIncome: false,
-    datepicker: null
+    datepicker: null,
+    categoryIds: []
   }),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
     projects: get('projects/items'),
+    categories: get('categories/items'),
 
     isAccountsLoading: get('accounts/isLoading'),
     isAccountsLoaded: get('accounts/isLoaded'),
     isProjectsLoading: get('projects/isLoading'),
     isProjectsLoaded: get('projects/isLoaded'),
+    isCategoiresLoaded: get('categories/isLoaded'),
 
     isSubmitting: get('transactions/isSubmitting'),
 
@@ -157,6 +177,7 @@ export default {
         this.accounts.length === 0;
     },
     isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
+    isCategories() { return this.isCategoiresLoaded && this.categories.length > 0; },
     formatDate() {
       // return moment(this.date).format('MMM DD, YYYY');
       // return moment(this.date).format('ll');
@@ -176,6 +197,7 @@ export default {
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+    if (!this.isCategoiresLoaded) { await this.fetchCategoires(this.token); }
     if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
@@ -249,6 +271,7 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetch'),
     fetchProjects: call('projects/fetch'),
+    fetchCategoires: call('categories/fetch'),
     create: call('transactions/create'),
     async submit() {
       if (this.isSubmitting) { return; }
