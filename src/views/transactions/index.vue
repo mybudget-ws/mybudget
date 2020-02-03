@@ -12,54 +12,57 @@
               <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
             </div>
           </div>
-          <table v-else>
-            <thead>
-              <tr>
-                <th class='date'>Дата</th>
-                <th class='amount'>Величина</th>
-                <th />
-                <th class='actions' />
-              </tr>
-            </thead>
+          <div v-else class='row'>
+            <table class='col s9'>
+              <thead>
+                <tr>
+                  <th class='date'>Дата</th>
+                  <th class='amount'>Величина</th>
+                  <th />
+                  <th class='actions' />
+                </tr>
+              </thead>
 
-            <tbody>
-              <tr v-for='item in items' :key='item.id'>
-                <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-                <td class='amount'>
-                  {{ item.amount }}
-                  <span class='grey-text'>{{ item.account.currency.name }}</span>
-                </td>
-                <td>
-                  <span class='new badge black-text tag' :class='item.account.color' :data-badge-caption='item.account.name' />
-                  <span
-                    v-for='category in item.categories'
-                    :key='category.id'
-                    class='new badge black-text tag'
-                    :class='category.color'
-                    :data-badge-caption='category.name'
-                  />
-                  <span
-                    v-if='item.project != null'
-                    class='new badge black-text tag'
-                    :class='item.project.color'
-                    :data-badge-caption='item.project.name'
-                  />
+              <tbody>
+                <tr v-for='item in items' :key='item.id'>
+                  <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
+                  <td class='amount'>
+                    {{ item.amount }}
+                    <span class='grey-text'>{{ item.account.currency.name }}</span>
+                  </td>
+                  <td>
+                    <span class='new badge black-text tag' :class='item.account.color' :data-badge-caption='item.account.name' />
+                    <span
+                      v-for='category in item.categories'
+                      :key='category.id'
+                      class='new badge black-text tag'
+                      :class='category.color'
+                      :data-badge-caption='category.name'
+                    />
+                    <span
+                      v-if='item.project != null'
+                      class='new badge black-text tag'
+                      :class='item.project.color'
+                      :data-badge-caption='item.project.name'
+                    />
 
-                  <span class='grey-text'>
-                    {{ item.description }}
-                  </span>
-                </td>
-                <td>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onDestroy(item)'
-                  >
-                    <i class='material-icons grey-text'>delete</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <span class='grey-text'>
+                      {{ item.description }}
+                    </span>
+                  </td>
+                  <td>
+                    <a
+                      class='waves-effect waves-teal btn-flat'
+                      @click='onDestroy(item)'
+                    >
+                      <i class='material-icons grey-text'>delete</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <Filters class='col s3' />
+          </div>
         </div>
       </div>
     </div>
@@ -67,8 +70,9 @@
 </template>
 
 <script>
-import Menu from '@/components/menu';
+import Filters from '@/components/filters';
 import Loader from '@/components/loader';
+import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -78,8 +82,9 @@ moment.locale('ru');
 export default {
   name: 'Transactions',
   components: {
-    Menu,
+    Filters,
     Loader,
+    Menu,
     PageHeader
   },
   props: {},
