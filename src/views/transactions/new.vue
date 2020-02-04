@@ -64,34 +64,10 @@
           </div>
 
           <div class='row'>
-            <div v-if='isCategories' class='categories col l4 s12'>
-              <h6 class='subtitle'>Категории</h6>
-              <p v-for='category in displayedCategories' :key='category.id'>
-                <label>
-                  <input
-                    :id='category.id'
-                    v-model='categoryIds'
-                    type='checkbox'
-                    :value='category.id'
-                  >
-                  <span>{{ category.name }}</span>
-                </label>
-              </p>
-              <a
-                v-if='isNeedShowAll && !isShowAllCategories'
-                class='btn-flat btn-small waves-effect waves-teal'
-                @click='showAll'
-              >
-                Показать все
-              </a>
-              <a
-                v-if='isNeedShowAll && isShowAllCategories'
-                class='btn-flat btn-small waves-effect waves-teal'
-                @click='hideAll'
-              >
-                Только избранные
-              </a>
-            </div>
+            <Categories
+              class='categories col l4 s12'
+              @change='onSelectCategory'
+            />
             <div class='col l8 s12'>
               <div class='row'>
                 <div class='input-field col s12'>
@@ -138,19 +114,21 @@
 
 <script>
 import Button from '@/components/button';
-import Menu from '@/components/menu';
+import Categories from '@/components/categories';
 import Loader from '@/components/loader';
+import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
-// const moment = require('moment');
-const moment = require('moment/min/moment-with-locales');
+// const moment = require('moment/min/moment-with-locales');
+const moment = require('moment');
 moment.locale('ru');
 
 export default {
   name: 'NewTransaction',
   components: {
     Button,
+    Categories,
     Menu,
     Loader,
     PageHeader
@@ -164,20 +142,17 @@ export default {
     projectId: '',
     isIncome: false,
     datepicker: null,
-    categoryIds: [],
-    isShowAllCategories: false
+    categoryIds: []
   }),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
     projects: get('projects/items'),
-    categories: get('categories/items'),
 
     isAccountsLoading: get('accounts/isLoading'),
     isAccountsLoaded: get('accounts/isLoaded'),
     isProjectsLoading: get('projects/isLoading'),
     isProjectsLoaded: get('projects/isLoaded'),
-    isCategoiresLoaded: get('categories/isLoaded'),
 
     isSubmitting: get('transactions/isSubmitting'),
 
@@ -195,39 +170,16 @@ export default {
         this.accounts.length === 0;
     },
     isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
-    isCategories() { return this.isCategoiresLoaded && this.categories.length > 0; },
-    formatDate() {
-      // return moment(this.date).format('MMM DD, YYYY');
-      // return moment(this.date).format('ll');
-      /* eslint-disable */
-      const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
-      console.log(moment(date).format().toString());
-      /* eslint-enable */
-      return moment(this.date).format('DD MMM, YYYY');
-    },
     orderedAccounts() {
       return [
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
-    },
-    favouriteCategories() {
-      return this.categories.filter(v => v.isFavourite);
-    },
-    isNeedShowAll() {
-      return this.favouriteCategories.length > 0;
-    },
-    displayedCategories() {
-      if (this.isNeedShowAll > 0 && !this.isShowAllCategories) {
-        return this.favouriteCategories;
-      }
-      return this.categories;
     }
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
-    if (!this.isCategoiresLoaded) { await this.fetchCategoires(this.token); }
     if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
@@ -301,8 +253,10 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetch'),
     fetchProjects: call('projects/fetch'),
-    fetchCategoires: call('categories/fetch'),
     create: call('transactions/create'),
+    onSelectCategory(ids) {
+      this.categoryIds = ids;
+    },
     async submit() {
       if (this.isSubmitting) { return; }
 
@@ -326,13 +280,7 @@ export default {
       } else {
         alert('Error');
       }
-    },
-    // onSelect(date) {
-    //   console.log('test');
-    //   console.log(date);
-    // },
-    showAll() { this.isShowAllCategories = true; },
-    hideAll() { this.isShowAllCategories = false; }
+    }
   }
 };
 </script>

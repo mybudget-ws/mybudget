@@ -19,29 +19,19 @@
         </label>
       </p>
     </div>
-    <div v-if='isCategories'>
-      <h6>Категории</h6>
-      <p v-for='category in categories' :key='category.id'>
-        <label>
-          <input
-            :id='category.id'
-            v-model='categoryIds'
-            type='checkbox'
-            :value='category.id'
-          >
-          <span>{{ category.name }}</span>
-        </label>
-      </p>
-    </div>
+    <Categories @change='onSelectCategory' />
   </div>
 </template>
 
 <script>
+import Categories from '@/components/categories';
 import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Filters',
-  components: {},
+  components: {
+    Categories
+  },
   props: {},
   data: () => ({
     accountIds: [],
@@ -52,17 +42,17 @@ export default {
     accounts: get('accounts/items'),
     categories: get('categories/items'),
     isAccountsLoaded: get('accounts/isLoaded'),
-    isCategoiresLoaded: get('categories/isLoaded'),
-    isAccounts() { return this.accounts.length > 0; },
-    isCategories() { return this.accounts.length > 0; }
+    isAccounts() { return this.accounts.length > 0; }
   },
   created() {
     if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
-    if (!this.isCategoiresLoaded) { this.fetchCategoires(this.token); }
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
-    fetchCategoires: call('categories/fetch')
+    fetchCategoires: call('categories/fetch'),
+    onSelectCategory(ids) {
+      this.categoryIds = ids;
+    }
   }
 };
 </script>
