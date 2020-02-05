@@ -34,8 +34,7 @@ export default {
   },
   props: {},
   data: () => ({
-    accountIds: [],
-    categoryIds: []
+    accountIds: []
   }),
   computed: {
     token: get('user/token'),
@@ -52,7 +51,6 @@ export default {
     fetchCategoires: call('categories/fetch'),
     setFilterCategories: call('filters/setCategories'),
     onSelectCategory(ids) {
-      this.categoryIds = ids;
       this.setFilterCategories({
         categories: this.categories.filter(v => ids.includes(v.id))
       });
