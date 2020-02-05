@@ -1,5 +1,5 @@
 <template>
-  <div v-if='isEmpty'>
+  <div v-if='!isEmpty'>
     <h6 class='subtitle'>Категории</h6>
     <p v-for='category in displayedCategories' :key='category.id'>
       <label>
@@ -44,6 +44,7 @@ export default {
   computed: {
     token: get('user/token'),
     categories: get('categories/items'),
+    isEmpty: get('categories/isEmpty'),
     isCategoiresLoaded: get('categories/isLoaded'),
     favouriteCategories() {
       return this.categories.filter(v => v.isFavourite);
@@ -56,9 +57,6 @@ export default {
         return this.favouriteCategories;
       }
       return this.categories;
-    },
-    isEmpty() {
-      return this.categories.length === 0;
     }
   },
   async mounted() {
