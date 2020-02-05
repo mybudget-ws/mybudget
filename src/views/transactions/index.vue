@@ -4,6 +4,7 @@
     <div class='container'>
       <PageHeader name='Операции' action='/transactions/new' />
       <div class='row'>
+        <FilterTags class='col s12' />
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey darken-1'>
@@ -12,57 +13,55 @@
               <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
             </div>
           </div>
-          <div v-else class='row'>
-            <table class='col s9'>
-              <thead>
-                <tr>
-                  <th class='date'>Дата</th>
-                  <th class='amount'>Величина</th>
-                  <th />
-                  <th class='actions' />
-                </tr>
-              </thead>
+          <table v-if='!isLoading' class='col s9'>
+            <thead>
+              <tr>
+                <th class='date'>Дата</th>
+                <th class='amount'>Величина</th>
+                <th />
+                <th class='actions' />
+              </tr>
+            </thead>
 
-              <tbody>
-                <tr v-for='item in items' :key='item.id'>
-                  <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-                  <td class='amount'>
-                    {{ item.amount }}
-                    <span class='grey-text'>{{ item.account.currency.name }}</span>
-                  </td>
-                  <td>
-                    <span class='new badge black-text tag' :class='item.account.color' :data-badge-caption='item.account.name' />
-                    <span
-                      v-for='category in item.categories'
-                      :key='category.id'
-                      class='new badge black-text tag'
-                      :class='category.color'
-                      :data-badge-caption='category.name'
-                    />
-                    <span
-                      v-if='item.project != null'
-                      class='new badge black-text tag'
-                      :class='item.project.color'
-                      :data-badge-caption='item.project.name'
-                    />
+            <tbody>
+              <tr v-for='item in items' :key='item.id'>
+                <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
+                <td class='amount'>
+                  {{ item.amount }}
+                  <span class='grey-text'>{{ item.account.currency.name }}</span>
+                </td>
+                <td>
+                  <span class='new badge black-text tag' :class='item.account.color' :data-badge-caption='item.account.name' />
+                  <span
+                    v-for='category in item.categories'
+                    :key='category.id'
+                    class='new badge black-text tag'
+                    :class='category.color'
+                    :data-badge-caption='category.name'
+                  />
+                  <span
+                    v-if='item.project != null'
+                    class='new badge black-text tag'
+                    :class='item.project.color'
+                    :data-badge-caption='item.project.name'
+                  />
 
-                    <span class='grey-text'>
-                      {{ item.description }}
-                    </span>
-                  </td>
-                  <td>
-                    <a
-                      class='waves-effect waves-teal btn-flat'
-                      @click='onDestroy(item)'
-                    >
-                      <i class='material-icons grey-text'>delete</i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <Filters class='col s3' />
-          </div>
+                  <span class='grey-text'>
+                    {{ item.description }}
+                  </span>
+                </td>
+                <td>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <Filters v-if='!isLoading' class='col s3' />
         </div>
       </div>
     </div>
@@ -71,6 +70,7 @@
 
 <script>
 import Filters from '@/components/filters';
+import FilterTags from '@/components/filter_tags';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -84,6 +84,7 @@ export default {
   name: 'Transactions',
   components: {
     Filters,
+    FilterTags,
     Loader,
     Menu,
     PageHeader
