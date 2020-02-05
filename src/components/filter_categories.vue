@@ -74,9 +74,6 @@ export default {
     isChecked(id) {
       return this.selectedCategories.find(v => v.id === id) != null;
     },
-    // async onChange(category) {
-    //   await this.$nextTick(() => this.toggleCategory({ category }));
-    // },
     onChange(category) {
       this.toggleCategory({ category });
     }

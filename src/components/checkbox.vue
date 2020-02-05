@@ -8,7 +8,6 @@
 </template>
 
 <script>
-// https://jsfiddle.net/Linusborg/h4xaf86q/
 export default {
   name: 'Checkbox',
   props: {
@@ -16,7 +15,6 @@ export default {
   },
   methods: {
     change(e) {
-      // console.log(e.target.checked);
       this.$emit('change', e.target.checked);
     }
   }
