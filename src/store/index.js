@@ -2,11 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import pathify, { make } from 'vuex-pathify';
 
-import api from '../api';
 import accounts from './modules/accounts';
+import api from '../api';
 import categories from './modules/categories';
 import colors from './modules/colors';
 import currencies from './modules/currencies';
+import filters from './modules/filters';
 import projects from './modules/projects';
 import transactions from './modules/transactions';
 import user from './modules/user';
@@ -52,6 +53,7 @@ const store = new Vuex.Store({
     currencies,
     projects,
     transactions,
+    filters,
     user
   },
   plugins: [pathify.plugin]
