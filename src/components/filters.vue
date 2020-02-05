@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Categories from '@/components/categories';
+import Categories from '@/components/filter_categories';
 import { get, call } from 'vuex-pathify';
 
 export default {
@@ -50,8 +50,12 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetch'),
     fetchCategoires: call('categories/fetch'),
+    setFilterCategories: call('filters/setCategories'),
     onSelectCategory(ids) {
       this.categoryIds = ids;
+      this.setFilterCategories({
+        categories: this.categories.filter(v => ids.includes(v.id))
+      });
     }
   }
 };

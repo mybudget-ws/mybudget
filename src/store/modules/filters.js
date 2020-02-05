@@ -1,6 +1,3 @@
-// TODO: Uncomment if need to save preferences to the database
-// import api from '../../api';
-
 export default {
   namespaced: true,
 
@@ -13,20 +10,37 @@ export default {
   },
 
   actions: {
-    // async fetch({ commit }) {
-    //   commit('START_LOADING');
-    //   const items = await api.currencies();
-    //   commit('FINISH_LOADING', items);
-    // }
+    setCategories({ commit }, { categories }) {
+      commit('SET_CATEGORIES', categories);
+    },
+    addCategory({ commit }, { category }) {
+      commit('ADD_CATEGORY', category);
+    },
+    removeCategory({ commit }, { category }) {
+      commit('REMOVE_CATEGORY', category);
+    },
+    toggleCategory({ commit, state }, { category }) {
+      if (state.categories.find(v => v.id === category.id)) {
+        commit('REMOVE_CATEGORY', category);
+      } else {
+        commit('ADD_CATEGORY', category);
+      }
+    }
   },
 
   mutations: {
-    // START_LOADING(state) {
-    //   state.isLoading = true;
-    // },
-    // FINISH_LOADING(state, items) {
-    //   state.items = items;
-    //   state.isLoading = false;
-    // }
+    SET_CATEGORIES(state, categories) {
+      state.categories = categories;
+    },
+    ADD_CATEGORY(state, category) {
+      const isPresent = state.categories.find(v => v.id === category.id);
+      if (isPresent) { return false; }
+
+      state.categories = [...state.categories, category];
+      return true;
+    },
+    REMOVE_CATEGORY(state, category) {
+      state.categories = state.categories.filter(v => v.id !== category.id);
+    }
   }
 };

@@ -5,10 +5,9 @@
       <label>
         <input
           :id='category.id'
-          v-model='categoryIds'
           type='checkbox'
           :value='category.id'
-          @change='onChange'
+          @change='onChange(category)'
         >
         <span>{{ category.name }}</span>
       </label>
@@ -33,14 +32,12 @@
 <script>
 import { get, call } from 'vuex-pathify';
 
+// TODO: Try to remove duplication with the categories.vue component.
 export default {
   name: 'Categories',
   components: {},
-  props: {
-    // items: { type: Array, required: false, default: () => [] },
-  },
+  props: {},
   data: () => ({
-    categoryIds: [],
     isShowAllCategories: false
   }),
   computed: {
@@ -68,10 +65,11 @@ export default {
   },
   methods: {
     fetchCategoires: call('categories/fetch'),
+    toggleCategory: call('filters/toggleCategory'),
     showAll() { this.isShowAllCategories = true; },
     hideAll() { this.isShowAllCategories = false; },
-    onChange() {
-      this.$emit('change', this.categoryIds);
+    onChange(category) {
+      this.toggleCategory({ category });
     }
   }
 };

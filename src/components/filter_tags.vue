@@ -1,14 +1,20 @@
 <template>
   <div v-if='isVisible'>
-    <div class='chip'>
-      Tag
-      <i class='close material-icons'>close</i>
+    <div
+      v-for='category in categories'
+      :key="'c-' + category.id"
+      class='chip'
+    >
+      {{ category.name }}
+      <i class='close material-icons' @click='removeCategory({ category })'>
+        close
+      </i>
     </div>
   </div>
 </template>
 
 <script>
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'FilterTags',
@@ -19,14 +25,14 @@ export default {
     // accounts: get('accounts/items'),
     // isAccountsLoaded: get('accounts/isLoaded'),
     // isAccounts() { return this.accounts.length > 0; },
-    // categories: get('categories/items')
-    isVisible() { return true; }
+    categories: get('filters/categories'),
+    isVisible: get('filters/isVisible')
   },
   created() {
     // if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
   },
   methods: {
-    // fetchAccounts: call('accounts/fetch'),
+    removeCategory: call('filters/removeCategory')
     // fetchCategoires: call('categories/fetch'),
     // onSelectCategory(ids) {
     //   this.categoryIds = ids;
