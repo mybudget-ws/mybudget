@@ -38,7 +38,7 @@
                   </div>
                 </td>
                 <td class='amount'>
-                  {{ item.balance }}
+                  {{ formatAmount(item.balance) }}
                   &nbsp;
                   <span class='grey-text'>{{ item.currency.name }}</span>
                 </td>
@@ -60,8 +60,9 @@
 </template>
 
 <script>
-import Menu from '@/components/menu';
 import Loader from '@/components/loader';
+import Menu from '@/components/menu';
+import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -110,6 +111,9 @@ export default {
       /* eslint-disable */
       M.toast({ html: message });
       /* eslint-enable */
+    },
+    formatAmount(balance) {
+      return Money.format(balance, 2);
     }
   }
 };
