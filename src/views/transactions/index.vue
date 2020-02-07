@@ -26,12 +26,20 @@
             <tbody>
               <tr v-for='item in items' :key='item.id'>
                 <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-                <td class='amount'>
-                  {{ item.amount }}
-                  <span class='grey-text'>{{ item.account.currency.name }}</span>
+                <td class='amount' :class='classAmount(item)'>
+                  <span class='value'>{{ formatAmount(item) }}</span>
+                  <span class='currency grey-text'>{{ item.account.currency.name }}</span>
                 </td>
                 <td>
-                  <span class='new badge black-text tag' :class='item.account.color' :data-badge-caption='item.account.name' />
+                  <span
+                    class='new badge black-text tag'
+                    :class='item.account.color'
+                    :data-badge-caption='item.account.name'
+                  >
+                    <i class='account material-icons left'>
+                      account_balance
+                    </i>
+                  </span>
                   <span
                     v-for='category in item.categories'
                     :key='category.id'
@@ -69,10 +77,11 @@
 </template>
 
 <script>
-import Filters from '@/components/filters';
 import FilterTags from '@/components/filter_tags';
+import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
+import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -117,6 +126,14 @@ export default {
       'transactions/fetch',
       'transactions/destroy'
     ]),
+    classAmount(transaction) {
+      return transaction.amount > 0 ?
+        'green-text text-darken-4' :
+        'red-text text-darken-4';
+    },
+    formatAmount(transaction) {
+      return Money.format(Math.abs(transaction.amount), 2);
+    },
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить операцию. Вы уверены?')) {
@@ -159,10 +176,25 @@ export default {
   width: 140px
   text-align: right
 
+  .value
+    font-weight: 500
+    margin-right: 4px
+
+  .currency
+    font-weight: 300
+    font-size: 10px
+
 .actions
   width: 50px
   text-align: right
 
 .tag
   margin-right: 6px
+
+i.account
+  font-size: 12px
+  line-height: 22px
+  margin-right: 3px
+  opacity: 0.7
+  padding-left: 0px
 </style>
