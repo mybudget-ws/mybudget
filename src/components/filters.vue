@@ -9,40 +9,39 @@
       <h6>Счета</h6>
       <p v-for='acc in accounts' :key='acc.id'>
         <label>
-          <input
+          <Checkbox
             :id='acc.id'
-            v-model='accountIds'
-            type='checkbox'
-            :value='acc.id'
-          >
+            :value='isChecked(acc.id)'
+            @change='onChange(acc)'
+          />
           <span>{{ acc.name }}</span>
         </label>
       </p>
     </div>
-    <Categories @change='onSelectCategory' />
+    <Categories />
   </div>
 </template>
 
 <script>
-import Categories from '@/components/categories';
+import Categories from '@/components/filter_categories';
+import Checkbox from '@/components/checkbox';
 import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Filters',
   components: {
-    Categories
+    Categories,
+    Checkbox
   },
   props: {},
-  data: () => ({
-    accountIds: [],
-    categoryIds: []
-  }),
+  data: () => ({}),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
     categories: get('categories/items'),
     isAccountsLoaded: get('accounts/isLoaded'),
-    isAccounts() { return this.accounts.length > 0; }
+    isAccounts() { return this.accounts.length > 0; },
+    selectedAccounts: get('filters/accounts')
   },
   created() {
     if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
@@ -50,8 +49,19 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetch'),
     fetchCategoires: call('categories/fetch'),
-    onSelectCategory(ids) {
-      this.categoryIds = ids;
+    // setFilterCategories: call('filters/setCategories'),
+    // setFilterAccounts: call('filters/setAccounts'),
+    // onSelectCategory(ids) {
+    //   this.setFilterCategories({
+    //     categories: this.categories.filter(v => ids.includes(v.id))
+    //   });
+    // },
+    toggleAccount: call('filters/toggleAccount'),
+    isChecked(id) {
+      return this.selectedAccounts.find(v => v.id === id) != null;
+    },
+    onChange(account) {
+      this.toggleAccount({ account });
     }
   }
 };

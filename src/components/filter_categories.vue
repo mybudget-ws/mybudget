@@ -3,13 +3,11 @@
     <h6 class='subtitle'>Категории</h6>
     <p v-for='category in displayedCategories' :key='category.id'>
       <label>
-        <input
+        <Checkbox
           :id='category.id'
-          v-model='categoryIds'
-          type='checkbox'
-          :value='category.id'
-          @change='onChange'
-        >
+          :value='isChecked(category.id)'
+          @change='onChange(category)'
+        />
         <span>{{ category.name }}</span>
       </label>
     </p>
@@ -32,15 +30,16 @@
 
 <script>
 import { get, call } from 'vuex-pathify';
+import Checkbox from '@/components/checkbox';
 
+// TODO: Try to remove duplication with the categories.vue component.
 export default {
   name: 'Categories',
-  components: {},
-  props: {
-    // items: { type: Array, required: false, default: () => [] },
+  components: {
+    Checkbox
   },
+  props: {},
   data: () => ({
-    categoryIds: [],
     isShowAllCategories: false
   }),
   computed: {
@@ -59,7 +58,8 @@ export default {
         return this.favouriteCategories;
       }
       return this.categories;
-    }
+    },
+    selectedCategories: get('filters/categories')
   },
   async mounted() {
     if (!this.isCategoiresLoaded) {
@@ -68,10 +68,14 @@ export default {
   },
   methods: {
     fetchCategoires: call('categories/fetch'),
+    toggleCategory: call('filters/toggleCategory'),
     showAll() { this.isShowAllCategories = true; },
     hideAll() { this.isShowAllCategories = false; },
-    onChange() {
-      this.$emit('change', this.categoryIds);
+    isChecked(id) {
+      return this.selectedCategories.find(v => v.id === id) != null;
+    },
+    onChange(category) {
+      this.toggleCategory({ category });
     }
   }
 };

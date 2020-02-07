@@ -11,6 +11,10 @@ export default {
     items: []
   },
 
+  getters: {
+    isEmpty(state) { return state.items.length === 0; }
+  },
+
   actions: {
     async fetch({ commit }, token) {
       commit('START_LOADING');
