@@ -1,6 +1,19 @@
 <template>
   <div v-if='isVisible'>
     <div
+      v-for='account in accounts'
+      :key="'a-' + account.id"
+      class='chip'
+    >
+      <i class='account material-icons left'>
+        account_balance
+      </i>
+      {{ account.name }}
+      <i class='close material-icons' @click='removeAccount({ account })'>
+        close
+      </i>
+    </div>
+    <div
       v-for='category in categories'
       :key="'c-' + category.id"
       class='chip'
@@ -22,24 +35,22 @@ export default {
   props: {},
   computed: {
     token: get('user/token'),
-    // accounts: get('accounts/items'),
-    // isAccountsLoaded: get('accounts/isLoaded'),
-    // isAccounts() { return this.accounts.length > 0; },
-    categories: get('filters/categories'),
-    isVisible: get('filters/isVisible')
-  },
-  created() {
-    // if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
+    isVisible: get('filters/isVisible'),
+    accounts: get('filters/accounts'),
+    categories: get('filters/categories')
   },
   methods: {
+    removeAccount: call('filters/removeAccount'),
     removeCategory: call('filters/removeCategory')
-    // fetchCategoires: call('categories/fetch'),
-    // onSelectCategory(ids) {
-    //   this.categoryIds = ids;
-    // }
   }
 };
 </script>
 
 <style scoped lang='sass'>
+i.account
+  margin-right: 4px
+  padding-left: 4px
+  font-size: 16px
+  line-height: 32px
+  opacity: 0.8
 </style>
