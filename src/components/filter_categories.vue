@@ -76,6 +76,7 @@ export default {
     },
     onChange(category) {
       this.toggleCategory({ category });
+      this.$emit('onChange');
     }
   }
 };

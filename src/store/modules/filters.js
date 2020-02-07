@@ -7,7 +7,11 @@ export default {
   },
 
   getters: {
-    isVisible: state => state.categories.length > 0 || state.accounts.length > 0
+    isVisible: state => state.categories.length > 0 || state.accounts.length > 0,
+    params: state => ({
+      accountIds: state.accounts.map(v => v.id),
+      categoryIds: state.categories.map(v => v.id)
+    })
   },
 
   actions: {

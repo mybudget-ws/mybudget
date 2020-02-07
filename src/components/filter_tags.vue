@@ -9,7 +9,7 @@
         account_balance
       </i>
       {{ account.name }}
-      <i class='close material-icons' @click='removeAccount({ account })'>
+      <i class='close material-icons' @click='onRemoveAccount(account)'>
         close
       </i>
     </div>
@@ -19,7 +19,7 @@
       class='chip'
     >
       {{ category.name }}
-      <i class='close material-icons' @click='removeCategory({ category })'>
+      <i class='close material-icons' @click='onRemoveCategory(category)'>
         close
       </i>
     </div>
@@ -41,7 +41,15 @@ export default {
   },
   methods: {
     removeAccount: call('filters/removeAccount'),
-    removeCategory: call('filters/removeCategory')
+    removeCategory: call('filters/removeCategory'),
+    onRemoveAccount(account) {
+      this.removeAccount({ account });
+      this.$emit('onChange');
+    },
+    onRemoveCategory(category) {
+      this.removeCategory({ category });
+      this.$emit('onChange');
+    }
   }
 };
 </script>
