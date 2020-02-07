@@ -18,7 +18,7 @@
         </label>
       </p>
     </div>
-    <Categories />
+    <Categories @onChange="$emit('onChange')" />
   </div>
 </template>
 
@@ -62,6 +62,7 @@ export default {
     },
     onChange(account) {
       this.toggleAccount({ account });
+      this.$emit('onChange');
     }
   }
 };

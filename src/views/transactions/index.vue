@@ -4,7 +4,7 @@
     <div class='container'>
       <PageHeader name='Операции' action='/transactions/new' />
       <div class='row'>
-        <FilterTags class='col s12' />
+        <FilterTags class='col s12' @onChange='onChangeFilter' />
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey darken-1'>
@@ -69,7 +69,7 @@
               </tr>
             </tbody>
           </table>
-          <Filters v-if='!isLoading' class='col s3' />
+          <Filters v-if='!isLoading' class='col s3' @onChange='onChangeFilter' />
         </div>
       </div>
     </div>
@@ -102,6 +102,7 @@ export default {
   computed: {
     token: get('user/token'),
     ...get('transactions/*'),
+    filters: get('filters/params'),
     // isAccountsLoading: get('accounts/isLoading'),
     // accounts: get('accounts/items'),
     // isAllow() {
@@ -112,7 +113,7 @@ export default {
     }
   },
   async created() {
-    await this.fetch(this.token);
+    await this.fetch({ token: this.token, filters: {} });
     // if (this.isAlert) {
     //   await this.fetchAccounts(this.token);
     // }
@@ -133,6 +134,9 @@ export default {
     },
     formatAmount(transaction) {
       return Money.format(Math.abs(transaction.amount), 2);
+    },
+    onChangeFilter() {
+      this.fetch({ token: this.token, filters: this.filters });
     },
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }

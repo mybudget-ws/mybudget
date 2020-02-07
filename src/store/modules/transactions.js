@@ -12,10 +12,10 @@ export default {
   },
 
   actions: {
-    async fetch({ commit, state }, token) {
+    async fetch({ commit, state }, { token, filters }) {
       commit('START_LOADING');
       const { page } = state;
-      const items = await api.transactions(token, { page });
+      const items = await api.transactions(token, { page, filters });
       commit('FINISH_LOADING', items);
     },
     async create({ commit }, { token, transaction }) {
