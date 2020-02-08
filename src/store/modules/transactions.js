@@ -5,6 +5,7 @@ export default {
 
   state: {
     isLoading: true,
+    isLoadingPage: false,
     isSubmitting: false,
     isDestroying: false,
     items: [],
@@ -17,6 +18,12 @@ export default {
       const { page } = state;
       const items = await api.transactions(token, { page, filters });
       commit('FINISH_LOADING', items);
+    },
+    async fetchNext({ commit, state }, { token, filters }) {
+      commit('START_NEXT_PAGE');
+      const { page } = state;
+      const items = await api.transactions(token, { page, filters });
+      commit('FINISH_NEXT_PAGE', items);
     },
     async create({ commit }, { token, transaction }) {
       commit('START_SUBMITTING');
@@ -40,26 +47,28 @@ export default {
   },
 
   mutations: {
-    START_LOADING(state) {
-      state.isLoading = true;
-    },
+    START_LOADING(state) { state.isLoading = true; },
     FINISH_LOADING(state, items) {
       state.items = items;
       state.isLoading = false;
     },
-    START_SUBMITTING(state) {
-      state.isSubmitting = true;
-    },
+    START_SUBMITTING(state) { state.isSubmitting = true; },
     FINISH_SUBMITTING(state, item) {
       state.items = [item, ...state.items];
       state.isSubmitting = false;
     },
-    START_DESTROYING(state) {
-      state.isDestroying = true;
-    },
+    START_DESTROYING(state) { state.isDestroying = true; },
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
       state.isDestroying = false;
+    },
+    START_NEXT_PAGE(state) {
+      state.page += 1;
+      state.isLoadingPage = true;
+    },
+    FINISH_NEXT_PAGE(state, items) {
+      state.isLoadingPage = false;
+      state.items = [...state.items, ...items];
     }
   }
 };

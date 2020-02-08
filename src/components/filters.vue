@@ -7,16 +7,30 @@
     </div-->
     <div v-if='isAccounts' class='accounts'>
       <h6>Счета</h6>
-      <p v-for='acc in accounts' :key='acc.id'>
+      <p v-for='account in displayedAcccounts' :key='account.id'>
         <label>
           <Checkbox
-            :id='acc.id'
-            :value='isChecked(acc.id)'
-            @change='onChange(acc)'
+            :id='account.id'
+            :value='isChecked(account.id)'
+            @change='onChange(account)'
           />
-          <span>{{ acc.name }}</span>
+          <span>{{ account.name }}</span>
         </label>
       </p>
+      <a
+        v-if='isNeedShowAll && !isShowAllAccounts'
+        class='btn-flat btn-small waves-effect waves-teal'
+        @click='showAll'
+      >
+        Показать все
+      </a>
+      <a
+        v-if='isNeedShowAll && isShowAllAccounts'
+        class='btn-flat btn-small waves-effect waves-teal'
+        @click='hideAll'
+      >
+        Скрыть счета
+      </a>
     </div>
     <Categories @onChange="$emit('onChange')" />
   </div>
@@ -34,14 +48,28 @@ export default {
     Checkbox
   },
   props: {},
-  data: () => ({}),
+  data: () => ({
+    isShowAllAccounts: false
+  }),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
     categories: get('categories/items'),
+    selectedAccounts: get('filters/accounts'),
     isAccountsLoaded: get('accounts/isLoaded'),
     isAccounts() { return this.accounts.length > 0; },
-    selectedAccounts: get('filters/accounts')
+    favouriteAccounts() {
+      return this.accounts.filter(v => v.isFavourite);
+    },
+    isNeedShowAll() {
+      return this.favouriteAccounts.length > 0;
+    },
+    displayedAcccounts() {
+      if (this.isNeedShowAll > 0 && !this.isShowAllAccounts) {
+        return this.favouriteAccounts;
+      }
+      return this.accounts;
+    }
   },
   created() {
     if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
@@ -57,6 +85,8 @@ export default {
     //   });
     // },
     toggleAccount: call('filters/toggleAccount'),
+    showAll() { this.isShowAllAccounts = true; },
+    hideAll() { this.isShowAllAccounts = false; },
     isChecked(id) {
       return this.selectedAccounts.find(v => v.id === id) != null;
     },

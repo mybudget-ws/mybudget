@@ -1,6 +1,6 @@
 <template>
   <div class='loader-wrapper'>
-    <div class='preloader-wrapper big active'>
+    <div class='preloader-wrapper active' :class='size'>
       <div class='spinner-layer spinner-green-only'>
         <div class='circle-clipper left'>
           <div class='circle' />
@@ -20,7 +20,9 @@
 export default {
   name: 'Loader',
   components: {},
-  props: {},
+  props: {
+    size: { type: String, required: false, default: 'big' }
+  },
   computed: {},
   methods: {}
 };

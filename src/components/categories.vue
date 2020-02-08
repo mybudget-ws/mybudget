@@ -25,7 +25,7 @@
       class='btn-flat btn-small waves-effect waves-teal'
       @click='hideAll'
     >
-      Только избранные
+      Скрыть категории
     </a>
   </div>
 </template>
