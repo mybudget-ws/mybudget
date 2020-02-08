@@ -19,74 +19,76 @@
               <p>Попробуйте изменить настройки фильтров</p>
             </div>
           </div>
-          <table v-if='isTableVisible' class='col s9'>
-            <thead>
-              <tr>
-                <th class='date'>Дата</th>
-                <th class='amount'>Величина</th>
-                <th />
-                <th class='actions' />
-              </tr>
-            </thead>
+          <div v-if='isTableVisible' class='col s9'>
+            <table class='row'>
+              <thead>
+                <tr>
+                  <th class='date'>Дата</th>
+                  <th class='amount'>Величина</th>
+                  <th />
+                  <th class='actions' />
+                </tr>
+              </thead>
 
-            <tbody>
-              <tr v-for='item in items' :key='item.id'>
-                <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-                <td class='amount' :class='classAmount(item)'>
-                  <span class='value'>{{ formatAmount(item) }}</span>
-                  <span class='currency grey-text'>{{ item.account.currency.name }}</span>
-                </td>
-                <td>
-                  <span
-                    class='new badge black-text tag'
-                    :class='item.account.color'
-                    :data-badge-caption='item.account.name'
-                  >
-                    <i class='account material-icons left'>
-                      account_balance
-                    </i>
-                  </span>
-                  <span
-                    v-for='category in item.categories'
-                    :key='category.id'
-                    class='new badge black-text tag'
-                    :class='category.color'
-                    :data-badge-caption='category.name'
-                  />
-                  <span
-                    v-if='item.project != null'
-                    class='new badge black-text tag'
-                    :class='item.project.color'
-                    :data-badge-caption='item.project.name'
-                  />
+              <tbody>
+                <tr v-for='item in items' :key='item.id'>
+                  <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
+                  <td class='amount' :class='classAmount(item)'>
+                    <span class='value'>{{ formatAmount(item) }}</span>
+                    <span class='currency grey-text'>{{ item.account.currency.name }}</span>
+                  </td>
+                  <td>
+                    <span
+                      class='new badge black-text tag'
+                      :class='item.account.color'
+                      :data-badge-caption='item.account.name'
+                    >
+                      <i class='account material-icons left'>
+                        account_balance
+                      </i>
+                    </span>
+                    <span
+                      v-for='category in item.categories'
+                      :key='category.id'
+                      class='new badge black-text tag'
+                      :class='category.color'
+                      :data-badge-caption='category.name'
+                    />
+                    <span
+                      v-if='item.project != null'
+                      class='new badge black-text tag'
+                      :class='item.project.color'
+                      :data-badge-caption='item.project.name'
+                    />
 
-                  <span class='grey-text'>
-                    {{ item.description }}
-                  </span>
-                </td>
-                <td>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onDestroy(item)'
-                  >
-                    <i class='material-icons grey-text'>delete</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <Filters v-if='!isLoading' class='col s3' @onChange='onChangeFilter' />
-          <div class='col s12'>
-            <Loader v-if='isLoadingPage' size='small' />
-            <br>
-            <a
-              v-if='!isLoadingPage && !isEmpty'
-              class='btn btn-flat'
-              @click='more'
-            >
-              Загрузить ещё...
-            </a>
+                    <span class='grey-text'>
+                      {{ item.description }}
+                    </span>
+                  </td>
+                  <td>
+                    <a
+                      class='waves-effect waves-teal btn-flat'
+                      @click='onDestroy(item)'
+                    >
+                      <i class='material-icons grey-text'>delete</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class='row'>
+              <Loader v-if='isLoadingPage' size='small' />
+              <br>
+              <a
+                v-if='!isLoadingPage && !isEmpty'
+                class='btn btn-flat'
+                @click='more'
+              >
+                Загрузить ещё...
+              </a>
+            </div>
           </div>
+          <Filters v-if='!isLoading' class='col s3' @onChange='onChangeFilter' />
         </div>
       </div>
     </div>
