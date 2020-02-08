@@ -168,7 +168,7 @@ export default {
       }
     `;
     const { accountIds, categoryIds } = filters;
-    const vars = { page, accountIds, categoryIds, perPage: 10 };
+    const vars = { page, accountIds, categoryIds, perPage: 50 };
     const data = await this.client(token).request(query, vars);
     this.log('transactions', data);
     return data.items;

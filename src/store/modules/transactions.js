@@ -63,8 +63,8 @@ export default {
       state.isDestroying = false;
     },
     START_NEXT_PAGE(state) {
-      state.page += 1;
       state.isLoadingPage = true;
+      state.page = state.page + 1;
     },
     FINISH_NEXT_PAGE(state, items) {
       state.isLoadingPage = false;
