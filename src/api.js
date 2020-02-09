@@ -80,6 +80,15 @@ export default {
     return data.items;
   },
 
+  async category(token, { id }) {
+    const query = 'query($id:ID!) { item:category(id:$id) { id name color } }';
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
   async createCategory(token, { name, color }) {
     const query = `
       mutation($name:String!, $color:String!) {
@@ -92,6 +101,24 @@ export default {
     const vars = { name, color };
     const data = await this.client(token).request(query, vars);
     this.log('createCategory', data);
+
+    return data.action;
+  },
+
+  async updateCategory(token, { id, name, color }) {
+    console.log(id);
+    const query = `
+      mutation($id:ID!, $name:String!, $color:String!) {
+        action:updateCategory(
+          id: $id,
+          name: $name,
+          color: $color
+        ) { id name color }
+      }
+    `;
+    const vars = { id, name, color };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateCategory', data);
 
     return data.action;
   },

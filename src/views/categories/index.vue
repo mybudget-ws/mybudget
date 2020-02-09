@@ -85,7 +85,8 @@ export default {
       return category.isFavourite ? 'Удалить из избранного' : 'Добавить в избранное';
     },
     onEdit(category) {
-      alert(category.id);
+      const { id } = category;
+      this.$router.push({ name: 'edit_category', params: { id } });
     },
     async onDestroy(category) {
       if (this.isDestroying) { return; }
