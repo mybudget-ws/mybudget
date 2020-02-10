@@ -2,10 +2,9 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Редактирование категории' />
+      <PageHeader name='Редактирование проекта' />
 
-      <Loader v-if='isLoading' />
-      <div v-else class='row'>
+      <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col s8'>
@@ -18,7 +17,7 @@
                 autofocus
                 required
               >
-              <label for='name' class='active'>Название категории</label>
+              <label for='name' class='active'>Название счета</label>
             </div>
           </div>
           <div class='row'>
@@ -46,7 +45,7 @@
               />
             </div>
             <div class='col'>
-              <router-link to='/categories' class='btn-flat btn-large'>
+              <router-link to='/projects' class='btn-flat btn-large'>
                 Отмена
               </router-link>
             </div>
@@ -59,23 +58,21 @@
 
 <script>
 import Button from '@/components/button';
-import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
 import { get, call } from 'vuex-pathify';
 
 export default {
-  name: 'EditCategory',
+  name: 'NewProject',
   components: {
     Button,
     Menu,
-    Loader,
     PageHeader
   },
   props: {},
   data: () => ({
-    name: '',
+    name: 'Ремонт квартиры',
     color: 'light-blue',
     isLoading: true,
     isSubmitting: false
@@ -86,10 +83,10 @@ export default {
     id() { return this.$route.params.id; }
   },
   async mounted() {
-    const category = await api.category(this.token, { id: this.id });
+    const project = await api.project(this.token, { id: this.id });
     this.isLoading = false;
-    this.name = category.name;
-    this.color = category.color;
+    this.name = project.name;
+    this.color = project.color;
 
     await this.fetchColors();
     /* eslint-disable */
@@ -105,9 +102,9 @@ export default {
       if (this.isSubmitting) { return; }
 
       const { id, name, color } = this;
-      const isSuccess = await api.updateCategory(this.token, { id, name, color });
+      const isSuccess = await api.updateProject(this.token, { id, name, color });
       if (isSuccess != null) {
-        this.$router.push({ name: 'categories' }).catch(_e => {});
+        this.$router.push({ name: 'projects' }).catch(_e => {});
       } else {
         alert('Error');
       }

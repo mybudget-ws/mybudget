@@ -106,7 +106,6 @@ export default {
   },
 
   async updateCategory(token, { id, name, color }) {
-    console.log(id);
     const query = `
       mutation($id:ID!, $name:String!, $color:String!) {
         action:updateCategory(
@@ -145,6 +144,15 @@ export default {
     return data.items;
   },
 
+  async project(token, { id }) {
+    const query = 'query($id:ID!) { item:project(id:$id) { id name color } }';
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
   async createProject(token, { name, color }) {
     const query = `
       mutation($name:String!, $color:String!) {
@@ -157,6 +165,23 @@ export default {
     const vars = { name, color };
     const data = await this.client(token).request(query, vars);
     this.log('createProject', data);
+
+    return data.action;
+  },
+
+  async updateProject(token, { id, name, color }) {
+    const query = `
+      mutation($id:ID!, $name:String!, $color:String!) {
+        action:updateProject(
+          id: $id,
+          name: $name,
+          color: $color
+        ) { id name color }
+      }
+    `;
+    const vars = { id, name, color };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateProject', data);
 
     return data.action;
   },

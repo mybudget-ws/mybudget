@@ -45,6 +45,12 @@
                 <td class='actions'>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    @click='onEdit(item)'
+                  >
+                    <i class='material-icons grey-text'>edit</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
@@ -88,6 +94,10 @@ export default {
       'projects/fetch',
       'projects/destroy'
     ]),
+    onEdit(category) {
+      const { id } = category;
+      this.$router.push({ name: 'edit_project', params: { id } });
+    },
     async onDestroy(project) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить проект. Вы уверены?')) {
