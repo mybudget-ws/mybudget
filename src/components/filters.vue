@@ -62,11 +62,13 @@ export default {
       return this.accounts.filter(v => v.isFavourite);
     },
     isNeedShowAll() {
-      return this.favouriteAccounts.length > 0;
+      return this.favouriteAccounts.length > 0 &&
+        this.selectedAccounts.length < this.accounts.length;
     },
     displayedAcccounts() {
       if (this.isNeedShowAll > 0 && !this.isShowAllAccounts) {
-        return this.favouriteAccounts;
+        return this.accounts
+          .filter(v => this.selectedAccounts.map(v => v.id).includes(v.id) || v.isFavourite);
       }
       return this.accounts;
     }
