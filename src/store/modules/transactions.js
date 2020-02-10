@@ -9,20 +9,22 @@ export default {
     isSubmitting: false,
     isDestroying: false,
     items: [],
-    page: 1
+    page: 1,
+    perPage: 10,
+    isMore: true
   },
 
   actions: {
     async fetch({ commit, state }, { token, filters }) {
       commit('START_LOADING');
-      const { page } = state;
-      const items = await api.transactions(token, { page, filters });
+      const { page, perPage } = state;
+      const items = await api.transactions(token, { page, perPage, filters });
       commit('FINISH_LOADING', items);
     },
     async fetchNext({ commit, state }, { token, filters }) {
       commit('START_NEXT_PAGE');
-      const { page } = state;
-      const items = await api.transactions(token, { page, filters });
+      const { page, perPage } = state;
+      const items = await api.transactions(token, { page, perPage, filters });
       commit('FINISH_NEXT_PAGE', items);
     },
     async create({ commit }, { token, transaction }) {
@@ -47,10 +49,15 @@ export default {
   },
 
   mutations: {
-    START_LOADING(state) { state.isLoading = true; },
+    START_LOADING(state) {
+      state.isLoading = true;
+      state.isMore = true;
+      state.page = 1;
+    },
     FINISH_LOADING(state, items) {
       state.items = items;
       state.isLoading = false;
+      state.isMore = items.length >= state.perPage;
     },
     START_SUBMITTING(state) { state.isSubmitting = true; },
     FINISH_SUBMITTING(state, item) {
@@ -68,6 +75,7 @@ export default {
     },
     FINISH_NEXT_PAGE(state, items) {
       state.isLoadingPage = false;
+      state.isMore = items.length >= state.perPage;
       state.items = [...state.items, ...items];
     }
   }

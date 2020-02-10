@@ -229,7 +229,7 @@ export default {
   // Transaction
   // ---------------------------------
 
-  async transactions(token, { page, filters }) {
+  async transactions(token, { page, perPage, filters }) {
     const query = `
       query($page:Int, $perPage:Int, $accountIds:[Int!], $categoryIds:[Int!]) {
         items:transactions(
@@ -249,7 +249,7 @@ export default {
       }
     `;
     const { accountIds, categoryIds } = filters;
-    const vars = { page, accountIds, categoryIds, perPage: 50 };
+    const vars = { page, accountIds, categoryIds, perPage };
     const data = await this.client(token).request(query, vars);
     this.log('transactions', data);
     return data.items;

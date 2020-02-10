@@ -80,7 +80,7 @@
               <Loader v-if='isLoadingPage' size='small' />
               <br>
               <a
-                v-if='!isLoadingPage && !isEmpty'
+                v-if='!isLoadingPage && !isEmpty && isMore'
                 class='btn btn-flat'
                 @click='more'
               >
