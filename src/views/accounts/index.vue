@@ -141,8 +141,9 @@ export default {
   width: 200px
 
 .amount
-  width: 140px
+  font-weight: 500
   text-align: right
+  width: 140px
 
 .actions
   width: 48px
