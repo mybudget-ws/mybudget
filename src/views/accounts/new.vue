@@ -12,7 +12,7 @@
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col l9 s12'>
+            <div class='input-field col l8 s12'>
               <input
                 id='name'
                 ref='name'
@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class='row'>
-            <div class='input-field col l3 s12'>
+            <div class='input-field col l4 s12'>
               <select ref='selectColors' v-model='color'>
                 <option
                   v-for='color in colors'
@@ -38,7 +38,7 @@
               </select>
               <label>Цвет</label>
             </div>
-            <div class='input-field col l3 s12'>
+            <div class='input-field col l4 s12'>
               <select ref='selectCurrencies' v-model='currency'>
                 <option
                   v-for='curr in currencies'
@@ -107,7 +107,7 @@ export default {
   data: () => ({
     name: 'Наличные',
     rest: '0',
-    color: 'blue',
+    color: 'light-blue',
     currency: 'RUB'
   }),
   computed: {

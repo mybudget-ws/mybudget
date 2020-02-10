@@ -2,13 +2,12 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Редактирование категории' />
+      <PageHeader name='Редактирование счета' />
 
-      <Loader v-if='isLoading' />
-      <div v-else class='row'>
+      <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col s8'>
+            <div class='input-field col l8 s12'>
               <input
                 id='name'
                 ref='name'
@@ -18,11 +17,11 @@
                 autofocus
                 required
               >
-              <label for='name' class='active'>Название категории</label>
+              <label for='name' class='active'>Название счета</label>
             </div>
           </div>
           <div class='row'>
-            <div class='input-field col s4'>
+            <div class='input-field col l4 s12'>
               <select ref='selectColors' v-model='color'>
                 <option
                   v-for='color in colors'
@@ -33,6 +32,18 @@
                 </option>
               </select>
               <label>Цвет</label>
+            </div>
+            <div class='input-field col l4 s12'>
+              <select ref='selectCurrencies' v-model='currency'>
+                <option
+                  v-for='curr in currencies'
+                  :key='curr.id'
+                  :value='curr.name'
+                >
+                  {{ curr.name }}
+                </option>
+              </select>
+              <label>Валюта</label>
             </div>
           </div>
 
@@ -45,11 +56,9 @@
                 @click='submit'
               />
             </div>
-            <div class='col'>
-              <router-link to='/categories' class='btn-flat btn-large'>
-                Отмена
-              </router-link>
-            </div>
+            <router-link to='/accounts' class='btn-flat btn-large'>
+              Отмена
+            </router-link>
           </div>
         </form>
       </div>
@@ -59,37 +68,44 @@
 
 <script>
 import Button from '@/components/button';
-import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
 import { get, call } from 'vuex-pathify';
 
 export default {
-  name: 'EditCategory',
+  name: 'EditAccount',
   components: {
     Button,
     Menu,
-    Loader,
     PageHeader
   },
   props: {},
   data: () => ({
     name: '',
     color: '',
+    currency: '',
     isLoading: true,
     isSubmitting: false
   }),
   computed: {
     token: get('user/token'),
     colors: get('colors/items'),
+    currencies: get('currencies/items'),
     id() { return this.$route.params.id; }
   },
   async mounted() {
-    const category = await api.category(this.token, { id: this.id });
+    const account = await api.account(this.token, { id: this.id });
     this.isLoading = false;
-    this.name = category.name;
-    this.color = category.color;
+    this.name = account.name;
+    this.color = account.color;
+    this.currency = account.currency.name;
+
+    await this.fetchCurrencies();
+    /* eslint-disable */
+    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+    M.updateTextFields();
+    /* eslint-enable */
 
     await this.fetchColors();
     /* eslint-disable */
@@ -100,17 +116,18 @@ export default {
     this.$refs.name.focus();
   },
   methods: {
+    fetchCurrencies: call('currencies/fetch'),
     fetchColors: call('colors/fetch'),
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { id, name, color } = this;
-      const isSuccess = await api.updateCategory(
+      const { id, name, color, currency } = this;
+      const isSuccess = await api.updateAccount(
         this.token,
-        { id, name, color }
+        { id, name, color, currency }
       );
       if (isSuccess != null) {
-        this.$router.push({ name: 'categories' }).catch(_e => {});
+        this.$router.push({ name: 'accounts' }).catch(_e => {});
       } else {
         alert('Error');
       }

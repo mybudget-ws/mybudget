@@ -45,6 +45,12 @@
                 <td class='actions'>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    @click='onEdit(item)'
+                  >
+                    <i class='material-icons grey-text'>edit</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
@@ -88,6 +94,10 @@ export default {
     ...call('accounts/*'),
     titleFavourite(item) {
       return item.isFavourite ? 'Удалить из избранного' : 'Добавить в избранное';
+    },
+    onEdit(account) {
+      const { id } = account;
+      this.$router.push({ name: 'edit_account', params: { id } });
     },
     async onDestroy(account) {
       if (this.isDestroying) { return; }

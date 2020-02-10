@@ -40,6 +40,17 @@ export default {
     return data.items;
   },
 
+  async account(token, { id }) {
+    const query = `query($id:ID!) {
+      item:account(id:$id) { id name color currency { name } }
+    }`;
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
   async createAccount(token, { name, color, rest, currency }) {
     const query = `
       mutation($name:String!, $color:String!, $rest:String!, $currency:String!) {
@@ -58,9 +69,27 @@ export default {
     return data.createAccount;
   },
 
+  async updateAccount(token, { id, name, color, currency }) {
+    const query = `
+      mutation($id:ID!, $name:String!, $color:String!, $currency:String!) {
+        action:updateAccount(
+          id: $id,
+          name: $name,
+          color: $color,
+          currency: $currency
+        ) { id name color currency { name } }
+      }
+    `;
+    const vars = { id, name, color, currency };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateAccount', data);
+
+    return data.action;
+  },
+
   async destroyAccount(token, id) {
     const query = `
-      mutation($id:Int!) { action:destroyAccount(id: $id) { id } }
+      mutation($id:ID!) { action:destroyAccount(id: $id) { id } }
     `;
     const data = await this.client(token).request(query, { id });
     this.log('destroyAccount', data);

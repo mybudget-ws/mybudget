@@ -23,90 +23,80 @@ export default new Router({
       path: '/',
       name: 'home',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/home')
-    },
-    {
+    }, {
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/sign_in')
-    },
-    {
+    }, {
       path: '/transactions',
       name: 'transactions',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/transactions/index'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/transactions/new',
       name: 'new_transaction',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/transactions/new'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/accounts',
       name: 'accounts',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/accounts/index'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/accounts/new',
       name: 'new_account',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/accounts/new'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
+      path: '/accounts/:id/edit',
+      name: 'edit_account',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/accounts/edit'),
+      beforeEnter: requireAuth
+    }, {
       path: '/reports',
       name: 'reports',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/reports'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/categories',
       name: 'categories',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/categories/index'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/categories/new',
       name: 'new_category',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/categories/new'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/categories/:id/edit',
       name: 'edit_category',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/categories/edit'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/budgets',
       name: 'budgets',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/budgets'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/projects',
       name: 'projects',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/projects/index'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/projects/new',
       name: 'new_project',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/projects/new'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/projects/:id/edit',
       name: 'edit_project',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/projects/edit'),
       beforeEnter: requireAuth
-    },
-    {
+    }, {
       path: '/currencies',
       name: 'currencies',
       component: () => import(/* webpackChunkName: "home-group" */ '@/views/currencies/index')
-    },
-    {
+    }, {
       path: '/settings/:tab',
       name: 'settings',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/settings'),
