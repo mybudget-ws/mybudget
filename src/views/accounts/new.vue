@@ -2,22 +2,17 @@
   <div>
     <Menu />
     <div class='container'>
-      <div class='row'>
-        <div class='col s12'>
-          <PageHeader :name='header' />
-          <h6
-            v-if='isFirst'
-            class='grey-text text-darken-1'
-          >
-            Чтобы начать создайте ваш основной счет
-          </h6>
-        </div>
+      <PageHeader :name='header' />
+      <div v-if='isFirst' class='row'>
+        <h6 class='grey-text text-darken-1 col s12'>
+          Чтобы начать создайте ваш основной счет
+        </h6>
       </div>
 
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col s8'>
+            <div class='input-field col l9 s12'>
               <input
                 id='name'
                 ref='name'
@@ -29,7 +24,21 @@
               >
               <label for='name' class='active'>Название счета</label>
             </div>
-            <div class='input-field col s4'>
+          </div>
+          <div class='row'>
+            <div class='input-field col l3 s12'>
+              <select ref='selectColors' v-model='color'>
+                <option
+                  v-for='color in colors'
+                  :key='color.id'
+                  :value='color.id'
+                >
+                  {{ color.name }}
+                </option>
+              </select>
+              <label>Цвет</label>
+            </div>
+            <div class='input-field col l3 s12'>
               <select ref='selectCurrencies' v-model='currency'>
                 <option
                   v-for='curr in currencies'
@@ -41,9 +50,7 @@
               </select>
               <label>Валюта</label>
             </div>
-          </div>
-          <div class='row'>
-            <div class='input-field col s8'>
+            <div class='input-field col l3 s12'>
               <input
                 id='rest'
                 v-model='rest'
@@ -59,18 +66,6 @@
               >
                 Необязательно
               </span>
-            </div>
-            <div class='input-field col s4'>
-              <select ref='selectColors' v-model='color'>
-                <option
-                  v-for='color in colors'
-                  :key='color.id'
-                  :value='color.id'
-                >
-                  {{ color.name }}
-                </option>
-              </select>
-              <label>Цвет</label>
             </div>
           </div>
 
