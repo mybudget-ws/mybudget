@@ -45,21 +45,23 @@ export default {
   computed: {
     token: get('user/token'),
     categories: get('categories/items'),
+    selectedCategories: get('filters/categories'),
     isEmpty: get('categories/isEmpty'),
     isCategoiresLoaded: get('categories/isLoaded'),
     favouriteCategories() {
       return this.categories.filter(v => v.isFavourite);
     },
     isNeedShowAll() {
-      return this.favouriteCategories.length > 0;
+      return this.favouriteCategories.length > 0 &&
+        this.selectedCategories.length < this.categories.length;
     },
     displayedCategories() {
       if (this.isNeedShowAll > 0 && !this.isShowAllCategories) {
-        return this.favouriteCategories;
+        return this.categories
+          .filter(v => this.selectedCategories.map(v => v.id).includes(v.id) || v.isFavourite);
       }
       return this.categories;
-    },
-    selectedCategories: get('filters/categories')
+    }
   },
   async mounted() {
     if (!this.isCategoiresLoaded) {
