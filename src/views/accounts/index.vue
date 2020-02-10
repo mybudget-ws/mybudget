@@ -21,7 +21,7 @@
               <tr>
                 <th class='name'>Название</th>
                 <th class='amount'>Баланс</th>
-                <th class='actions' />
+                <th />
               </tr>
             </thead>
 
@@ -145,7 +145,7 @@ export default {
   text-align: right
 
 .actions
-  width: 50px
+  width: 48px
   text-align: right
 
   .btn-flat

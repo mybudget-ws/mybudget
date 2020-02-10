@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Новая операция' />
+      <PageHeader name='Редактирование операции' />
 
       <Loader v-if='isLoading' />
       <div v-else class='row'>
@@ -33,9 +33,6 @@
               <select ref='selectAccounts' v-model='accountId'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
-                  <!--span v-if='v.isFavourite' class='right'>
-                    <i class='material-icons yellow-text text-accent-4'>star</i>
-                  </span-->
                 </option>
               </select>
               <label>Счет</label>
@@ -116,12 +113,11 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
-// const moment = require('moment/min/moment-with-locales');
 const moment = require('moment');
 moment.locale('ru');
 
 export default {
-  name: 'NewTransaction',
+  name: 'EditTransaction',
   components: {
     Button,
     Categories,

@@ -26,7 +26,7 @@
                   <th class='date'>Дата</th>
                   <th class='amount'>Величина</th>
                   <th />
-                  <th class='actions' />
+                  <th />
                 </tr>
               </thead>
 
@@ -65,7 +65,13 @@
                       {{ item.description }}
                     </span>
                   </td>
-                  <td>
+                  <td class='actions'>
+                    <a
+                      class='waves-effect waves-teal btn-flat'
+                      @click='onEdit(item)'
+                    >
+                      <i class='material-icons grey-text'>edit</i>
+                    </a>
                     <a
                       class='waves-effect waves-teal btn-flat'
                       @click='onDestroy(item)'
@@ -162,6 +168,10 @@ export default {
     onChangeFilter() {
       this.fetch({ token: this.token, filters: this.filters });
     },
+    onEdit(item) {
+      const { id } = item;
+      this.$router.push({ name: 'edit_transaction', params: { id } });
+    },
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить операцию. Вы уверены?')) {
@@ -213,8 +223,11 @@ export default {
     font-size: 10px
 
 .actions
-  width: 50px
+  width: 82px
   text-align: right
+
+  .btn-flat
+    padding: 0 8px !important
 
 .tag
   margin-right: 6px
