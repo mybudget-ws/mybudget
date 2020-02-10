@@ -120,8 +120,8 @@ export default {
     },
     header() {
       return this.isFirst ?
-        'Новый счет' :
-        'Ваш первый счет';
+        'Ваш первый счет' :
+        'Новый счет';
     }
   },
   async mounted() {
