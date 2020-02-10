@@ -61,9 +61,9 @@
                       :data-badge-caption='item.project.name'
                     />
 
-                    <span class='grey-text'>
+                    <i class='grey-text text-darken-1'>
                       {{ item.description }}
-                    </span>
+                    </i>
                   </td>
                   <td class='actions'>
                     <a
