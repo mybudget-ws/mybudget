@@ -77,13 +77,14 @@ export default {
   data: () => ({
     name: '',
     color: '',
+
     isLoading: true,
     isSubmitting: false
   }),
   computed: {
+    id() { return this.$route.params.id; },
     token: get('user/token'),
-    colors: get('colors/items'),
-    id() { return this.$route.params.id; }
+    colors: get('colors/items')
   },
   async mounted() {
     const category = await api.category(this.token, { id: this.id });

@@ -255,6 +255,27 @@ export default {
     return data.items;
   },
 
+  async transaction(token, { id }) {
+    const query = `
+      query($id:ID!) {
+        item:transaction(id:$id) {
+          id
+          amount
+          description
+          dateAt
+          account { id name color currency { name } }
+          categories { id name color }
+          project { id name color }
+        }
+      }
+    `;
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
   async createTransaction(
     token,
     { amount, isIncome, date, description, accountId, projectId, categoryIds }

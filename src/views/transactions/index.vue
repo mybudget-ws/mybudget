@@ -66,9 +66,15 @@
                     </i>
                   </td>
                   <td class='actions'>
-                    <a
+                    <!--router-link
+                      :to="{ name: 'edit_transaction', params: { id: item.id } }"
                       class='waves-effect waves-teal btn-flat'
-                      @click='onEdit(item)'
+                    >
+                      <i class='material-icons grey-text'>edit</i>
+                    </router-link-->
+                    <a
+                      :href="`/transactions/${item.id}/edit`"
+                      class='waves-effect waves-teal btn-flat'
                     >
                       <i class='material-icons grey-text'>edit</i>
                     </a>
@@ -167,10 +173,6 @@ export default {
     },
     onChangeFilter() {
       this.fetch({ token: this.token, filters: this.filters });
-    },
-    onEdit(item) {
-      const { id } = item;
-      this.$router.push({ name: 'edit_transaction', params: { id } });
     },
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }

@@ -111,6 +111,7 @@ import Categories from '@/components/categories';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import api from '@/api';
 import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
@@ -128,15 +129,19 @@ export default {
   props: {},
   data: () => ({
     amount: '',
-    date: new Date(),
+    date: null,
     description: '',
     accountId: '',
     projectId: '',
     isIncome: false,
+    categoryIds: [],
+
     datepicker: null,
-    categoryIds: []
+    isLoadingTransaction: true,
+    isSubmitting: false
   }),
   computed: {
+    id() { return this.$route.params.id; },
     token: get('user/token'),
     accounts: get('accounts/items'),
     projects: get('projects/items'),
@@ -146,9 +151,11 @@ export default {
     isProjectsLoading: get('projects/isLoading'),
     isProjectsLoaded: get('projects/isLoaded'),
 
-    isSubmitting: get('transactions/isSubmitting'),
-
-    isLoading() { return this.isAccountsLoading && this.isProjectsLoading; },
+    isLoading() {
+      return this.isLoadingTransaction ||
+        this.isAccountsLoading ||
+        this.isProjectsLoading;
+    },
     submitText() { return this.isIncome ? 'Создать доход' : 'Создать расход'; },
     amountLable() {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
@@ -170,11 +177,17 @@ export default {
     }
   },
   async mounted() {
+    const transaction = await api.transaction(this.token, { id: this.id });
+    this.amount = Math.abs(transaction.amount);
+    this.date = new Date(Date.parse(transaction.dateAt));
+    this.description = transaction.description;
+    this.accountId = transaction.account.id;
+    this.projectId = transaction.project?.id;
+    this.categoryIds = transaction.categories.map(v => v.id);
+    this.isLoadingTransaction = false;
+
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
-    if (this.isNotReadyToAdd) {
-      this.$router.push({ name: 'new_account', query: { first: true } });
-    }
 
     /* eslint-disable */
     M.Datepicker.init(
@@ -184,7 +197,7 @@ export default {
         firstDay: 1,
         // onSelect: this.onSelect,
         setDefaultDate: true,
-        defaultDate: new Date(),
+        defaultDate: this.date,
         i18n: {
           cancel: 'Закрыть',
           months: [
@@ -221,6 +234,7 @@ export default {
       }
     );
     /* eslint-enable */
+
     /* eslint-disable */
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */

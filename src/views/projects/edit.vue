@@ -78,9 +78,9 @@ export default {
     isSubmitting: false
   }),
   computed: {
+    id() { return this.$route.params.id; },
     token: get('user/token'),
-    colors: get('colors/items'),
-    id() { return this.$route.params.id; }
+    colors: get('colors/items')
   },
   async mounted() {
     const project = await api.project(this.token, { id: this.id });

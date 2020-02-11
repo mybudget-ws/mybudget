@@ -137,8 +137,9 @@ export default {
     accountId: '',
     projectId: '',
     isIncome: false,
-    datepicker: null,
-    categoryIds: []
+    categoryIds: [],
+
+    datepicker: null
   }),
   computed: {
     token: get('user/token'),
@@ -152,7 +153,7 @@ export default {
 
     isSubmitting: get('transactions/isSubmitting'),
 
-    isLoading() { return this.isAccountsLoading && this.isProjectsLoading; },
+    isLoading() { return this.isAccountsLoading || this.isProjectsLoading; },
     submitText() { return this.isIncome ? 'Создать доход' : 'Создать расход'; },
     amountLable() {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
