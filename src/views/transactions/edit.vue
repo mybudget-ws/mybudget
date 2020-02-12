@@ -239,9 +239,7 @@ export default {
     fetchAccounts: call('accounts/fetch'),
     fetchProjects: call('projects/fetch'),
     create: call('transactions/create'),
-    onSelectCategory(ids) {
-      this.categoryIds = ids;
-    },
+    onSelectCategory(ids) { this.categoryIds = ids; },
     async submit() {
       if (this.isSubmitting) { return; }
 
