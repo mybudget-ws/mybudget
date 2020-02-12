@@ -59,6 +59,7 @@
           <div class='row'>
             <Categories
               class='categories col l4 s12'
+              :ids='categoryIds'
               @change='onSelectCategory'
             />
             <div class='col l8 s12'>
@@ -182,7 +183,7 @@ export default {
     this.date = new Date(Date.parse(transaction.dateAt));
     this.description = transaction.description;
     this.accountId = transaction.account.id;
-    this.projectId = transaction.project?.id;
+    this.projectId = transaction.project?.id || '';
     this.categoryIds = transaction.categories.map(v => v.id);
     this.isLoadingTransaction = false;
 

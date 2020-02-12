@@ -62,6 +62,7 @@
           <div class='row'>
             <Categories
               class='categories col l4 s12'
+              :ids='categoryIds'
               @change='onSelectCategory'
             />
             <div class='col l8 s12'>

@@ -37,7 +37,7 @@ export default {
   name: 'Categories',
   components: {},
   props: {
-    // items: { type: Array, required: false, default: () => [] },
+    ids: { type: Array, required: false, default: () => [] }
   },
   data: () => ({
     categoryIds: [],
@@ -65,6 +65,7 @@ export default {
     if (!this.isCategoiresLoaded) {
       await this.fetchCategoires(this.token);
     }
+    this.categoryIds = [...this.ids];
   },
   methods: {
     fetchCategoires: call('categories/fetch'),
