@@ -48,17 +48,21 @@
                       </i>
                     </span>
                     <span
+                      v-if='item.project != null'
+                      class='new badge black-text tag'
+                      :class='item.project.color'
+                      :data-badge-caption='item.project.name'
+                    >
+                      <i class='project material-icons left'>
+                        work
+                      </i>
+                    </span>
+                    <span
                       v-for='category in item.categories'
                       :key='category.id'
                       class='new badge black-text tag'
                       :class='category.color'
                       :data-badge-caption='category.name'
-                    />
-                    <span
-                      v-if='item.project != null'
-                      class='new badge black-text tag'
-                      :class='item.project.color'
-                      :data-badge-caption='item.project.name'
                     />
 
                     <i class='grey-text text-darken-1'>
@@ -234,7 +238,8 @@ export default {
 .tag
   margin-right: 6px
 
-i.account
+i.account,
+i.project
   font-size: 12px
   line-height: 22px
   margin-right: 3px
