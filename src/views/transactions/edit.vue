@@ -88,7 +88,7 @@
           <div class='row'>
             <div class='col'>
               <Button
-                :text='submitText'
+                text='Изменить'
                 :is-disabled='isSubmitting'
                 :is-loading='isSubmitting'
                 @click='submit'
@@ -157,7 +157,6 @@ export default {
         this.isAccountsLoading ||
         this.isProjectsLoading;
     },
-    submitText() { return this.isIncome ? 'Создать доход' : 'Создать расход'; },
     amountLable() {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
     },
@@ -246,13 +245,14 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
+      this.isSubmitting = true;
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
-      // console.log(moment(date).format().toString());
       /* eslint-enable */
-      const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
+      const { id, amount, isIncome, description, accountId, projectId, categoryIds } = this;
       const transaction = {
-        amount,
+        id,
+        amount: amount.toString(),
         isIncome,
         date: moment(date).format(),
         categoryIds,
@@ -260,7 +260,9 @@ export default {
         accountId,
         projectId
       };
-      const isSuccess = await this.create({ token, transaction });
+      const isSuccess = await api.updateTransaction(this.token, transaction);
+      this.isSubmitting = false;
+
       if (isSuccess != null) {
         this.$router.push({ name: 'transactions' });
       } else {

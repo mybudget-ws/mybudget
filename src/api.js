@@ -311,7 +311,50 @@ export default {
       projectId: projectId.toString()
     };
     const data = await this.client(token).request(query, vars);
-    this.log('createProject', data);
+    this.log('createTransaction', data);
+
+    return data.action;
+  },
+
+  async updateTransaction(
+    token,
+    { id, amount, isIncome, date, description, accountId, projectId, categoryIds }
+  ) {
+    const query = `
+      mutation(
+        $id:ID!,
+        $amount:String!,
+        $isIncome:Boolean!,
+        $date:String!,
+        $categoryIds:[Int!]!,
+        $description:String,
+        $accountId:String!,
+        $projectId:String
+      ) {
+        action:updateTransaction(
+          id: $id,
+          amount: $amount,
+          isIncome: $isIncome,
+          date: $date,
+          categoryIds: $categoryIds,
+          description: $description,
+          accountId: $accountId,
+          projectId: $projectId,
+        ) { id }
+      }
+    `;
+    const vars = {
+      id,
+      amount,
+      isIncome,
+      date,
+      categoryIds,
+      description,
+      accountId: accountId.toString(),
+      projectId: projectId.toString()
+    };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateTransaction', data);
 
     return data.action;
   },

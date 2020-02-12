@@ -239,7 +239,6 @@ export default {
 
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
-      // console.log(moment(date).format().toString());
       /* eslint-enable */
       const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
       const transaction = {
