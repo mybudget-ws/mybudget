@@ -178,6 +178,7 @@ export default {
   },
   async mounted() {
     const transaction = await api.transaction(this.token, { id: this.id });
+    this.isIncome = transaction.amount > 0;
     this.amount = Math.abs(transaction.amount);
     this.date = new Date(Date.parse(transaction.dateAt));
     this.description = transaction.description;
