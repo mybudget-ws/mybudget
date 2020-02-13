@@ -4,7 +4,11 @@
     <div class='container'>
       <PageHeader name='Бюджеты' action='/accounts/new' />
       <Loader v-if='isLoading' />
-      <div>TODO</div>
+      <div class='row'>
+        <div class='col'>
+          TODO: Budgets
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +25,10 @@ export default {
     Loader,
     PageHeader
   },
-  props: {}
+  props: {},
+  computed: {
+    isLoading() { return false; }
+  }
 };
 </script>
 

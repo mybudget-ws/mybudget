@@ -7,7 +7,7 @@
 
       <div class='row'>
         <div class='col s12'>
-          TODO Reports
+          TODO: Reports
         </div>
       </div>
     </div>
