@@ -21,7 +21,7 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <th class='amount'>Баланс</th>
+                <!--th class='amount'>Баланс</th-->
                 <th class='actions' />
               </tr>
             </thead>
@@ -34,14 +34,12 @@
                     <span>{{ item.name }}</span>
                   </div>
                 </td>
-                <td class='amount'>
+                <!--td class='amount'>
                   {{ item.balance }}
-                  <!--
                     TODO: For each currencies!
                   &nbsp;
                   <span class='grey-text'>{{ item.currency.name }}</span>
-                  -->
-                </td>
+                </td-->
                 <td class='actions'>
                   <a
                     class='waves-effect waves-teal btn-flat'
