@@ -56,7 +56,8 @@ export default {
     },
     displayedCategories() {
       if (this.isNeedShowAll > 0 && !this.isShowAllCategories) {
-        return this.favouriteCategories;
+        return this.categories
+          .filter(v => this.categoryIds.includes(v.id) || v.isFavourite);
       }
       return this.categories;
     }
