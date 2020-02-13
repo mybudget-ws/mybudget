@@ -33,9 +33,8 @@
               <tbody>
                 <tr v-for='item in items' :key='item.id'>
                   <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-                  <td class='amount' :class='classAmount(item)'>
-                    <span class='value'>{{ formatAmount(item) }}</span>
-                    <span class='currency grey-text'>{{ item.account.currency.name }}</span>
+                  <td class='amount'>
+                    <Amount :value='item.amount' :currency='item.account.currency.name' />
                   </td>
                   <td>
                     <span
@@ -115,11 +114,11 @@
 </template>
 
 <script>
+import Amount from '@/components/amount';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
-import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
@@ -130,6 +129,7 @@ moment.locale('ru');
 export default {
   name: 'Transactions',
   components: {
+    Amount,
     FilterTags,
     Filters,
     Loader,
@@ -173,14 +173,6 @@ export default {
       'filters/toggleCategory',
       'filters/toggleProject'
     ]),
-    classAmount(transaction) {
-      return transaction.amount > 0 ?
-        'green-text text-darken-4' :
-        'red-text text-darken-4';
-    },
-    formatAmount(transaction) {
-      return Money.format(Math.abs(transaction.amount), 2);
-    },
     onChangeFilter() {
       this.fetch({ token: this.token, filters: this.filters });
     },
@@ -237,14 +229,6 @@ export default {
 .amount
   width: 140px
   text-align: right
-
-  .value
-    font-weight: 500
-    margin-right: 4px
-
-  .currency
-    font-weight: 300
-    font-size: 10px
 
 .actions
   width: 82px

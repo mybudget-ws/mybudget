@@ -38,9 +38,7 @@
                   </div>
                 </td>
                 <td class='amount'>
-                  {{ formatAmount(item.balance) }}
-                  &nbsp;
-                  <span class='grey-text'>{{ item.currency.name }}</span>
+                  <Amount :value='item.balance' :currency='item.currency.name' />
                 </td>
                 <td class='actions'>
                   <a
@@ -66,6 +64,7 @@
 </template>
 
 <script>
+import Amount from '@/components/amount';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import Money from '@/utils/money';
@@ -75,6 +74,7 @@ import { get, call } from 'vuex-pathify';
 export default {
   name: 'Accounts',
   components: {
+    Amount,
     Menu,
     Loader,
     PageHeader
