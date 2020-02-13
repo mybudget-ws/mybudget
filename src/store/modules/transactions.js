@@ -10,7 +10,7 @@ export default {
     isDestroying: false,
     items: [],
     page: 1,
-    perPage: 10,
+    perPage: 50,
     isMore: true
   },
 

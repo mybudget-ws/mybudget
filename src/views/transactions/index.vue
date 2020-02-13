@@ -42,6 +42,7 @@
                       class='new badge black-text tag'
                       :class='item.account.color'
                       :data-badge-caption='item.account.name'
+                      @click='onAccount(item.account)'
                     >
                       <i class='account material-icons left'>
                         account_balance
@@ -52,6 +53,7 @@
                       class='new badge black-text tag'
                       :class='item.project.color'
                       :data-badge-caption='item.project.name'
+                      @click='onProject(item.project)'
                     >
                       <i class='project material-icons left'>
                         work
@@ -63,6 +65,7 @@
                       class='new badge black-text tag'
                       :class='category.color'
                       :data-badge-caption='category.name'
+                      @click='onCategory(category)'
                     />
 
                     <i class='grey-text text-darken-1'>
@@ -165,7 +168,10 @@ export default {
     ...call([
       'transactions/fetch',
       'transactions/fetchNext',
-      'transactions/destroy'
+      'transactions/destroy',
+      'filters/toggleAccount',
+      'filters/toggleCategory',
+      'filters/toggleProject'
     ]),
     classAmount(transaction) {
       return transaction.amount > 0 ?
@@ -207,6 +213,18 @@ export default {
     },
     dateTitleFormat(transaction) {
       return moment(transaction.dateAt).format('DD.MM.YYYY');
+    },
+    onAccount(account) {
+      this.toggleAccount({ account });
+      this.onChangeFilter();
+    },
+    onCategory(category) {
+      this.toggleCategory({ category });
+      this.onChangeFilter();
+    },
+    onProject(project) {
+      this.toggleProject({ project });
+      this.onChangeFilter();
     }
   }
 };
@@ -245,4 +263,9 @@ i.project
   margin-right: 3px
   opacity: 0.7
   padding-left: 0px
+
+.badge
+  cursor: pointer
+  &:hover
+    opacity: 0.9
 </style>

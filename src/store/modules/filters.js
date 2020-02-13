@@ -3,14 +3,20 @@ export default {
 
   state: {
     accounts: [],
-    categories: []
+    categories: [],
+    projects: []
   },
 
   getters: {
-    isVisible: state => state.categories.length > 0 || state.accounts.length > 0,
+    isVisible: state => (
+      state.categories.length > 0 ||
+        state.accounts.length > 0 ||
+        state.projects.length > 0
+    ),
     params: state => ({
       accountIds: state.accounts.map(v => v.id),
-      categoryIds: state.categories.map(v => v.id)
+      categoryIds: state.categories.map(v => v.id),
+      projectIds: state.projects.map(v => v.id)
     })
   },
 
@@ -31,9 +37,6 @@ export default {
     setCategories({ commit }, { categories }) {
       commit('SET_CATEGORIES', categories);
     },
-    addCategory({ commit }, { category }) {
-      commit('ADD_CATEGORY', category);
-    },
     removeCategory({ commit }, { category }) {
       commit('REMOVE_CATEGORY', category);
     },
@@ -42,6 +45,19 @@ export default {
         commit('REMOVE_CATEGORY', category);
       } else {
         commit('ADD_CATEGORY', category);
+      }
+    },
+    setProjects({ commit }, { projects }) {
+      commit('SET_PROJECTS', projects);
+    },
+    removeProject({ commit }, { project }) {
+      commit('REMOVE_PROJECT', project);
+    },
+    toggleProject({ commit, state }, { project }) {
+      if (state.projects.find(v => v.id === project.id)) {
+        commit('REMOVE_PROJECT', project);
+      } else {
+        commit('ADD_PROJECT', project);
       }
     }
   },
@@ -68,6 +84,17 @@ export default {
     },
     REMOVE_CATEGORY(state, category) {
       state.categories = state.categories.filter(v => v.id !== category.id);
+    },
+    SET_PROJECTS(state, projects) { state.projects = projects; },
+    ADD_PROJECT(state, project) {
+      const isPresent = state.projects.find(v => v.id === project.id);
+      if (isPresent) { return false; }
+
+      state.projects = [...state.projects, project];
+      return true;
+    },
+    REMOVE_PROJECT(state, project) {
+      state.projects = state.projects.filter(v => v.id !== project.id);
     }
   }
 };
