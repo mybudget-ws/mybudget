@@ -11,28 +11,43 @@
         <label>
           <Checkbox
             :id='account.id'
-            :value='isChecked(account.id)'
-            @change='onChange(account)'
+            :value='isCheckedAccount(account.id)'
+            @change='onChangeAccount(account)'
           />
           <span>{{ account.name }}</span>
         </label>
       </p>
       <a
-        v-if='isNeedShowAll && !isShowAllAccounts'
+        v-if='isNeedShowAllAccounts && !isShowAllAccounts'
         class='btn-flat btn-small waves-effect waves-teal'
         @click='showAll'
       >
         Показать все
       </a>
       <a
-        v-if='isNeedShowAll && isShowAllAccounts'
+        v-if='isNeedShowAllAccounts && isShowAllAccounts'
         class='btn-flat btn-small waves-effect waves-teal'
         @click='hideAll'
       >
         Скрыть счета
       </a>
     </div>
-    <Categories @onChange="$emit('onChange')" />
+
+    <Categories @onChange="$emit('onChange')" class='categories' />
+
+    <div v-if='isProjects' class='projects'>
+      <h6>Проекты</h6>
+      <p v-for='project in projects' :key='project.id'>
+        <label>
+          <Checkbox
+            :id='project.id'
+            :value='isCheckedProject(project.id)'
+            @change='onChangeProject(project)'
+          />
+          <span>{{ project.name }}</span>
+        </label>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -55,18 +70,22 @@ export default {
     token: get('user/token'),
     accounts: get('accounts/items'),
     categories: get('categories/items'),
+    projects: get('projects/items'),
     selectedAccounts: get('filters/accounts'),
+    selectedProjects: get('filters/projects'),
     isAccountsLoaded: get('accounts/isLoaded'),
+    isProjectsLoaded: get('projects/isLoaded'),
     isAccounts() { return this.accounts.length > 0; },
+    isProjects() { return this.projects.length > 0; },
     favouriteAccounts() {
       return this.accounts.filter(v => v.isFavourite);
     },
-    isNeedShowAll() {
+    isNeedShowAllAccounts() {
       return this.favouriteAccounts.length > 0 &&
         this.selectedAccounts.length < this.accounts.length;
     },
     displayedAcccounts() {
-      if (this.isNeedShowAll > 0 && !this.isShowAllAccounts) {
+      if (this.isNeedShowAllAccounts > 0 && !this.isShowAllAccounts) {
         return this.accounts
           .filter(v => this.selectedAccounts.map(v => v.id).includes(v.id) || v.isFavourite);
       }
@@ -75,25 +94,28 @@ export default {
   },
   created() {
     if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
+    if (!this.isProjectsLoaded) { this.fetchProjects(this.token); }
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
     fetchCategoires: call('categories/fetch'),
-    // setFilterCategories: call('filters/setCategories'),
-    // setFilterAccounts: call('filters/setAccounts'),
-    // onSelectCategory(ids) {
-    //   this.setFilterCategories({
-    //     categories: this.categories.filter(v => ids.includes(v.id))
-    //   });
-    // },
+    fetchProjects: call('projects/fetch'),
     toggleAccount: call('filters/toggleAccount'),
+    toggleProject: call('filters/toggleProject'),
     showAll() { this.isShowAllAccounts = true; },
     hideAll() { this.isShowAllAccounts = false; },
-    isChecked(id) {
+    isCheckedAccount(id) {
       return this.selectedAccounts.find(v => v.id === id) != null;
     },
-    onChange(account) {
+    isCheckedProject(id) {
+      return this.selectedProjects.find(v => v.id === id) != null;
+    },
+    onChangeAccount(account) {
       this.toggleAccount({ account });
+      this.$emit('onChange');
+    },
+    onChangeProject(project) {
+      this.toggleProject({ project });
       this.$emit('onChange');
     }
   }
@@ -104,6 +126,7 @@ export default {
 .filters
   padding-left: 40px
 
-  .accounts
+  .accounts,
+  .categories
     margin-bottom: 40px
 </style>
