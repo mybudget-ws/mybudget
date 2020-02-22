@@ -2,7 +2,12 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Курсы валют' />
+      <PageHeader name='Курсы валют'>
+        <span class='grey-text right'>TODO: selector</span>
+      </PageHeader>
+      <div class='row'>
+        <div class='col s12'><div class='chart' /></div>
+      </div>
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
@@ -36,6 +41,8 @@ import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
+import 'd3';
+import c3 from 'c3';
 
 export default {
   name: 'Currencies',
@@ -46,10 +53,34 @@ export default {
   },
   props: {},
   computed: {
-    ...get('currencies/*')
+    ...get('currencies/*'),
+    chartUrl() {
+      return `http://localhost:3000/charts/currencies/${this.selected}.json`;
+    }
   },
   created() {
     this.fetch();
+  },
+  mounted() {
+    c3.generate({
+      bindto: '.chart',
+      data: {
+        url: this.chartUrl,
+        mimeType: 'json',
+        keys: {
+          x: 'date',
+          value: [this.selected]
+        }
+      },
+      axis: {
+        x: {
+          type: 'category'
+        }
+      },
+      point: {
+        show: false
+      }
+    });
   },
   methods: {
     ...call([
@@ -65,4 +96,7 @@ export default {
 
 .usd
   padding-right: 20px
+
+.chart
+  height: 300px
 </style>

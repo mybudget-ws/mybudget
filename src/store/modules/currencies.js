@@ -4,6 +4,7 @@ export default {
   namespaced: true,
 
   state: {
+    selected: 'RUB',
     isLoading: true,
     items: []
   },
