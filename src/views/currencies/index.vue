@@ -9,17 +9,19 @@
           <table v-else>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>USD</th>
-                <th>Description</th>
+                <th class='name'>Название</th>
+                <th class='usd right'>Курс к USD</th>
+                <th>Описание</th>
               </tr>
             </thead>
 
             <tbody>
               <tr v-for='curr in displayedItems' :key='curr.id'>
-                <td>{{ curr.name }}</td>
-                <td>{{ curr.usdRate }}</td>
-                <td>{{ curr.description }}</td>
+                <td class='name'>{{ curr.name }}</td>
+                <td class='usd right'>{{ curr.usdRate.toFixed(6) }}</td>
+                <td>
+                  <span class='grey-text'>{{ curr.description }}</span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -58,4 +60,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.name
+  width: 80px
+
+.usd
+  padding-right: 20px
 </style>
