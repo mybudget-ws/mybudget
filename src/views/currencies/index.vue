@@ -15,7 +15,7 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <th class='usd right'>Курс к USD</th>
+                <th class='usd right'>Курс USD</th>
                 <th>Описание</th>
               </tr>
             </thead>
