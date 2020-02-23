@@ -11,6 +11,7 @@
         >
           <i class='material-icons grey-text text-darken-4'>add</i>
         </router-link>
+        <slot />
       </h3>
     </div>
   </div>

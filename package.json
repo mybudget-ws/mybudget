@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "browser-cookies": "^1.2.0",
+    "c3": "^0.7.13",
     "core-js": "^3.4.4",
+    "d3": "^5.15.0",
     "eslint-plugin-import": "^2.20.0",
     "graphql-request": "^1.8.2",
     "materialize-css": "^1.0.0-rc.2",

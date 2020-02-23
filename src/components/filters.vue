@@ -33,7 +33,7 @@
       </a>
     </div>
 
-    <Categories @onChange="$emit('onChange')" class='categories' />
+    <Categories class='categories' @onChange="$emit('onChange')" />
 
     <div v-if='isProjects' class='projects'>
       <h6>Проекты</h6>
