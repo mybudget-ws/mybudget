@@ -74,11 +74,25 @@ export default {
       },
       axis: {
         x: {
-          type: 'category'
+          type: 'category',
+          padding: {
+            left: 0,
+            right: 0
+          }
+        },
+        y: {
+          min: 0,
+          padding: {
+            top: 20
+          }
         }
       },
       point: {
         show: false
+      },
+      grid: {
+        x: { show: true },
+        y: { show: true }
       }
     });
   },
