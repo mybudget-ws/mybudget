@@ -3,7 +3,13 @@
     <Menu />
     <div class='container'>
       <PageHeader name='Курсы валют'>
-        <span class='grey-text right'>TODO: selector</span>
+        <div v-if='!isLoading' class='right'>
+          <select ref='selectCurrencies' v-model='currency' @change='change'>
+            <option v-for='curr in items' :key='curr.id' :value='curr.name'>
+              {{ curr.name }}
+            </option>
+          </select>
+        </div>
       </PageHeader>
       <div class='row'>
         <div class='col s12'><div class='chart' /></div>
@@ -40,8 +46,7 @@
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
-import { get, call } from 'vuex-pathify';
-import 'd3';
+import { get, call, sync } from 'vuex-pathify';
 import c3 from 'c3';
 
 export default {
@@ -54,42 +59,36 @@ export default {
   props: {},
   computed: {
     ...get('currencies/*'),
+    currency: sync('currencies/selected'),
     chartUrl() {
-      return `http://localhost:3000/charts/currencies/${this.selected}.json`;
+      return `http://localhost:3000/charts/currencies/${this.currency}.json`;
     }
   },
-  created() {
-    this.fetch();
-  },
-  mounted() {
-    c3.generate({
+  async mounted() {
+    await this.fetch();
+    /* eslint-disable */
+    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+    M.updateTextFields();
+    /* eslint-enable */
+
+    this.chart = c3.generate({
       bindto: '.chart',
       data: {
         url: this.chartUrl,
         mimeType: 'json',
-        keys: {
-          x: 'date',
-          value: [this.selected]
-        }
+        keys: { x: 'date', value: [this.currency] }
       },
       axis: {
         x: {
           type: 'category',
-          padding: {
-            left: 0,
-            right: 0
-          }
+          padding: { left: 0, right: 0 }
         },
         y: {
           min: 0,
-          padding: {
-            top: 20
-          }
+          padding: { top: 20 }
         }
       },
-      point: {
-        show: false
-      },
+      point: { show: false },
       grid: {
         x: { show: true },
         y: { show: true }
@@ -99,7 +98,15 @@ export default {
   methods: {
     ...call([
       'currencies/fetch'
-    ])
+    ]),
+    change() {
+      // this.chart.unload();
+      this.chart.load({
+        url: this.chartUrl,
+        mimeType: 'json',
+        keys: { x: 'date', value: [this.currency] }
+      });
+    }
   }
 };
 </script>
@@ -113,4 +120,5 @@ export default {
 
 .chart
   height: 300px
+  margin-left: -20px
 </style>

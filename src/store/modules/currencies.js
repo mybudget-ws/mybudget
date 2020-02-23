@@ -1,16 +1,18 @@
 import api from '../../api';
+// import { make } from 'vuex-pathify';
 
 export default {
   namespaced: true,
 
   state: {
-    selected: 'RUB',
+    base: 'RUB',
+    selected: 'USD',
     isLoading: true,
     items: []
   },
 
   getters: {
-    displayedItems: state => state.items.filter(v => v.name !== state.selected)
+    displayedItems: state => state.items.filter(v => v.name !== state.base)
   },
 
   actions: {
@@ -28,6 +30,9 @@ export default {
     FINISH_LOADING(state, items) {
       state.items = items;
       state.isLoading = false;
-    }
+    },
+    SET_SELECTED(state, selected) {
+      state.selected = selected;
+    },
   }
 };
