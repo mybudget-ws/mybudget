@@ -10,7 +10,7 @@ export default {
   },
 
   getters: {
-    displayedItems: state => state.items.filter(v => v.name !== 'USD')
+    displayedItems: state => state.items.filter(v => v.name !== state.selected)
   },
 
   actions: {

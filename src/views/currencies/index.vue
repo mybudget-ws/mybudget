@@ -15,7 +15,7 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <th class='usd right'>Курс USD</th>
+                <th class='usd right'>Курс</th>
                 <th>Описание</th>
               </tr>
             </thead>
@@ -23,7 +23,7 @@
             <tbody>
               <tr v-for='curr in displayedItems' :key='curr.id'>
                 <td class='name'>{{ curr.name }}</td>
-                <td class='usd right'>{{ curr.usdRate.toFixed(6) }}</td>
+                <td class='usd right'>{{ curr.rubRate.toFixed(6) }}</td>
                 <td>
                   <span class='grey-text'>{{ curr.description }}</span>
                 </td>

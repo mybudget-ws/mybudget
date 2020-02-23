@@ -391,7 +391,7 @@ export default {
   // ---------------------------------
 
   async currencies() {
-    const query = '{ items:currencies { id name description usdRate } }';
+    const query = '{ items:currencies { id name description usdRate rubRate } }';
     const data = await this.client().request(query);
     this.log(query, data);
 
