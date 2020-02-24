@@ -60,7 +60,7 @@ export default new Router({
     }, {
       path: '/reports',
       name: 'reports',
-      component: () => import(/* webpackChunkName: "inner" */ '@/views/reports'),
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/reports/index'),
       beforeEnter: requireAuth
     }, {
       path: '/categories',

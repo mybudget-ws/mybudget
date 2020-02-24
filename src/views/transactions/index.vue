@@ -3,8 +3,10 @@
     <Menu />
     <div class='container'>
       <PageHeader name='Операции' action='/transactions/new' />
+
       <div class='row'>
         <FilterTags class='col s12' @onChange='onChangeFilter' />
+
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey darken-1'>
@@ -106,7 +108,12 @@
               </a>
             </div>
           </div>
-          <Filters v-if='!isLoading' class='col s3' @onChange='onChangeFilter' />
+
+          <Filters
+            v-if='!isLoading'
+            class='col s3'
+            @onChange='onChangeFilter'
+          />
         </div>
       </div>
     </div>
