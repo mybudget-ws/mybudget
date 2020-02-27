@@ -1,9 +1,12 @@
 import { GraphQLClient } from 'graphql-request';
 
-const ENDPOINT = {
-  development: 'http://localhost:3000/graphql',
-  production: 'https://2.mybudget.ws/graphql'
+
+const DOMAIN = {
+  development: 'http://localhost:3000',
+  production: 'https://2.mybudget.ws'
 }[process.env.NODE_ENV];
+
+const ENDPOINT = DOMAIN + '/graphql';
 
 export default {
   // ---------------------------------
@@ -384,6 +387,21 @@ export default {
     this.log('toggleIsFavourite', data);
 
     return data.action;
+  },
+
+  // ---------------------------------
+  // Reports
+  // ---------------------------------
+
+  async balances(token) {
+    const url = DOMAIN + '/charts/balances';
+    const response = await fetch(url, {
+      headers: this.headers(token)
+    });
+    const data = await response.json();
+    this.log(url, data);
+
+    return data;
   },
 
   // ---------------------------------

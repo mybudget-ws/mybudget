@@ -10,7 +10,7 @@
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div class='col s9'>
-            TODO: Reports
+            <div class='chart' />
           </div>
 
           <Filters
@@ -30,6 +30,10 @@ import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import api from '../../api';
+
+import { get } from 'vuex-pathify';
+import c3 from 'c3';
 
 export default {
   name: 'Reports',
@@ -41,10 +45,39 @@ export default {
     PageHeader
   },
   props: {},
+  data: () => ({
+  }),
   computed: {
+    token: get('user/token'),
     isLoading() {
       return false;
     }
+  },
+  async mounted() {
+    const columns = await api.balances(this.token);
+    this.chart = c3.generate({
+      bindto: '.chart',
+      data: {
+        x: 'x',
+        columns: columns
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: { format: '%Y-%m-%d' },
+          padding: { left: 0, right: 0 }
+        },
+        y: {
+          min: 0,
+          padding: { top: 20 }
+        }
+      },
+      point: { show: false },
+      grid: {
+        x: { show: true },
+        y: { show: true }
+      }
+    });
   },
   methods: {
     onChangeFilter() {

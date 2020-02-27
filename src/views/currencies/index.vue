@@ -12,7 +12,9 @@
         </div>
       </PageHeader>
       <div class='row'>
-        <div class='col s12'><div class='chart' /></div>
+        <div class='col s12'>
+          <div class='chart' />
+        </div>
       </div>
       <div class='row'>
         <div class='col s12'>
@@ -100,7 +102,7 @@ export default {
       'currencies/fetch'
     ]),
     change() {
-      // this.chart.unload();
+      // this.chart.unload({ ids: 'USD' });
       this.chart.load({
         url: this.chartUrl,
         mimeType: 'json',
