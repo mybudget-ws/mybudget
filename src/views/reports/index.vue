@@ -66,7 +66,7 @@ export default {
         axis: {
           x: {
             type: 'timeseries',
-            tick: { format: '%Y-%m-%d' },
+            tick: { format: '%d.%m.%Y' },
             padding: { left: 0, right: 0 }
           },
           y: {
