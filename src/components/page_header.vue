@@ -31,4 +31,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+h3
+  margin-bottom: 0
 </style>
