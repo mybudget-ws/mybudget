@@ -46,46 +46,49 @@ export default {
   },
   props: {},
   data: () => ({
+    isLoading: true
   }),
   computed: {
     token: get('user/token'),
-    isLoading() {
-      return false;
-    }
+    searchParams: get('filters/searchParams')
   },
   async mounted() {
-    const columns = await api.balances(this.token);
-    this.chart = c3.generate({
-      bindto: '.chart',
-      data: {
-        x: 'x',
-        columns: columns
-      },
-      axis: {
-        x: {
-          type: 'timeseries',
-          tick: { format: '%Y-%m-%d' },
-          padding: { left: 0, right: 0 }
-        },
-        y: {
-          min: 0,
-          padding: { top: 20 }
-        }
-      },
-      point: { show: false },
-      grid: {
-        x: { show: true },
-        y: { show: true }
-      }
-    });
+    this.isLoading = true;
+    await this.fetchData();
+    this.isLoading = false;
   },
   methods: {
+    async fetchData() {
+      const columns = await api.balances(this.token, this.searchParams);
+      this.chart = c3.generate({
+        bindto: '.chart',
+        data: { x: 'x', columns: columns },
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: { format: '%Y-%m-%d' },
+            padding: { left: 0, right: 0 }
+          },
+          y: {
+            padding: { top: 20 }
+          }
+        },
+        point: { show: false },
+        grid: {
+          x: { show: true },
+          y: { show: true }
+        }
+      });
+    },
     onChangeFilter() {
-      alert('filter');
+      this.fetchData();
     }
   }
 };
 </script>
 
 <style scoped lang='sass'>
+.chart
+  height: 400px
+  margin-left: -20px
 </style>

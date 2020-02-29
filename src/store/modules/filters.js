@@ -17,7 +17,14 @@ export default {
       accountIds: state.accounts.map(v => v.id),
       categoryIds: state.categories.map(v => v.id),
       projectIds: state.projects.map(v => v.id)
-    })
+    }),
+    searchParams: state => (
+      new URLSearchParams({
+        accounts: state.accounts.map(v => v.id),
+        categories: state.categories.map(v => v.id),
+        projects: state.projects.map(v => v.id)
+      }).toString()
+    )
   },
 
   actions: {

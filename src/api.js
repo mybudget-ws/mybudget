@@ -393,8 +393,8 @@ export default {
   // Reports
   // ---------------------------------
 
-  async balances(token) {
-    const url = DOMAIN + '/charts/balances';
+  async balances(token, params) {
+    const url = DOMAIN + '/charts/balances?' + params;
     const response = await fetch(url, {
       headers: this.headers(token)
     });
