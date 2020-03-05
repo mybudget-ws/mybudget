@@ -2,11 +2,11 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Новая операция'>
+      <PageHeader name='Новый перевод'>
         <router-link
-          to='/transactions/transfers/new'
+          to='/transactions/new'
           class='btn-flat btn grey-text text-darken-2 right tab'
-          title='Новый перевод'
+          title='Новая операция'
         >
           <i class='material-icons left'>repeat</i>
         </router-link>
@@ -17,6 +17,25 @@
         <form class='col l12 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col l4 s12'>
+              <select ref='selectSrcAccounts' v-model='accountId'>
+                <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
+                  {{ v.name }}
+                </option>
+              </select>
+              <label>Со счета</label>
+            </div>
+
+            <div class='input-field col l4 s12'>
+              <select ref='selectDstAccounts' v-model='accountId'>
+                <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
+                  {{ v.name }}
+                </option>
+              </select>
+              <label>На счет</label>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='input-field col l4 s12'>
               <input
                 id='amount'
                 ref='amount'
@@ -24,30 +43,35 @@
                 type='text'
                 class='validate'
                 pattern='[0-9,+-/*]+'
-                autofocus
                 required
-                @click='$refs.amount.focus()'
               >
               <label for='name' class='active'>{{ amountLable }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
                 data-success='Отлично'
-              >
-                Например 20.4 или 10 + 3 * 2
-              </span>
+              />
             </div>
             <div class='input-field col l4 s12'>
-              <select ref='selectAccounts' v-model='accountId'>
-                <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
-                  {{ v.name }}
-                  <!--span v-if='v.isFavourite' class='right'>
-                    <i class='material-icons yellow-text text-accent-4'>star</i>
-                  </span-->
-                </option>
-              </select>
-              <label>Счет</label>
+              <input
+                id='amount'
+                ref='amount'
+                v-model='amount'
+                type='text'
+                class='validate'
+                pattern='[0-9,+-/*]+'
+                required
+              >
+              <label for='name' class='active'>{{ amountLable }}</label>
+              <span
+                class='helper-text'
+                data-error='Похоже, что это не число'
+                data-success='Отлично'
+              />
             </div>
+          </div>
+
+          <div class='row'>
             <div class='input-field col l4 s12'>
               <input
                 id='date'
@@ -57,23 +81,7 @@
               >
               <label for='date' class='active'>Дата</label>
             </div>
-          </div>
-          <div class='switch'>
-            <label>
-              Расход
-              <input v-model='isIncome' type='checkbox'>
-              <span class='lever' />
-              Доход
-            </label>
-          </div>
-
-          <div class='row'>
-            <Categories
-              class='categories col l4 s12'
-              :ids='categoryIds'
-              @change='onSelectCategory'
-            />
-            <div class='col l8 s12'>
+            <!--div class='col l8 s12'>
               <div class='row'>
                 <div class='input-field col s12'>
                   <input
@@ -83,23 +91,14 @@
                   >
                   <label for='name' class='active'>Комментарий</label>
                 </div>
-                <div v-if='isProjects' class='input-field col l6 s12'>
-                  <select ref='selectProjects' v-model='projectId'>
-                    <option value='' selected>Без проекта</option>
-                    <option v-for='project in projects' :key='project.id' :value='project.id'>
-                      {{ project.name }}
-                    </option>
-                  </select>
-                  <label>Проект</label>
-                </div>
               </div>
-            </div>
+            </div-->
           </div>
 
           <div class='row'>
             <div class='col'>
               <Button
-                :text='submitText'
+                text='Новый перевод'
                 :is-disabled='isSubmitting'
                 :is-loading='isSubmitting'
                 @click='submit'
@@ -119,7 +118,6 @@
 
 <script>
 import Button from '@/components/button';
-import Categories from '@/components/categories';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -133,7 +131,6 @@ export default {
   name: 'NewTransaction',
   components: {
     Button,
-    Categories,
     Menu,
     Loader,
     PageHeader
@@ -144,26 +141,19 @@ export default {
     date: new Date(),
     description: '',
     accountId: '',
-    projectId: '',
-    isIncome: false,
-    categoryIds: [],
 
     datepicker: null
   }),
   computed: {
     token: get('user/token'),
     accounts: get('accounts/items'),
-    projects: get('projects/items'),
 
     isAccountsLoading: get('accounts/isLoading'),
     isAccountsLoaded: get('accounts/isLoaded'),
-    isProjectsLoading: get('projects/isLoading'),
-    isProjectsLoaded: get('projects/isLoaded'),
 
     isSubmitting: get('transactions/isSubmitting'),
 
-    isLoading() { return this.isAccountsLoading || this.isProjectsLoading; },
-    submitText() { return this.isIncome ? 'Создать доход' : 'Создать расход'; },
+    isLoading() { return this.isAccountsLoading; },
     amountLable() {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
     },
@@ -175,7 +165,6 @@ export default {
         !this.isAccountsLoading &&
         this.accounts.length === 0;
     },
-    isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
     orderedAccounts() {
       return [
         ...this.accounts.filter(v => v.isFavourite),
@@ -185,7 +174,6 @@ export default {
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
-    if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
     if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
@@ -221,42 +209,27 @@ export default {
     this.accountId = this.orderedAccounts[0].id;
     setTimeout(() => {
       /* eslint-disable */
-      M.FormSelect.init(this.$refs.selectAccounts, {});
+      M.FormSelect.init(this.$refs.selectSrcAccounts, {});
+      M.FormSelect.init(this.$refs.selectDstAccounts, {});
       M.updateTextFields();
       /* eslint-enable */
     }, 50);
-    if (this.isProjects) {
-      setTimeout(() => {
-        /* eslint-disable */
-        M.FormSelect.init(this.$refs.selectProjects, {});
-        M.updateTextFields();
-        /* eslint-enable */
-      }, 50);
-    }
-    this.$refs?.amount?.focus();
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
-    fetchProjects: call('projects/fetch'),
     create: call('transactions/create'),
-    onSelectCategory(ids) {
-      this.categoryIds = ids;
-    },
     async submit() {
       if (this.isSubmitting) { return; }
 
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
+      const { token, amount, description, accountId } = this;
       const transaction = {
         amount,
-        isIncome,
         date: moment(date).format(),
-        categoryIds,
         description,
-        accountId,
-        projectId
+        accountId
       };
       const isSuccess = await this.create({ token, transaction });
       if (isSuccess != null) {
