@@ -17,7 +17,7 @@
         <form class='col l12 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col l4 s12'>
-              <select ref='selectSrcAccounts' v-model='accountId'>
+              <select ref='selectSrcAccounts' v-model='accountIdSrc'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                 </option>
@@ -26,7 +26,7 @@
             </div>
 
             <div class='input-field col l4 s12'>
-              <select ref='selectDstAccounts' v-model='accountId'>
+              <select ref='selectDstAccounts' v-model='accountIdDst'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                 </option>
@@ -37,15 +37,15 @@
           <div class='row'>
             <div class='input-field col l4 s12'>
               <input
-                id='amount'
-                ref='amount'
-                v-model='amount'
+                id='amountSrc'
+                ref='amountSrc'
+                v-model='amountSrc'
                 type='text'
                 class='validate'
                 pattern='[0-9,+-/*]+'
                 required
               >
-              <label for='name' class='active'>{{ amountLable }}</label>
+              <label for='name' class='active'>{{ amountLableSrc }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
@@ -54,15 +54,15 @@
             </div>
             <div class='input-field col l4 s12'>
               <input
-                id='amount'
-                ref='amount'
-                v-model='amount'
+                id='amountDst'
+                ref='amountDst'
+                v-model='amountDst'
                 type='text'
                 class='validate'
                 pattern='[0-9,+-/*]+'
                 required
               >
-              <label for='name' class='active'>{{ amountLable }}</label>
+              <label for='name' class='active'>{{ amountLableDst }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
@@ -81,7 +81,7 @@
               >
               <label for='date' class='active'>Дата</label>
             </div>
-            <!--div class='col l8 s12'>
+            <div class='col l4 s12'>
               <div class='row'>
                 <div class='input-field col s12'>
                   <input
@@ -92,7 +92,7 @@
                   <label for='name' class='active'>Комментарий</label>
                 </div>
               </div>
-            </div-->
+            </div>
           </div>
 
           <div class='row'>
@@ -137,10 +137,12 @@ export default {
   },
   props: {},
   data: () => ({
-    amount: '',
+    amountSrc: 0,
+    amountDst: 0,
     date: new Date(),
     description: '',
-    accountId: '',
+    accountIdSrc: '',
+    accountIdDst: '',
 
     datepicker: null
   }),
@@ -154,11 +156,17 @@ export default {
     isSubmitting: get('transactions/isSubmitting'),
 
     isLoading() { return this.isAccountsLoading; },
-    amountLable() {
-      return `Величина, ${this.selectedAccount?.currency?.name}`;
+    amountLableSrc() {
+      return `Величина, ${this.selectedAccountSrc?.currency?.name}`;
     },
-    selectedAccount() {
-      return this.accounts.find(v => v.id === this.accountId);
+    amountLableDst() {
+      return `Величина, ${this.selectedAccountDst?.currency?.name}`;
+    },
+    selectedAccountSrc() {
+      return this.accounts.find(v => v.id === this.accountIdSrc);
+    },
+    selectedAccountDst() {
+      return this.accounts.find(v => v.id === this.accountIdDst);
     },
     isNotReadyToAdd() {
       return this.isAccountsLoaded &&
@@ -206,7 +214,8 @@ export default {
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 
-    this.accountId = this.orderedAccounts[0].id;
+    this.accountIdSrc = this.orderedAccounts[0].id;
+    this.accountIdDst = this.orderedAccounts[0].id;
     setTimeout(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectSrcAccounts, {});
@@ -224,12 +233,13 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, amount, description, accountId } = this;
+      const { token, amountSrc, amountDst, description, accountIdSrc } = this;
       const transaction = {
-        amount,
+        amountSrc,
+        amountDst,
         date: moment(date).format(),
         description,
-        accountId
+        accountIdSrc
       };
       const isSuccess = await this.create({ token, transaction });
       if (isSuccess != null) {
