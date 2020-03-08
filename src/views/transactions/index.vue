@@ -50,6 +50,13 @@
                       </i>
                     </span>
                     <span
+                      v-if='item.isTransfer'
+                      class='transfer new badge black-text tag teal lighten-4'
+                      data-badge-caption=''
+                    >
+                      <i class='material-icons'>repeat</i>
+                    </span>
+                    <span
                       v-if='item.project != null'
                       class='new badge black-text tag'
                       :class='item.project.color'
@@ -69,7 +76,7 @@
                       @click='onCategory(category)'
                     />
 
-                    <i class='grey-text text-darken-1'>
+                    <i class='description grey-text text-darken-1'>
                       {{ item.description }}
                     </i>
                   </td>
@@ -256,8 +263,19 @@ i.project
   opacity: 0.7
   padding-left: 0px
 
+.transfer.badge
+  min-width: 18px
+  i
+    font-size: 16px
+    line-height: 22px
+    opacity: 0.7
+    vertical-align: bottom
+
 .badge
   cursor: pointer
   &:hover
     opacity: 0.9
+
+.description
+  font-size: 14px
 </style>

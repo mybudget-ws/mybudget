@@ -249,6 +249,7 @@ export default {
           account { id name color currency { name } }
           categories { id name color }
           project { id name color }
+          isTransfer
         }
       }
     `;
