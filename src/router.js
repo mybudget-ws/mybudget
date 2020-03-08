@@ -85,7 +85,7 @@ export default new Router({
     }, {
       path: '/budgets',
       name: 'budgets',
-      component: () => import(/* webpackChunkName: "inner" */ '@/views/budgets'),
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/budgets/index'),
       beforeEnter: requireAuth
     }, {
       path: '/projects',
