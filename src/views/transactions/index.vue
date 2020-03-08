@@ -238,6 +238,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+td
+  padding: 10px 5px
+
 .date
   width: 90px
 
