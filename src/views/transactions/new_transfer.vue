@@ -44,6 +44,7 @@
                 class='validate'
                 pattern='[0-9,+-/*]+'
                 required
+                @focus='$event.target.select()'
               >
               <label for='name' class='active'>{{ amountLableSrc }}</label>
               <span
@@ -61,6 +62,7 @@
                 class='validate'
                 pattern='[0-9,+-/*]+'
                 required
+                @focus='$event.target.select()'
               >
               <label for='name' class='active'>{{ amountLableDst }}</label>
               <span
@@ -157,10 +159,10 @@ export default {
 
     isLoading() { return this.isAccountsLoading; },
     amountLableSrc() {
-      return `Величина, ${this.selectedAccountSrc?.currency?.name}`;
+      return `Величина (источник), ${this.selectedAccountSrc?.currency?.name}`;
     },
     amountLableDst() {
-      return `Величина, ${this.selectedAccountDst?.currency?.name}`;
+      return `Величина (получатель), ${this.selectedAccountDst?.currency?.name}`;
     },
     selectedAccountSrc() {
       return this.accounts.find(v => v.id === this.accountIdSrc);
@@ -215,7 +217,7 @@ export default {
     /* eslint-enable */
 
     this.accountIdSrc = this.orderedAccounts[0].id;
-    this.accountIdDst = this.orderedAccounts[0].id;
+    this.accountIdDst = this.orderedAccounts[1].id;
     setTimeout(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectSrcAccounts, {});
@@ -226,22 +228,30 @@ export default {
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
-    create: call('transactions/create'),
+    create: call('transactions/createTransfer'),
     async submit() {
       if (this.isSubmitting) { return; }
 
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, amountSrc, amountDst, description, accountIdSrc } = this;
-      const transaction = {
+      const {
+        token,
+        amountSrc,
+        amountDst,
+        accountIdSrc,
+        accountIdDst,
+        description
+      } = this;
+      const transfer = {
         amountSrc,
         amountDst,
         date: moment(date).format(),
-        description,
-        accountIdSrc
+        accountIdSrc,
+        accountIdDst,
+        description
       };
-      const isSuccess = await this.create({ token, transaction });
+      const isSuccess = await this.create({ token, transfer });
       if (isSuccess != null) {
         this.$router.push({ name: 'transactions' });
       } else {

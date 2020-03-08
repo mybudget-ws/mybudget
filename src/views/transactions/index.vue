@@ -186,7 +186,8 @@ export default {
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить операцию. Вы уверены?')) {
-        const res = await this.destroy({ token: this.token, transaction });
+        const { token, filters } = this;
+        const res = await this.destroy({ token, transaction, filters });
         const message = res != null ?
           'Операция успешно удалена' :
           'Непредвиденная ошибка';

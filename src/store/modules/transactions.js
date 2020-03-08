@@ -33,15 +33,23 @@ export default {
       commit('FINISH_SUBMITTING', item);
       return item;
     },
-    async destroy({ commit, state }, { token, transaction }) {
+    async createTransfer({ commit }, { token, transfer }) {
+      commit('START_SUBMITTING');
+      const item = await api.createTransactionTransfer(token, transfer);
+      commit('FINISH_SUBMITTING', item);
+      return item;
+    },
+    async destroy({ commit, state }, { token, transaction, filters }) {
       try {
         commit('START_DESTROYING');
         await api.destroyTransaction(token, transaction.id);
         commit('FINISH_DESTROYING', transaction);
-        const items = await api.transactions(token, { page: state.page });
+        const { page, perPage } = state;
+        const items = await api.transactions(token, { page, perPage, filters });
         commit('FINISH_LOADING', items);
         return transaction;
-      } catch {
+      } catch (e) {
+        console.error(e);
         commit('FINISH_DESTROYING', {});
         return null;
       }

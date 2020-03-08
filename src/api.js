@@ -373,6 +373,43 @@ export default {
     return data.action;
   },
 
+  async createTransactionTransfer(
+    token,
+    { amountSrc, amountDst, accountIdSrc, accountIdDst, date, description }
+  ) {
+    const query = `
+      mutation(
+        $amountSrc:String!,
+        $amountDst:String!,
+        $accountIdSrc:String!,
+        $accountIdDst:String!,
+        $date:String!,
+        $description:String
+      ) {
+        action:createTransactionTransfer(
+          amountSrc: $amountSrc,
+          amountDst: $amountDst,
+          accountIdSrc: $accountIdSrc,
+          accountIdDst: $accountIdDst,
+          date: $date,
+          description: $description
+        )
+      }
+    `;
+    const vars = {
+      amountSrc,
+      amountDst,
+      accountIdSrc: accountIdSrc.toString(),
+      accountIdDst: accountIdDst.toString(),
+      date,
+      description
+    };
+    const data = await this.client(token).request(query, vars);
+    this.log('createTransactionTransfer', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Favourite
   // ---------------------------------
