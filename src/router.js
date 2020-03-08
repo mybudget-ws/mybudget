@@ -88,6 +88,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "inner" */ '@/views/budgets/index'),
       beforeEnter: requireAuth
     }, {
+      path: '/goals',
+      name: 'goals',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/goals/index'),
+      beforeEnter: requireAuth
+    }, {
       path: '/projects',
       name: 'projects',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/projects/index'),

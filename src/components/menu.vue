@@ -26,34 +26,9 @@
       <div class='nav-wrapper container'>
         <a href="#" data-target='mobile-demo' class='sidenav-trigger'><i class='material-icons'>menu</i></a>
         <ul class='hide-on-med-and-down'>
-          <li>
-            <router-link to='/transactions' :class='btnClasses'>
-              Операции
-            </router-link>
-          </li>
-          <li>
-            <router-link to='/accounts' :class='btnClasses'>
-              Счета
-            </router-link>
-          </li>
-          <li>
-            <router-link to='/reports' :class='btnClasses'>
-              Отчеты
-            </router-link>
-          </li>
-          <li>
-            <router-link to='/categories' :class='btnClasses'>
-              Категории
-            </router-link>
-          </li>
-          <li>
-            <router-link to='/budgets' :class='btnClasses'>
-              Бюджеты
-            </router-link>
-          </li>
-          <li>
-            <router-link to='/projects' :class='btnClasses'>
-              Проекты
+          <li v-for='item in items' :key='item.path'>
+            <router-link :to='item.path' :class='btnClasses'>
+              {{ item.name }}
             </router-link>
           </li>
           <li class='right' title='Выход'>
@@ -107,6 +82,17 @@ import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'Menu',
+  data: () => ({
+    items: [
+      { path: '/transactions', name: 'Операции' },
+      { path: '/accounts', name: 'Счета' },
+      { path: '/reports', name: 'Отчеты' },
+      { path: '/categories', name: 'Категории' },
+      { path: '/budgets', name: 'Бюджеты' },
+      { path: '/goals', name: 'Цели' },
+      { path: '/projects', name: 'Проекты' }
+    ]
+  }),
   computed: {
     isSignedIn: get('user/isSignedIn'),
     isShortMenu() {
