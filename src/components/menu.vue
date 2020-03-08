@@ -48,13 +48,6 @@
           </li>
         </ul>
       </div>
-      <!--div class='nav-content container'>
-        <ul class='tabs tabs-transparent'>
-          <li class="tab"><a class="active" href="#test1">Баланс</a></li>
-          <li class="tab"><a href="#test2">Доход/Расход</a></li>
-          <li class="tab"><a href="#test3">Источники</a></li>
-        </ul>
-      </div-->
     </nav>
     <ul
       v-if='!isShortMenu'
