@@ -8,6 +8,7 @@ import categories from './modules/categories';
 import colors from './modules/colors';
 import currencies from './modules/currencies';
 import filters from './modules/filters';
+import goals from './modules/goals';
 import projects from './modules/projects';
 import transactions from './modules/transactions';
 import user from './modules/user';
@@ -51,9 +52,10 @@ const store = new Vuex.Store({
     categories,
     colors,
     currencies,
+    filters,
+    goals,
     projects,
     transactions,
-    filters,
     user
   },
   plugins: [pathify.plugin]

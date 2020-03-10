@@ -165,6 +165,18 @@ export default {
   },
 
   // ---------------------------------
+  // Goal
+  // ---------------------------------
+
+  async goals(token) {
+    const query = '{ items:goals { id name } }';
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  // ---------------------------------
   // Project
   // ---------------------------------
 
