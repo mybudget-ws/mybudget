@@ -9,9 +9,7 @@
           <div v-else-if='isAlert' class='card blue-grey darken-1'>
             <div class='card-content white-text'>
               <span class='card-title'>На данный момент у вас нет Проектов</span>
-              <p>
-                TODO: Описание, чем могут быть полезны проекты...
-              </p>
+              <p>TODO: Описание, чем могут быть полезны проекты...</p>
             </div>
             <!--div class="card-action">
               <a href="#">Подробнее о проектах</a>
@@ -22,10 +20,9 @@
               <tr>
                 <th class='name'>Название</th>
                 <!--th class='amount'>Баланс</th-->
-                <th class='actions' />
+                <th />
               </tr>
             </thead>
-
             <tbody>
               <tr v-for='item in items' :key='item.id'>
                 <td>
