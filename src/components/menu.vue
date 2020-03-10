@@ -118,6 +118,11 @@ export default {
 <style scoped lang='sass'>
 .brand-logo
   font-size: 14px
+
 .row-menu
   margin-bottom: 0
+
+nav
+ i.material-icons
+  font-size: 20px
 </style>
