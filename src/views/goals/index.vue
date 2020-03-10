@@ -2,8 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <!--PageHeader name='Цели' action='/budgets/new' /-->
-      <PageHeader name='Цели' />
+      <PageHeader name='Цели' action='/goals/new' />
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
