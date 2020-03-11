@@ -155,9 +155,7 @@ export default {
   },
 
   async destroyCategory(token, id) {
-    const query = `
-      mutation($id:Int!) { action:destroyCategory(id: $id) { id } }
-    `;
+    const query = 'mutation($id:Int!) { action:destroyCategory(id: $id) { id } }';
     const data = await this.client(token).request(query, { id });
     this.log('destroyCategory', data);
 
@@ -187,6 +185,14 @@ export default {
     const vars = { name };
     const data = await this.client(token).request(query, vars);
     this.log('createGoal', data);
+
+    return data.action;
+  },
+
+  async destroyGoal(token, id) {
+    const query = 'mutation($id:Int!) { action:destroyGoal(id: $id) { id } }';
+    const data = await this.client(token).request(query, { id });
+    this.log('destroyGoal', data);
 
     return data.action;
   },

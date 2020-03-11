@@ -26,7 +26,7 @@ export default {
     async destroy({ commit }, { token, goal }) {
       try {
         commit('START_DESTROYING');
-        await api.destroyProject(token, goal.id);
+        await api.destroyGoal(token, goal.id);
         commit('FINISH_DESTROYING', goal);
         return goal;
       } catch (e) {
