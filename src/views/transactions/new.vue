@@ -213,8 +213,6 @@ export default {
         }
       }
     );
-    /* eslint-enable */
-    /* eslint-disable */
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 

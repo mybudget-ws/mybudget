@@ -7,7 +7,7 @@
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col l8 s12'>
+            <div class='input-field col l6 s12'>
               <input
                 id='name'
                 ref='name'
@@ -20,9 +20,18 @@
               >
               <label for='name' class='active'>Название цели</label>
             </div>
+            <div class='input-field col l4 s12'>
+              <input
+                id='date'
+                ref='datepicker'
+                type='text'
+                class='datepicker'
+              >
+              <label for='date' class='active'>Крайняя дата</label>
+            </div>
           </div>
           <div class='row'>
-            <div class='input-field col l8 s12'>
+            <div class='input-field col l6 s12'>
               <input
                 id='amount'
                 ref='amount'
@@ -65,6 +74,9 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+const moment = require('moment');
+moment.locale('ru');
+
 export default {
   name: 'NewGoal',
   components: {
@@ -75,7 +87,10 @@ export default {
   props: {},
   data: () => ({
     name: 'Автомобиль',
-    amount: '600000'
+    date: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    amount: '0',
+
+    datepicker: null
   }),
   computed: {
     token: get('user/token'),
@@ -83,14 +98,46 @@ export default {
   },
   async mounted() {
     this.$refs.name.focus();
+
+    /* eslint-disable */
+    M.Datepicker.init(
+      this.$refs.datepicker,
+      {
+        format: 'dd mmm, yyyy',
+        firstDay: 1,
+        setDefaultDate: true,
+        defaultDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+        i18n: {
+          cancel: 'Закрыть',
+          months: [
+            'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+            'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+          monthsShort: [
+            'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
+            'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
+          ],
+          weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+          weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+        }
+      }
+    );
+    M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+    /* eslint-enable */
   },
   methods: {
     create: call('goals/create'),
     async submit() {
       if (this.isSubmitting) { return; }
 
+      /* eslint-disable */
+      const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
+      /* eslint-enable */
       const { name, amount, token } = this;
-      const goal = { name, amount };
+      const goal = {
+        name,
+        date: moment(date).format(),
+        amount
+      };
       const isSuccess = await this.create({ token, goal });
       if (isSuccess != null) {
         this.$router.push({ name: 'goals' });
