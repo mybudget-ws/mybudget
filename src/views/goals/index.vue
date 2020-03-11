@@ -24,8 +24,21 @@
             </thead>
             <tbody>
               <tr v-for='item in items' :key='item.id'>
-                <td />
-                <td class='actions' />
+                <td>{{ item.name }}</td>
+                <td class='actions'>
+                  <a
+                    :href="`/goals/${item.id}/edit`"
+                    class='waves-effect waves-teal btn-flat'
+                  >
+                    <i class='material-icons grey-text'>edit</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -63,27 +76,35 @@ export default {
     ...call([
       'goals/fetch',
       'goals/destroy'
-    ])
+    ]),
     // ,
     // onEdit(category) {
     //   const { id } = category;
     //   this.$router.push({ name: 'edit_project', params: { id } });
     // },
-    // async onDestroy(project) {
-    //   if (this.isDestroying) { return; }
-    //   if (confirm('Удалить проект. Вы уверены?')) {
-    //     const res = await this.destroy({ token: this.token, project });
-    //     const message = res != null ?
-    //       'Проект успешно удален' :
-    //       'Непредвиденная ошибка';
-    //     /* eslint-disable */
-    //     M.toast({ html: message });
-    //     /* eslint-enable */
-    //   }
-    // }
+    async onDestroy(goal) {
+      if (this.isDestroying) { return; }
+      if (confirm('Удалить проект. Вы уверены?')) {
+        const res = await this.destroy({ token: this.token, goal });
+        const message = res != null ?
+          'Цель успешно удалена' :
+          'Непредвиденная ошибка';
+        /* eslint-disable */
+        M.toast({ html: message });
+        /* eslint-enable */
+      }
+    }
   }
 };
 </script>
 
 <style scoped lang='sass'>
+// TODO: Remove duplications
+.actions
+  width: 82px
+  text-align: right
+
+  .btn-flat
+    padding: 0 8px !important
+//
 </style>

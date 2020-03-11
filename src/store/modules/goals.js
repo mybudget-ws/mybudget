@@ -17,21 +17,20 @@ export default {
       const items = await api.goals(token);
       commit('FINISH_LOADING', items);
     },
-    async create({ commit }, { token, project }) {
-      // TODO: create goal
+    async create({ commit }, { token, goal }) {
       commit('START_SUBMITTING');
-      const item = await api.createProject(token, project);
+      const item = await api.createGoal(token, goal);
       commit('FINISH_SUBMITTING', item);
       return item;
     },
-    async destroy({ commit }, { token, project }) {
-      // TODO: destroy goal
+    async destroy({ commit }, { token, goal }) {
       try {
         commit('START_DESTROYING');
-        await api.destroyProject(token, project.id);
-        commit('FINISH_DESTROYING', project);
-        return project;
-      } catch {
+        await api.destroyProject(token, goal.id);
+        commit('FINISH_DESTROYING', goal);
+        return goal;
+      } catch (e) {
+        console.error(e);
         commit('FINISH_DESTROYING', {});
         return null;
       }

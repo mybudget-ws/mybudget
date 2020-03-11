@@ -81,15 +81,15 @@ export default {
     this.$refs.name.focus();
   },
   methods: {
-    create: call('projects/create'),
+    create: call('goals/create'),
     async submit() {
       if (this.isSubmitting) { return; }
 
       const { name, token } = this;
-      const project = { name };
-      const isSuccess = await this.create({ token, project });
+      const goal = { name };
+      const isSuccess = await this.create({ token, goal });
       if (isSuccess != null) {
-        this.$router.push({ name: 'projects' });
+        this.$router.push({ name: 'goals' });
       } else {
         alert('Error');
       }

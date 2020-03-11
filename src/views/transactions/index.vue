@@ -248,12 +248,14 @@ td
   width: 140px
   text-align: right
 
+// TODO: Remove duplications
 .actions
   width: 82px
   text-align: right
 
   .btn-flat
     padding: 0 8px !important
+//
 
 .tag
   margin-right: 6px

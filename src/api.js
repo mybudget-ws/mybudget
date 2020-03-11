@@ -176,6 +176,21 @@ export default {
     return data.items;
   },
 
+  async createGoal(token, { name }) {
+    const query = `
+      mutation($name:String!) {
+        action:createGoal(
+          name: $name
+        ) { id name }
+      }
+    `;
+    const vars = { name };
+    const data = await this.client(token).request(query, vars);
+    this.log('createGoal', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Project
   // ---------------------------------
