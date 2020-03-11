@@ -167,7 +167,7 @@ export default {
   // ---------------------------------
 
   async goals(token) {
-    const query = '{ items:goals { id name } }';
+    const query = '{ items:goals { id name amount } }';
     const data = await this.client(token).request(query);
     this.log(query, data);
 
@@ -175,7 +175,7 @@ export default {
   },
 
   async goal(token, { id }) {
-    const query = 'query($id:ID!) { item:goal(id:$id) { id name } }';
+    const query = 'query($id:ID!) { item:goal(id:$id) { id name amount } }';
     const vars = { id };
     const data = await this.client(token).request(query, vars);
     this.log(query, data);
@@ -183,31 +183,33 @@ export default {
     return data.item;
   },
 
-  async createGoal(token, { name }) {
+  async createGoal(token, { name, amount }) {
     const query = `
-      mutation($name:String!) {
+      mutation($name:String!, $amount:String!) {
         action:createGoal(
-          name: $name
+          name: $name,
+          amount: $amount
         ) { id name }
       }
     `;
-    const vars = { name };
+    const vars = { name, amount };
     const data = await this.client(token).request(query, vars);
     this.log('createGoal', data);
 
     return data.action;
   },
 
-  async updateGoal(token, { id, name }) {
+  async updateGoal(token, { id, name, amount }) {
     const query = `
-      mutation($id:ID!, $name:String!) {
+      mutation($id:ID!, $name:String!, $amount:String!) {
         action:updateGoal(
           id: $id,
-          name: $name
+          name: $name,
+          amount: $amount
         ) { id name }
       }
     `;
-    const vars = { id, name };
+    const vars = { id, name, amount };
     const data = await this.client(token).request(query, vars);
     this.log('updateGoal', data);
 

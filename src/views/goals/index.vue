@@ -19,12 +19,16 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
+                <th class='amount'>Величина</th>
                 <th />
               </tr>
             </thead>
             <tbody>
               <tr v-for='item in items' :key='item.id'>
                 <td>{{ item.name }}</td>
+                <td class='amount'>
+                  <Amount :value='item.amount' currency='' />
+                </td>
                 <td class='actions'>
                   <a
                     :href="`/goals/${item.id}/edit`"
@@ -49,6 +53,7 @@
 </template>
 
 <script>
+import Amount from '@/components/amount';
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
@@ -57,6 +62,7 @@ import { get, call } from 'vuex-pathify';
 export default {
   name: 'Goals',
   components: {
+    Amount,
     Menu,
     Loader,
     PageHeader
@@ -94,6 +100,10 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.amount
+  width: 140px
+  text-align: right
+
 // TODO: Remove duplications
 .actions
   width: 82px

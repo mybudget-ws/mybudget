@@ -7,17 +7,33 @@
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col s8'>
+            <div class='input-field col l8 s12'>
               <input
                 id='name'
                 ref='name'
                 v-model='name'
                 type='text'
                 class='validate'
-                autofocus
                 required
               >
               <label for='name' class='active'>Название цели</label>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='input-field col l8 s12'>
+              <input
+                id='amount'
+                ref='amount'
+                v-model='amount'
+                type='text'
+                class='validate'
+                pattern='[0-9,+-/*]+'
+                autofocus
+                required
+                @click='$refs.amount.focus()'
+                @focus='$event.target.select()'
+              >
+              <label for='name' class='active'>Накопить</label>
             </div>
           </div>
 
@@ -50,7 +66,7 @@ import api from '@/api';
 import { get } from 'vuex-pathify';
 
 export default {
-  name: 'NewGoal',
+  name: 'EditGoal',
   components: {
     Button,
     Menu,
@@ -59,7 +75,7 @@ export default {
   props: {},
   data: () => ({
     name: '',
-    color: 'light-blue',
+    amount: '0',
     isLoading: true,
     isSubmitting: false
   }),
@@ -72,7 +88,9 @@ export default {
   async mounted() {
     const item = await api.goal(this.token, { id: this.id });
     this.isLoading = false;
+
     this.name = item.name;
+    this.amount = item.amount;
 
     /* eslint-disable */
     this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
@@ -86,8 +104,8 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { id, name } = this;
-      const isSuccess = await api.updateGoal(this.token, { id, name });
+      const { id, name, amount } = this;
+      const isSuccess = await api.updateGoal(this.token, { id, name, amount });
       if (isSuccess != null) {
         this.$router.push({ name: 'goals' }).catch(_e => {});
       } else {
