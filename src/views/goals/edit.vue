@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Редактирование проекта' />
+      <PageHeader name='Редактирование цели' />
 
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
@@ -17,21 +17,7 @@
                 autofocus
                 required
               >
-              <label for='name' class='active'>Название счета</label>
-            </div>
-          </div>
-          <div class='row'>
-            <div class='input-field col s4'>
-              <select ref='selectColors' v-model='color'>
-                <option
-                  v-for='color in colors'
-                  :key='color.id'
-                  :value='color.id'
-                >
-                  {{ color.name }}
-                </option>
-              </select>
-              <label>Цвет</label>
+              <label for='name' class='active'>Название цели</label>
             </div>
           </div>
 
@@ -45,7 +31,7 @@
               />
             </div>
             <div class='col'>
-              <router-link to='/projects' class='btn-flat btn-large'>
+              <router-link to='/goals' class='btn-flat btn-large'>
                 Отмена
               </router-link>
             </div>
@@ -61,10 +47,10 @@ import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
-import { get, call } from 'vuex-pathify';
+import { get } from 'vuex-pathify';
 
 export default {
-  name: 'NewProject',
+  name: 'NewGoal',
   components: {
     Button,
     Menu,
@@ -79,16 +65,15 @@ export default {
   }),
   computed: {
     id() { return this.$route.params.id; },
-    token: get('user/token'),
-    colors: get('colors/items')
+    token: get('user/token')
+    // ,
+    // colors: get('colors/items')
   },
   async mounted() {
-    const project = await api.project(this.token, { id: this.id });
+    const item = await api.goal(this.token, { id: this.id });
     this.isLoading = false;
-    this.name = project.name;
-    this.color = project.color;
+    this.name = item.name;
 
-    await this.fetchColors();
     /* eslint-disable */
     this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
     M.updateTextFields();
@@ -97,14 +82,14 @@ export default {
     this.$refs.name.focus();
   },
   methods: {
-    fetchColors: call('colors/fetch'),
+    // fetchColors: call('colors/fetch'),
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { id, name, color } = this;
-      const isSuccess = await api.updateProject(this.token, { id, name, color });
+      const { id, name } = this;
+      const isSuccess = await api.updateGoal(this.token, { id, name });
       if (isSuccess != null) {
-        this.$router.push({ name: 'projects' }).catch(_e => {});
+        this.$router.push({ name: 'goals' }).catch(_e => {});
       } else {
         alert('Error');
       }

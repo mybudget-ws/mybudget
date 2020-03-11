@@ -77,14 +77,9 @@ export default {
       'goals/fetch',
       'goals/destroy'
     ]),
-    // ,
-    // onEdit(category) {
-    //   const { id } = category;
-    //   this.$router.push({ name: 'edit_project', params: { id } });
-    // },
     async onDestroy(goal) {
       if (this.isDestroying) { return; }
-      if (confirm('Удалить проект. Вы уверены?')) {
+      if (confirm('Удалить цель. Вы уверены?')) {
         const res = await this.destroy({ token: this.token, goal });
         const message = res != null ?
           'Цель успешно удалена' :

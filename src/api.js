@@ -174,6 +174,15 @@ export default {
     return data.items;
   },
 
+  async goal(token, { id }) {
+    const query = 'query($id:ID!) { item:goal(id:$id) { id name } }';
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
   async createGoal(token, { name }) {
     const query = `
       mutation($name:String!) {
@@ -185,6 +194,22 @@ export default {
     const vars = { name };
     const data = await this.client(token).request(query, vars);
     this.log('createGoal', data);
+
+    return data.action;
+  },
+
+  async updateGoal(token, { id, name }) {
+    const query = `
+      mutation($id:ID!, $name:String!) {
+        action:updateGoal(
+          id: $id,
+          name: $name
+        ) { id name }
+      }
+    `;
+    const vars = { id, name };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateGoal', data);
 
     return data.action;
   },

@@ -93,6 +93,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "inner" */ '@/views/goals/index'),
       beforeEnter: requireAuth
     }, {
+      path: '/goals/:id/edit',
+      name: 'edit_goal',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/goals/edit'),
+      beforeEnter: requireAuth
+    }, {
       path: '/goals/new',
       name: 'new_goal',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/goals/new'),
