@@ -136,7 +136,6 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
-// const moment = require('moment/min/moment-with-locales');
 const moment = require('moment');
 moment.locale('ru');
 

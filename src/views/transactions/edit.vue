@@ -196,7 +196,6 @@ export default {
       {
         format: 'dd mmm, yyyy',
         firstDay: 1,
-        // onSelect: this.onSelect,
         setDefaultDate: true,
         defaultDate: this.date,
         i18n: {
@@ -214,9 +213,6 @@ export default {
         }
       }
     );
-    /* eslint-enable */
-
-    /* eslint-disable */
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 

@@ -132,10 +132,10 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { name, amount, token } = this;
+      const { token, name, amount } = this;
       const goal = {
         name,
-        date: moment(date).format(),
+        dueDateOn: moment(date).format(),
         amount
       };
       const isSuccess = await this.create({ token, goal });

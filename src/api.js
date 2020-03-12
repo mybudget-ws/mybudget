@@ -167,7 +167,7 @@ export default {
   // ---------------------------------
 
   async goals(token) {
-    const query = '{ items:goals { id name amount } }';
+    const query = '{ items:goals { id name amount dueDateOn } }';
     const data = await this.client(token).request(query);
     this.log(query, data);
 
@@ -175,7 +175,7 @@ export default {
   },
 
   async goal(token, { id }) {
-    const query = 'query($id:ID!) { item:goal(id:$id) { id name amount } }';
+    const query = 'query($id:ID!) { item:goal(id:$id) { id name amount dueDateOn } }';
     const vars = { id };
     const data = await this.client(token).request(query, vars);
     this.log(query, data);
@@ -183,33 +183,35 @@ export default {
     return data.item;
   },
 
-  async createGoal(token, { name, amount }) {
+  async createGoal(token, { name, amount, dueDateOn }) {
     const query = `
-      mutation($name:String!, $amount:String!) {
+      mutation($name:String!, $amount:String!, $dueDateOn:String!) {
         action:createGoal(
           name: $name,
-          amount: $amount
-        ) { id name }
+          amount: $amount,
+          dueDateOn: $dueDateOn
+        ) { id name dueDateOn }
       }
     `;
-    const vars = { name, amount };
+    const vars = { name, amount, dueDateOn };
     const data = await this.client(token).request(query, vars);
     this.log('createGoal', data);
 
     return data.action;
   },
 
-  async updateGoal(token, { id, name, amount }) {
+  async updateGoal(token, { id, name, amount, dueDateOn }) {
     const query = `
-      mutation($id:ID!, $name:String!, $amount:String!) {
+      mutation($id:ID!, $name:String!, $amount:String!, $dueDateOn:String!) {
         action:updateGoal(
           id: $id,
           name: $name,
-          amount: $amount
+          amount: $amount,
+          dueDateOn: $dueDateOn
         ) { id name }
       }
     `;
-    const vars = { id, name, amount };
+    const vars = { id, name, amount, dueDateOn };
     const data = await this.client(token).request(query, vars);
     this.log('updateGoal', data);
 

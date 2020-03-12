@@ -19,6 +19,7 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
+                <th class='date'>Крайняя дата</th>
                 <th class='amount'>Величина</th>
                 <th />
               </tr>
@@ -26,6 +27,7 @@
             <tbody>
               <tr v-for='item in items' :key='item.id'>
                 <td>{{ item.name }}</td>
+                <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
                 <td class='amount'>
                   <Amount :value='item.amount' currency='' />
                 </td>
@@ -59,6 +61,9 @@ import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+const moment = require('moment');
+moment.locale('ru');
+
 export default {
   name: 'Goals',
   components: {
@@ -85,6 +90,7 @@ export default {
     ]),
     async onDestroy(goal) {
       if (this.isDestroying) { return; }
+
       if (confirm('Удалить цель. Вы уверены?')) {
         const res = await this.destroy({ token: this.token, goal });
         const message = res != null ?
@@ -94,6 +100,13 @@ export default {
         M.toast({ html: message });
         /* eslint-enable */
       }
+    },
+    dateFormat(goal) {
+      const date = moment(goal.dueDateOn);
+      return date.format('DD MMMM YYYY');
+    },
+    dateTitleFormat(goal) {
+      return moment(goal.dueDateOn).format('DD.MM.YYYY');
     }
   }
 };
