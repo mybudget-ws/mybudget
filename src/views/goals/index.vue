@@ -15,12 +15,13 @@
               <a href="#">Подробнее о целях</a>
             </div-->
           </div>
-          <table v-else>
+          <table v-else class='responsive-table'>
             <thead>
               <tr>
                 <th class='name'>Название</th>
                 <th class='date'>Крайняя дата</th>
                 <th class='amount'>Величина</th>
+                <th class='percentage'>Прогресс</th>
                 <th />
               </tr>
             </thead>
@@ -31,6 +32,7 @@
                 <td class='amount'>
                   <Amount :value='item.amount' currency='' />
                 </td>
+                <td class='percentage'>{{ item.percentage }}%</td>
                 <td class='actions'>
                   <a
                     :href="`/goals/${item.id}/edit`"
@@ -115,7 +117,13 @@ export default {
 <style scoped lang='sass'>
 .amount
   width: 140px
-  text-align: right
+  @media only screen and (min-width: 992px)
+    text-align: right
+
+.percentage
+  width: 120px
+  @media only screen and (min-width: 992px)
+    text-align: right
 
 // TODO: Remove duplications
 .actions

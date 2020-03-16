@@ -167,7 +167,7 @@ export default {
   // ---------------------------------
 
   async goals(token) {
-    const query = '{ items:goals { id name amount dueDateOn } }';
+    const query = '{ items:goals { id name amount dueDateOn percentage } }';
     const data = await this.client(token).request(query);
     this.log(query, data);
 
