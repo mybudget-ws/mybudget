@@ -185,7 +185,7 @@ export default {
 
   async createGoal(token, { name, amount, dueDateOn, accountIds }) {
     const query = `
-      mutation($name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]) {
+      mutation($name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]!) {
         action:createGoal(
           name: $name,
           amount: $amount,
@@ -203,7 +203,7 @@ export default {
 
   async updateGoal(token, { id, name, amount, dueDateOn, accountIds }) {
     const query = `
-      mutation($id:ID!, $name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]) {
+      mutation($id:ID!, $name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]!) {
         action:updateGoal(
           id: $id,
           name: $name,

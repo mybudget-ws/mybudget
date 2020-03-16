@@ -195,11 +195,13 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
+      const accountIds = this.selectedAccounts.map(v => v.id);
       const { token, name, amount } = this;
       const goal = {
         name,
         dueDateOn: moment(date).format(),
-        amount
+        amount,
+        accountIds
       };
       const isSuccess = await this.create({ token, goal });
       if (isSuccess != null) {
