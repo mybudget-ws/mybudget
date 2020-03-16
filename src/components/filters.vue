@@ -77,9 +77,7 @@ export default {
     isProjectsLoaded: get('projects/isLoaded'),
     isAccounts() { return this.accounts.length > 0; },
     isProjects() { return this.projects.length > 0; },
-    favouriteAccounts() {
-      return this.accounts.filter(v => v.isFavourite);
-    },
+    favouriteAccounts() { return this.accounts.filter(v => v.isFavourite); },
     isNeedShowAllAccounts() {
       return this.favouriteAccounts.length > 0 &&
         this.selectedAccounts.length < this.accounts.length;

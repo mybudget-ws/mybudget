@@ -71,7 +71,7 @@ import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
 moment.locale('ru');
@@ -93,9 +93,12 @@ export default {
   }),
   computed: {
     id() { return this.$route.params.id; },
-    token: get('user/token')
-    // ,
-    // colors: get('colors/items')
+    token: get('user/token'),
+    accounts: get('accounts/items'),
+    isAccountsLoaded: get('accounts/isLoaded')
+  },
+  created() {
+    if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
   },
   async mounted() {
     const item = await api.goal(this.token, { id: this.id });
@@ -134,7 +137,7 @@ export default {
     this.$refs.name.focus();
   },
   methods: {
-    // fetchColors: call('colors/fetch'),
+    fetchAccounts: call('accounts/fetch'),
     async submit() {
       if (this.isSubmitting) { return; }
 
