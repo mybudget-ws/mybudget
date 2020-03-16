@@ -127,7 +127,6 @@ export default {
 
 // TODO: Remove duplications
 .actions
-  width: 82px
   text-align: right
 
   .btn-flat

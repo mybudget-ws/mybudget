@@ -21,7 +21,7 @@
               <p>Попробуйте изменить настройки фильтров</p>
             </div>
           </div>
-          <div v-if='isTableVisible' class='col s9'>
+          <div v-if='isTableVisible' class='col l9 s12'>
             <table class='row'>
               <thead>
                 <tr>
@@ -118,7 +118,7 @@
 
           <Filters
             v-if='!isLoading'
-            class='col s3'
+            class='col l3 s12'
             @onChange='onChangeFilter'
           />
         </div>

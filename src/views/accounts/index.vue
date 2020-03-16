@@ -141,12 +141,11 @@ export default {
   width: 200px
 
 .amount
-  font-weight: 500
   text-align: right
   width: 140px
 
 .actions
-  width: 48px
+  width: 50px
   text-align: right
 
   .btn-flat

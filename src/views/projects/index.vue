@@ -125,7 +125,6 @@ export default {
   text-align: right
 
 .actions
-  width: 50px
   text-align: right
 
   .btn-flat

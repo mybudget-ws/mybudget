@@ -124,7 +124,6 @@ export default {
   margin-right: 10px
 
 .actions
-  width: 120px
   text-align: right
 
   .btn-flat

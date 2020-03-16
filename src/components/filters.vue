@@ -124,7 +124,8 @@ export default {
 
 <style scoped lang='sass'>
 .filters
-  padding-left: 40px
+  @media only screen and (min-width: 992px)
+    padding-left: 30px
 
   .accounts,
   .categories

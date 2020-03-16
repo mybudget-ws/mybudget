@@ -31,8 +31,9 @@ export default {
 .value
   font-weight: 500
   margin-right: 4px
+  white-space: nowrap
 
 .currency
-  font-weight: 300
   font-size: 10px
+  font-weight: 300
 </style>
