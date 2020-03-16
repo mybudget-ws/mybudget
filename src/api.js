@@ -183,35 +183,37 @@ export default {
     return data.item;
   },
 
-  async createGoal(token, { name, amount, dueDateOn }) {
+  async createGoal(token, { name, amount, dueDateOn, accountIds }) {
     const query = `
-      mutation($name:String!, $amount:String!, $dueDateOn:String!) {
+      mutation($name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]) {
         action:createGoal(
           name: $name,
           amount: $amount,
-          dueDateOn: $dueDateOn
+          dueDateOn: $dueDateOn,
+          accountIds: $accountIds
         ) { id name dueDateOn }
       }
     `;
-    const vars = { name, amount, dueDateOn };
+    const vars = { name, amount, dueDateOn, accountIds };
     const data = await this.client(token).request(query, vars);
     this.log('createGoal', data);
 
     return data.action;
   },
 
-  async updateGoal(token, { id, name, amount, dueDateOn }) {
+  async updateGoal(token, { id, name, amount, dueDateOn, accountIds }) {
     const query = `
-      mutation($id:ID!, $name:String!, $amount:String!, $dueDateOn:String!) {
+      mutation($id:ID!, $name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]) {
         action:updateGoal(
           id: $id,
           name: $name,
           amount: $amount,
-          dueDateOn: $dueDateOn
+          dueDateOn: $dueDateOn,
+          accountIds: $accountIds
         ) { id name }
       }
     `;
-    const vars = { id, name, amount, dueDateOn };
+    const vars = { id, name, amount, dueDateOn, accountIds };
     const data = await this.client(token).request(query, vars);
     this.log('updateGoal', data);
 
