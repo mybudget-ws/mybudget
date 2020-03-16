@@ -249,7 +249,7 @@ td
 
 // TODO: Remove duplications
 .actions
-  width: 82px
+  width: 86px
   text-align: right
 
   .btn-flat
