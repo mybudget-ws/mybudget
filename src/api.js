@@ -177,6 +177,7 @@ export default {
           currency { name }
           dueDateOn
           percentage
+          balance
         }
       }
     `;

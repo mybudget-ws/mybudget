@@ -206,13 +206,15 @@ export default {
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
       const { id, name, amount } = this;
+      const accountIds = this.selectedAccounts.map(v => v.id);
       const isSuccess = await api.updateGoal(
         this.token,
         {
           id,
           name,
           amount: amount.toString(),
-          dueDateOn: moment(date).format()
+          dueDateOn: moment(date).format(),
+          accountIds
         }
       );
       if (isSuccess != null) {

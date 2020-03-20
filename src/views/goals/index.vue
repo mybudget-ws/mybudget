@@ -37,7 +37,14 @@
                 <td class='amount'>
                   <Amount :value='item.amount' :currency='currency(item)' />
                 </td>
-                <td class='percentage'>{{ item.percentage }}%</td>
+                <td class='percentage'>
+                  <Amount :value='item.balance' :currency='currency(item)'>
+                    <span
+                      class='new badge black-text tag grey lighten-2'
+                      :data-badge-caption='tagPercentage(item)'
+                    />
+                  </Amount>
+                </td>
                 <td class='actions'>
                   <a
                     :href="`/goals/${item.id}/edit`"
@@ -120,6 +127,9 @@ export default {
     currency({ currency }) {
       if (currency == null) { return ''; }
       return currency.name;
+    },
+    tagPercentage({ percentage }) {
+      return `${percentage}%`;
     }
   }
 };
@@ -135,7 +145,8 @@ export default {
     text-align: right
 
 .percentage
-  width: 120px
+  .badge
+    margin-left: 6px
   @media only screen and (min-width: 992px)
     text-align: right
 

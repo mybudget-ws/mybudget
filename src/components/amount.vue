@@ -4,6 +4,7 @@
     <span class='currency grey-text' :title='titleCurrency'>
       {{ formatedCurrency }}
     </span>
+    <slot />
   </div>
 </template>
 
