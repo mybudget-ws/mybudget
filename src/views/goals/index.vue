@@ -40,7 +40,7 @@
                 <td class='percentage'>
                   <Amount :value='item.balance' :currency='currency(item)'>
                     <span
-                      class='new badge black-text tag grey lighten-1'
+                      class='new badge black-text tag light-blue lighten-3'
                       :data-badge-caption='tagPercentage(item)'
                     />
                   </Amount>
