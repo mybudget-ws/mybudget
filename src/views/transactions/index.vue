@@ -39,16 +39,10 @@
                     <Amount :value='item.amount' :currency='item.account.currency.name' />
                   </td>
                   <td>
-                    <span
-                      class='new badge black-text tag'
-                      :class='item.account.color'
-                      :data-badge-caption='item.account.name'
+                    <TagAccount
+                      :account='item.account'
                       @click='onAccount(item.account)'
-                    >
-                      <i class='account material-icons left'>
-                        account_balance
-                      </i>
-                    </span>
+                    />
                     <span
                       v-if='item.isTransfer'
                       class='transfer new badge black-text tag teal lighten-4'
@@ -134,6 +128,7 @@ import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import TagAccount from '@/components/tag_account';
 import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
@@ -147,7 +142,8 @@ export default {
     Filters,
     Loader,
     Menu,
-    PageHeader
+    PageHeader,
+    TagAccount
   },
   props: {},
   computed: {
@@ -259,7 +255,6 @@ td
 .tag
   margin-right: 6px
 
-i.account,
 i.project
   font-size: 12px
   line-height: 22px

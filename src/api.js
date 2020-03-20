@@ -172,6 +172,7 @@ export default {
         items:goals {
           id
           name
+          accounts { id name color }
           amount
           currency { name }
           dueDateOn

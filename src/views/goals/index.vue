@@ -27,7 +27,12 @@
             </thead>
             <tbody>
               <tr v-for='item in items' :key='item.id'>
-                <td>{{ item.name }}</td>
+                <td>
+                  <span class='name'>{{ item.name }}</span>
+                  <span v-for='account in item.accounts' :key='account.id'>
+                    <TagAccount :account='account' />
+                  </span>
+                </td>
                 <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
                 <td class='amount'>
                   <Amount :value='item.amount' :currency='currency(item)' />
@@ -61,6 +66,7 @@ import Amount from '@/components/amount';
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
+import TagAccount from '@/components/tag_account';
 import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
@@ -72,7 +78,8 @@ export default {
     Amount,
     Menu,
     Loader,
-    PageHeader
+    PageHeader,
+    TagAccount
   },
   props: {},
   computed: {
@@ -119,6 +126,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.name
+  margin-right: 6px
+
 .amount
   width: 140px
   @media only screen and (min-width: 992px)
