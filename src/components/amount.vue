@@ -1,7 +1,9 @@
 <template>
   <div :class='classes'>
     <span class='value'>{{ formatedValue }}</span>
-    <span class='currency grey-text'>{{ currency }}</span>
+    <span class='currency grey-text' :title='titleCurrency'>
+      {{ formatedCurrency }}
+    </span>
   </div>
 </template>
 
@@ -22,6 +24,17 @@ export default {
     },
     formatedValue() {
       return Money.format(Math.abs(this.value), 2);
+    },
+    isCurrency() {
+      return this.currency != null && this.currency != '';
+    },
+    formatedCurrency() {
+      return this.isCurrency ? this.currency : '???';
+    },
+    titleCurrency() {
+      return this.isCurrency ?
+        this.currency :
+        'Нет выбранного счета';
     }
   }
 };

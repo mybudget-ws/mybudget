@@ -30,7 +30,7 @@
                 <td>{{ item.name }}</td>
                 <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
                 <td class='amount'>
-                  <Amount :value='item.amount' currency='' />
+                  <Amount :value='item.amount' :currency='currency(item)' />
                 </td>
                 <td class='percentage'>{{ item.percentage }}%</td>
                 <td class='actions'>
@@ -109,6 +109,10 @@ export default {
     },
     dateTitleFormat(goal) {
       return moment(goal.dueDateOn).format('DD.MM.YYYY');
+    },
+    currency({ currency }) {
+      if (currency == null) { return ''; }
+      return currency.name;
     }
   }
 };
