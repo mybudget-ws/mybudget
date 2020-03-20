@@ -44,6 +44,34 @@
               <label for='name' class='active'>Накопить</label>
             </div>
           </div>
+          <div class='accounts'>
+            <!-- TODO: Extract accounts (components/filters.vue) -->
+            <h6>Счета</h6>
+            <p v-for='account in displayedAcccounts' :key='account.id'>
+              <label>
+                <Checkbox
+                  :id='account.id'
+                  :value='isCheckedAccount(account.id)'
+                  @change='onChangeAccount(account)'
+                />
+                <span>{{ account.name }}</span>
+              </label>
+            </p>
+            <a
+              v-if='isNeedShowAllAccounts && !isShowAllAccounts'
+              class='btn-flat btn-small waves-effect waves-teal'
+              @click='showAll'
+            >
+              Показать все
+            </a>
+            <a
+              v-if='isNeedShowAllAccounts && isShowAllAccounts'
+              class='btn-flat btn-small waves-effect waves-teal'
+              @click='hideAll'
+            >
+              Скрыть счета
+            </a>
+          </div>
 
           <div class='row'>
             <div class='col'>
@@ -68,6 +96,7 @@
 
 <script>
 import Button from '@/components/button';
+import Checkbox from '@/components/checkbox';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
@@ -80,6 +109,7 @@ export default {
   name: 'EditGoal',
   components: {
     Button,
+    Checkbox,
     Menu,
     PageHeader
   },
@@ -88,14 +118,30 @@ export default {
     name: '',
     date: null,
     amount: '0',
+    selectedAccounts: [],
     isLoading: true,
-    isSubmitting: false
+    isSubmitting: false,
+
+    datepicker: null,
+    isShowAllAccounts: false
   }),
   computed: {
     id() { return this.$route.params.id; },
     token: get('user/token'),
     accounts: get('accounts/items'),
-    isAccountsLoaded: get('accounts/isLoaded')
+    isAccountsLoaded: get('accounts/isLoaded'),
+    favouriteAccounts() { return this.accounts.filter(v => v.isFavourite); },
+    isNeedShowAllAccounts() {
+      return this.favouriteAccounts.length > 0 &&
+        this.selectedAccounts.length < this.accounts.length;
+    },
+    displayedAcccounts() {
+      if (this.isNeedShowAllAccounts > 0 && !this.isShowAllAccounts) {
+        return this.accounts
+          .filter(v => this.selectedAccounts.map(v => v.id).includes(v.id) || v.isFavourite);
+      }
+      return this.accounts;
+    }
   },
   created() {
     if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
@@ -107,6 +153,7 @@ export default {
     this.name = item.name;
     this.amount = item.amount;
     this.date = new Date(Date.parse(item.dueDateOn));
+    this.selectedAccounts = item.accounts;
 
     /* eslint-disable */
     M.Datepicker.init(
@@ -138,6 +185,19 @@ export default {
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
+    showAll() { this.isShowAllAccounts = true; },
+    hideAll() { this.isShowAllAccounts = false; },
+    isCheckedAccount(id) {
+      return this.selectedAccounts.find(v => v.id === id) != null;
+    },
+    onChangeAccount(account) {
+      if (this.isCheckedAccount(account.id)) {
+        this.selectedAccounts = this.selectedAccounts
+          .filter(v => v.id !== account.id);
+      } else {
+        this.selectedAccounts.push(account);
+      }
+    },
     async submit() {
       if (this.isSubmitting) { return; }
 

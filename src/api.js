@@ -187,7 +187,17 @@ export default {
   },
 
   async goal(token, { id }) {
-    const query = 'query($id:ID!) { item:goal(id:$id) { id name amount dueDateOn } }';
+    const query = `
+      query($id:ID!) {
+        item:goal(id:$id) {
+          id
+          name
+          amount
+          dueDateOn
+          accounts { id name color }
+        }
+      }
+    `;
     const vars = { id };
     const data = await this.client(token).request(query, vars);
     this.log(query, data);
