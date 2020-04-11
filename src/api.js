@@ -3,7 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 
 const DOMAIN = {
   development: 'http://localhost:3000',
-  production: 'https://2.mybudget.ws'
+  production: 'https://api.mybudget.ws'
 }[process.env.NODE_ENV];
 
 const ENDPOINT = DOMAIN + '/graphql';
