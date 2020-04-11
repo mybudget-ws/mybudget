@@ -48,6 +48,7 @@
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
+import api from '../../api';
 import { get, call, sync } from 'vuex-pathify';
 import c3 from 'c3';
 
@@ -63,7 +64,7 @@ export default {
     ...get('currencies/*'),
     currency: sync('currencies/selected'),
     chartUrl() {
-      return `http://localhost:3000/charts/currencies/${this.currency}.json`;
+      return api.currenciesChartUrl(this.currency);
     }
   },
   async mounted() {

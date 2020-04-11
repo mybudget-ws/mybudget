@@ -533,6 +533,10 @@ export default {
   // Common
   // ---------------------------------
 
+  currenciesChartUrl(name) {
+    return `${DOMAIN}/charts/currencies/${name}.json`;
+  },
+
   async currencies() {
     const query = '{ items:currencies { id name description usdRate rubRate } }';
     const data = await this.client().request(query);
