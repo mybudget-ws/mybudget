@@ -5,7 +5,7 @@
       <PageHeader name='Вход в Мой Бюджет' />
 
       <div class='row'>
-        <form class='col s12' @submit.prevent='submit'>
+        <form class='col l6 m8 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col s12'>
               <input
