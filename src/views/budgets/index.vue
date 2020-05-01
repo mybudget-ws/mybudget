@@ -6,7 +6,7 @@
       <PageHeader name='Бюджеты' />
       <Loader v-if='isLoading' />
       <div class='row'>
-        <div class='col'>
+        <div class='col-12'>
           <div class='card blue-grey darken-1'>
             <div class='card-content white-text'>
               <span class='card-title'>Скоро</span>
