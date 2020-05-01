@@ -15,7 +15,7 @@
               <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
             </div>
           </div>
-          <div v-if='isEmpty' class='card teal col s9'>
+          <div v-if='isEmpty && !isAlert' class='card teal col s9'>
             <div class='card-content white-text'>
               <span class='card-title'>Таких операций нет</span>
               <p>Попробуйте изменить настройки фильтров</p>
@@ -156,8 +156,8 @@ export default {
     // isAllow() {
     //   return !this.isLoading && !this.isAccountsLoading && this.accounts.length !== 0;
     // },
-    isEmpty() { return !this.isLoading && this.items.length === 0; },
     isAlert() { return this.isEmpty && !this.isVisible; },
+    isEmpty() { return !this.isLoading && this.items.length === 0; },
     isTableVisible() { return !this.isLoading && !this.isEmpty; }
   },
   async created() {
