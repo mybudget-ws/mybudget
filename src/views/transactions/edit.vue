@@ -177,60 +177,64 @@ export default {
     }
   },
   async mounted() {
-    const transaction = await api.transaction(this.token, { id: this.id });
-    this.isIncome = transaction.amount > 0;
-    this.amount = Math.abs(transaction.amount);
-    this.date = new Date(Date.parse(transaction.dateAt));
-    this.description = transaction.description;
-    this.accountId = transaction.account.id;
-    this.projectId = transaction.project?.id || '';
-    this.categoryIds = transaction.categories.map(v => v.id);
-    this.isLoadingTransaction = false;
+    try {
+      const transaction = await api.transaction(this.token, { id: this.id });
+      this.isIncome = transaction.amount > 0;
+      this.amount = Math.abs(transaction.amount);
+      this.date = new Date(Date.parse(transaction.dateAt));
+      this.description = transaction.description;
+      this.accountId = transaction.account.id;
+      this.projectId = transaction.project?.id || '';
+      this.categoryIds = transaction.categories.map(v => v.id);
+      this.isLoadingTransaction = false;
 
-    if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
-    if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+      if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
+      if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
 
-    /* eslint-disable */
-    M.Datepicker.init(
-      this.$refs.datepicker,
-      {
-        format: 'dd mmm, yyyy',
-        firstDay: 1,
-        setDefaultDate: true,
-        defaultDate: this.date,
-        i18n: {
-          cancel: 'Закрыть',
-          months: [
-            'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-            'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-          ],
-          monthsShort: [
-            'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-            'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-          ],
-          weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-          weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-        }
-      }
-    );
-    M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
-    /* eslint-enable */
-
-    setTimeout(() => {
       /* eslint-disable */
-      M.FormSelect.init(this.$refs.selectAccounts, {});
-      M.updateTextFields();
+      M.Datepicker.init(
+        this.$refs.datepicker,
+        {
+          format: 'dd mmm, yyyy',
+          firstDay: 1,
+          setDefaultDate: true,
+          defaultDate: this.date,
+          i18n: {
+            cancel: 'Закрыть',
+            months: [
+              'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+              'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+            ],
+            monthsShort: [
+              'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
+              'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
+            ],
+            weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+          }
+        }
+      );
+      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
       /* eslint-enable */
-    }, 50);
-    if (this.isProjects) {
+
       setTimeout(() => {
         /* eslint-disable */
-        M.FormSelect.init(this.$refs.selectProjects, {});
+        M.FormSelect.init(this.$refs.selectAccounts, {});
         M.updateTextFields();
         /* eslint-enable */
       }, 50);
+      if (this.isProjects) {
+        setTimeout(() => {
+          /* eslint-disable */
+          M.FormSelect.init(this.$refs.selectProjects, {});
+          M.updateTextFields();
+          /* eslint-enable */
+        }, 50);
+      }
+      this.$refs?.amount?.focus();
+    } catch (_e) {
+      window.location.reload();
     }
-    this.$refs?.amount?.focus();
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),

@@ -75,18 +75,12 @@
                     </i>
                   </td>
                   <td class='actions'>
-                    <!--router-link
-                      :to="{ name: 'edit_transaction', params: { id: item.id } }"
+                    <router-link
+                      :to="`/transactions/${item.id}/edit`"
                       class='waves-effect waves-teal btn-flat'
                     >
                       <i class='material-icons grey-text'>edit</i>
-                    </router-link-->
-                    <a
-                      :href="`/transactions/${item.id}/edit`"
-                      class='waves-effect waves-teal btn-flat'
-                    >
-                      <i class='material-icons grey-text'>edit</i>
-                    </a>
+                    </router-link>
                     <a
                       class='waves-effect waves-teal btn-flat'
                       @click='onDestroy(item)'
