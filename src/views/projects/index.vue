@@ -19,7 +19,7 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <!--th class='amount'>Баланс</th-->
+                <th class='amount'>Баланс</th>
                 <th />
               </tr>
             </thead>
@@ -31,12 +31,9 @@
                     <span>{{ item.name }}</span>
                   </div>
                 </td>
-                <!--td class='amount'>
-                  {{ item.balance }}
-                    TODO: For each currencies!
-                  &nbsp;
-                  <span class='grey-text'>{{ item.currency.name }}</span>
-                </td-->
+                <td class='amount'>
+                  <Amount :value='item.balance' currency='???' />
+                </td>
                 <td class='actions'>
                   <a
                     class='waves-effect waves-teal btn-flat'
@@ -61,6 +58,7 @@
 </template>
 
 <script>
+import Amount from '@/components/amount';
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
@@ -69,6 +67,7 @@ import { get, call } from 'vuex-pathify';
 export default {
   name: 'Projects',
   components: {
+    Amount,
     Menu,
     Loader,
     PageHeader
@@ -117,14 +116,12 @@ export default {
   display: inline-block
   margin-right: 10px
 
-.name
-  width: 200px
-
 .amount
   width: 140px
   text-align: right
 
 .actions
+  width: 90px
   text-align: right
 
   .btn-flat
