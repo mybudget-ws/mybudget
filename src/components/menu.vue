@@ -4,22 +4,18 @@
       <div class='nav-wrapper container'>
         <router-link
           to='/'
-          class='brand-logo grey-text left'
+          class='brand-logo grey-text left col'
         >
           myBudget v2.0
         </router-link>
-        <ul class='right'>
-          <li>
-            <router-link to='/currencies' :class='btnClasses'>
-              Курсы валют
-            </router-link>
-          </li>
-          <li>
-            <router-link to='/login' :class='btnClasses'>
-              Вход
-            </router-link>
-          </li>
-        </ul>
+        <div class='right'>
+          <router-link to='/currencies' :class='btnClasses'>
+            Курсы валют
+          </router-link>
+          <router-link to='/login' :class='btnClasses'>
+            Вход
+          </router-link>
+        </div>
       </div>
     </nav>
     <nav v-else class='blue-grey darken-4 z-depth-0'>
@@ -55,17 +51,20 @@
       ref='sidenav'
       class='sidenav'
     >
-      <li><a href='/transactions'>Операции</a></li>
-      <li><a href='/accounts'>Счета</a></li>
-      <li><a href='/reports'>Отчеты</a></li>
-      <li><a href='/categories'>Категории</a></li>
-      <li><a href='/budgets'>Бюджеты</a></li>
-      <li><a href='/projects'>Проекты</a></li>
+      <li v-for='item in items' :key='item.path'>
+        <a href='#' @click='goto(item.path)'>{{ item.name }}</a>
+      </li>
       <li class='divider' />
-      <li><a href='/currencies'>Курсы валют</a></li>
-      <li><a href='/settings'>Настройки</a></li>
+      <li>
+        <a href='#' @click='goto("currencies")'>Курсы валют</a>
+      </li>
+      <li>
+        <a href='#' @click='goto("settings/profile")'>Настройки</a>
+      </li>
       <li class='divider' />
-      <li><a @click='exit'>Выход</a></li>
+      <li>
+        <a @click='exit'>Выход</a>
+      </li>
     </ul>
   </div>
 </template>
@@ -110,6 +109,15 @@ export default {
       // this.$refs.sidenav.click();
       // this.$router.replace({ name: 'home' });
       window.location.href = '/';
+    },
+    goto(path) {
+      /* eslint-disable */
+      // To hide .sidenav-overlay
+      const instance = M.Sidenav.getInstance(this.$refs.sidenav);
+      instance.close();
+      /* eslint-disable */
+      // https://github.com/vuejs/vue-router/issues/2872
+      this.$router.push({ path }).catch(_e => {});
     }
   }
 };

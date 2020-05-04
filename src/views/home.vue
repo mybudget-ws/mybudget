@@ -2,21 +2,25 @@
   <div>
     <Menu />
     <div class='container'>
-      <h1>Мой Бюджет</h1>
-      <h5>Домашняя бухгалтерия онлайн</h5>
+      <div class='row'>
+        <div class='col'>
+          <h1>Мой Бюджет</h1>
+          <h5>Домашняя бухгалтерия онлайн</h5>
 
-      <div class='getstarted'>
-        <Button
-          text='Начать сейчас'
-          to='/'
-        />
+          <div class='getstarted'>
+            <Button
+              text='Начать сейчас'
+              to='/'
+            />
+          </div>
+
+          <!--div>
+            <button @click='greet'>Greet</button>
+            <button @click='ping'>Ping</button>
+            <button @click='pingMutation'>Ping Mutation</button>
+          </div-->
+        </div>
       </div>
-
-      <!--div>
-        <button @click='greet'>Greet</button>
-        <button @click='ping'>Ping</button>
-        <button @click='pingMutation'>Ping Mutation</button>
-      </div-->
     </div>
   </div>
 </template>
