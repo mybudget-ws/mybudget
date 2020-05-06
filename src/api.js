@@ -43,6 +43,16 @@ export default {
     return data.items;
   },
 
+  async accountsFilter(token) {
+    const query = `{
+      items:accounts { id name color isFavourite }
+    }`;
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
   async account(token, { id }) {
     const query = `query($id:ID!) {
       item:account(id:$id) { id name color currency { name } }
@@ -254,6 +264,14 @@ export default {
   // ---------------------------------
   // Project
   // ---------------------------------
+
+  async projectsFilter(token) {
+    const query = '{ items:projects { id name } }';
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
 
   async projects(token) {
     const query = '{ items:projects { id name color balance income spending } }';

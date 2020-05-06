@@ -8,7 +8,11 @@ export default {
     isLoaded: false,
     isSubmitting: false,
     isDestroying: false,
-    items: []
+    items: [],
+
+    itemsFilter: [],
+    isLoadingFilter: true,
+    isLoadedFilter: false
   },
 
   actions: {
@@ -16,6 +20,11 @@ export default {
       commit('START_LOADING');
       const items = await api.accounts(token);
       commit('FINISH_LOADING', items);
+    },
+    async fetchFilter({ commit }, token) {
+      commit('START_LOADING_FILTER');
+      const items = await api.accountsFilter(token);
+      commit('FINISH_LOADING_FILTER', items);
     },
     async create({ commit }, { token, account }) {
       commit('START_SUBMITTING');
@@ -73,6 +82,15 @@ export default {
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
       state.isDestroying = false;
+    },
+
+    START_LOADING_FILTER(state) {
+      state.isLoadingFilter = true;
+    },
+    FINISH_LOADING_FILTER(state, items) {
+      state.itemsFilter = items;
+      state.isLoadingFilter = false;
+      state.isLoadedFilter = true;
     }
   }
 };
