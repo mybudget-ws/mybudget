@@ -62,11 +62,9 @@ export default {
       commit('FINISH_SUBMITTING');
       return isFavourite;
     },
-    // async toggleIsHidden({ commit }, { token, account }) {
-    async toggleIsHidden({ commit }, { account }) {
+    async toggleIsHidden({ commit }, { token, account }) {
       commit('START_SUBMITTING');
-      // const isFavourite = await api.toggleIsFavourite(token, account.id, 'account');
-      const isHidden = !account.isHidden;
+      const isHidden = await api.toggleIsHidden(token, account.id, 'account');
       commit('TOGGLE_IS_HIDDEN', { item:account, isHidden });
       commit('FINISH_SUBMITTING');
       return isHidden;

@@ -533,6 +533,22 @@ export default {
   },
 
   // ---------------------------------
+  // Hidden
+  // ---------------------------------
+
+  async toggleIsHidden(token, id, model) {
+    const query = `
+      mutation($id:Int!, $model:String!) {
+        action:toggleIsHidden(id: $id, model: $model)
+      }
+    `;
+    const data = await this.client(token).request(query, { id, model });
+    this.log('toggleIsHidden', data);
+
+    return data.action;
+  },
+
+  // ---------------------------------
   // Reports
   // ---------------------------------
 
