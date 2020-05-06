@@ -69,7 +69,6 @@ export default {
   computed: {
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
-    categories: get('categories/items'),
     projects: get('projects/itemsFilter'),
     selectedAccounts: get('filters/accounts'),
     selectedProjects: get('filters/projects'),
@@ -96,7 +95,6 @@ export default {
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
-    fetchCategoires: call('categories/fetch'),
     fetchProjects: call('projects/fetchFilter'),
     toggleAccount: call('filters/toggleAccount'),
     toggleProject: call('filters/toggleProject'),

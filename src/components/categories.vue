@@ -45,7 +45,7 @@ export default {
   }),
   computed: {
     token: get('user/token'),
-    categories: get('categories/items'),
+    categories: get('categories/visibleItems'),
     isEmpty: get('categories/isEmpty'),
     isCategoiresLoaded: get('categories/isLoaded'),
     favouriteCategories() {
