@@ -15,6 +15,18 @@ export default {
     isLoadedFilter: false
   },
 
+  getters: {
+    visibleItems: state => (
+      state.items.filter(v => !v.isHidden)
+    ),
+    hiddenItems: state => (
+      state.items.filter(v => v.isHidden)
+    ),
+    visibleItemsFilter: state => (
+      state.itemsFilter.filter(v => !v.isHidden)
+    )
+  },
+
   actions: {
     async fetch({ commit }, token) {
       commit('START_LOADING');
@@ -49,6 +61,15 @@ export default {
       commit('TOGGLE_IS_FAVOURITE', { item:account, isFavourite });
       commit('FINISH_SUBMITTING');
       return isFavourite;
+    },
+    // async toggleIsHidden({ commit }, { token, account }) {
+    async toggleIsHidden({ commit }, { account }) {
+      commit('START_SUBMITTING');
+      // const isFavourite = await api.toggleIsFavourite(token, account.id, 'account');
+      const isHidden = !account.isHidden;
+      commit('TOGGLE_IS_HIDDEN', { item:account, isHidden });
+      commit('FINISH_SUBMITTING');
+      return isHidden;
     }
   },
 
@@ -72,9 +93,13 @@ export default {
     },
     TOGGLE_IS_FAVOURITE(state, { item, isFavourite }) {
       const account = state.items.find(v => v.id === item.id);
-      if (account) {
-        account.isFavourite = isFavourite;
-      }
+      if (account == null) { return; }
+      account.isFavourite = isFavourite;
+    },
+    TOGGLE_IS_HIDDEN(state, { item, isHidden }) {
+      const account = state.items.find(v => v.id === item.id);
+      if (account == null) { return; }
+      account.isHidden = isHidden;
     },
     START_DESTROYING(state) {
       state.isDestroying = true;

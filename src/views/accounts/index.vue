@@ -26,7 +26,7 @@
             </thead>
 
             <tbody>
-              <tr v-for='item in items' :key='item.id'>
+              <tr v-for='item in visibleItems' :key='item.id'>
                 <td>
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
@@ -46,6 +46,49 @@
                     @click='onEdit(item)'
                   >
                     <i class='material-icons grey-text'>edit</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onHide(item)'
+                  >
+                    <i class='material-icons grey-text'>visibility_off</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table v-if='hiddenItems.length' class='hidden-table'>
+            <thead>
+              <tr>
+                <th>Архив</th>
+                <th />
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for='item in hiddenItems' :key='item.id'>
+                <td>
+                  <div class='valign-wrapper'>
+                    <span class='color' :class='item.color' />
+                    <span>{{ item.name }}</span>
+                  </div>
+                </td>
+                <td>
+                  <i class='description grey-text text-darken-1'>В архиве</i>
+                </td>
+                <td class='actions-hidden'>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onHide(item)'
+                  >
+                    <i class='material-icons grey-text'>visibility</i>
                   </a>
                   <a
                     class='waves-effect waves-teal btn-flat'
@@ -99,28 +142,28 @@ export default {
       const { id } = account;
       this.$router.push({ name: 'edit_account', params: { id } });
     },
+    async onHide(account) {
+      if (this.isSubmitting) { return; }
+
+      const isHidden = await this.toggleIsHidden({ token: this.token, account });
+      const message = isHidden ? 'Счет добавлен в архив' : 'Счет удален из архива';
+      /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
+    },
     async onDestroy(account) {
       if (this.isDestroying) { return; }
+
       if (confirm('Удалить счет. Вы уверены?')) {
         const res = await this.destroy({ token: this.token, account });
-        const message = res != null ?
-          'Счет успешно удален' :
-          'Непредвиденная ошибка';
-        /* eslint-disable */
-        M.toast({ html: message });
-        /* eslint-enable */
+        const message = res != null ? 'Счет успешно удален' : 'Непредвиденная ошибка';
+        /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
       }
     },
     async onFavourite(account) {
       if (this.isSubmitting) { return; }
 
       const isFavourite = await this.toggleIsFavourite({ token: this.token, account });
-      const message = isFavourite ?
-        'Счет добавлен в избранное' :
-        'Счет удален из избранного';
-      /* eslint-disable */
-      M.toast({ html: message });
-      /* eslint-enable */
+      const message = isFavourite ? 'Счет добавлен в избранное' : 'Счет удален из избранного';
+      /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     },
     formatAmount(balance) {
       return Money.format(balance, 2);
@@ -144,10 +187,18 @@ export default {
   text-align: right
   width: 140px
 
-.actions
-  width: 50px
+.actions,
+.actions-hidden
+  width: 64px
   text-align: right
 
   .btn-flat
     padding: 0 8px !important
+
+.actions-hidden
+  width: 82px
+
+.hidden-table
+  margin-top: 60px
+  opacity: 0.5
 </style>

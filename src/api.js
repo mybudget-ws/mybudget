@@ -35,7 +35,7 @@ export default {
 
   async accounts(token) {
     const query = `{
-      items:accounts { id name color isFavourite balance currency { name } }
+      items:accounts { id name color isFavourite isHidden balance currency { name } }
     }`;
     const data = await this.client(token).request(query);
     this.log(query, data);
@@ -45,7 +45,7 @@ export default {
 
   async accountsFilter(token) {
     const query = `{
-      items:accounts { id name color isFavourite }
+      items:accounts { id name color isFavourite isHidden }
     }`;
     const data = await this.client(token).request(query);
     this.log(query, data);
