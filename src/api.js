@@ -115,7 +115,7 @@ export default {
   // ---------------------------------
 
   async categories(token) {
-    const query = '{ items:categories { id name color isFavourite } }';
+    const query = '{ items:categories { id name color isFavourite isHidden } }';
     const data = await this.client(token).request(query);
     this.log(query, data);
 

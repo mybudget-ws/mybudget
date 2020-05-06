@@ -16,15 +16,9 @@ export default {
   },
 
   getters: {
-    visibleItems: state => (
-      state.items.filter(v => !v.isHidden)
-    ),
-    hiddenItems: state => (
-      state.items.filter(v => v.isHidden)
-    ),
-    visibleItemsFilter: state => (
-      state.itemsFilter.filter(v => !v.isHidden)
-    )
+    visibleItems: state => state.items.filter(v => !v.isHidden),
+    hiddenItems: state => state.items.filter(v => v.isHidden),
+    visibleItemsFilter: state => state.itemsFilter.filter(v => !v.isHidden)
   },
 
   actions: {

@@ -12,7 +12,9 @@ export default {
   },
 
   getters: {
-    isEmpty(state) { return state.items.length === 0; }
+    isEmpty(state) { return state.items.length === 0; },
+    visibleItems: state => state.items.filter(v => !v.isHidden),
+    hiddenItems: state => state.items.filter(v => v.isHidden)
   },
 
   actions: {
@@ -45,6 +47,13 @@ export default {
       commit('TOGGLE_IS_FAVOURITE', { item:category, isFavourite });
       commit('FINISH_SUBMITTING');
       return isFavourite;
+    },
+    async toggleIsHidden({ commit }, { token, category }) {
+      commit('START_SUBMITTING');
+      const isHidden = await api.toggleIsHidden(token, category.id, 'category');
+      commit('TOGGLE_IS_HIDDEN', { item:category, isHidden });
+      commit('FINISH_SUBMITTING');
+      return isHidden;
     }
   },
 
@@ -71,6 +80,11 @@ export default {
       if (category) {
         category.isFavourite = isFavourite;
       }
+    },
+    TOGGLE_IS_HIDDEN(state, { item, isHidden }) {
+      const category = state.items.find(v => v.id === item.id);
+      if (category == null) { return; }
+      category.isHidden = isHidden;
     },
     START_DESTROYING(state) {
       state.isDestroying = true;
