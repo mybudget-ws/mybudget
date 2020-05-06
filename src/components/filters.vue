@@ -95,9 +95,9 @@ export default {
     if (!this.isProjectsLoaded) { this.fetchProjects(this.token); }
   },
   methods: {
-    fetchAccounts: call('accounts/fetch'),
+    fetchAccounts: call('accounts/fetchFilter'),
     fetchCategoires: call('categories/fetch'),
-    fetchProjects: call('projects/fetch'),
+    fetchProjects: call('projects/fetchFilter'),
     toggleAccount: call('filters/toggleAccount'),
     toggleProject: call('filters/toggleProject'),
     showAll() { this.isShowAllAccounts = true; },

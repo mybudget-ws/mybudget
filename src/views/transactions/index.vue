@@ -167,7 +167,7 @@ export default {
     more() {
       this.fetchNext({ token: this.token, filters: this.filters });
     },
-    fetchAccounts: call('accounts/fetch'),
+    // fetchAccounts: call('accounts/fetch'),
     ...call([
       'transactions/fetch',
       'transactions/fetchNext',
