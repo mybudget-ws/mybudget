@@ -26,7 +26,7 @@
             </thead>
 
             <tbody>
-              <tr v-for='item in visibleItems' :key='item.id'>
+              <tr v-for='item in orderedVisibleAccounts' :key='item.id'>
                 <td>
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
@@ -128,6 +128,12 @@ export default {
     ...get('accounts/*'),
     isAlert() {
       return !this.isLoading && this.items.length === 0;
+    },
+    orderedVisibleAccounts() {
+      return [
+        ...this.visibleItems.filter(v => v.isFavourite),
+        ...this.visibleItems.filter(v => !v.isFavourite)
+      ];
     }
   },
   created() {
@@ -200,5 +206,5 @@ export default {
 
 .hidden-table
   margin-top: 60px
-  opacity: 0.5
+  opacity: 0.4
 </style>
