@@ -24,7 +24,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for='item in items' :key='item.id'>
+              <tr v-for='item in visibleItems' :key='item.id'>
                 <td>
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
