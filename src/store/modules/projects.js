@@ -44,6 +44,16 @@ export default {
         return null;
       }
     },
+    async toggleIsHidden({ commit }, { token, project }) {
+      console.log('toggle');
+      commit('START_SUBMITTING');
+      console.log(token);
+      console.log(project);
+      const isHidden = await api.toggleIsHidden(token, project.id, 'project');
+      commit('TOGGLE_IS_HIDDEN', { item:project, isHidden });
+      commit('FINISH_SUBMITTING');
+      return isHidden;
+    },
 
     async fetchFilter({ commit }, token) {
       commit('START_LOADING_FILTER');
@@ -64,9 +74,11 @@ export default {
     START_SUBMITTING(state) {
       state.isSubmitting = true;
     },
-    FINISH_SUBMITTING(state, item) {
-      state.items = [...state.items, item];
+    FINISH_SUBMITTING(state) {
       state.isSubmitting = false;
+    },
+    ADD_ITEM(state, item) {
+      state.items = [...state.items, item];
     },
     START_DESTROYING(state) {
       state.isDestroying = true;
@@ -74,6 +86,11 @@ export default {
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
       state.isDestroying = false;
+    },
+    TOGGLE_IS_HIDDEN(state, { item, isHidden }) {
+      const project = state.items.find(v => v.id === item.id);
+      if (project == null) { return; }
+      project.isHidden = isHidden;
     },
 
     START_LOADING_FILTER(state) {

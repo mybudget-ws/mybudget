@@ -43,6 +43,12 @@
                   </a>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    @click='onHide(item)'
+                  >
+                    <i class='material-icons grey-text'>visibility_off</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
@@ -86,7 +92,8 @@ export default {
   methods: {
     ...call([
       'projects/fetch',
-      'projects/destroy'
+      'projects/destroy',
+      'projects/toggleIsHidden'
     ]),
     onEdit(category) {
       const { id } = category;
@@ -103,6 +110,14 @@ export default {
         M.toast({ html: message });
         /* eslint-enable */
       }
+    },
+    async onHide(project) {
+      if (this.isSubmitting) { return; }
+      console.log(project);
+
+      const isHidden = await this.toggleIsHidden({ token: this.token, project });
+      const message = isHidden ? 'Проект добавлен в архив' : 'Проект удален из архива';
+      /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }
   }
 };
@@ -121,7 +136,7 @@ export default {
   text-align: right
 
 .actions
-  width: 90px
+  width: 130px
   text-align: right
 
   .btn-flat

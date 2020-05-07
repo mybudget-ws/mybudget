@@ -44,7 +44,8 @@ export default {
         await api.destroyAccount(token, account.id);
         commit('FINISH_DESTROYING', account);
         return account;
-      } catch {
+      } catch (e) {
+        console.error(e);
         commit('FINISH_DESTROYING', {});
         return null;
       }

@@ -165,7 +165,7 @@ export default {
   },
 
   async destroyCategory(token, id) {
-    const query = 'mutation($id:Int!) { action:destroyCategory(id: $id) { id } }';
+    const query = 'mutation($id:ID!) { action:destroyCategory(id: $id) { id } }';
     const data = await this.client(token).request(query, { id });
     this.log('destroyCategory', data);
 
@@ -254,7 +254,7 @@ export default {
   },
 
   async destroyGoal(token, id) {
-    const query = 'mutation($id:Int!) { action:destroyGoal(id: $id) { id } }';
+    const query = 'mutation($id:ID!) { action:destroyGoal(id: $id) { id } }';
     const data = await this.client(token).request(query, { id });
     this.log('destroyGoal', data);
 
@@ -325,7 +325,7 @@ export default {
 
   async destroyProject(token, id) {
     const query = `
-      mutation($id:Int!) { action:destroyProject(id: $id) { id } }
+      mutation($id:ID!) { action:destroyProject(id: $id) { id } }
     `;
     const data = await this.client(token).request(query, { id });
     this.log('destroyProject', data);
@@ -471,7 +471,7 @@ export default {
 
   async destroyTransaction(token, id) {
     const query = `
-      mutation($id:Int!) { action:destroyTransaction(id: $id) { id } }
+      mutation($id:ID!) { action:destroyTransaction(id: $id) { id } }
     `;
     const data = await this.client(token).request(query, { id });
     this.log('destroyTransaction', data);
