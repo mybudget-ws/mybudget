@@ -69,7 +69,7 @@ export default {
   computed: {
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
-    projects: get('projects/itemsFilter'),
+    projects: get('projects/visibleItemsFilter'),
     selectedAccounts: get('filters/accounts'),
     selectedProjects: get('filters/projects'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
