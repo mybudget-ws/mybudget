@@ -57,6 +57,43 @@
               </tr>
             </tbody>
           </table>
+
+          <table v-if='hiddenItems.length' class='hidden-table'>
+            <thead>
+              <tr>
+                <th>Архив</th>
+                <th />
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for='item in hiddenItems' :key='item.id'>
+                <td>
+                  <div class='valign-wrapper'>
+                    <span class='color' :class='item.color' />
+                    <span>{{ item.name }}</span>
+                  </div>
+                </td>
+                <td>
+                  <i class='description grey-text text-darken-1'>В архиве</i>
+                </td>
+                <td class='actions-hidden'>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onHide(item)'
+                  >
+                    <i class='material-icons grey-text'>visibility</i>
+                  </a>
+                  <a
+                    class='waves-effect waves-teal btn-flat'
+                    @click='onDestroy(item)'
+                  >
+                    <i class='material-icons grey-text'>delete</i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -135,10 +172,18 @@ export default {
   width: 140px
   text-align: right
 
-.actions
+.actions,
+.actions-hidden
   width: 130px
   text-align: right
 
   .btn-flat
     padding: 0 8px !important
+
+.actions-hidden
+  width: 82px
+
+.hidden-table
+  margin-top: 60px
+  opacity: 0.4
 </style>
