@@ -126,7 +126,7 @@ export default {
   }),
   computed: {
     token: get('user/token'),
-    accounts: get('accounts/items'),
+    accounts: get('accounts/visibleItems'),
     isAccountsLoaded: get('accounts/isLoaded'),
     isSubmitting: get('goals/isSubmitting'),
     favouriteAccounts() { return this.accounts.filter(v => v.isFavourite); },

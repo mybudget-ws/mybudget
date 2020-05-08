@@ -128,7 +128,7 @@ export default {
   computed: {
     id() { return this.$route.params.id; },
     token: get('user/token'),
-    accounts: get('accounts/items'),
+    accounts: get('accounts/visibleItems'),
     isAccountsLoaded: get('accounts/isLoaded'),
     favouriteAccounts() { return this.accounts.filter(v => v.isFavourite); },
     isNeedShowAllAccounts() {
