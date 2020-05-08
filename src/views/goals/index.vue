@@ -46,12 +46,12 @@
                   </Amount>
                 </td>
                 <td class='actions'>
-                  <a
-                    :href="`/goals/${item.id}/edit`"
+                  <router-link
+                    :to="`/goals/${item.id}/edit`"
                     class='waves-effect waves-teal btn-flat'
                   >
                     <i class='material-icons grey-text'>edit</i>
-                  </a>
+                  </router-link>
                   <a
                     class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
