@@ -154,8 +154,8 @@ export default {
     accounts: get('accounts/visibleItemsFilter'),
     projects: get('projects/itemsFilter'),
 
-    isAccountsLoading: get('accounts/isLoading'),
-    isAccountsLoaded: get('accounts/isLoaded'),
+    isAccountsLoading: get('accounts/isLoadingFilter'),
+    isAccountsLoaded: get('accounts/isLoadedFilter'),
     isProjectsLoading: get('projects/isLoading'),
     isProjectsLoaded: get('projects/isLoaded'),
 
@@ -233,7 +233,7 @@ export default {
     this.$refs?.amount?.focus();
   },
   methods: {
-    fetchAccounts: call('accounts/fetch'),
+    fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetch'),
     create: call('transactions/create'),
     onSelectCategory(ids) {

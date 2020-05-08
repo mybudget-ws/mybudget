@@ -144,11 +144,11 @@ export default {
   computed: {
     id() { return this.$route.params.id; },
     token: get('user/token'),
-    accounts: get('accounts/items'),
+    accounts: get('accounts/visibleItemsFilter'),
     projects: get('projects/items'),
 
-    isAccountsLoading: get('accounts/isLoading'),
-    isAccountsLoaded: get('accounts/isLoaded'),
+    isAccountsLoading: get('accounts/isLoadingFilter'),
+    isAccountsLoaded: get('accounts/isLoadedFilter'),
     isProjectsLoading: get('projects/isLoading'),
     isProjectsLoaded: get('projects/isLoaded'),
 
@@ -177,21 +177,21 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const transaction = await api.transaction(this.token, { id: this.id });
-      this.isIncome = transaction.amount > 0;
-      this.amount = Math.abs(transaction.amount);
-      this.date = new Date(Date.parse(transaction.dateAt));
-      this.description = transaction.description;
-      this.accountId = transaction.account.id;
-      this.projectId = transaction.project?.id || '';
-      this.categoryIds = transaction.categories.map(v => v.id);
-      this.isLoadingTransaction = false;
+    if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
+    if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
 
-      if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
-      if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+    const transaction = await api.transaction(this.token, { id: this.id });
+    this.isIncome = transaction.amount > 0;
+    this.amount = Math.abs(transaction.amount);
+    this.date = new Date(Date.parse(transaction.dateAt));
+    this.description = transaction.description;
+    this.accountId = transaction.account.id;
+    this.projectId = transaction.project?.id || '';
+    this.categoryIds = transaction.categories.map(v => v.id);
+    this.isLoadingTransaction = false;
 
-      /* eslint-disable */
+    /* eslint-disable */
+    setTimeout(() => {
       M.Datepicker.init(
         this.$refs.datepicker,
         {
@@ -215,31 +215,27 @@ export default {
         }
       );
       M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
-      /* eslint-enable */
+    }, 50);
+    /* eslint-enable */
 
+    setTimeout(() => {
+      /* eslint-disable */
+      M.FormSelect.init(this.$refs.selectAccounts, {});
+      M.updateTextFields();
+      /* eslint-enable */
+    }, 50);
+    if (this.isProjects) {
       setTimeout(() => {
         /* eslint-disable */
-        M.FormSelect.init(this.$refs.selectAccounts, {});
+        M.FormSelect.init(this.$refs.selectProjects, {});
         M.updateTextFields();
         /* eslint-enable */
       }, 50);
-      if (this.isProjects) {
-        setTimeout(() => {
-          /* eslint-disable */
-          M.FormSelect.init(this.$refs.selectProjects, {});
-          M.updateTextFields();
-          /* eslint-enable */
-        }, 50);
-      }
-      this.$refs?.amount?.focus();
-    } catch (_e) {
-      window.location.reload();
     }
   },
   methods: {
-    fetchAccounts: call('accounts/fetch'),
+    fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetch'),
-    create: call('transactions/create'),
     onSelectCategory(ids) { this.categoryIds = ids; },
     async submit() {
       if (this.isSubmitting) { return; }
