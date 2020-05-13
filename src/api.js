@@ -45,7 +45,7 @@ export default {
 
   async accountsFilter(token) {
     const query = `{
-      items:accounts { id name color isFavourite isHidden }
+      items:accounts { id name color isFavourite isHidden currency { name } }
     }`;
     const data = await this.client(token).request(query);
     this.log(query, data);
