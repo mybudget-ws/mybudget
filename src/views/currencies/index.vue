@@ -62,10 +62,7 @@ export default {
   props: {},
   computed: {
     ...get('currencies/*'),
-    currency: sync('currencies/selected'),
-    chartUrl() {
-      return api.currenciesChartUrl(this.currency);
-    }
+    currency: sync('currencies/selected')
   },
   async mounted() {
     await this.fetch();
@@ -73,41 +70,41 @@ export default {
     this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
     M.updateTextFields();
     /* eslint-enable */
-
-    this.chart = c3.generate({
-      bindto: '.chart',
-      data: {
-        url: this.chartUrl,
-        mimeType: 'json',
-        keys: { x: 'date', value: [this.currency] }
-      },
-      axis: {
-        x: {
-          type: 'category',
-          padding: { left: 0, right: 0 }
-        },
-        y: {
-          min: 0,
-          padding: { top: 20 }
-        }
-      },
-      point: { show: false },
-      grid: {
-        x: { show: true },
-        y: { show: true }
-      }
-    });
+    this.loadChart();
   },
   methods: {
     ...call([
       'currencies/fetch'
     ]),
     change() {
-      // this.chart.unload({ ids: 'USD' });
-      this.chart.load({
-        url: this.chartUrl,
-        mimeType: 'json',
-        keys: { x: 'date', value: [this.currency] }
+      this.loadChart();
+    },
+    async loadChart() {
+      const columns = await api.currenciesChart(this.currency);
+      this.chart = c3.generate({
+        bindto: '.chart',
+        data: {
+          x: 'x',
+          columns: columns
+        },
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: {
+              format: '%d.%m.%Y',
+              count: 30
+            },
+            padding: { left: 0, right: 0 }
+          },
+          y: {
+            padding: { top: 20 }
+          }
+        },
+        point: { show: false },
+        grid: {
+          x: { show: true },
+          y: { show: true }
+        }
       });
     }
   }

@@ -563,13 +563,18 @@ export default {
     return data;
   },
 
+  async currenciesChart(name) {
+    const url = `${DOMAIN}/charts/currencies/${name}.json`;
+    const response = await fetch(url);
+    const data = await response.json();
+    this.log(url, data);
+
+    return data;
+  },
+
   // ---------------------------------
   // Common
   // ---------------------------------
-
-  currenciesChartUrl(name) {
-    return `${DOMAIN}/charts/currencies/${name}.json`;
-  },
 
   async currencies() {
     const query = '{ items:currencies { id name description usdRate rubRate } }';
