@@ -153,6 +153,7 @@ export default {
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
     projects: get('projects/itemsFilter'),
+    filterAccounts: get('filters/accounts'),
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
@@ -180,6 +181,12 @@ export default {
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
+    },
+    defaultAccountId() {
+      const filterAccount = this.filterAccounts
+        .find(v => this.orderedAccounts.map(a => a.id).includes(v.id));
+      if (filterAccount) { return filterAccount.id; }
+      return this.orderedAccounts[0].id;
     }
   },
   async mounted() {
@@ -215,7 +222,7 @@ export default {
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 
-    this.accountId = this.orderedAccounts[0].id;
+    this.accountId = this.defaultAccountId;
     setTimeout(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectAccounts, {});
