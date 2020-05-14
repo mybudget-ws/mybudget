@@ -150,10 +150,10 @@ export default {
   }),
   computed: {
     token: get('user/token'),
-    accounts: get('accounts/items'),
+    accounts: get('accounts/visibleItemsFilter'),
 
-    isAccountsLoading: get('accounts/isLoading'),
-    isAccountsLoaded: get('accounts/isLoaded'),
+    isAccountsLoading: get('accounts/isLoadingFilter'),
+    isAccountsLoaded: get('accounts/isLoadedFilter'),
 
     isSubmitting: get('transactions/isSubmitting'),
 
