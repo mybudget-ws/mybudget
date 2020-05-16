@@ -204,7 +204,6 @@ export default {
     margin-top: 2px
 
     &:before
-      border-top: 1px solid #d4d4d4
       color: #757575
       content: 'Всего (по текущему курсу):'
       font-size: 13px
