@@ -68,7 +68,7 @@ export default {
             type: 'timeseries',
             tick: {
               format: '%d.%m.%Y',
-              count: 30
+              count: 14
             },
             padding: { left: 0, right: 0 }
           },
