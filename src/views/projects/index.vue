@@ -183,7 +183,7 @@ export default {
 
 .actions,
 .actions-hidden
-  width: 130px
+  width: 124px
   text-align: right
 
   .btn-flat
@@ -198,15 +198,19 @@ export default {
 
 .total
   margin-top: 4px
-  border-top: 1px solid rgba(0, 0, 0, 0.18)
+  border-top: 1px solid #d4d4d4
 
   .total-amount
     margin-top: 2px
 
     &:before
-      margin-left: -50px
+      border-top: 1px solid #d4d4d4
+      color: #757575
       content: 'Всего (по текущему курсу):'
-      color: #9e9e9e
+      font-size: 13px
       font-weight: 200
+      margin-left: -164px
+      margin-top: -3.6px
+      padding-top: 4px
       position: absolute
 </style>
