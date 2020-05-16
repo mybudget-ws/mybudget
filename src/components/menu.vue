@@ -1,7 +1,7 @@
 <template>
   <div class='row row-menu'>
     <nav v-if='isShortMenu' class='white z-depth-0 '>
-      <div class='nav-wrapper container container-wide'>
+      <div class='nav-wrapper container'>
         <router-link
           to='/'
           class='brand-logo grey-text left col'

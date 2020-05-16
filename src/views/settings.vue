@@ -1,9 +1,9 @@
 <template>
   <div>
     <Menu />
-    <div class='container'>
+    <div class='container container-wide'>
       <div class='row'>
-        <div class='col s12 l3'>
+        <div class='col s12 l2'>
           <ul class='collection'>
             <router-link
               v-for='item in leftMenu'
