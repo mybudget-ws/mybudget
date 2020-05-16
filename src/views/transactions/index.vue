@@ -9,19 +9,19 @@
 
         <div class='col s12'>
           <Loader v-if='isLoading' />
-          <div v-else-if='isAlert' class='card blue-grey darken-1 col s9'>
+          <div v-else-if='isAlert' class='card blue-grey darken-1 col s12'>
             <div class='card-content white-text'>
               <span class='card-title'>У вас пока нет операций</span>
               <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
             </div>
           </div>
-          <div v-if='isEmpty && !isAlert' class='card teal col s9'>
+          <div v-if='isEmpty && !isAlert' class='card teal col l10 m9 s12'>
             <div class='card-content white-text'>
               <span class='card-title'>Таких операций нет</span>
               <p>Попробуйте изменить настройки фильтров</p>
             </div>
           </div>
-          <div v-if='isTableVisible' class='col l9 s12'>
+          <div v-if='isTableVisible' class='col l10 m9 s12'>
             <table class='row'>
               <thead>
                 <tr>
@@ -106,7 +106,7 @@
 
           <Filters
             v-if='!isLoading'
-            class='col l3 s12'
+            class='col l2 m3 s12'
             @onChange='onChangeFilter'
           />
         </div>
