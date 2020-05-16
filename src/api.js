@@ -274,7 +274,17 @@ export default {
   },
 
   async projects(token) {
-    const query = '{ items:projects { id name isHidden color balance income spending } }';
+    const query = `
+      {
+        items:projects {
+          id
+          name
+          isHidden
+          color
+          balances { balance currency { name } }
+        }
+      }
+    `;
     const data = await this.client(token).request(query);
     this.log(query, data);
 
@@ -296,7 +306,7 @@ export default {
         action:createProject(
           name: $name,
           color: $color
-        ) { id name color balance income spending }
+        ) { id name color balances { balance currency { name } } }
       }
     `;
     const vars = { name, color };

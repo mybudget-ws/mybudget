@@ -32,7 +32,9 @@
                   </div>
                 </td>
                 <td class='amount'>
-                  <Amount :value='item.balance' currency='???' />
+                  <div v-for='(balance, index) in item.balances' :key='index'>
+                    <Amount :value='balance.balance' :currency='balance.currency.name' />
+                  </div>
                 </td>
                 <td class='actions'>
                   <a
