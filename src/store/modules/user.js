@@ -21,11 +21,6 @@ export default {
   },
 
   actions: {
-    async fetch({ commit }) {
-      commit('START_LOADING');
-      const items = await api.currencies();
-      commit('FINISH_LOADING', items);
-    },
     async login({ commit }, { email, password }) {
       const { user } = await api.login(email, password);
       if (user != null) {

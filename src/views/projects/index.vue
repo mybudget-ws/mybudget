@@ -33,7 +33,14 @@
                 </td>
                 <td class='amount'>
                   <div v-for='(balance, index) in item.balances' :key='index'>
-                    <Amount :value='balance.balance' :currency='balance.currency.name' />
+                    <Amount :value='balance.amount' :currency='balance.currency.name' />
+                  </div>
+                  <div v-if='item.balances.length > 1' class='total'>
+                    <Amount
+                      class='total-amount'
+                      :value='item.balances.map(v => v.amountBase).reduce((a, b) => a + b)'
+                      :currency='item.balances[0].currencyBase.name'
+                    />
                   </div>
                 </td>
                 <td class='actions'>
@@ -171,7 +178,7 @@ export default {
   margin-right: 10px
 
 .amount
-  width: 140px
+  width: 200px
   text-align: right
 
 .actions,
@@ -188,4 +195,18 @@ export default {
 .hidden-table
   margin-top: 60px
   opacity: 0.4
+
+.total
+  margin-top: 4px
+  border-top: 1px solid rgba(0, 0, 0, 0.18)
+
+  .total-amount
+    margin-top: 2px
+
+    &:before
+      margin-left: -50px
+      content: 'Всего:'
+      color: #9e9e9e
+      font-weight: 200
+      position: absolute
 </style>

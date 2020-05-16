@@ -19,6 +19,7 @@ export default {
         user:signIn(email: $email, password: $password) {
           email
           token
+          defaultCurrency { name }
         }
       }
     `;
@@ -281,7 +282,12 @@ export default {
           name
           isHidden
           color
-          balances { balance currency { name } }
+          balances {
+            amount
+            amountBase
+            currency { name }
+            currencyBase { name }
+          }
         }
       }
     `;
@@ -306,7 +312,7 @@ export default {
         action:createProject(
           name: $name,
           color: $color
-        ) { id name color balances { balance currency { name } } }
+        ) { id name color balances { amount amountBase currency { name } currencyBase { name } } }
       }
     `;
     const vars = { name, color };
