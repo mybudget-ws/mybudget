@@ -205,7 +205,7 @@ export default {
 
     &:before
       margin-left: -50px
-      content: 'Всего:'
+      content: 'Всего (по текущему курсу):'
       color: #9e9e9e
       font-weight: 200
       position: absolute
