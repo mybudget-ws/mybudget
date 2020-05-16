@@ -5,7 +5,7 @@
       <PageHeader name='Новый перевод'>
         <router-link
           to='/transactions/new'
-          class='btn-flat btn grey-text text-darken-2 right tab'
+          class='btn-flat btn grey-text text-darken-2 tab'
           title='Новая операция'
         >
           <i class='material-icons left'>repeat</i>
@@ -194,7 +194,7 @@ export default {
       {
         format: 'dd mmm, yyyy',
         firstDay: 1,
-        // onSelect: this.onSelect,
+        autoClose: true,
         setDefaultDate: true,
         defaultDate: new Date(),
         i18n: {
@@ -274,7 +274,7 @@ h6.subtitle
   padding-bottom: 30px
 
 .tab
-  margin-top: 10px
+  margin-left: 12px
   &:hover
     background-color: #ffea00
 

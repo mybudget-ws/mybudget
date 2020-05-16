@@ -154,6 +154,7 @@ export default {
       {
         format: 'dd mmm, yyyy',
         firstDay: 1,
+        autoClose: true,
         setDefaultDate: true,
         defaultDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
         i18n: {

@@ -197,6 +197,7 @@ export default {
         {
           format: 'dd mmm, yyyy',
           firstDay: 1,
+          autoClose: true,
           setDefaultDate: true,
           defaultDate: this.date,
           i18n: {
