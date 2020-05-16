@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menu />
-    <div class='container'>
+    <div class='container container-wide'>
       <PageHeader name='Курсы валют'>
         <div v-if='!isLoading' class='right'>
           <select ref='selectCurrencies' v-model='currency' @change='change'>

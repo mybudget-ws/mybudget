@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menu />
-    <div class='container'>
+    <div class='container container-wide'>
       <PageHeader :name='header' />
       <div v-if='isFirst' class='row'>
         <h6 class='grey-text text-darken-1 col s12'>

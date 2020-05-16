@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menu />
-    <div class='container'>
+    <div class='container container-wide'>
       <PageHeader name='Новая операция'>
         <router-link
           to='/transactions/transfers/new'

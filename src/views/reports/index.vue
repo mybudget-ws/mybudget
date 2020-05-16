@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menu />
-    <div class='container'>
+    <div class='container container-wide'>
       <PageHeader name='Отчеты' />
 
       <div class='row'>

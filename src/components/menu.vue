@@ -1,7 +1,7 @@
 <template>
   <div class='row row-menu'>
     <nav v-if='isShortMenu' class='white z-depth-0 '>
-      <div class='nav-wrapper container'>
+      <div class='nav-wrapper container container-wide'>
         <router-link
           to='/'
           class='brand-logo grey-text left col'
@@ -19,7 +19,7 @@
       </div>
     </nav>
     <nav v-else class='blue-grey darken-4 z-depth-0'>
-      <div class='nav-wrapper container'>
+      <div class='nav-wrapper container container-wide'>
         <a href="#" data-target='mobile-demo' class='sidenav-trigger'><i class='material-icons'>menu</i></a>
         <ul class='hide-on-med-and-down'>
           <li v-for='item in items' :key='item.path'>

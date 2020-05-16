@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menu />
-    <div class='container'>
+    <div class='container container-wide'>
       <PageHeader name='Проекты' action='/projects/new' />
       <div class='row'>
         <div class='col s12'>
