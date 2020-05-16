@@ -9,13 +9,13 @@
 
         <div class='col s12'>
           <Loader v-if='isLoading' />
-          <div class='col l9 s12'>
+          <div class='col l10 m9 s12'>
             <div class='chart' />
           </div>
 
           <Filters
             v-if='!isLoading'
-            class='col l3 s12'
+            class='col l2 m3 s12'
             @onChange='onChangeFilter'
           />
         </div>
