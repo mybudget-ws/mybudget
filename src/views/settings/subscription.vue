@@ -1,6 +1,11 @@
 <template>
   <div>
-    TODO: subscription
+    <div class='card blue-grey darken-1'>
+      <div class='card-content white-text'>
+        <span class='card-title'>Скоро</span>
+        <p>Данный фукнционал находится в разработке</p>
+      </div>
+    </div>
   </div>
 </template>
 
