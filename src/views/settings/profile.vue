@@ -22,7 +22,7 @@
         <div class='input-field col s12'>
           <input
             id='email-new'
-            v-model='email'
+            v-model='newEmail'
             type='email'
             class='validate'
             required
@@ -56,7 +56,7 @@
 
 <script>
 import Button from '@/components/button';
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'SettingsProfile',
@@ -65,7 +65,7 @@ export default {
   },
   props: {},
   data: () => ({
-    email: '',
+    newEmail: '',
     password: '',
     isSubmitting: false
   }),
@@ -73,8 +73,15 @@ export default {
     currentEmail: get('user/email')
   },
   methods: {
+    ...call([
+      'user/changeEmail'
+    ]),
     submit() {
+      const { newEmail, password } = this;
+      // const isSuccess = await this.changeEmail({ newEmail, password });
+      const isSuccess = this.changeEmail({ newEmail, password });
       console.log('TODO: submit');
+      console.log(isSuccess);
     }
   }
 };

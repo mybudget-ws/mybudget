@@ -39,6 +39,7 @@
 
 <script>
 import Button from '@/components/button';
+import { call } from 'vuex-pathify';
 
 export default {
   name: 'SettingsPassword',
@@ -48,11 +49,22 @@ export default {
   props: {},
   data: () => ({
     password: '',
-    newPassword: ''
+    newPassword: '',
+    isSubmitting: false
   }),
   computed: {
   },
   methods: {
+    ...call([
+      'user/changePassword'
+    ]),
+    submit() {
+      const { newPassword, password } = this;
+      // const isSuccess = await this.changePassword({ newPassword, password });
+      const isSuccess = this.changePassword({ newPassword, password });
+      console.log('TODO: submit');
+      console.log(isSuccess);
+    }
   }
 };
 </script>

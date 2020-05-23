@@ -31,6 +31,12 @@ export default {
     },
     logout({ commit }) {
       commit('LOGOUT');
+    },
+    // changeEmail({ commit }, { newEmail, password }) {
+    changeEmail() {
+    },
+    // changePassword({ commit }, { newPassword, password }) {
+    changePassword() {
     }
   },
 
