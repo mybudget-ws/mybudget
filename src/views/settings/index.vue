@@ -19,7 +19,10 @@
         <div class='col s12 l9'>
           <PageHeader :name='currentHeader' />
           <Loader v-if='isLoading' />
-          <div>TODO</div>
+          <SettingsProfile v-if='currentId === "profile"' />
+          <SettingsPassword v-if='currentId === "password"' />
+          <SettingsSubscription v-if='currentId === "subscription"' />
+          <SettingsSupport v-if='currentId === "support"' />
         </div>
       </div>
     </div>
@@ -30,13 +33,21 @@
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
+import SettingsProfile from '@/views/settings/profile';
+import SettingsPassword from '@/views/settings/password';
+import SettingsSubscription from '@/views/settings/subscription';
+import SettingsSupport from '@/views/settings/support';
 
 export default {
   name: 'Settings',
   components: {
     Menu,
     Loader,
-    PageHeader
+    PageHeader,
+    SettingsProfile,
+    SettingsPassword,
+    SettingsSubscription,
+    SettingsSupport
   },
   props: {},
   data: () => ({
@@ -51,9 +62,12 @@ export default {
   }),
   computed: {
     currentHeader() {
-      const item = this.leftMenu.find(v => v.id === this.$route.params.tab);
+      const item = this.leftMenu.find(v => v.id === this.currentId);
       if (item == null) { return 'Настройки'; }
       return item.long || item.name;
+    },
+    currentId() {
+      return this.$route.params.tab;
     }
   },
   methods: {
