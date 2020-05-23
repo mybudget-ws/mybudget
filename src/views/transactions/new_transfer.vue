@@ -45,6 +45,7 @@
                 pattern='[0-9,+-/*]+'
                 required
                 @focus='$event.target.select()'
+                @input='srcChange($event.target.value)'
               >
               <label for='name' class='active'>{{ amountLableSrc }}</label>
               <span
@@ -257,6 +258,16 @@ export default {
       } else {
         alert('Error');
       }
+    },
+    srcChange(value) {
+      if (this.selectedAccountSrc == null) { return; }
+      if (this.selectedAccountDst == null) { return; }
+
+      if (this.selectedAccountSrc.currency.name != this.selectedAccountDst.currency.name) {
+        return;
+      }
+
+      this.amountDst = value;
     }
   }
 };
