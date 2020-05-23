@@ -1,26 +1,89 @@
 <template>
   <div>
-    TODO: Profile
+    <Loader v-if='isLoading' />
+
+    <div class='row'>
+      <form class='col l6 m8 s12' autocomplete='off' @submit.prevent='submit'>
+        <div class='row'>
+          <!-- Work around to avoid autocomplete in chrome -->
+          <input id='email' type='email' style='height: 0px; width: 0px'>
+          <input id='password' type='password' style='height: 0px; width: 0px'>
+          <!-- end -->
+
+          <div class='input-field col s12'>
+            <input
+              id='current-email'
+              type='email'
+              :value='currentEmail'
+              disabled
+            >
+            <label for='current-email' class='active'>Email</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12'>
+            <input
+              id='email-new'
+              v-model='email'
+              type='email'
+              class='validate'
+              required
+            >
+            <label for='email-new'>Новый Email</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12'>
+            <input
+              id='confirm-password'
+              v-model='password'
+              type='password'
+              class='validate'
+              required
+            >
+            <label for='confirm-password'>Пароль</label>
+          </div>
+        </div>
+
+        <Button
+          text='Сохранить'
+          :is-disabled='isSubmitting'
+          :is-loading='isSubmitting'
+          @click='submit'
+        />
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-// import Loader from '@/components/loader';
-// import PageHeader from '@/components/page_header';
+import Button from '@/components/button';
+import Loader from '@/components/loader';
+import { get } from 'vuex-pathify';
 
 export default {
   name: 'SettingsProfile',
   components: {
-    // Loader,
+    Button,
+    Loader
   },
   props: {},
   data: () => ({
-    // NOTE: Remove isLoading
+    email: '',
+    password: '',
+    isSubmitting: false,
+    // TODO: Remove isLoading if unnecessary
     isLoading: false
   }),
   computed: {
+    currentEmail: get('user/email')
   },
   methods: {
+    submit() {
+      console.log('TODO: submit');
+    }
   }
 };
 </script>

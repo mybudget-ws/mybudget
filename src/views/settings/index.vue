@@ -18,7 +18,6 @@
         </div>
         <div class='col s12 l9'>
           <PageHeader :name='currentHeader' />
-          <Loader v-if='isLoading' />
           <SettingsProfile v-if='currentId === "profile"' />
           <SettingsPassword v-if='currentId === "password"' />
           <SettingsSubscription v-if='currentId === "subscription"' />
@@ -31,7 +30,6 @@
 
 <script>
 import Menu from '@/components/menu';
-import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import SettingsProfile from '@/views/settings/profile';
 import SettingsPassword from '@/views/settings/password';
@@ -42,7 +40,6 @@ export default {
   name: 'Settings',
   components: {
     Menu,
-    Loader,
     PageHeader,
     SettingsProfile,
     SettingsPassword,
@@ -56,9 +53,7 @@ export default {
       { id: 'password', name: 'Пароль', long: 'Изменить пароль' },
       { id: 'subscription', name: 'Тарифный план' },
       { id: 'support', name: 'Поддержка', long: 'Написать разработчикам' }
-    ],
-    // NOTE: Remove isLoading
-    isLoading: false
+    ]
   }),
   computed: {
     currentHeader() {
@@ -82,5 +77,6 @@ export default {
 
 <style scoped lang='sass'>
 .collection
-  margin-top: 30px
+  margin-top: 34px
+  margin-right: 10px
 </style>
