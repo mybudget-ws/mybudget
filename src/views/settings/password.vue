@@ -24,6 +24,7 @@
             required
           >
           <label for='new-password'>Новый пароль</label>
+          <span class='helper-text'>Минимум 6 символов</span>
         </div>
       </div>
 
@@ -58,12 +59,17 @@ export default {
     ...call([
       'user/changePassword'
     ]),
-    submit() {
+    async submit() {
+      if (this.isSubmitting) { return; }
+      this.isSubmitting = true;
       const { newPassword, password } = this;
-      // const isSuccess = await this.changePassword({ newPassword, password });
-      const isSuccess = this.changePassword({ newPassword, password });
-      console.log('TODO: submit');
-      console.log(isSuccess);
+      const isSuccess = await this.changePassword({ newPassword, password });
+      this.isSubmitting = false;
+
+      const message = isSuccess ?
+        'Пароль успешно изменен' :
+        'Ошибка изменения пароля';
+      /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }
   }
 };

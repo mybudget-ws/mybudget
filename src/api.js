@@ -30,6 +30,22 @@ export default {
     return data;
   },
 
+  async updatePassword(token, { password, newPassword }) {
+    const query = `
+      mutation($oldPassword:String!, $newPassword:String!) {
+        action:updateUserPassword(
+          oldPassword: $oldPassword,
+          newPassword: $newPassword
+        ) { email token }
+      }
+    `;
+    const vars = { oldPassword: password, newPassword };
+    const data = await this.client(token).request(query, vars);
+    this.log('updatePassword', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Account
   // ---------------------------------
