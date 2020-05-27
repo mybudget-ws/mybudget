@@ -22,6 +22,7 @@
                 <th class='name'>Название</th>
                 <th class='amount'>Баланс</th>
                 <th />
+                <th />
               </tr>
             </thead>
 
@@ -39,6 +40,14 @@
                 </td>
                 <td class='amount'>
                   <Amount :value='item.balance' :currency='item.currency.name' />
+                </td>
+                <td class='transacton-actions'>
+                  <router-link
+                    :to="`/transactions/new?account=${item.id}`"
+                    class='waves-effect waves-teal btn-flat'
+                  >
+                    <i class='material-icons grey-text text-darken-1'>add</i>
+                  </router-link>
                 </td>
                 <td class='actions'>
                   <a
@@ -195,7 +204,15 @@ export default {
 
 .actions,
 .actions-hidden
-  width: 64px
+  width: 50px
+  text-align: right
+
+  .btn-flat
+    padding: 0 8px !important
+
+.transacton-actions
+  width: 1px
+  max-width: 1px
   text-align: right
 
   .btn-flat

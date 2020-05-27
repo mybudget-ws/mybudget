@@ -179,6 +179,9 @@ export default {
         .find(v => this.orderedAccounts.map(a => a.id).includes(v.id));
       if (filterAccount) { return filterAccount.id; }
       return this.orderedAccounts[0].id;
+    },
+    initAccountId() {
+      return this.$route.query.account;
     }
   },
   async mounted() {
@@ -214,7 +217,8 @@ export default {
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 
-    this.accountId = this.defaultAccountId;
+    this.accountId = this.initAccountId || this.defaultAccountId;
+
     setTimeout(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectAccounts, {});
