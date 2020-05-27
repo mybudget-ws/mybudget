@@ -2,15 +2,7 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Новый перевод'>
-        <router-link
-          to='/transactions/new'
-          class='btn-flat btn grey-text text-darken-2 tab'
-          title='Новая операция'
-        >
-          <i class='material-icons left'>repeat</i>
-        </router-link>
-      </PageHeader>
+      <PageHeader name='Новый перевод' />
 
       <Loader v-if='isLoading' />
       <div v-else class='row'>

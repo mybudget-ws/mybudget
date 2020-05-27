@@ -2,7 +2,15 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Операции' action='/transactions/new' />
+      <PageHeader name='Операции' action='/transactions/new'>
+        <router-link
+          v-if='isTransferVisible'
+          to='/transactions/transfers/new'
+          class='btn-floating waves-effect waves-light blue-grey lighten-5 z-depth-0 new-transfer'
+        >
+          <i class='material-icons grey-text text-darken-1'>repeat</i>
+        </router-link>
+      </PageHeader>
 
       <div class='row'>
         <FilterTags class='col s12' @onChange='onChangeFilter' />
@@ -143,25 +151,16 @@ export default {
   computed: {
     token: get('user/token'),
     filters: get('filters/params'),
+    accounts: get('accounts/visibleItemsFilter'),
     isVisible: get('filters/isVisible'),
     ...get('transactions/*'),
-    // isAccountsLoading: get('accounts/isLoading'),
-    // accounts: get('accounts/items'),
-    // isAllow() {
-    //   return !this.isLoading && !this.isAccountsLoading && this.accounts.length !== 0;
-    // },
     isAlert() { return this.isEmpty && !this.isVisible; },
     isEmpty() { return !this.isLoading && this.items.length === 0; },
-    isTableVisible() { return !this.isLoading && !this.isEmpty; }
+    isTableVisible() { return !this.isLoading && !this.isEmpty; },
+    isTransferVisible() { return this.accounts.length > 1; }
   },
   async created() {
     await this.fetch({ token: this.token, filters: this.filters });
-    // if (this.isAlert) {
-    //   await this.fetchAccounts(this.token);
-    // }
-    // if (!this.isAllow) {
-    //   this.$router.push({ name: 'new_account', query: { first: true } });
-    // }
   },
   methods: {
     more() {
@@ -272,4 +271,7 @@ i.project
 .description
   font-size: 14px
   font-weight: 200
+
+.new-transfer
+  margin-left: 14px
 </style>
