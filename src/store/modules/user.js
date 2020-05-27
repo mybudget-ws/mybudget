@@ -31,11 +31,15 @@ export default {
     logout({ commit }) {
       commit('LOGOUT');
     },
-    // changeEmail({ commit }, { newEmail, password }) {
-    changeEmail() {
+    async changeEmail({ commit, state }, { newEmail, password }) {
+      const { token } = state;
+      const user = await api.updateEmail(token, { newEmail, password });
+      if (user == null) { return false; }
+
+      commit('LOGIN', user);
+      return true;
     },
     async changePassword({ commit, state }, { password, newPassword }) {
-      console.warn('change password');
       const { token } = state;
       const user = await api.updatePassword(token, { password, newPassword });
       if (user == null) { return false; }

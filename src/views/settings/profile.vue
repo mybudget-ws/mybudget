@@ -76,12 +76,17 @@ export default {
     ...call([
       'user/changeEmail'
     ]),
-    submit() {
+    async submit() {
+      if (this.isSubmitting) { return; }
+      this.isSubmitting = true;
       const { newEmail, password } = this;
-      // const isSuccess = await this.changeEmail({ newEmail, password });
-      const isSuccess = this.changeEmail({ newEmail, password });
-      console.log('TODO: submit');
-      console.log(isSuccess);
+      const isSuccess = await this.changeEmail({ newEmail, password });
+      this.isSubmitting = false;
+
+      const message = isSuccess ?
+        'Почта успешно изменена' :
+        'Ошибка изменения почты';
+      /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }
   }
 };
