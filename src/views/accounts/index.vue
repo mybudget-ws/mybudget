@@ -44,9 +44,15 @@
                 <td class='transacton-actions'>
                   <router-link
                     :to="`/transactions/new?account=${item.id}`"
-                    class='waves-effect waves-teal btn-flat'
+                    class='btn-small waves-effect waves-light red lighten-4 z-depth-0'
                   >
-                    <i class='material-icons grey-text text-darken-1'>add</i>
+                    <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
+                  </router-link>
+                  <router-link
+                    :to="`/transactions/new?account=${item.id}&isIncome=true`"
+                    class='btn-small waves-effect waves-light green accent-1 z-depth-0'
+                  >
+                    <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
                   </router-link>
                 </td>
                 <td class='actions'>
@@ -211,12 +217,12 @@ export default {
     padding: 0 8px !important
 
 .transacton-actions
-  width: 1px
+  width: 110px
   max-width: 1px
   text-align: right
 
-  .btn-flat
-    padding: 0 8px !important
+  .btn-small + .btn-small
+    margin-left: 8px
 
 .actions-hidden
   width: 82px

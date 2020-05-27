@@ -2,10 +2,25 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Операции' action='/transactions/new'>
+      <PageHeader name='Операции'>
+        <router-link
+          to='/transactions/new'
+          title='Новый расход'
+          class='btn-floating waves-effect waves-light red lighten-4 z-depth-0'
+        >
+          <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
+        </router-link>
+        <router-link
+          to='/transactions/new?isIncome=true'
+          title='Новый доход'
+          class='btn-floating waves-effect waves-light green accent-1 z-depth-0 new-income'
+        >
+          <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
+        </router-link>
         <router-link
           v-if='isTransferVisible'
           to='/transactions/transfers/new'
+          title='Новый перевод'
           class='btn-floating waves-effect waves-light blue-grey lighten-5 z-depth-0 new-transfer'
         >
           <i class='material-icons grey-text text-darken-1'>repeat</i>
@@ -272,6 +287,7 @@ i.project
   font-size: 14px
   font-weight: 200
 
-.new-transfer
-  margin-left: 14px
+.new-transfer,
+.new-income
+  margin-left: 12px
 </style>

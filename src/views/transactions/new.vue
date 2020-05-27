@@ -218,6 +218,7 @@ export default {
     /* eslint-enable */
 
     this.accountId = this.initAccountId || this.defaultAccountId;
+    this.isIncome = this.$route.query.isIncome == 'true';
 
     setTimeout(() => {
       /* eslint-disable */
