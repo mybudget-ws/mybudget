@@ -124,7 +124,7 @@ export default new Router({
     }, {
       path: '/settings/:tab',
       name: 'settings',
-      component: () => import(/* webpackChunkName: "inner" */ '@/views/settings'),
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/settings/index'),
       beforeEnter: requireAuth
     }
     // , {

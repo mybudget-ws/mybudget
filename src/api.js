@@ -30,6 +30,38 @@ export default {
     return data;
   },
 
+  async updateEmail(token, { password, newEmail }) {
+    const query = `
+      mutation($password:String!, $newEmail:String!) {
+        action:updateUserEmail(
+          password: $password,
+          newEmail: $newEmail
+        ) { email token }
+      }
+    `;
+    const vars = { password, newEmail };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateEmail', data);
+
+    return data.action;
+  },
+
+  async updatePassword(token, { password, newPassword }) {
+    const query = `
+      mutation($oldPassword:String!, $newPassword:String!) {
+        action:updateUserPassword(
+          oldPassword: $oldPassword,
+          newPassword: $newPassword
+        ) { email token }
+      }
+    `;
+    const vars = { oldPassword: password, newPassword };
+    const data = await this.client(token).request(query, vars);
+    this.log('updatePassword', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Account
   // ---------------------------------

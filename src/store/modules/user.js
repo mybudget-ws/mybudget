@@ -23,14 +23,29 @@ export default {
   actions: {
     async login({ commit }, { email, password }) {
       const { user } = await api.login(email, password);
-      if (user != null) {
-        commit('LOGIN', user);
-        return true;
-      }
-      return false;
+      if (user == null) { return false; }
+
+      commit('LOGIN', user);
+      return true;
     },
     logout({ commit }) {
       commit('LOGOUT');
+    },
+    async changeEmail({ commit, state }, { newEmail, password }) {
+      const { token } = state;
+      const user = await api.updateEmail(token, { newEmail, password });
+      if (user == null) { return false; }
+
+      commit('LOGIN', user);
+      return true;
+    },
+    async changePassword({ commit, state }, { password, newPassword }) {
+      const { token } = state;
+      const user = await api.updatePassword(token, { password, newPassword });
+      if (user == null) { return false; }
+
+      commit('LOGIN', user);
+      return true;
     }
   },
 
