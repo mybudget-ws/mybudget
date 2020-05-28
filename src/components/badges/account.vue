@@ -49,11 +49,11 @@ i.account
   &.teal,
   &.deep-orange,
   &.brown,
+  &.blue,
   &.blue-grey,
   &.black
     color: #fff
 
-  &.blue,
   &.light-blue,
   &.cyan,
   &.green,
