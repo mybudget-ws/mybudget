@@ -4,14 +4,14 @@
     <div class='container container-wide'>
       <PageHeader name='Операции'>
         <router-link
-          to='/transactions/new'
+          :to='expenseUrl'
           title='Новый расход'
           class='btn-floating waves-effect waves-light red lighten-4 z-depth-0'
         >
           <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
         </router-link>
         <router-link
-          to='/transactions/new?isIncome=true'
+          :to='incomeUrl'
           title='Новый доход'
           class='btn-floating waves-effect waves-light green accent-1 z-depth-0 new-income'
         >
@@ -164,12 +164,25 @@ export default {
     token: get('user/token'),
     filters: get('filters/params'),
     accounts: get('accounts/visibleItemsFilter'),
+    selectedAccounts: get('filters/accounts'),
     isVisible: get('filters/isVisible'),
     ...get('transactions/*'),
     isAlert() { return this.isEmpty && !this.isVisible; },
     isEmpty() { return !this.isLoading && this.items.length === 0; },
     isTableVisible() { return !this.isLoading && !this.isEmpty; },
-    isTransferVisible() { return this.accounts.length > 1; }
+    isTransferVisible() { return this.accounts.length > 1; },
+    expenseUrl() {
+      if (this.selectedAccounts.length > 0) {
+        return `/transactions/new?account=${this.selectedAccounts[0].id}`;
+      }
+      return '/transactions/new';
+    },
+    incomeUrl() {
+      if (this.selectedAccounts.length > 0) {
+        return `/transactions/new?isIncome=true&account=${this.selectedAccounts[0].id}`;
+      }
+      return '/transactions/new?isIncome=true';
+    }
   },
   async created() {
     await this.fetch({ token: this.token, filters: this.filters });
