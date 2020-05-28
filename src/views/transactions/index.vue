@@ -62,7 +62,7 @@
                     <Amount :value='item.amount' :currency='item.account.currency.name' />
                   </td>
                   <td>
-                    <TagAccount
+                    <BadgeAccount
                       :account='item.account'
                       @click='onAccount(item.account)'
                     />
@@ -73,23 +73,16 @@
                     >
                       <i class='material-icons'>repeat</i>
                     </span>
-                    <span
+                    <BadgeProject
                       v-if='item.project != null'
-                      class='new badge black-text tag'
-                      :class='item.project.color'
-                      :data-badge-caption='item.project.name'
+                      :color='item.project.color'
+                      :name='item.project.name'
                       @click='onProject(item.project)'
-                    >
-                      <i class='project material-icons left'>
-                        work
-                      </i>
-                    </span>
-                    <span
+                    />
+                    <BadgeCategory
                       v-for='category in item.categories'
                       :key='category.id'
-                      class='new badge black-text tag'
-                      :class='category.color'
-                      :data-badge-caption='category.name'
+                      v-bind='category'
                       @click='onCategory(category)'
                     />
 
@@ -140,12 +133,14 @@
 
 <script>
 import Amount from '@/components/amount';
+import BadgeAccount from '@/components/badges/account';
+import BadgeCategory from '@/components/badges/category';
+import BadgeProject from '@/components/badges/project';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
-import TagAccount from '@/components/tag_account';
 import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
@@ -155,12 +150,14 @@ export default {
   name: 'Transactions',
   components: {
     Amount,
+    BadgeAccount,
+    BadgeCategory,
+    BadgeProject,
     FilterTags,
     Filters,
     Loader,
     Menu,
-    PageHeader,
-    TagAccount
+    PageHeader
   },
   props: {},
   computed: {
@@ -263,13 +260,6 @@ td
 .tag
   margin-right: 6px
 
-i.project
-  font-size: 12px
-  line-height: 22px
-  margin-right: 3px
-  opacity: 0.7
-  padding-left: 0px
-
 .transfer.badge
   min-width: 18px
   i
@@ -277,11 +267,6 @@ i.project
     line-height: 22px
     opacity: 0.7
     vertical-align: bottom
-
-.badge
-  cursor: pointer
-  &:hover
-    opacity: 0.9
 
 .description
   font-size: 14px

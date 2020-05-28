@@ -30,7 +30,7 @@
                 <td>
                   <span class='name'>{{ item.name }}</span>
                   <span v-for='account in item.accounts' :key='account.id'>
-                    <TagAccount :account='account' />
+                    <BadgeAccount :account='account' />
                   </span>
                 </td>
                 <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
@@ -73,7 +73,7 @@ import Amount from '@/components/amount';
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
-import TagAccount from '@/components/tag_account';
+import BadgeAccount from '@/components/badges/account';
 import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
@@ -86,7 +86,7 @@ export default {
     Menu,
     Loader,
     PageHeader,
-    TagAccount
+    BadgeAccount
   },
   props: {},
   computed: {

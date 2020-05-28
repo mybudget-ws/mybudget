@@ -1,6 +1,6 @@
 <template>
   <span
-    class='new badge black-text tag'
+    class='new badge tag'
     :class='account.color'
     :data-badge-caption='account.name'
     @click='click'
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'TagAccount',
+  name: 'BadgeAccount',
   props: {
     account: { type: Object, required: true }
   },
@@ -35,4 +35,33 @@ i.account
 
 .tag
   margin-right: 6px
+
+.badge
+  cursor: pointer
+  &:hover
+    opacity: 0.9
+
+  &.red,
+  &.pink,
+  &.purple,
+  &.deep-purple,
+  &.indigo,
+  &.teal,
+  &.deep-orange,
+  &.brown,
+  &.blue-grey,
+  &.black
+    color: #fff
+
+  &.blue,
+  &.light-blue,
+  &.cyan,
+  &.green,
+  &.light-green,
+  &.lime,
+  &.yellow,
+  &.amber,
+  &.orange,
+  &.grey
+    color: #000
 </style>
