@@ -144,6 +144,7 @@ export default {
   computed: {
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
+    selectedAccounts: get('filters/accounts'),
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
@@ -209,8 +210,14 @@ export default {
     M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     /* eslint-enable */
 
-    this.accountIdSrc = this.orderedAccounts[0].id;
-    this.accountIdDst = this.orderedAccounts[1].id;
+    if (this.selectedAccounts.length > 0) {
+      this.accountIdSrc = this.selectedAccounts[0].id;
+      this.accountIdDst = this.orderedAccounts
+        .filter(v => v.id != this.accountIdSrc)[0].id;
+    } else {
+      this.accountIdSrc = this.orderedAccounts[0].id;
+      this.accountIdDst = this.orderedAccounts[1].id;
+    }
     setTimeout(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectSrcAccounts, {});
