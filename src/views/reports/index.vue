@@ -115,9 +115,9 @@ export default {
     },
     async onChangePeriod() {
       this.setPeriod({ period: this.selectedPeriodMonths });
-      // this.isLoading = true;
+      this.isLoading = true;
       await this.fetchData();
-      // this.isLoading = false;
+      this.isLoading = false;
     }
   }
 };
