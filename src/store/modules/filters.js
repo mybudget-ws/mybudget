@@ -5,7 +5,7 @@ export default {
     accounts: [],
     categories: [],
     projects: [],
-    period: 9999
+    period: 12 // All time: 9999
   },
 
   getters: {

@@ -54,12 +54,17 @@ export default {
   },
   props: {},
   data: () => ({
-    selectedPeriodMonths: 9999,
+    selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
     periods: [
-      { name: 'За все время', months: 9999 },
-      { name: 'За год', months: 12 },
-      { name: 'За месяц', months: 1 }
+      { name: 'Все время', months: 9999 },
+      { name: 'Десять лет', months: 120 },
+      { name: 'Пять лет', months: 60 },
+      { name: 'Два года', months: 24 },
+      { name: 'Год', months: 12 },
+      { name: 'Полгода', months: 6 },
+      { name: 'Квартал', months: 3 },
+      { name: 'Месяц', months: 1 }
     ]
   }),
   computed: {
