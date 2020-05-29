@@ -4,7 +4,8 @@ export default {
   state: {
     accounts: [],
     categories: [],
-    projects: []
+    projects: [],
+    period: 9999
   },
 
   getters: {
@@ -22,7 +23,8 @@ export default {
       new URLSearchParams({
         accounts: state.accounts.map(v => v.id),
         categories: state.categories.map(v => v.id),
-        projects: state.projects.map(v => v.id)
+        projects: state.projects.map(v => v.id),
+        months: state.period
       }).toString()
     )
   },
@@ -66,6 +68,9 @@ export default {
       } else {
         commit('ADD_PROJECT', project);
       }
+    },
+    setPeriod({ commit }, { period }) {
+      commit('SET_PERIOD', period);
     }
   },
 
@@ -102,6 +107,9 @@ export default {
     },
     REMOVE_PROJECT(state, project) {
       state.projects = state.projects.filter(v => v.id !== project.id);
+    },
+    SET_PERIOD(state, period) {
+      state.period = period;
     }
   }
 };

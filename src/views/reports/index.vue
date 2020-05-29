@@ -2,7 +2,15 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Отчеты' />
+      <PageHeader name='Отчеты'>
+        <div class='right'>
+          <select ref='selectPeriods' v-model='selectedPeriodMonths' @change='onChangePeriod'>
+            <option v-for='v in periods' :key='v.months' :value='v.months'>
+              {{ v.name }}
+            </option>
+          </select>
+        </div>
+      </PageHeader>
 
       <div class='row'>
         <FilterTags class='col s12' @onChange='onChangeFilter' />
@@ -32,7 +40,7 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '../../api';
 
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 import c3 from 'c3';
 
 export default {
@@ -46,7 +54,13 @@ export default {
   },
   props: {},
   data: () => ({
-    isLoading: true
+    selectedPeriodMonths: 9999,
+    isLoading: true,
+    periods: [
+      { name: 'За все время', months: 9999 },
+      { name: 'За год', months: 12 },
+      { name: 'За месяц', months: 1 }
+    ]
   }),
   computed: {
     token: get('user/token'),
@@ -56,8 +70,16 @@ export default {
     this.isLoading = true;
     await this.fetchData();
     this.isLoading = false;
+
+    setTimeout(() => {
+      /* eslint-disable */
+      M.FormSelect.init(this.$refs.selectPeriods, {});
+      M.updateTextFields();
+      /* eslint-enable */
+    }, 50);
   },
   methods: {
+    setPeriod: call('filters/setPeriod'),
     async fetchData() {
       const columns = await api.balances(this.token, this.searchParams);
       this.chart = c3.generate({
@@ -85,6 +107,12 @@ export default {
     },
     onChangeFilter() {
       this.fetchData();
+    },
+    async onChangePeriod() {
+      this.setPeriod({ period: this.selectedPeriodMonths });
+      // this.isLoading = true;
+      await this.fetchData();
+      // this.isLoading = false;
     }
   }
 };
