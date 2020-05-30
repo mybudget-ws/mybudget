@@ -250,7 +250,9 @@ export default {
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
       const { id, amount, isIncome, description, accountId, projectId, categoryIds } = this;
-      const evalAmount = eval(amount.replace(',', '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1'));
+      const evalAmount = eval(
+        amount.replace(',', '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
+      );
       const transaction = {
         id,
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
