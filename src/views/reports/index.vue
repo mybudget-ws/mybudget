@@ -76,12 +76,12 @@ export default {
     await this.fetchData();
     this.isLoading = false;
 
-    setTimeout(() => {
+    this.$nextTick(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectPeriods, {});
       M.updateTextFields();
       /* eslint-enable */
-    }, 50);
+    });
   },
   methods: {
     setPeriod: call('filters/setPeriod'),

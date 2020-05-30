@@ -218,13 +218,13 @@ export default {
       this.accountIdSrc = this.orderedAccounts[0].id;
       this.accountIdDst = this.orderedAccounts[1].id;
     }
-    setTimeout(() => {
+    this.$nextTick(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectSrcAccounts, {});
       M.FormSelect.init(this.$refs.selectDstAccounts, {});
       M.updateTextFields();
       /* eslint-enable */
-    }, 50);
+    });
   },
   methods: {
     fetchAccounts: call('accounts/fetch'),
