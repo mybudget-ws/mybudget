@@ -76,6 +76,22 @@
                   </a>
                 </td>
               </tr>
+              <tr class='totals'>
+                <td>
+                  <b>Всего</b>
+                </td>
+                <td class='amount-total'>
+                  <Amount
+                    v-for='total in orderedTotals'
+                    :key='total.currency_name'
+                    class='value'
+                    :value='total.balance'
+                    :currency='total.currency_name'
+                  />
+                </td>
+                <td />
+                <td />
+              </tr>
             </tbody>
           </table>
 
@@ -149,6 +165,20 @@ export default {
         ...this.visibleItems.filter(v => v.isFavourite),
         ...this.visibleItems.filter(v => !v.isFavourite)
       ];
+    },
+    orderedTotals() {
+      const totals = this.visibleItems.reduce((r, a) => {
+        r[a.currency.name] = (r[a.currency.name] || 0) + a.balance;
+        return r;
+      }, {});
+
+      // return [
+      //   { currency_name: 'RUB', balance: 110000 },
+      //   { currency_name: 'USD', balance: 2000 }
+      // ];
+      return Object
+        .entries(totals)
+        .map(v => ({ currency_name: v[0], balance: v[1] }));
     }
   },
   created() {
@@ -230,4 +260,14 @@ export default {
 .hidden-table
   margin-top: 60px
   opacity: 0.4
+
+.totals
+  background-color: #fafafa
+
+  .amount-total
+    text-align: right
+    padding-right: 0
+
+    .value + .value
+      margin-top: 6px
 </style>
