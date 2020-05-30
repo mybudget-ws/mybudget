@@ -241,9 +241,7 @@ export default {
     fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetch'),
     create: call('transactions/create'),
-    onSelectCategory(ids) {
-      this.categoryIds = ids;
-    },
+    onSelectCategory(ids) { this.categoryIds = ids; },
     onChangeAmount(_e) {
       this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');
     },
@@ -254,7 +252,7 @@ export default {
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
       const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
-      const evalAmount = eval(amount.replace(',', '.').replace(/([.])\1+/g, '$1'));
+      const evalAmount = eval(amount.replace(',', '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1'));
       const transaction = {
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
         isIncome,
