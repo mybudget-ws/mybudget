@@ -146,12 +146,12 @@ export default {
     id() { return this.$route.params.id; },
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
-    projects: get('projects/items'),
+    projects: get('projects/itemsFilter'),
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
-    isProjectsLoading: get('projects/isLoading'),
-    isProjectsLoaded: get('projects/isLoaded'),
+    isProjectsLoading: get('projects/isLoadingFilter'),
+    isProjectsLoaded: get('projects/isLoadedFilter'),
 
     isLoading() {
       return this.isLoadingTransaction ||
@@ -192,7 +192,7 @@ export default {
     this.isLoadingTransaction = false;
 
     /* eslint-disable */
-    setTimeout(() => {
+    this.$nextTick(() => {
       M.Datepicker.init(
         this.$refs.datepicker,
         {
@@ -217,27 +217,27 @@ export default {
         }
       );
       M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
-    }, 50);
+    });
     /* eslint-enable */
 
-    setTimeout(() => {
+    this.$nextTick(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectAccounts, {});
       M.updateTextFields();
       /* eslint-enable */
-    }, 50);
+    });
     if (this.isProjects) {
-      setTimeout(() => {
+      this.$nextTick(() => {
         /* eslint-disable */
         M.FormSelect.init(this.$refs.selectProjects, {});
         M.updateTextFields();
         /* eslint-enable */
-      }, 50);
+      });
     }
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
-    fetchProjects: call('projects/fetch'),
+    fetchProjects: call('projects/fetchFilter'),
     onSelectCategory(ids) { this.categoryIds = ids; },
     onChangeAmount(_e) {
       this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');

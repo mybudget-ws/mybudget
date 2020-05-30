@@ -40,6 +40,16 @@
                 </option>
               </select>
               <label>Счет</label>
+              <span v-if='topAccounts.length > 0' class='top-accounts'>
+                <span
+                  v-for='account in topAccounts'
+                  :key='account.id'
+                  class='top-account helper-text'
+                  @click='selectTopAccount(account.id)'
+                >
+                  {{ account.name }}
+                </span>
+              </span>
             </div>
             <div class='input-field col l4 s12'>
               <input
@@ -150,8 +160,8 @@ export default {
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
-    isProjectsLoading: get('projects/isLoading'),
-    isProjectsLoaded: get('projects/isLoaded'),
+    isProjectsLoading: get('projects/isLoadingFilter'),
+    isProjectsLoaded: get('projects/isLoadedFilter'),
 
     isSubmitting: get('transactions/isSubmitting'),
 
@@ -174,6 +184,11 @@ export default {
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
+    },
+    topAccounts() {
+      return this.orderedAccounts
+        .filter(v => v.id !== this.accountId)
+        .slice(0, 4);
     },
     defaultAccountId() {
       const filterAccount = this.filterAccounts
@@ -221,29 +236,38 @@ export default {
     this.accountId = this.initAccountId || this.defaultAccountId;
     this.isIncome = this.$route.query.isIncome == 'true';
 
-    setTimeout(() => {
+    this.$nextTick(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectAccounts, {});
       M.updateTextFields();
       /* eslint-enable */
-    }, 50);
+    });
     if (this.isProjects) {
-      setTimeout(() => {
+      this.$nextTick(() => {
         /* eslint-disable */
         M.FormSelect.init(this.$refs.selectProjects, {});
         M.updateTextFields();
         /* eslint-enable */
-      }, 50);
+      });
     }
     this.$refs?.amount?.focus();
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
-    fetchProjects: call('projects/fetch'),
+    fetchProjects: call('projects/fetchFilter'),
     create: call('transactions/create'),
     onSelectCategory(ids) { this.categoryIds = ids; },
     onChangeAmount(_e) {
       this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');
+    },
+    selectTopAccount(id) {
+      this.accountId = id;
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectAccounts, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      });
     },
     async submit() {
       if (this.isSubmitting) { return; }
@@ -293,4 +317,18 @@ h6.subtitle
 
   i.left
     margin-right: 0px
+
+.top-accounts
+  position: absolute
+  margin-top: -4px
+
+  .top-account
+    cursor: pointer
+    display: inline-block
+    margin-right: 6px
+    border-bottom: 1px dashed #bdbdbd
+
+    &:hover
+      color: #616161
+      border-bottom: 1px dashed #757575
 </style>
