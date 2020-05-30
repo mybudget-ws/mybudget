@@ -152,6 +152,7 @@ export default {
 
 // TODO: Remove duplications
 .actions
+  padding-right: 0px
   width: 86px
   text-align: right
 

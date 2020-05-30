@@ -240,6 +240,7 @@ export default {
 
 .actions,
 .actions-hidden
+  padding-right: 0px
   width: 50px
   text-align: right
 

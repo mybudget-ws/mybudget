@@ -92,12 +92,22 @@
                   </td>
                   <td class='actions'>
                     <router-link
+                      v-if='!item.isTransfer'
+                      title='Скопировать операцию'
+                      :to='copyUrl(item)'
+                      class='waves-effect waves-teal btn-flat'
+                    >
+                      <i class='material-icons grey-text'>content_copy</i>
+                    </router-link>
+                    <router-link
+                      title='Редактировать операцию'
                       :to="`/transactions/${item.id}/edit`"
                       class='waves-effect waves-teal btn-flat'
                     >
                       <i class='material-icons grey-text'>edit</i>
                     </router-link>
                     <a
+                      title='Удалить операцию'
                       class='waves-effect waves-teal btn-flat'
                       @click='onDestroy(item)'
                     >
@@ -234,6 +244,12 @@ export default {
     dateTitleFormat(transaction) {
       return moment(transaction.dateAt).format('DD.MM.YYYY');
     },
+    copyUrl(item) {
+      const accountId = item.account.id;
+      const projectId = item.project?.id || '';
+      const categoryIds = item.categories.map(v => v.id);
+      return `/transactions/new?account=${accountId}&project=${projectId}&category=${categoryIds}`;
+    },
     onAccount(account) {
       this.toggleAccount({ account });
       this.onChangeFilter();
@@ -263,8 +279,9 @@ td
 
 // TODO: Remove duplications
 .actions
-  width: 86px
+  width: 118px
   text-align: right
+  padding-right: 0
 
   .btn-flat
     padding: 0 8px !important

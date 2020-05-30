@@ -173,7 +173,9 @@ export default {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
     },
     selectedAccount() {
-      return this.accounts.find(v => v.id === this.accountId);
+      return this.accounts.find(
+        v => v.id === this.accountId || v.id.toString() === this.accountId
+      );
     },
     isNotReadyToAdd() {
       return this.isAccountsLoaded &&
@@ -198,12 +200,17 @@ export default {
       if (filterAccount) { return filterAccount.id; }
       return this.orderedAccounts[0].id;
     },
-    initAccountId() {
-      return this.$route.query.account;
+    initAccountId() { return this.$route.query.account; },
+    initProjectId() { return this.$route.query.project; },
+    initCategoryIds() {
+      if (this.$route.query.category == null) { return; }
+      if (this.$route.query.category == '') { return; }
+      return this.$route.query.category.split(',').map(v => parseInt(v));
     }
   },
   async created() {
-    this.categoryIds = this.filterCategories.map(v => v.id);
+    this.categoryIds = this.initCategoryIds ||
+      this.filterCategories.map(v => v.id);
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
@@ -248,7 +255,9 @@ export default {
       /* eslint-enable */
     });
     if (this.isProjects) {
-      this.projectId = this.filterProjects.map(v => v.id)[0] || '';
+      this.projectId = this.initProjectId ||
+        this.filterProjects.map(v => v.id)[0] ||
+        '';
       this.$nextTick(() => {
         /* eslint-disable */
         M.FormSelect.init(this.$refs.selectProjects, {});

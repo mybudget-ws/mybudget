@@ -183,6 +183,7 @@ export default {
 
 .actions,
 .actions-hidden
+  padding-right: 0px
   width: 124px
   text-align: right
 
