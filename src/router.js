@@ -9,7 +9,7 @@ Vue.use(Router);
 
 function requireAuth(to, from, next) {
   if (!store.getters['user/isSignedIn']) {
-    next({ path: '/login', query: { redirect: to.fullPath } });
+    next({ path: '/sign_in', query: { redirect: to.fullPath } });
   } else {
     next();
   }
@@ -24,9 +24,13 @@ export default new Router({
       name: 'home',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/home')
     }, {
-      path: '/login',
-      name: 'login',
+      path: '/sign_in',
+      name: 'sign_in',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/sign_in')
+    }, {
+      path: '/sign_up',
+      name: 'sign_up',
+      component: () => import(/* webpackChunkName: "landing" */ '@/views/sign_up')
     }, {
       path: '/transactions',
       name: 'transactions',

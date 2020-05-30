@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class='main-background'>
     <Menu />
-    <div class='container'>
+    <div class='container main'>
       <div class='row'>
         <div class='col'>
           <h1>Мой Бюджет</h1>
@@ -10,15 +10,45 @@
           <div class='getstarted'>
             <Button
               text='Начать сейчас'
-              to='/'
+              to='/sign_up'
             />
           </div>
+        </div>
+      </div>
+    </div>
 
-          <!--div>
-            <button @click='greet'>Greet</button>
-            <button @click='ping'>Ping</button>
-            <button @click='pingMutation'>Ping Mutation</button>
-          </div-->
+    <div class='container feature'>
+      <div class='row'>
+        <div class='col l6 m6 s12'>
+          <h5>Мой Бюджет</h5>
+          <p>
+            это online сервис для ведения семейного бюджета и домашней бухгалтерии.
+            Предоставляет простой и удобный способ учета повседневных доходов и расходов.
+          </p>
+        </div>
+        <div class='col l6 m6 s12'>
+          <h5>Разные счета</h5>
+          <p>
+            Создание отдельного счета для ваших наличных денег, банковского счета,
+            кредитных карт, инвестиций, активов и кредитов, чтобы изящно сбалансировать свой учет.
+          </p>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col l6 m6 s12'>
+          <h5>Анализ данных</h5>
+          <p>
+            Просматривайте собранные и отсортированные данные, отображаемые
+            в удобном виде графиков и таблиц, анализируйте результат вашей работы,
+            чтобы определить места для улучшения.
+          </p>
+        </div>
+        <div class='col l6 m6 s12'>
+          <h5>Несколько валют</h5>
+          <p>
+            Для каждого из ваших счетов можно указать свою валюту.
+            В отчетах есть возможность анализа расходов как в разрезе счетов, так и валют.
+          </p>
         </div>
       </div>
     </div>
@@ -65,4 +95,14 @@ h1
 .top-header
   height: 40px
   padding: 20px
+
+.main-background
+  // background: linear-gradient(153.23deg, #c5cae9 0%, rgba(255, 255, 255, 0) 100%), #ffffff;
+  // background: linear-gradient(153.23deg, #919ce2 5.73%, rgba(255, 255, 255, 0) 100%), #ffffff;
+
+.container.main
+  padding-bottom: 60px
+
+.container.feature
+  // background: #fff
 </style>

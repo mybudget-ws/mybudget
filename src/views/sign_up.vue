@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container'>
-      <PageHeader name='Вход в Мой Бюджет' />
+      <PageHeader name='Регистраиця' />
 
       <div class='row'>
         <form class='col l6 m8 s12' @submit.prevent='submit'>
@@ -48,7 +48,7 @@ import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
 export default {
-  name: 'SignIn',
+  name: 'SignUp',
   components: {
     Button,
     Menu,
@@ -71,13 +71,13 @@ export default {
   },
   methods: {
     ...call([
-      'user/login'
+      'user/registration'
     ]),
     async submit() {
       this.isSubmitting = true;
 
       const { email, password } = this;
-      const isSuccess = await this.login({ email, password });
+      const isSuccess = await this.registration({ email, password });
       this.isSubmitting = isSuccess;
       if (isSuccess) {
         this.$router.push({ name: 'transactions' });

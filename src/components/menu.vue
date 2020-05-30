@@ -1,6 +1,7 @@
 <template>
   <div class='row row-menu'>
-    <nav v-if='isShortMenu' class='white z-depth-0 '>
+    <!--nav v-if='isShortMenu' class='blue-grey darken-4 z-depth-0'-->
+    <nav v-if='isShortMenu' class='white z-depth-0'>
       <div class='nav-wrapper container'>
         <router-link
           to='/'
@@ -12,7 +13,7 @@
           <router-link to='/currencies' :class='btnClasses'>
             Курсы валют
           </router-link>
-          <router-link to='/login' :class='btnClasses'>
+          <router-link to='/sign_in' :class='btnClasses'>
             Вход
           </router-link>
         </div>
@@ -91,6 +92,7 @@ export default {
       return this.$router.currentRoute.name === 'home' || !this.isSignedIn;
     },
     btnClasses() {
+      // 'waves-effect blue-grey-text text-lighten-5 btn-flat' :
       return this.isShortMenu ?
         'waves-effect waves-yellow btn-flat grey-text text-darken-4 z-depth-0' :
         'waves-effect blue-grey-text text-lighten-5';

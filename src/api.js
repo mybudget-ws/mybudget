@@ -30,6 +30,24 @@ export default {
     return data;
   },
 
+  // TODO: Create SingUp mutation
+  async registration(email, password) {
+    const query = `
+      query($email:String!, $password:String!) {
+        user:signIn(email: $email, password: $password) {
+          email
+          token
+          defaultCurrency { name }
+        }
+      }
+    `;
+    const vars = { email, password };
+    const data = await this.client().request(query, vars);
+    this.log('registration', data);
+
+    return data;
+  },
+
   async updateEmail(token, { password, newEmail }) {
     const query = `
       mutation($password:String!, $newEmail:String!) {
