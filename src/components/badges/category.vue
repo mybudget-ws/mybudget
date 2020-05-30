@@ -3,6 +3,7 @@
     class='new badge tag'
     :class='color'
     :data-badge-caption='name'
+    @click='click'
   />
 </template>
 
@@ -17,6 +18,9 @@ export default {
   computed: {
   },
   methods: {
+    click() {
+      this.$emit('click');
+    }
   }
 };
 </script>

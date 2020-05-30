@@ -3,6 +3,7 @@
     class='new badge tag'
     :class='color'
     :data-badge-caption='name'
+    @click='click'
   >
     <i class='project material-icons left'>
       work
@@ -21,6 +22,9 @@ export default {
   computed: {
   },
   methods: {
+    click() {
+      this.$emit('click');
+    }
   }
 };
 </script>

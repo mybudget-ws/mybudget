@@ -157,6 +157,8 @@ export default {
     accounts: get('accounts/visibleItemsFilter'),
     projects: get('projects/itemsFilter'),
     filterAccounts: get('filters/accounts'),
+    filterCategories: get('filters/categories'),
+    filterProjects: get('filters/projects'),
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
@@ -199,6 +201,9 @@ export default {
     initAccountId() {
       return this.$route.query.account;
     }
+  },
+  async created() {
+    this.categoryIds = this.filterCategories.map(v => v.id);
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
@@ -243,6 +248,7 @@ export default {
       /* eslint-enable */
     });
     if (this.isProjects) {
+      this.projectId = this.filterProjects.map(v => v.id)[0] || '';
       this.$nextTick(() => {
         /* eslint-disable */
         M.FormSelect.init(this.$refs.selectProjects, {});
