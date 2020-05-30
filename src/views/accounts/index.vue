@@ -76,7 +76,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class='totals'>
+              <tr v-if='orderedVisibleAccounts.length > 1' class='totals'>
                 <td>
                   <b>Всего</b>
                 </td>
