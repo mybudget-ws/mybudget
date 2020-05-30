@@ -15,10 +15,11 @@
                 v-model='amount'
                 type='text'
                 class='validate'
-                pattern='[0-9,+-/*]+'
+                pattern='[0-9,.+-/*\s]+'
                 autofocus
                 required
                 @click='$refs.amount.focus()'
+                @input='onChangeAmount'
               >
               <label for='name' class='active'>{{ amountLable }}</label>
               <span
@@ -238,6 +239,9 @@ export default {
     fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetch'),
     onSelectCategory(ids) { this.categoryIds = ids; },
+    onChangeAmount(_e) {
+      this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');
+    },
     async submit() {
       if (this.isSubmitting) { return; }
 
@@ -246,9 +250,10 @@ export default {
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
       const { id, amount, isIncome, description, accountId, projectId, categoryIds } = this;
+      const evalAmount = eval(amount.replace(',', '.').replace(/([.])\1+/g, '$1'));
       const transaction = {
         id,
-        amount: amount.toString(),
+        amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
         isIncome,
         date: moment(date).format(),
         categoryIds,
