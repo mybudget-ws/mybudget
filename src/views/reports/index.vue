@@ -125,7 +125,7 @@ export default {
 
 <style scoped lang='sass'>
 .chart
-  height: 400px
+  height: 560px
   margin-top: 10px
   margin-left: -20px
 </style>
