@@ -212,6 +212,8 @@ export default {
     this.categoryIds = this.initCategoryIds ||
       this.filterCategories.map(v => v.id);
     this.description = this.$route.query.description;
+    this.isIncome = this.$route.query.isIncome == 'true';
+    this.amount = this.$route.query.amount || '';
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
