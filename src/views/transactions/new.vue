@@ -295,7 +295,7 @@ export default {
       /* eslint-enable */
       const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
       const evalAmount = eval(
-        amount.replace(',', '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
+        amount.replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
       );
       const transaction = {
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),

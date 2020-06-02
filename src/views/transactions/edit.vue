@@ -251,7 +251,7 @@ export default {
       /* eslint-enable */
       const { id, amount, isIncome, description, accountId, projectId, categoryIds } = this;
       const evalAmount = eval(
-        amount.toString().replace(',', '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
+        amount.toString().replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
       );
       const transaction = {
         id,
