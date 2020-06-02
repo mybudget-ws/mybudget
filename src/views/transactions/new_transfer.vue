@@ -215,8 +215,17 @@ export default {
       this.accountIdDst = this.orderedAccounts
         .filter(v => v.id != this.accountIdSrc)[0].id;
     } else {
-      this.accountIdSrc = this.orderedAccounts[0].id;
-      this.accountIdDst = this.orderedAccounts[1].id;
+      if (this.$route.query.accountIdSrc) {
+        this.accountIdSrc = this.orderedAccounts
+          .find(v => v.id == this.$route.query.accountIdSrc)?.id ||
+            this.orderedAccounts[0].id;
+
+        this.accountIdDst = this.orderedAccounts
+          .filter(v => v.id != this.accountIdSrc)[0].id;
+      } else {
+        this.accountIdSrc = this.orderedAccounts[0].id;
+        this.accountIdDst = this.orderedAccounts[1].id;
+      }
     }
     this.$nextTick(() => {
       /* eslint-disable */

@@ -58,7 +58,7 @@
                   </router-link>
                   <router-link
                     v-if='orderedVisibleAccounts.length > 1'
-                    to='/transactions/transfers/new'
+                    :to="`/transactions/transfers/new?accountIdSrc=${item.id}`"
                     title='Новый перевод'
                     class='btn-small waves-effect waves-light blue-grey lighten-5 z-depth-0'
                   >
@@ -258,12 +258,15 @@ export default {
     padding: 0 8px !important
 
 .transacton-actions
-  width: 170px
-  max-width: 1px
+  width: 154px
+  max-width: 10px // magic style
   text-align: right
 
   .btn-small + .btn-small
     margin-left: 8px
+
+  .btn-small
+    padding: 0 14px
 
 .actions-hidden
   width: 82px
