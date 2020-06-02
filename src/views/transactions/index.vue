@@ -23,7 +23,10 @@
           title='Новый перевод'
           class='btn-floating waves-effect waves-light blue-grey lighten-5 z-depth-0 new-transfer'
         >
-          <i class='material-icons grey-text text-darken-1'>loop</i>
+          <!--i class='material-icons grey-text text-darken-1'>repeat</i-->
+          <!--i class='material-icons grey-text text-darken-1'>loop</i-->
+          <!--i class='material-icons grey-text text-darken-1'>swap_vert</i-->
+          <i class='material-icons grey-text text-darken-1'>repeat</i>
         </router-link>
       </PageHeader>
 

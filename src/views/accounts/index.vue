@@ -44,15 +44,25 @@
                 <td class='transacton-actions'>
                   <router-link
                     :to="`/transactions/new?account=${item.id}`"
+                    title='Новый расход'
                     class='btn-small waves-effect waves-light red lighten-4 z-depth-0'
                   >
                     <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
                   </router-link>
                   <router-link
                     :to="`/transactions/new?account=${item.id}&isIncome=true`"
+                    title='Новый доход'
                     class='btn-small waves-effect waves-light green accent-1 z-depth-0'
                   >
                     <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
+                  </router-link>
+                  <router-link
+                    v-if='orderedVisibleAccounts.length > 1'
+                    to='/transactions/transfers/new'
+                    title='Новый перевод'
+                    class='btn-small waves-effect waves-light blue-grey lighten-5 z-depth-0'
+                  >
+                    <i class='material-icons grey-text text-darken-1'>repeat</i>
                   </router-link>
                 </td>
                 <td class='actions'>
@@ -241,14 +251,14 @@ export default {
 .actions,
 .actions-hidden
   padding-right: 0px
-  width: 50px
+  width: 54px
   text-align: right
 
   .btn-flat
     padding: 0 8px !important
 
 .transacton-actions
-  width: 110px
+  width: 170px
   max-width: 1px
   text-align: right
 

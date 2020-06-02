@@ -227,7 +227,7 @@ export default {
     });
   },
   methods: {
-    fetchAccounts: call('accounts/fetch'),
+    fetchAccounts: call('accounts/fetchFilter'),
     create: call('transactions/createTransfer'),
     async submit() {
       if (this.isSubmitting) { return; }
