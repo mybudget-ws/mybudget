@@ -211,6 +211,7 @@ export default {
   async created() {
     this.categoryIds = this.initCategoryIds ||
       this.filterCategories.map(v => v.id);
+    this.description = this.$route.query.description;
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
