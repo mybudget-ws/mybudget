@@ -33,6 +33,6 @@ export default {
     },
     SET_SELECTED(state, selected) {
       state.selected = selected;
-    },
+    }
   }
 };
