@@ -8,9 +8,13 @@
           <h5>Домашняя бухгалтерия онлайн</h5>
 
           <div class='getstarted'>
-            <Button
+            <!--Button
               text='Начать сейчас'
               to='/sign_up'
+            /-->
+            <Button
+              text='Начать сейчас'
+              to='/sign_in'
             />
           </div>
         </div>
