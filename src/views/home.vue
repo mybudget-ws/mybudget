@@ -62,18 +62,18 @@
         <div class='row'>
           <div class='col'>
             <router-link
-              to='/privacy'
-              class='blue-grey-text text-darken-1'
-            >
-              Политика конфиденциальности
-            </router-link>
-          </div>
-          <div class='col'>
-            <router-link
               to='/agreement'
               class='blue-grey-text text-darken-1'
             >
               Пользовательское соглашение
+            </router-link>
+          </div>
+          <div class='col'>
+            <router-link
+              to='/privacy'
+              class='blue-grey-text text-darken-1'
+            >
+              Политика конфиденциальности
             </router-link>
           </div>
         </div>
