@@ -64,7 +64,7 @@ export default {
   computed: {
     isSignedIn: get('user/isSignedIn')
   },
-  mounted() {
+  created() {
     if (this.isSignedIn) {
       this.$router.push({ name: 'transactions' });
     }
