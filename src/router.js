@@ -24,6 +24,14 @@ export default new Router({
       name: 'home',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/home')
     }, {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import(/* webpackChunkName: "landing" */ '@/views/privacy')
+    }, {
+      path: '/agreement',
+      name: 'agreement',
+      component: () => import(/* webpackChunkName: "landing" */ '@/views/agreement')
+    }, {
       path: '/sign_in',
       name: 'sign_in',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/sign_in')
