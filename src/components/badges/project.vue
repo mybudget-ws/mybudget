@@ -55,7 +55,7 @@ i.project
     color: #fff
 
   &.blue,
-  &.light-blue,
+  &.light-blue.lighten-2,
   &.cyan,
   &.green,
   &.light-green,

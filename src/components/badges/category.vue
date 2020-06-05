@@ -44,7 +44,7 @@ export default {
   &.black
     color: #fff
 
-  &.light-blue,
+  &.light-blue.lighten-2,
   &.cyan,
   &.green,
   &.light-green,

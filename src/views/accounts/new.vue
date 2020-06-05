@@ -110,7 +110,7 @@ export default {
   data: () => ({
     name: 'Наличные',
     rest: '0',
-    color: 'light-blue.lighten-2',
+    color: 'light-blue lighten-2',
     currency: 'RUB'
   }),
   computed: {
@@ -197,7 +197,7 @@ export default {
     &:before
       background-color: #2196f3
 
-  &.c-light-blue\.lighten-2
+  &.c-light-blue.lighten-2
     &:before
       background-color: #4fc3f7
 
@@ -244,4 +244,8 @@ export default {
   &.c-grey
     &:before
       background-color: #9e9e9e
+
+  &.c-blue-grey
+    &:before
+      background-color: #607d8b
 </style>
