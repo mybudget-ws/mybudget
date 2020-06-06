@@ -21,7 +21,7 @@
           v-if='isTransferVisible'
           to='/transactions/transfers/new'
           title='Новый перевод'
-          class='btn-floating waves-effect waves-light blue-grey lighten-5 z-depth-0 new-transfer'
+          class='btn-floating waves-effect waves-light indigo lighten-5 z-depth-0 new-transfer'
         >
           <!--i class='material-icons grey-text text-darken-1'>repeat</i-->
           <!--i class='material-icons grey-text text-darken-1'>loop</i-->

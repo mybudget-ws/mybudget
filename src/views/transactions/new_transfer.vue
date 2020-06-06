@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Новый перевод' />
+      <PageHeader name='Новый перевод' cover='transfer' />
 
       <Loader v-if='isLoading' />
       <div v-else class='row'>
