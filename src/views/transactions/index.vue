@@ -3,31 +3,33 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Операции'>
-        <router-link
-          :to='expenseUrl'
-          title='Новый расход'
-          class='btn-floating waves-effect waves-light red lighten-4 z-depth-0'
-        >
-          <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
-        </router-link>
-        <router-link
-          :to='incomeUrl'
-          title='Новый доход'
-          class='btn-floating waves-effect waves-light green accent-1 z-depth-0 new-income'
-        >
-          <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
-        </router-link>
-        <router-link
-          v-if='isTransferVisible'
-          to='/transactions/transfers/new'
-          title='Новый перевод'
-          class='btn-floating waves-effect waves-light indigo lighten-5 z-depth-0 new-transfer'
-        >
-          <!--i class='material-icons grey-text text-darken-1'>repeat</i-->
-          <!--i class='material-icons grey-text text-darken-1'>loop</i-->
-          <!--i class='material-icons grey-text text-darken-1'>swap_vert</i-->
-          <i class='material-icons grey-text text-darken-1'>repeat</i>
-        </router-link>
+        <div class='operations'>
+          <router-link
+            :to='expenseUrl'
+            title='Новый расход'
+            class='btn-floating waves-effect waves-light red lighten-4 z-depth-0'
+          >
+            <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
+          </router-link>
+          <router-link
+            :to='incomeUrl'
+            title='Новый доход'
+            class='btn-floating waves-effect waves-light green accent-1 z-depth-0 new-income'
+          >
+            <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
+          </router-link>
+          <router-link
+            v-if='isTransferVisible'
+            to='/transactions/transfers/new'
+            title='Новый перевод'
+            class='btn-floating waves-effect waves-light indigo lighten-5 z-depth-0 new-transfer'
+          >
+            <!--i class='material-icons grey-text text-darken-1'>repeat</i-->
+            <!--i class='material-icons grey-text text-darken-1'>loop</i-->
+            <!--i class='material-icons grey-text text-darken-1'>swap_vert</i-->
+            <i class='material-icons grey-text text-darken-1'>repeat</i>
+          </router-link>
+        </div>
       </PageHeader>
 
       <div class='row'>
@@ -272,6 +274,16 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.operations
+  display: inline-block
+  @media only screen and (max-width: 601px)
+    z-index: 2
+    position: fixed
+    bottom: 0
+    right: 0
+    padding: 0 20px 20px 0
+    min-width: 160px
+
 td
   padding: 10px 5px
 

@@ -2,7 +2,10 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Редактирование операции' />
+      <PageHeader
+        :name='isIncome ? "Доход" : "Расход"'
+        :cover='isIncome ? "income" : "expence"'
+      />
 
       <Loader v-if='isLoading' />
       <div v-else class='row'>
