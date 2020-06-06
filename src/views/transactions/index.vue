@@ -50,7 +50,7 @@
             </div>
           </div>
           <div v-if='isTableVisible' class='col l10 m9 s12'>
-            <table class='row'>
+            <table v-if='!isPhone' class='row'>
               <thead>
                 <tr>
                   <th class='date'>Дата</th>
@@ -122,6 +122,66 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if='isPhone' class='row'>
+              <div
+                v-for='item in items'
+                :key='item.id'
+                class='card z-depth-0 mobile-transaction'
+              >
+                <div class='card-content'>
+                  <Amount :value='item.amount' :currency='item.account.currency.name' class='card-title' />
+                  <span :title='dateTitleFormat(item)' class='date'>{{ dateFormat(item) }}</span>
+                  <div class='card-content tags'>
+                    <BadgeAccount
+                      :account='item.account'
+                      @click='onAccount(item.account)'
+                    />
+                    <span
+                      v-if='item.isTransfer'
+                      class='transfer new badge black-text tag teal lighten-4'
+                      data-badge-caption=''
+                    >
+                      <i class='material-icons'>repeat</i>
+                    </span>
+                    <BadgeProject
+                      v-if='item.project != null'
+                      :color='item.project.color'
+                      :name='item.project.name'
+                      @click='onProject(item.project)'
+                    />
+                    <BadgeCategory
+                      v-for='category in item.categories'
+                      :key='category.id'
+                      v-bind='category'
+                      @click='onCategory(category)'
+                    />
+                    <i
+                      v-if='item.description != null && item.description != ""'
+                      class='description grey-text text-darken-1'
+                    >
+                      {{ item.description }}
+                    </i>
+                  </div>
+                </div>
+                <div class='card-action'>
+                  <router-link
+                    title='Редактировать операцию'
+                    :to="`/transactions/${item.id}/edit`"
+                    class='grey-text text-darken-2'
+                  >
+                    Изменить
+                  </router-link>
+                  <a
+                    title='Удалить операцию'
+                    class='grey-text text-darken-2'
+                    @click='onDestroy(item)'
+                  >
+                    Удалить
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <div class='row'>
               <Loader v-if='isLoadingPage' size='small' />
               <br>
@@ -161,6 +221,9 @@ import { get, call } from 'vuex-pathify';
 const moment = require('moment');
 moment.locale('ru');
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'Transactions',
   components: {
@@ -175,6 +238,9 @@ export default {
     PageHeader
   },
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     token: get('user/token'),
     filters: get('filters/params'),
@@ -322,4 +388,36 @@ td
 .new-transfer,
 .new-income
   margin-left: 12px
+
+.card.mobile-transaction
+  position: relative
+  padding: 14px 0 10px 0
+  margin: 0 -10px 20px
+  padding: 8px 10px 0px
+  border: 1px #eee solid
+
+  .date
+    position: absolute
+    top: 10px
+    right: 14px
+    text-align: right
+    font-weight: 200
+
+  .card-title
+    margin-bottom: 2px
+
+  .card-content
+    padding: 0
+    margin-bottom: 10px
+
+    &.tags
+      min-height: 24px
+
+    span.badge
+      float: left
+      margin-left: 0
+      margin-bottom: 4px
+
+  .card-action
+    padding: 12px 0
 </style>
