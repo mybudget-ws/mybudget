@@ -166,15 +166,20 @@
                 </div>
                 <div class='card-action'>
                   <router-link
-                    title='Редактировать операцию'
                     :to="`/transactions/${item.id}/edit`"
                     class='grey-text text-darken-2'
                   >
                     Изменить
                   </router-link>
-                  <a
-                    title='Удалить операцию'
+                  <router-link
+                    v-if='!item.isTransfer'
+                    :to='copyUrl(item)'
                     class='grey-text text-darken-2'
+                  >
+                    Повторить
+                  </router-link>
+                  <a
+                    class='grey-text text-darken-2 last'
                     @click='onDestroy(item)'
                   >
                     Удалить
@@ -394,8 +399,8 @@ td
   position: relative
   padding: 14px 0 10px 0
   margin: 0 0 18px
-  padding: 8px 10px 0px
-  border: 1px #eee solid
+  padding: 8px 12px 0px
+  border-radius: 8px
 
   .date
     position: absolute
@@ -422,4 +427,7 @@ td
 
   .card-action
     padding: 12px 0
+
+    a.last
+      margin-right: 0 !important
 </style>
