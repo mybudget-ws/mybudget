@@ -12,6 +12,10 @@ export default {
 </script>
 
 <style lang='sass'>
+@media only screen and (max-width: 601px)
+  .container.container-wide
+    width: 96% !important
+
 @media only screen and (min-width: 601px)
   .container.container-wide
     width: 90% !important

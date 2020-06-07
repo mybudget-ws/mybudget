@@ -127,6 +127,7 @@
                 v-for='item in items'
                 :key='item.id'
                 class='card z-depth-0 mobile-transaction'
+                :class='item.amount > 0 ? "green lighten-5" : "red lighten-5"'
               >
                 <div class='card-content'>
                   <Amount :value='item.amount' :currency='item.account.currency.name' class='card-title' />
@@ -157,7 +158,7 @@
                     />
                     <i
                       v-if='item.description != null && item.description != ""'
-                      class='description grey-text text-darken-1'
+                      class='description grey-text text-darken-2'
                     >
                       {{ item.description }}
                     </i>
@@ -392,7 +393,7 @@ td
 .card.mobile-transaction
   position: relative
   padding: 14px 0 10px 0
-  margin: 0 -10px 20px
+  margin: 0 0 18px
   padding: 8px 10px 0px
   border: 1px #eee solid
 
@@ -402,6 +403,7 @@ td
     right: 14px
     text-align: right
     font-weight: 200
+    color: #424242
 
   .card-title
     margin-bottom: 2px
