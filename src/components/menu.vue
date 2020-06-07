@@ -81,7 +81,7 @@ export default {
       { path: '/accounts', name: 'Счета' },
       { path: '/reports', name: 'Отчеты' },
       { path: '/categories', name: 'Категории' },
-      { path: '/budgets', name: 'Бюджеты' },
+      // { path: '/budgets', name: 'Бюджеты' },
       { path: '/goals', name: 'Цели' },
       { path: '/projects', name: 'Проекты' }
     ]
