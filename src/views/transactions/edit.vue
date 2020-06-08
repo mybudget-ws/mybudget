@@ -237,6 +237,10 @@ export default {
         /* eslint-enable */
       });
     }
+    this.$nextTick(() => {
+      // this.$refs.amount.select();
+      this.$refs.amount.focus();
+    });
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),

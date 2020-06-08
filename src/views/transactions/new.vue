@@ -216,7 +216,7 @@ export default {
       this.filterCategories.map(v => v.id);
     this.description = this.$route.query.description;
     this.isIncome = this.$route.query.isIncome == 'true';
-    this.amount = this.$route.query.amount || '';
+    this.amount = this.$route.query.amount || '0';
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
@@ -271,7 +271,8 @@ export default {
         /* eslint-enable */
       });
     }
-    this.$refs?.amount?.focus();
+    this.$refs.amount.select();
+    this.$refs.amount.focus();
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
