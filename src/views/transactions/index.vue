@@ -3,33 +3,7 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Операции'>
-        <div class='operations'>
-          <router-link
-            :to='expenseUrl'
-            title='Новый расход'
-            class='btn-floating waves-effect waves-light red lighten-4 z-depth-0'
-          >
-            <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
-          </router-link>
-          <router-link
-            :to='incomeUrl'
-            title='Новый доход'
-            class='btn-floating waves-effect waves-light green accent-1 z-depth-0 new-income'
-          >
-            <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
-          </router-link>
-          <router-link
-            v-if='isTransferVisible'
-            to='/transactions/transfers/new'
-            title='Новый перевод'
-            class='btn-floating waves-effect waves-light indigo lighten-5 z-depth-0 new-transfer'
-          >
-            <!--i class='material-icons grey-text text-darken-1'>repeat</i-->
-            <!--i class='material-icons grey-text text-darken-1'>loop</i-->
-            <!--i class='material-icons grey-text text-darken-1'>swap_vert</i-->
-            <i class='material-icons grey-text text-darken-1'>repeat</i>
-          </router-link>
-        </div>
+        <TransactionOperations />
       </PageHeader>
 
       <div class='row'>
@@ -222,6 +196,7 @@ import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import TransactionOperations from '@/components/transactions/operations';
 import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
@@ -241,7 +216,8 @@ export default {
     Filters,
     Loader,
     Menu,
-    PageHeader
+    PageHeader,
+    TransactionOperations
   },
   props: {},
   data: () => ({
@@ -250,26 +226,11 @@ export default {
   computed: {
     token: get('user/token'),
     filters: get('filters/params'),
-    accounts: get('accounts/visibleItemsFilter'),
-    selectedAccounts: get('filters/accounts'),
     isVisible: get('filters/isVisible'),
     ...get('transactions/*'),
     isAlert() { return this.isEmpty && !this.isVisible; },
     isEmpty() { return !this.isLoading && this.items.length === 0; },
-    isTableVisible() { return !this.isLoading && !this.isEmpty; },
-    isTransferVisible() { return this.accounts.length > 1; },
-    expenseUrl() {
-      if (this.selectedAccounts.length > 0) {
-        return `/transactions/new?account=${this.selectedAccounts[0].id}`;
-      }
-      return '/transactions/new';
-    },
-    incomeUrl() {
-      if (this.selectedAccounts.length > 0) {
-        return `/transactions/new?isIncome=true&account=${this.selectedAccounts[0].id}`;
-      }
-      return '/transactions/new?isIncome=true';
-    }
+    isTableVisible() { return !this.isLoading && !this.isEmpty; }
   },
   async created() {
     await this.fetch({ token: this.token, filters: this.filters });
@@ -278,7 +239,6 @@ export default {
     more() {
       this.fetchNext({ token: this.token, filters: this.filters });
     },
-    // fetchAccounts: call('accounts/fetch'),
     ...call([
       'transactions/fetch',
       'transactions/fetchNext',
@@ -347,16 +307,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.operations
-  display: inline-block
-  @media only screen and (max-width: 601px)
-    z-index: 2
-    position: fixed
-    bottom: 0
-    right: 0
-    padding: 0 20px 20px 0
-    min-width: 160px
-
 td
   padding: 10px 5px
 
@@ -391,10 +341,6 @@ td
 .description
   font-size: 14px
   font-weight: 200
-
-.new-transfer,
-.new-income
-  margin-left: 12px
 
 .card.mobile-transaction
   position: relative
