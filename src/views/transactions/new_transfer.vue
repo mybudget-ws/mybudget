@@ -252,9 +252,13 @@ export default {
         accountIdDst,
         description
       } = this;
-      const evalAmountSrc = amountSrc.replace(/,/g, '.').replace(/\s/g, '')
+      const evalAmountSrc = amountSrc
+        .replace(/,/g, '.')
+        .replace(/\s/g, '')
         .replace(/([.])\1+/g, '$1');
-      const evalAmountDst = amountDst.replace(/,/g, '.').replace(/\s/g, '')
+      const evalAmountDst = amountDst
+        .replace(/,/g, '.')
+        .replace(/\s/g, '')
         .replace(/([.])\1+/g, '$1');
       const transfer = {
         amountSrc: evalAmountSrc,
