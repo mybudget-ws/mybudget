@@ -327,7 +327,7 @@ export default {
       const categoryIds = item.categories.map(v => v.id);
       return `/transactions/new?account=${accountId}` +
         `&project=${projectId}&category=${categoryIds}` +
-        `&description=${encodeURIComponent(item.description) || ''}` +
+        `&description=${item.description == null ? '' : encodeURIComponent(item.description)}` +
         `&amount=${Math.abs(item.amount)}&isIncome=${item.amount > 0}`;
     },
     onAccount(account) {
