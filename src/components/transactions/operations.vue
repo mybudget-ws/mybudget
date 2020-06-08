@@ -1,26 +1,47 @@
 <template>
   <div class='operations'>
     <router-link
-      :to='expenseUrl'
       title='Новый расход'
-      class='btn-floating waves-effect waves-light red lighten-4 z-depth-0'
+      class='btn-floating waves-effect waves-light z-depth-0 red'
+      :to='expenseUrl'
+      :class='isPhone ? "lighten-2 btn-large" : "lighten-4"'
     >
-      <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
+      <i
+        class='material-icons'
+        :class='isPhone ? "white-text" : "grey-text text-darken-1"'
+        :style='isPhone ? "font-size: 2rem" : ""'
+      >
+        arrow_downward
+      </i>
     </router-link>
     <router-link
-      :to='incomeUrl'
       title='Новый доход'
-      class='btn-floating waves-effect waves-light green accent-1 z-depth-0 new-income'
+      class='btn-floating waves-effect waves-light green z-depth-0 new-income'
+      :to='incomeUrl'
+      :class='isPhone ? "lighten-2 btn-large" : "lighten-4"'
     >
-      <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
+      <i
+        class='material-icons'
+        :class='isPhone ? "white-text" : "grey-text text-darken-1"'
+        :style='isPhone ? "font-size: 2rem" : ""'
+      >
+        arrow_upward
+      </i>
     </router-link>
     <router-link
       v-if='isTransferVisible'
-      to='/transactions/transfers/new'
       title='Новый перевод'
-      class='btn-floating waves-effect waves-light indigo lighten-5 z-depth-0 new-transfer'
+      to='/transactions/transfers/new'
+      class='btn-floating waves-effect waves-light indigo z-depth-0 new-transfer'
+      :class='isPhone ? "lighten-3 btn-large" : "lighten-5"'
     >
-      <i class='material-icons grey-text text-darken-1'>repeat</i>
+      <i
+        class='material-icons'
+        :class='isPhone ? "white-text" : "grey-text text-darken-1"'
+        :style='isPhone ? "font-size: 2rem" : ""'
+      >
+        repeat
+      </i>
     </router-link>
   </div>
 </template>
@@ -28,10 +49,16 @@
 <script>
 import { get } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'TransactionOperations',
   components: {},
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     accounts: get('accounts/visibleItemsFilter'),
     selectedAccounts: get('filters/accounts'),
