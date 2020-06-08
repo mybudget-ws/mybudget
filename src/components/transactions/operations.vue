@@ -89,7 +89,8 @@ export default {
     bottom: 0
     right: 0
     padding: 0 20px 20px 0
-    min-width: 160px
+    min-width: 212px
+    width: 212px
 
 .new-transfer,
 .new-income
