@@ -104,7 +104,11 @@
                 :class='item.amount > 0 ? "green lighten-5" : "red lighten-5"'
               >
                 <div class='card-content'>
-                  <Amount :value='item.amount' :currency='item.account.currency.name' class='card-title' />
+                  <Amount
+                    :value='item.amount'
+                    :currency='item.account.currency.name'
+                    class='card-title'
+                  />
                   <span :title='dateTitleFormat(item)' class='date'>{{ dateFormat(item) }}</span>
                   <div class='card-content tags'>
                     <BadgeAccount

@@ -1,7 +1,7 @@
 <template>
   <div :class='classes'>
     <span class='value'>{{ formatedValue }}</span>
-    <span class='currency grey-text' :title='titleCurrency'>
+    <span class='currency grey-text text-darken-1' :title='titleCurrency'>
       {{ formatedCurrency }}
     </span>
     <slot />

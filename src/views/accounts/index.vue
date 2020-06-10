@@ -16,7 +16,7 @@
               </p>
             </div>
           </div>
-          <table v-else>
+          <table v-else-if='!isPhone'>
             <thead>
               <tr>
                 <th class='name'>Название</th>
@@ -104,7 +104,11 @@
               </tr>
             </tbody>
           </table>
+          <div v-for='item in orderedVisibleAccounts' v-else :key='item.id'>
+            <Card v-bind='item' />
+          </div>
 
+          <!-- Archive -->
           <table v-if='hiddenItems.length' class='hidden-table'>
             <thead>
               <tr>
@@ -149,21 +153,29 @@
 
 <script>
 import Amount from '@/components/amount';
+import Card from '@/components/accounts/card';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'Accounts',
   components: {
     Amount,
+    Card,
     Menu,
     Loader,
     PageHeader
   },
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     token: get('user/token'),
     ...get('accounts/*'),
