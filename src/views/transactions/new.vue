@@ -349,6 +349,11 @@ h6.subtitle
   position: absolute
   margin-top: -4px
 
+  @media only screen and (max-width: 601px)
+    padding-bottom: 6px
+    display: inline-block
+    position: inherit
+
   .top-account
     cursor: pointer
     display: inline-block
