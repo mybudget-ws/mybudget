@@ -131,6 +131,9 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 const moment = require('moment');
 moment.locale('ru');
 
@@ -153,6 +156,7 @@ export default {
     isIncome: false,
     categoryIds: [],
 
+    isPhone: md.phone() != null,
     datepicker: null
   }),
   computed: {
@@ -216,7 +220,8 @@ export default {
       this.filterCategories.map(v => v.id);
     this.description = this.$route.query.description;
     this.isIncome = this.$route.query.isIncome == 'true';
-    this.amount = this.$route.query.amount || '0';
+    this.amount = this.$route.query.amount ||
+      (this.isPhone ? '' : '0');
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }

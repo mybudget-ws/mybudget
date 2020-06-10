@@ -118,6 +118,9 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 // const moment = require('moment/min/moment-with-locales');
 const moment = require('moment');
 moment.locale('ru');
@@ -132,8 +135,8 @@ export default {
   },
   props: {},
   data: () => ({
-    amountSrc: 0,
-    amountDst: 0,
+    amountSrc: (md.phone() != null ? '' : '0'),
+    amountDst: (md.phone() != null ? '' : '0'),
     date: new Date(),
     description: '',
     accountIdSrc: '',
