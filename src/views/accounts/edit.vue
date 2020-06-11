@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Редактирование счета' />
+      <PageHeader name='Редактирование' />
 
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
