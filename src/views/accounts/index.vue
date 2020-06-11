@@ -57,7 +57,7 @@
                     <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
                   </router-link>
                   <router-link
-                    v-if='orderedVisibleAccounts.length > 1'
+                    v-if='isTransferAllow'
                     :to="`/transactions/transfers/new?accountIdSrc=${item.id}`"
                     title='Новый перевод'
                     class='btn-small waves-effect waves-light blue-grey lighten-5 z-depth-0'
@@ -68,18 +68,21 @@
                 <td class='actions'>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    title='Редактировать'
                     @click='onEdit(item)'
                   >
                     <i class='material-icons grey-text'>edit</i>
                   </a>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    title='Скрыть'
                     @click='onHide(item)'
                   >
                     <i class='material-icons grey-text'>visibility_off</i>
                   </a>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    title='Удалить'
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
@@ -105,7 +108,14 @@
             </tbody>
           </table>
           <div v-for='item in orderedVisibleAccounts' v-else :key='item.id'>
-            <Card v-bind='item' />
+            <Card
+              v-bind='item'
+              :is-transfer-allow='isTransferAllow'
+              @edit='onEdit(item)'
+              @hide='onHide(item)'
+              @destroy='onDestroy(item)'
+              @favourite='onFavourite(item)'
+            />
           </div>
 
           <!-- Archive -->
@@ -131,12 +141,14 @@
                 <td class='actions-hidden'>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    title='Сделать активным'
                     @click='onHide(item)'
                   >
                     <i class='material-icons grey-text'>visibility</i>
                   </a>
                   <a
                     class='waves-effect waves-teal btn-flat'
+                    title='Удалить'
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
@@ -182,6 +194,9 @@ export default {
     isAlert() {
       return !this.isLoading && this.items.length === 0;
     },
+    isTransferAllow() {
+      return this.orderedVisibleAccounts.length > 1;
+    },
     orderedVisibleAccounts() {
       return [
         ...this.visibleItems.filter(v => v.isFavourite),
@@ -211,8 +226,7 @@ export default {
     titleFavourite(item) {
       return item.isFavourite ? 'Удалить из избранного' : 'Добавить в избранное';
     },
-    onEdit(account) {
-      const { id } = account;
+    onEdit({ id }) {
       this.$router.push({ name: 'edit_account', params: { id } });
     },
     async onHide(account) {

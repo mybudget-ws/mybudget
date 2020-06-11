@@ -48,6 +48,9 @@ export default {
   white-space: nowrap
 
 .currency
-  font-size: 10px
+  font-size: 12px
   font-weight: 300
+
+  @media only screen and (max-width: 601px)
+    font-size: 14px
 </style>
