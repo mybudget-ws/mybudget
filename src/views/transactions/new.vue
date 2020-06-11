@@ -18,7 +18,6 @@
                 v-model='amount'
                 :type='isPhone ? "number" : "text"'
                 class='validate'
-                inputmode='numeric'
                 pattern='[0-9,.+-/*\s]+'
                 autofocus
                 required

@@ -136,12 +136,14 @@ export default {
   props: {},
   data: () => ({
     amountSrc: (md.phone() != null ? '' : '0'),
-    amountDst: (md.phone() != null ? '' : '0'),
+    // amountDst: (md.phone() != null ? '' : '0'),
+    amountDst: '0',
     date: new Date(),
     description: '',
     accountIdSrc: '',
     accountIdDst: '',
 
+    isPhone: md.phone() != null,
     datepicker: null
   }),
   computed: {
