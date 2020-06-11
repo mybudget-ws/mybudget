@@ -32,7 +32,7 @@
                 id='amountSrc'
                 ref='amountSrc'
                 v-model='amountSrc'
-                type='text'
+                :type='isPhone ? "number" : "text"'
                 class='validate'
                 pattern='[0-9,+-/*]+'
                 required
@@ -51,7 +51,7 @@
                 id='amountDst'
                 ref='amountDst'
                 v-model='amountDst'
-                type='text'
+                :type='isPhone ? "number" : "text"'
                 class='validate'
                 pattern='[0-9,+-/*]+'
                 required
