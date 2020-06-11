@@ -16,7 +16,7 @@
                 id='amount'
                 ref='amount'
                 v-model='amount'
-                type='text'
+                :type='isPhone ? "number" : "text"'
                 class='validate'
                 inputmode='numeric'
                 pattern='[0-9,.+-/*\s]+'
