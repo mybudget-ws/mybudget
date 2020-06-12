@@ -7,7 +7,7 @@
       <div class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col s8'>
+            <div class='input-field col l8 s12'>
               <input
                 id='name'
                 ref='name'
@@ -38,7 +38,27 @@
             </div>
           </div>
 
-          <div class='row'>
+          <div v-if='isPhone' class='mobile-submit'>
+            <Button
+              :is-disabled='isSubmitting'
+              :is-loading='isSubmitting'
+              @click='submit'
+            >
+              <i
+                class='material-icons grey-text text-darken-1'
+                style='font-size: 2rem'
+              >
+                done
+              </i>
+            </Button>
+            <router-link
+              to='/projects'
+              class='btn-floating btn-large waves-effect waves-light grey lighten-2 z-depth-0'
+            >
+              <i class='material-icons grey-text text-darken-1' style='font-size: 2rem'>close</i>
+            </router-link>
+          </div>
+          <div v-else class='row'>
             <div class='col'>
               <Button
                 text='Изменить'
@@ -66,6 +86,9 @@ import PageHeader from '@/components/page_header';
 import api from '@/api';
 import { get, call } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'NewProject',
   components: {
@@ -77,8 +100,10 @@ export default {
   data: () => ({
     name: '',
     color: 'light-blue',
+
     isLoading: true,
-    isSubmitting: false
+    isSubmitting: false,
+    isPhone: md.phone() != null
   }),
   computed: {
     id() { return this.$route.params.id; },
@@ -202,4 +227,20 @@ export default {
   &.c-blue-grey
     &:before
       background-color: #607d8b
+
+form
+  @media only screen and (max-width: 601px)
+    padding-bottom: 3rem !important
+
+.mobile-submit
+  z-index: 2
+  position: fixed
+  bottom: 0
+  right: 0
+  padding: 0 20px 20px 0
+  min-width: 146px
+  width: 146px
+
+  a
+    margin-left: 12px
 </style>
