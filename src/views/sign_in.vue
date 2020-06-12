@@ -31,6 +31,7 @@
 
           <Button
             text='Продолжить'
+            :is-mobile='false'
             :is-disabled='isSubmitting'
             :is-loading='isSubmitting'
             @click='submit'
@@ -74,9 +75,11 @@ export default {
       'user/login'
     ]),
     async submit() {
+      const { email, password } = this;
+      if (email == '' || password == '') { return; }
+
       this.isSubmitting = true;
 
-      const { email, password } = this;
       const isSuccess = await this.login({ email, password });
       this.isSubmitting = isSuccess;
       if (isSuccess) {

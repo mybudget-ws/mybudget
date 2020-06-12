@@ -30,6 +30,7 @@
 
       <Button
         text='Сохранить'
+        :is-mobile='false'
         :is-disabled='isSubmitting'
         :is-loading='isSubmitting'
         @click='submit'

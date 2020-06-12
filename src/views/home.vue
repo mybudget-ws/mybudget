@@ -13,6 +13,7 @@
               to='/sign_up'
             /-->
             <Button
+              :is-mobile='false'
               text='Начать сейчас'
               to='/sign_in'
             />
