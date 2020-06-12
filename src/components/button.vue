@@ -1,6 +1,6 @@
 <template>
   <router-link
-    v-if='to'
+    v-if='to && !isPhone'
     :to='to'
     class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0'
     :class="{ 'disabled': isDisabled }"
@@ -8,16 +8,27 @@
     {{ buttonText }}
   </router-link>
   <button
-    v-else
+    v-else-if='!to && !isPhone'
     class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0'
     :class="{ 'disabled': isDisabled }"
     @click='click'
   >
     {{ buttonText }}
   </button>
+  <button
+    v-else
+    class='btn-floating btn-large waves-effect waves-light z-depth-0 yellow'
+    :class="{ 'disabled': isDisabled }"
+    @click='click'
+  >
+    <slot />
+  </button>
 </template>
 
 <script>
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'Button',
   components: {},
@@ -27,6 +38,9 @@ export default {
     isDisabled: { type: Boolean, required: false, default: false },
     isLoading: { type: Boolean, required: false, default: false }
   },
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     buttonText() {
       return this.isLoading ?
