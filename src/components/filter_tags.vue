@@ -1,5 +1,5 @@
 <template>
-  <div v-if='isVisible'>
+  <div v-if='isVisible' class='tags-filters'>
     <div
       v-for='account in accounts'
       :key="'a-' + account.id"
@@ -81,4 +81,8 @@ i.project
   &:hover
     opacity: 0.9
     cursor: pointer
+
+.tags-filters
+  @media only screen and (max-width: 601px)
+    margin-bottom: 10px
 </style>
