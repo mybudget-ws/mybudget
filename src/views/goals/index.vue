@@ -66,6 +66,7 @@
             <Card
               v-bind='item'
               :currency='currency(item)'
+              :percentage='tagPercentage(item)'
               @destroy='onDestroy(item)'
             />
           </div>
@@ -94,11 +95,11 @@ export default {
   name: 'Goals',
   components: {
     Amount,
+    BadgeAccount,
     Card,
-    Menu,
     Loader,
-    PageHeader,
-    BadgeAccount
+    Menu,
+    PageHeader
   },
   props: {},
   data: () => ({

@@ -4,6 +4,9 @@
       <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
       <span class='date'>до {{ dateFormat }}</span>
       <Amount :value='amount' :currency='currency' class='card-title' />
+      <div v-for='account in accounts' :key='account.id' class='card-content tags'>
+        <BadgeAccount :account='account' />
+      </div>
       <span
         class='new badge tag blue percentage'
         :data-badge-caption='percentageText'
@@ -28,6 +31,7 @@
 
 <script>
 import Amount from '@/components/amount';
+import BadgeAccount from '@/components/badges/account';
 
 const moment = require('moment');
 moment.locale('ru');
@@ -35,7 +39,8 @@ moment.locale('ru');
 export default {
   name: 'AccountCard',
   components: {
-    Amount
+    Amount,
+    BadgeAccount
   },
   props: {
     id: { type: Number, required: true },
@@ -43,7 +48,8 @@ export default {
     amount: { type: Number, required: true },
     currency: { type: String, required: true },
     percentage: { type: String, required: true },
-    dueDateOn: { type: String, required: true }
+    dueDateOn: { type: String, required: true },
+    accounts: { type: Array, required: true }
   },
   data: () => ({
   }),
@@ -90,6 +96,14 @@ export default {
     .name
       font-size: 18px
       font-weight: 400
+
+    &.tags
+      min-height: 24px
+
+    span.badge
+      float: left
+      margin-left: 0
+      margin-bottom: 4px
 
   .card-action
     padding: 12px 0
