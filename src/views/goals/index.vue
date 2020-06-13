@@ -15,7 +15,7 @@
               <a href="#">Подробнее о целях</a>
             </div-->
           </div>
-          <table v-else class='responsive-table'>
+          <table v-else-if='!isPhone'>
             <thead>
               <tr>
                 <th class='name'>Название</th>
@@ -62,6 +62,13 @@
               </tr>
             </tbody>
           </table>
+          <div v-for='item in items' v-else :key='item.id'>
+            <Card
+              v-bind='item'
+              :currency='currency(item)'
+              @destroy='onDestroy(item)'
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -70,11 +77,15 @@
 
 <script>
 import Amount from '@/components/amount';
+import Card from '@/components/goals/card';
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import BadgeAccount from '@/components/badges/account';
 import { get, call } from 'vuex-pathify';
+
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
 
 const moment = require('moment');
 moment.locale('ru');
@@ -83,12 +94,16 @@ export default {
   name: 'Goals',
   components: {
     Amount,
+    Card,
     Menu,
     Loader,
     PageHeader,
     BadgeAccount
   },
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     token: get('user/token'),
     ...get('goals/*'),
