@@ -26,7 +26,7 @@
 
     <div class='container'>
       <div class='row'>
-        <div class='col l6 m6 s12'>
+        <div class='col l6 m12 s12'>
           <div class='feature z-depth-1'>
             <h5>Мой Бюджет</h5>
             <p>
@@ -35,7 +35,7 @@
             </p>
           </div>
         </div>
-        <div class='col l6 m6 s12'>
+        <div class='col l6 m12 s12'>
           <div class='feature z-depth-1'>
             <h5>Разные счета</h5>
             <p>
@@ -44,7 +44,7 @@
             </p>
           </div>
         </div>
-        <div class='col l6 m6 s12'>
+        <div class='col l6 m12 s12'>
           <div class='feature z-depth-1'>
             <h5>Анализ данных</h5>
             <p>
@@ -53,7 +53,7 @@
             </p>
           </div>
         </div>
-        <div class='col l6 m6 s12'>
+        <div class='col l6 m12 s12'>
           <div class='feature z-depth-1'>
             <h5>Несколько валют</h5>
             <p>
