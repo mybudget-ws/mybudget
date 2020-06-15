@@ -15,7 +15,7 @@
               <a href="#">Подробнее о проектах</a>
             </div-->
           </div>
-          <table v-else>
+          <table v-else-if='!isPhone'>
             <thead>
               <tr>
                 <th class='name'>Название</th>
@@ -66,6 +66,14 @@
               </tr>
             </tbody>
           </table>
+          <div v-for='item in visibleItems' v-else :key='item.id'>
+            <Card
+              v-bind='item'
+              @edit='onEdit(item)'
+              @hide='onHide(item)'
+              @destroy='onDestroy(item)'
+            />
+          </div>
 
           <table v-if='hiddenItems.length' class='hidden-table'>
             <thead>
@@ -111,20 +119,28 @@
 
 <script>
 import Amount from '@/components/amount';
-import Menu from '@/components/menu';
+import Card from '@/components/projects/card';
 import Loader from '@/components/loader';
+import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
+
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
 
 export default {
   name: 'Projects',
   components: {
     Amount,
-    Menu,
+    Card,
     Loader,
+    Menu,
     PageHeader
   },
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     token: get('user/token'),
     ...get('projects/*'),
