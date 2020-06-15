@@ -6,7 +6,7 @@
     <div class='card-content'>
       <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
       <div v-if='balances.length == 1' class='card-title'>
-        <Amount :value='0' currency='RUB' />
+        <Amount :value='balances[0].amount' :currency='balances[0].currency.name' />
       </div>
       <div v-else class='card-title'>
         <Amount
@@ -22,7 +22,6 @@
           class='balance-amount'
         />
       </div>
-      <!--Amount :value='balance' :currency='currency.name' class='card-title' /-->
       <div class='card-action'>
         <a
           class='grey-text text-darken-2'
