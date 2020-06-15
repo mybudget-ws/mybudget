@@ -4,8 +4,10 @@
     <div class='container main'>
       <div class='row'>
         <div class='col'>
-          <h1>Мой Бюджет</h1>
-          <h5>Домашняя бухгалтерия онлайн</h5>
+          <h1 class='white-text'>Мой Бюджет</h1>
+          <h5 class='grey-text text-lighten-3'>
+            Домашняя бухгалтерия онлайн
+          </h5>
 
           <div class='getstarted'>
             <!--Button
@@ -22,38 +24,43 @@
       </div>
     </div>
 
-    <div class='container feature'>
+    <div class='container'>
       <div class='row'>
         <div class='col l6 m6 s12'>
-          <h5>Мой Бюджет</h5>
-          <p>
-            Это online сервис для ведения семейного бюджета и домашней бухгалтерии.
-            Инструмент для учета повседневных доходов и расходов.
-          </p>
+          <div class='feature z-depth-1'>
+            <h5>Мой Бюджет</h5>
+            <p>
+              Это online сервис для ведения семейного бюджета и домашней бухгалтерии.
+              Инструмент для учета повседневных доходов и расходов.
+            </p>
+          </div>
         </div>
         <div class='col l6 m6 s12'>
-          <h5>Разные счета</h5>
-          <p>
-            Создание отдельного счета для наличных, банковского счета,
-            кредитных карт, инвестиций, чтобы изящно сбалансировать учет финансов.
-          </p>
-        </div>
-      </div>
-      <div class='row'>
-        <div class='col l6 m6 s12'>
-          <h5>Анализ данных</h5>
-          <p>
-            Просматривайте собранные и отсортированные данные, отображаемые
-            в виде графиков и таблиц, анализируйте результат своей работы,
-            чтобы определить места для улучшения.
-          </p>
+          <div class='feature z-depth-1'>
+            <h5>Разные счета</h5>
+            <p>
+              Создание отдельного счета для наличных, банковского счета,
+              кредитных карт, инвестиций, чтобы изящно сбалансировать учет финансов.
+            </p>
+          </div>
         </div>
         <div class='col l6 m6 s12'>
-          <h5>Несколько валют</h5>
-          <p>
-            Для каждого из ваших счетов можно указать свою валюту.
-            В отчетах есть возможность анализа расходов как в разрезе счетов, так и валют.
-          </p>
+          <div class='feature z-depth-1'>
+            <h5>Анализ данных</h5>
+            <p>
+              Просматривайте собранные и отсортированные данные, отображаемые
+              в виде графиков и таблиц, анализируйте результат своей работы.
+            </p>
+          </div>
+        </div>
+        <div class='col l6 m6 s12'>
+          <div class='feature z-depth-1'>
+            <h5>Несколько валют</h5>
+            <p>
+              Для каждого из ваших счетов можно указать свою валюту.
+              В отчетах есть возможность анализа расходов как в разрезе счетов, так и валют.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -130,20 +137,21 @@ h1
 
 .getstarted
   margin-top: 40px
+  margin-bottom: 20px
 
 .top-header
   height: 40px
   padding: 20px
 
-.main-background
-  // background: linear-gradient(153.23deg, #c5cae9 0%, rgba(255, 255, 255, 0) 100%), #ffffff;
-  // background: linear-gradient(153.23deg, #919ce2 5.73%, rgba(255, 255, 255, 0) 100%), #ffffff;
-
 .container.main
   padding-bottom: 60px
 
-.container.feature
-  // background: #fff
+.feature
+  background: #fff
+  padding: 10px 20px 18px
+  border-radius: 10px
+  min-height: 10px
+  margin-bottom: 20px
 
 .page-footer
   margin-top: 200px
@@ -151,4 +159,15 @@ h1
   .footer-copyright
     .container
       padding-left: 0.75rem
+
+.main-background
+  &:before
+    background-image: url('../assets/home-background.svg')
+    background-repeat: no-repeat
+    position: absolute
+    width: 100%
+    height: 100%
+    content: ''
+    background-size: cover
+    z-index: -1
 </style>

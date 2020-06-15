@@ -1,11 +1,10 @@
 <template>
   <div class='row row-menu'>
-    <!--nav v-if='isShortMenu' class='blue-grey darken-4 z-depth-0'-->
-    <nav v-if='isShortMenu' class='white z-depth-0'>
+    <nav v-if='isShortMenu' class='menu z-depth-0'>
       <div class='nav-wrapper container'>
         <router-link
           to='/'
-          class='brand-logo grey-text left col'
+          class='brand-logo grey-text text-lighten-2 left col'
         >
           myBudget v2.0
         </router-link>
@@ -13,7 +12,7 @@
           <router-link to='/currencies' :class='btnClasses'>
             Курсы валют
           </router-link>
-          <router-link to='/sign_in' :class='btnClasses'>
+          <router-link to='/sign_in' :class='btnClasses' class='sign-in'>
             Вход
           </router-link>
         </div>
@@ -94,7 +93,7 @@ export default {
     btnClasses() {
       // 'waves-effect blue-grey-text text-lighten-5 btn-flat' :
       return this.isShortMenu ?
-        'waves-effect waves-yellow btn-flat grey-text text-darken-4 z-depth-0' :
+        'waves-effect waves-yellow btn-flat grey-text text-lighten-5 z-depth-0' :
         'waves-effect blue-grey-text text-lighten-5';
     }
   },
@@ -131,6 +130,15 @@ export default {
 
 .row-menu
   margin-bottom: 0
+
+  .menu
+    background: inherit
+
+.sign-in
+  border: 1px solid white
+  border-radius: 6px
+  line-height: 34px
+  margin-right: 10px
 
 nav
  i.material-icons
