@@ -4,11 +4,11 @@
       title='Новый расход'
       class='btn-floating waves-effect waves-light z-depth-0 red'
       :to='expenseUrl'
-      :class='isPhone ? "lighten-2 btn-large" : "lighten-4"'
+      :class='isPhone ? "accent-1 btn-large" : "accent-1"'
     >
       <i
         class='material-icons'
-        :class='isPhone ? "white-text" : "grey-text text-darken-1"'
+        :class='isPhone ? "white-text" : "white-text"'
         :style='isPhone ? "font-size: 2rem" : ""'
       >
         arrow_downward
@@ -18,11 +18,11 @@
       title='Новый доход'
       class='btn-floating waves-effect waves-light green z-depth-0 new-income'
       :to='incomeUrl'
-      :class='isPhone ? "lighten-2 btn-large" : "lighten-4"'
+      :class='isPhone ? "accent-4 btn-large" : " accent-4"'
     >
       <i
         class='material-icons'
-        :class='isPhone ? "white-text" : "grey-text text-darken-1"'
+        :class='isPhone ? "white-text" : "white-text"'
         :style='isPhone ? "font-size: 2rem" : ""'
       >
         arrow_upward
@@ -33,11 +33,11 @@
       title='Новый перевод'
       to='/transactions/transfers/new'
       class='btn-floating waves-effect waves-light indigo z-depth-0 new-transfer'
-      :class='isPhone ? "lighten-3 btn-large" : "lighten-5"'
+      :class='isPhone ? "lighten-3 btn-large" : "lighten-3"'
     >
       <i
         class='material-icons'
-        :class='isPhone ? "white-text" : "grey-text text-darken-1"'
+        :class='isPhone ? "white-text" : "white-text"'
         :style='isPhone ? "font-size: 2rem" : ""'
       >
         repeat
