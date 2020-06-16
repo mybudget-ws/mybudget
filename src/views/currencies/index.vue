@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='main-background'>
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Курсы валют'>
@@ -121,4 +121,21 @@ export default {
 .chart
   height: 300px
   margin-left: -20px
+
+.main-background
+  &:before
+    background-image: url('../../assets/home-background.svg')
+    background-repeat: no-repeat
+    position: absolute
+    width: 100%
+    height: 100%
+    content: ''
+    background-size: cover
+    z-index: -1
+
+.container
+  background-color: #fff
+  padding: 0 30px
+  border-radius: 20px
+  margin-top: 20px
 </style>
