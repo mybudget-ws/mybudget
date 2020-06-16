@@ -3,7 +3,7 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Курсы валют'>
-        <div v-if='!isLoading' class='right'>
+        <div v-if='!isLoading' class='currencies right'>
           <select ref='selectCurrencies' v-model='currency' @change='change'>
             <option v-for='curr in items' :key='curr.id' :value='curr.name'>
               {{ curr.name }}
@@ -112,6 +112,10 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.currencies
+  max-width: 110px
+  margin-top: 0px
+
 .name
   width: 80px
 
@@ -135,7 +139,10 @@ export default {
 
 .container
   background-color: #fff
-  padding: 0 30px
+  margin-top: 10px
   border-radius: 20px
-  margin-top: 20px
+
+  @media only screen and (min-width: 601px)
+    padding: 0 30px
+    margin-top: 20px
 </style>
