@@ -34,9 +34,8 @@
                 id='amount'
                 ref='amount'
                 v-model='amount'
-                type='text'
-                class='validate'
-                pattern='[0-9,+-/*]+'
+                :type='isPhone ? "number" : "text"'
+                :class='{ "validate": !isPhone }'
                 autofocus
                 required
                 @click='$refs.amount.focus()'

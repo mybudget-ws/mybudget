@@ -53,13 +53,12 @@
               </select>
               <label>Валюта</label>
             </div>
-            <div class='input-field col l3 s12'>
+            <!--div class='input-field col l3 s12'>
               <input
                 id='rest'
                 v-model='rest'
-                type='text'
-                class='validate'
-                pattern="[0-9,]+"
+                :type='isPhone ? "number" : "text"'
+                :class='{ "validate": !isPhone }'
               >
               <label for='rest' class='active'>Текущий баланс, {{ currency }}</label>
               <span
@@ -69,7 +68,7 @@
               >
                 Необязательно
               </span>
-            </div>
+            </div-->
           </div>
 
           <div v-if='isPhone' class='mobile-submit'>
