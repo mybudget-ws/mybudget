@@ -126,13 +126,6 @@ export default {
   height: 300px
   margin-left: -20px
 
-.main-background
-  background-image: url('../../assets/home-background.svg')
-  background-repeat: no-repeat
-  width: 100%
-  height: 100%
-  background-size: 100%
-
 .container
   background-color: #fff
   margin-top: 10px
@@ -141,4 +134,25 @@ export default {
   @media only screen and (min-width: 601px)
     padding: 0 30px
     margin-top: 20px
+
+
+@media only screen and (max-width: 601px)
+  .main-background
+    &:before
+      background-image: url('../../assets/home-background.svg')
+      background-repeat: no-repeat
+      position: absolute
+      width: 100%
+      height: 100%
+      content: ''
+      background-size: cover
+      z-index: -1
+
+@media only screen and (min-width: 601px)
+  .main-background
+    background-image: url('../../assets/home-background.svg')
+    background-repeat: no-repeat
+    width: 100%
+    height: 100%
+    background-size: 100%
 </style>
