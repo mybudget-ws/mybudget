@@ -48,6 +48,21 @@ export default {
     return data;
   },
 
+  async updateProfile(token, { currency }) {
+    const query = `
+      mutation($currency:String!) {
+        action:updateUserProfile(
+          currency: $currency
+        ) { email token defaultCurrency { id name } }
+      }
+    `;
+    const vars = { currency };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateProfile', data);
+
+    return data.action;
+  },
+
   async updateEmail(token, { password, newEmail }) {
     const query = `
       mutation($password:String!, $newEmail:String!) {

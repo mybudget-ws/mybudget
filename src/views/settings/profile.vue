@@ -17,31 +17,20 @@
           <label for='current-email' class='active'>Email</label>
         </div>
       </div>
-
-      <!--div class='row'>
-        <div class='input-field col s12'>
-          <input
-            id='email-new'
-            v-model='newEmail'
-            type='email'
-            class='validate'
-            required
-          >
-          <label for='email-new'>Новый Email</label>
+      <div class='row'>
+        <div class='input-field col l6 s12'>
+          <select ref='selectCurrencies' v-model='currency'>
+            <option
+              v-for='curr in currencies'
+              :key='curr.id'
+              :value='curr.name'
+            >
+              {{ curr.name }}
+            </option>
+          </select>
+          <label>Валюта по умолчанию</label>
         </div>
       </div>
-      <div class='row'>
-        <div class='input-field col s12'>
-          <input
-            id='confirm-password'
-            v-model='password'
-            type='password'
-            class='validate'
-            required
-          >
-          <label for='confirm-password'>Пароль</label>
-        </div>
-      </div-->
 
       <Button
         text='Сохранить'
@@ -65,27 +54,40 @@ export default {
   },
   props: {},
   data: () => ({
-    newEmail: '',
-    password: '',
+    currency: '',
+    isLoading: true,
     isSubmitting: false
   }),
   computed: {
+    currencies: get('currencies/items'),
     currentEmail: get('user/email')
+  },
+  async mounted() {
+    await this.fetchCurrencies();
+    // const account = await api.account(this.token, { id: this.id });
+    this.isLoading = false;
+    // this.currency = account.currency.name;
+
+    /* eslint-disable */
+    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+    M.updateTextFields();
+    /* eslint-enable */
   },
   methods: {
     ...call([
-      'user/changeEmail'
+      'user/changeProfile'
     ]),
+    fetchCurrencies: call('currencies/fetch'),
     async submit() {
       if (this.isSubmitting) { return; }
       this.isSubmitting = true;
-      const { newEmail, password } = this;
-      const isSuccess = await this.changeEmail({ newEmail, password });
+      const { token, currency } = this;
+      const isSuccess = await this.changeProfile(token, { currency });
       this.isSubmitting = false;
 
       const message = isSuccess ?
-        'Почта успешно изменена' :
-        'Ошибка изменения почты';
+        'Профль успешно изменен' :
+        'Ошибка изменения профиля';
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }
   }

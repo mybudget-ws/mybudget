@@ -31,6 +31,14 @@ export default {
     logout({ commit }) {
       commit('LOGOUT');
     },
+    async changeProfile({ commit, state }, { currency }) {
+      const { token } = state;
+      const user = await api.updateProfile(token, { currency });
+      if (user == null) { return false; }
+
+      commit('LOGIN', user);
+      return true;
+    },
     async changeEmail({ commit, state }, { newEmail, password }) {
       const { token } = state;
       const user = await api.updateEmail(token, { newEmail, password });
