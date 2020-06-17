@@ -19,6 +19,29 @@
           <Loader v-if='isLoading' />
           <div class='col l10 m9 s12'>
             <div class='chart' />
+
+            <table v-if='summary.length > 0'>
+              <thead>
+                <tr>
+                  <th>Начало периода</th>
+                  <th>Изменение</th>
+                  <th>Итого</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for='(row, index) in summary' :key='index'>
+                  <td>
+                    <Amount :value='row.startBalance' :currency='row.currency' />
+                  </td>
+                  <td>
+                    <Amount :value='row.endBalance - row.startBalance' :currency='row.currency' />
+                  </td>
+                  <td>
+                    <Amount :value='row.endBalance' :currency='row.currency' />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <Filters
@@ -33,6 +56,7 @@
 </template>
 
 <script>
+import Amount from '@/components/amount';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
@@ -46,6 +70,7 @@ import c3 from 'c3';
 export default {
   name: 'Reports',
   components: {
+    Amount,
     FilterTags,
     Filters,
     Loader,
@@ -56,6 +81,7 @@ export default {
   data: () => ({
     selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
+    summary: [],
     periods: [
       { name: 'Все время', months: 9999 },
       { name: 'Десять лет', months: 120 },
@@ -87,6 +113,7 @@ export default {
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
       const columns = await api.balances(this.token, this.searchParams);
+      this.fillSummary(columns);
       this.chart = c3.generate({
         bindto: '.chart',
         data: { x: 'x', columns: columns },
@@ -110,6 +137,13 @@ export default {
         }
       });
     },
+    fillSummary(columns) {
+      this.summary = columns.slice(1).map(v => ({
+        currency: v[0],
+        startBalance: parseFloat(v[1]),
+        endBalance: parseFloat(v[v.length - 1])
+      }));
+    },
     onChangeFilter() {
       this.fetchData();
     },
@@ -128,4 +162,8 @@ export default {
   height: 560px
   margin-top: 10px
   margin-left: -20px
+
+th, td
+  text-align: right
+  width: 33%
 </style>

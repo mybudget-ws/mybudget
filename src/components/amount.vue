@@ -19,6 +19,7 @@ export default {
   },
   computed: {
     classes() {
+      if (this.value == 0) { return 'grey-text text-darken-1'; }
       return this.value > 0 ?
         'green-text text-darken-4' :
         'red-text text-darken-4';
