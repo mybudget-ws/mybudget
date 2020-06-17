@@ -127,15 +127,11 @@ export default {
   margin-left: -20px
 
 .main-background
-  &:before
-    background-image: url('../../assets/home-background.svg')
-    background-repeat: no-repeat
-    position: absolute
-    width: 100%
-    height: 100%
-    content: ''
-    background-size: cover
-    z-index: -1
+  background-image: url('../../assets/home-background.svg')
+  background-repeat: no-repeat
+  width: 100%
+  height: 100%
+  background-size: 100%
 
 .container
   background-color: #fff
