@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <!--div class='row'>
+      <div class='row'>
         <div class='input-field col s12'>
           <input
             id='email-new'
@@ -30,6 +30,7 @@
           <label for='email-new'>Новый Email</label>
         </div>
       </div>
+
       <div class='row'>
         <div class='input-field col s12'>
           <input
@@ -41,7 +42,7 @@
           >
           <label for='confirm-password'>Пароль</label>
         </div>
-      </div-->
+      </div>
 
       <Button
         text='Сохранить'
@@ -59,7 +60,7 @@ import Button from '@/components/button';
 import { get, call } from 'vuex-pathify';
 
 export default {
-  name: 'SettingsProfile',
+  name: 'SettingsEmail',
   components: {
     Button
   },
