@@ -4,7 +4,6 @@
       <div class='row'>
         <!-- Work around to avoid autocomplete in chrome -->
         <input id='email' type='email' style='height: 0px; width: 0px'>
-        <input id='password' type='password' style='height: 0px; width: 0px'>
         <!-- end -->
 
         <div class='input-field col s12'>
@@ -18,7 +17,8 @@
         </div>
       </div>
       <div class='row'>
-        <div class='input-field col l6 s12'>
+        <Loader v-if='isLoading' />
+        <div v-else class='input-field col l6 s12'>
           <select ref='selectCurrencies' v-model='currency'>
             <option
               v-for='curr in currencies'
@@ -45,12 +45,14 @@
 
 <script>
 import Button from '@/components/button';
+import Loader from '@/components/loader';
 import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'SettingsProfile',
   components: {
-    Button
+    Button,
+    Loader
   },
   props: {},
   data: () => ({
@@ -60,29 +62,33 @@ export default {
   }),
   computed: {
     currencies: get('currencies/items'),
-    currentEmail: get('user/email')
+    currentEmail: get('user/email'),
+    defaultCurrency: get('user/defaultCurrency')
   },
   async mounted() {
+    await this.fetchProfile();
     await this.fetchCurrencies();
-    // const account = await api.account(this.token, { id: this.id });
     this.isLoading = false;
-    // this.currency = account.currency.name;
+    this.currency = this.defaultCurrency;
 
     /* eslint-disable */
-    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
-    M.updateTextFields();
+    this.$nextTick(() => {
+      this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+      M.updateTextFields();
+    });
     /* eslint-enable */
   },
   methods: {
     ...call([
-      'user/changeProfile'
+      'user/updateProfile',
+      'user/fetchProfile'
     ]),
     fetchCurrencies: call('currencies/fetch'),
     async submit() {
       if (this.isSubmitting) { return; }
       this.isSubmitting = true;
-      const { token, currency } = this;
-      const isSuccess = await this.changeProfile(token, { currency });
+      const { currency } = this;
+      const isSuccess = await this.updateProfile({ currency });
       this.isSubmitting = false;
 
       const message = isSuccess ?
