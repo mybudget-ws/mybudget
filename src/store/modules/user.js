@@ -13,11 +13,13 @@ export default {
 
   state: {
     email: CookieStore.get(NAMESPACE, 'email', null),
-    token: CookieStore.get(NAMESPACE, 'token', null)
+    token: CookieStore.get(NAMESPACE, 'token', null),
+    currency: undefined
   },
 
   getters: {
-    isSignedIn: state => (state.email != null && state.token != null)
+    isSignedIn: state => (state.email != null && state.token != null),
+    defaultCurrency: state => (state?.currency?.name)
   },
 
   actions: {
@@ -31,12 +33,20 @@ export default {
     logout({ commit }) {
       commit('LOGOUT');
     },
-    async changeProfile({ commit, state }, { currency }) {
+    async fetchProfile({ commit, state }) {
       const { token } = state;
+      const user = await api.fetchProfile(token);
+      if (user == null) { return; }
+
+      commit('FETCH', user);
+      return true;
+    },
+    async updateProfile({ state }, { currency }) {
+      const { token } = state;
+      console.warn('store');
       const user = await api.updateProfile(token, { currency });
       if (user == null) { return false; }
 
-      commit('LOGIN', user);
       return true;
     },
     async changeEmail({ commit, state }, { newEmail, password }) {
@@ -75,6 +85,10 @@ export default {
       Object.assign(state, { email: null, token: null });
       saveCookies('email', null);
       saveCookies('token', null);
+    },
+    FETCH(state, user) {
+      state.email = user.email;
+      state.currency = user.defaultCurrency;
     }
   }
 };
