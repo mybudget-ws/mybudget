@@ -16,10 +16,8 @@
                 id='amount'
                 ref='amount'
                 v-model='amount'
+                :type='isPhone ? "number" : "text"'
                 :class='{ "validate": !isPhone }'
-                type='text'
-                inputmode='numeric'
-                pattern='[0-9,+-/*]+'
                 autofocus
                 required
                 @click='$refs.amount.focus()'
@@ -27,6 +25,7 @@
               >
               <label for='name' class='active'>{{ amountLable }}</label>
               <span
+                v-if='!isPhone'
                 class='helper-text'
                 data-error='Похоже, что это не число'
                 data-success='Отлично'
