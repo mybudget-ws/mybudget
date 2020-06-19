@@ -9,7 +9,8 @@
         </h6>
       </div>
 
-      <div class='row'>
+      <Loader v-if='isLoading' />
+      <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col l9 s12'>
@@ -114,6 +115,7 @@
 
 <script>
 import Button from '@/components/button';
+import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
@@ -125,6 +127,7 @@ export default {
   name: 'Accounts',
   components: {
     Button,
+    Loader,
     Menu,
     PageHeader
   },
@@ -135,10 +138,12 @@ export default {
     color: 'light-blue lighten-2',
     currency: 'RUB',
 
+    isLoading: true,
     isPhone: md.phone() != null
   }),
   computed: {
     token: get('user/token'),
+    defaultCurrency: get('user/defaultCurrency'),
     colors: get('colors/items'),
     currencies: get('currencies/items'),
     isSubmitting: get('accounts/isSubmitting'),
@@ -152,21 +157,25 @@ export default {
     }
   },
   async mounted() {
-    await this.fetchCurrencies();
-    /* eslint-disable */
-    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
-    M.updateTextFields();
-    /* eslint-enable */
-
+    await this.fetchProfile();
+    await this.fetchCurrencies({ base: this.defaultCurrency });
     await this.fetchColors();
-    /* eslint-disable */
-    this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
-    M.updateTextFields();
-    /* eslint-enable */
+    this.isLoading = false;
 
-    this.$refs.name.focus();
+    /* eslint-disable */
+    this.$nextTick(() => {
+      this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+      M.updateTextFields();
+
+      this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
+      M.updateTextFields();
+
+      this.$refs.name.focus();
+    });
+    /* eslint-enable */
   },
   methods: {
+    fetchProfile: call('user/fetchProfile'),
     fetchCurrencies: call('currencies/fetch'),
     fetchColors: call('colors/fetch'),
     create: call('accounts/create'),

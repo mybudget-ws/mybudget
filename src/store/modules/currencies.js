@@ -16,9 +16,9 @@ export default {
   },
 
   actions: {
-    async fetch({ commit }) {
+    async fetch({ commit }, { base }) {
       commit('START_LOADING');
-      const items = await api.currencies();
+      const items = await api.currencies(base);
       commit('FINISH_LOADING', items);
     }
   },

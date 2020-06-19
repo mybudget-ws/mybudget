@@ -31,7 +31,7 @@
             <tbody>
               <tr v-for='curr in displayedItems' :key='curr.id'>
                 <td class='name'>{{ curr.name }}</td>
-                <td class='usd right'>{{ curr.rubRate.toFixed(6) }}</td>
+                <td class='usd right'>{{ curr.baseRate.toFixed(6) }}</td>
                 <td>
                   <span class='grey-text'>{{ curr.description }}</span>
                 </td>
@@ -62,10 +62,15 @@ export default {
   props: {},
   computed: {
     ...get('currencies/*'),
-    currency: sync('currencies/selected')
+    currency: sync('currencies/selected'),
+    isSignedIn: get('user/isSignedIn'),
+    defaultCurrency: get('user/defaultCurrency')
   },
   async mounted() {
-    await this.fetch();
+    if (this.isSignedIn) {
+      await this.fetchProfile();
+    }
+    await this.fetch({ base: this.defaultCurrency });
     /* eslint-disable */
     this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
     M.updateTextFields();
@@ -74,13 +79,14 @@ export default {
   },
   methods: {
     ...call([
-      'currencies/fetch'
+      'currencies/fetch',
+      'user/fetchProfile'
     ]),
     change() {
       this.loadChart();
     },
     async loadChart() {
-      const columns = await api.currenciesChart(this.currency);
+      const columns = await api.currenciesChart(this.currency, this.defaultCurrency);
       this.chart = c3.generate({
         bindto: '.chart',
         data: {

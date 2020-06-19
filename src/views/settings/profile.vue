@@ -67,7 +67,7 @@ export default {
   },
   async mounted() {
     await this.fetchProfile();
-    await this.fetchCurrencies();
+    await this.fetchCurrencies({ base: this.defaultCurrency });
     this.isLoading = false;
     this.currency = this.defaultCurrency;
 

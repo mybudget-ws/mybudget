@@ -48,6 +48,18 @@ export default {
     return data;
   },
 
+  async fetchProfile(token) {
+    const query = `
+      query {
+        user:fullProfile { email defaultCurrency { id name } }
+      }
+    `;
+    const data = await this.client(token).request(query);
+    this.log('fetchProfile', data);
+
+    return data.user;
+  },
+
   async updateProfile(token, { currency }) {
     const query = `
       mutation($currency:String!) {
@@ -644,8 +656,8 @@ export default {
     return data;
   },
 
-  async currenciesChart(name) {
-    const url = `${DOMAIN}/charts/currencies/${name}.json`;
+  async currenciesChart(name, base = 'RUB') {
+    const url = `${DOMAIN}/charts/currencies/${name}.json?base=${base}`;
     const response = await fetch(url);
     const data = await response.json();
     this.log(url, data);
@@ -657,9 +669,14 @@ export default {
   // Common
   // ---------------------------------
 
-  async currencies() {
-    const query = '{ items:currencies { id name description usdRate rubRate } }';
-    const data = await this.client().request(query);
+  async currencies(base = 'RUB') {
+    const query = `
+      query($base:String!) {
+        items:currencies(base: $base) { id name description usdRate baseRate }
+      }
+    `;
+    const vars = { base };
+    const data = await this.client().request(query, vars);
     this.log(query, data);
 
     return data.items;
