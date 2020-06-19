@@ -4,7 +4,6 @@
       <div class='row'>
         <!-- Work around to avoid autocomplete in chrome -->
         <input id='email' type='email' style='height: 0px; width: 0px'>
-        <input id='password' type='password' style='height: 0px; width: 0px'>
         <!-- end -->
 
         <div class='input-field col s12'>
@@ -17,30 +16,19 @@
           <label for='current-email' class='active'>Email</label>
         </div>
       </div>
-
       <div class='row'>
-        <div class='input-field col s12'>
-          <input
-            id='email-new'
-            v-model='newEmail'
-            type='email'
-            class='validate'
-            required
-          >
-          <label for='email-new'>Новый Email</label>
-        </div>
-      </div>
-
-      <div class='row'>
-        <div class='input-field col s12'>
-          <input
-            id='confirm-password'
-            v-model='password'
-            type='password'
-            class='validate'
-            required
-          >
-          <label for='confirm-password'>Пароль</label>
+        <Loader v-if='isLoading' />
+        <div v-else class='input-field col l6 s12'>
+          <select ref='selectCurrencies' v-model='currency'>
+            <option
+              v-for='curr in currencies'
+              :key='curr.id'
+              :value='curr.name'
+            >
+              {{ curr.name }}
+            </option>
+          </select>
+          <label>Валюта по умолчанию</label>
         </div>
       </div>
 
@@ -57,36 +45,55 @@
 
 <script>
 import Button from '@/components/button';
+import Loader from '@/components/loader';
 import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'SettingsProfile',
   components: {
-    Button
+    Button,
+    Loader
   },
   props: {},
   data: () => ({
-    newEmail: '',
-    password: '',
+    currency: '',
+    isLoading: true,
     isSubmitting: false
   }),
   computed: {
-    currentEmail: get('user/email')
+    currencies: get('currencies/items'),
+    currentEmail: get('user/email'),
+    defaultCurrency: get('user/defaultCurrency')
+  },
+  async mounted() {
+    await this.fetchProfile();
+    await this.fetchCurrencies({ base: this.defaultCurrency });
+    this.isLoading = false;
+    this.currency = this.defaultCurrency;
+
+    /* eslint-disable */
+    this.$nextTick(() => {
+      this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+      M.updateTextFields();
+    });
+    /* eslint-enable */
   },
   methods: {
     ...call([
-      'user/changeEmail'
+      'user/updateProfile',
+      'user/fetchProfile'
     ]),
+    fetchCurrencies: call('currencies/fetch'),
     async submit() {
       if (this.isSubmitting) { return; }
       this.isSubmitting = true;
-      const { newEmail, password } = this;
-      const isSuccess = await this.changeEmail({ newEmail, password });
+      const { currency } = this;
+      const isSuccess = await this.updateProfile({ currency });
       this.isSubmitting = false;
 
       const message = isSuccess ?
-        'Почта успешно изменена' :
-        'Ошибка изменения почты';
+        'Профль успешно изменен' :
+        'Ошибка изменения профиля';
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }
   }

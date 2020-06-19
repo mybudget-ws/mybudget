@@ -4,7 +4,8 @@
     <div class='container container-wide'>
       <PageHeader name='Редактирование' />
 
-      <div class='row'>
+      <Loader v-if='isLoading' />
+      <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col l8 s12'>
@@ -91,6 +92,7 @@
 
 <script>
 import Button from '@/components/button';
+import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
@@ -103,6 +105,7 @@ export default {
   name: 'EditAccount',
   components: {
     Button,
+    Loader,
     Menu,
     PageHeader
   },
@@ -111,37 +114,39 @@ export default {
     name: '',
     color: '',
     currency: '',
+
     isLoading: true,
     isSubmitting: false,
-
     isPhone: md.phone() != null
   }),
   computed: {
     token: get('user/token'),
+    defaultCurrency: get('user/defaultCurrency'),
     colors: get('colors/items'),
     currencies: get('currencies/items'),
     id() { return this.$route.params.id; }
   },
   async mounted() {
     const account = await api.account(this.token, { id: this.id });
-    this.isLoading = false;
     this.name = account.name;
     this.color = account.color;
     this.currency = account.currency.name;
 
-    await this.fetchCurrencies();
-    /* eslint-disable */
-    this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
-    M.updateTextFields();
-    /* eslint-enable */
-
+    await this.fetchCurrencies({ base: this.currency });
     await this.fetchColors();
-    /* eslint-disable */
-    this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
-    M.updateTextFields();
-    /* eslint-enable */
+    this.isLoading = false;
 
-    this.$refs.name.focus();
+    /* eslint-disable */
+    this.$nextTick(() => {
+      this.selectCurrencies = M.FormSelect.init(this.$refs.selectCurrencies, {});
+      M.updateTextFields();
+
+      this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
+      M.updateTextFields();
+
+      this.$refs.name.focus();
+    });
+    /* eslint-enable */
   },
   methods: {
     fetchCurrencies: call('currencies/fetch'),

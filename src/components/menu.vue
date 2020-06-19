@@ -39,7 +39,7 @@
           </li>
           <li class='right' title='Курсы валют'>
             <router-link to='/currencies' :class='btnClasses'>
-              <i class='material-icons'>euro_symbol</i>
+              <i class='material-icons'>timeline</i>
             </router-link>
           </li>
         </ul>
