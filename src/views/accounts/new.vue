@@ -158,6 +158,7 @@ export default {
   },
   async mounted() {
     await this.fetchProfile();
+    this.currency = this.defaultCurrency;
     await this.fetchCurrencies({ base: this.defaultCurrency });
     await this.fetchColors();
     this.isLoading = false;
