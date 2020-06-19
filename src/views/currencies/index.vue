@@ -23,7 +23,7 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <th class='usd right'>Курс</th>
+                <th class='usd right'>Курс, {{ defaultCurrency || 'RUB' }}</th>
                 <th>Описание</th>
               </tr>
             </thead>
@@ -33,7 +33,7 @@
                 <td class='name'>{{ curr.name }}</td>
                 <td class='usd right'>{{ curr.baseRate.toFixed(6) }}</td>
                 <td>
-                  <span class='grey-text'>{{ curr.description }}</span>
+                  <span class='grey-text darken-1'>{{ curr.description }}</span>
                 </td>
               </tr>
             </tbody>
