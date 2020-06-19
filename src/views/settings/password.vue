@@ -65,7 +65,6 @@ export default {
       if (this.isSubmitting) { return; }
       const { newPassword, password } = this;
       if (newPassword.length < 6) { return; }
-
       this.isSubmitting = true;
       const isSuccess = await this.changePassword({ newPassword, password });
       this.isSubmitting = false;
