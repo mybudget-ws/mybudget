@@ -79,8 +79,8 @@ export default {
     ]),
     async submit() {
       if (this.isSubmitting) { return; }
-      this.isSubmitting = true;
       const { newEmail, password } = this;
+      this.isSubmitting = true;
       const isSuccess = await this.changeEmail({ newEmail, password });
       this.isSubmitting = false;
 
@@ -88,6 +88,10 @@ export default {
         'Почта успешно изменена' :
         'Ошибка изменения почты';
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
+      if (isSuccess) {
+        this.newEmail = '';
+        this.password = '';
+      }
     }
   }
 };

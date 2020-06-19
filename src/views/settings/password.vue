@@ -21,6 +21,7 @@
             v-model='newPassword'
             type='password'
             class='validate'
+            minlength='6'
             required
           >
           <label for='new-password'>Новый пароль</label>
@@ -62,8 +63,10 @@ export default {
     ]),
     async submit() {
       if (this.isSubmitting) { return; }
-      this.isSubmitting = true;
       const { newPassword, password } = this;
+      if (newPassword.length < 6) { return; }
+
+      this.isSubmitting = true;
       const isSuccess = await this.changePassword({ newPassword, password });
       this.isSubmitting = false;
 
@@ -71,6 +74,10 @@ export default {
         'Пароль успешно изменен' :
         'Ошибка изменения пароля';
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
+      if (isSuccess) {
+        this.password = '';
+        this.newPassword = '';
+      }
     }
   }
 };
