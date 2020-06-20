@@ -6,7 +6,7 @@
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
-          <div v-else-if='isAlert' class='card blue-grey darken-1'>
+          <div v-else-if='isAlert' class='card blue-grey'>
             <div class='card-content white-text'>
               <span class='card-title'>На данный момент у вас нет Категорий</span>
               <p>Нажмите на "плюс", чтобы добавить вашую первую категорию</p>

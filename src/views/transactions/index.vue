@@ -11,7 +11,7 @@
 
         <div class='col s12'>
           <Loader v-if='isLoading' />
-          <div v-else-if='isAlert' class='card blue-grey darken-1 col s12'>
+          <div v-else-if='isAlert' class='card blue-grey col s12'>
             <div class='card-content white-text'>
               <span class='card-title'>У вас пока нет операций</span>
               <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
