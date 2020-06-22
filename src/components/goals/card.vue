@@ -9,7 +9,7 @@
       </div>
       <span
         class='new badge tag blue percentage'
-        :data-badge-caption='percentageText'
+        :data-badge-caption='percentage'
       />
     </div>
     <div class='card-action'>
@@ -68,9 +68,6 @@ export default {
       }
 
       return date.format('DD.MM.YYYY');
-    },
-    percentageText() {
-      return `${this.percentage} %`;
     }
   },
   methods: {
