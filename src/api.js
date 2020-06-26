@@ -656,6 +656,17 @@ export default {
     return data;
   },
 
+  async columns(token, params) {
+    const url = DOMAIN + '/charts/columns?' + params;
+    const response = await fetch(url, {
+      headers: this.headers(token)
+    });
+    const data = await response.json();
+    this.log(url, data);
+
+    return data;
+  },
+
   async currenciesChart(name, base = 'RUB') {
     const url = `${DOMAIN}/charts/currencies/${name}.json?base=${base}`;
     const response = await fetch(url);

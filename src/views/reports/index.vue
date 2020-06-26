@@ -18,6 +18,7 @@
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div class='col l10 m9 s12'>
+            <div class='chart-tmp' />
             <div class='chart' />
 
             <table v-if='summary.length > 0'>
@@ -67,6 +68,8 @@ import api from '../../api';
 import { get, call } from 'vuex-pathify';
 import c3 from 'c3';
 
+// var d3 = require('d3');
+
 export default {
   name: 'Reports',
   components: {
@@ -100,6 +103,7 @@ export default {
   async mounted() {
     this.isLoading = true;
     await this.fetchData();
+    await this.fetchDataTmp();
     this.isLoading = false;
 
     this.$nextTick(() => {
@@ -116,7 +120,10 @@ export default {
       this.fillSummary(columns);
       this.chart = c3.generate({
         bindto: '.chart',
-        data: { x: 'x', columns: columns },
+        data: {
+          x: 'x',
+          columns: columns
+        },
         axis: {
           x: {
             type: 'timeseries',
@@ -124,6 +131,36 @@ export default {
               format: '%d.%m.%Y',
               count: 14
             },
+            padding: { left: 0, right: 0 }
+          },
+          y: {
+            padding: { top: 20 }
+          }
+        },
+        point: { show: false },
+        grid: {
+          x: { show: true },
+          y: { show: true }
+        }
+      });
+    },
+    async fetchDataTmp() {
+      const columns = await api.columns(this.token, this.searchParams);
+      this.chart = c3.generate({
+        bindto: '.chart-tmp',
+        data: {
+          x: 'x',
+          columns: columns,
+          type: 'bar'
+        },
+        bar: {
+          width: {
+            ratio: 0.8
+          }
+        },
+        axis: {
+          x: {
+            type: 'category',
             padding: { left: 0, right: 0 }
           },
           y: {
