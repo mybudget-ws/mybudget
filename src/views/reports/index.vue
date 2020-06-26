@@ -3,12 +3,21 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Отчеты'>
-        <div class='right'>
-          <select ref='selectPeriods' v-model='selectedPeriodMonths' @change='onChangePeriod'>
-            <option v-for='v in periods' :key='v.months' :value='v.months'>
-              {{ v.name }}
-            </option>
-          </select>
+        <div class='row right'>
+          <div class='col'>
+            <select ref='selectMode' v-model='selectedMode' @change='onChangeMode'>
+              <option v-for='(mode, index) in ["balance", "columns"]' :key='index' :value='mode'>
+                {{ displayMode(mode) }}
+              </option>
+            </select>
+          </div>
+          <div class='col'>
+            <select ref='selectPeriods' v-model='selectedPeriodMonths' @change='onChangePeriod'>
+              <option v-for='v in periods' :key='v.months' :value='v.months'>
+                {{ v.name }}
+              </option>
+            </select>
+          </div>
         </div>
       </PageHeader>
 
@@ -18,10 +27,9 @@
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div class='col l10 m9 s12'>
-            <div class='chart-tmp' />
             <div class='chart' />
 
-            <table v-if='summary.length > 0'>
+            <table v-if='selectedMode === "balance" && summary.length > 0'>
               <thead>
                 <tr>
                   <th>Начало периода</th>
@@ -82,6 +90,7 @@ export default {
   },
   props: {},
   data: () => ({
+    selectedMode: 'balance',
     selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
     summary: [],
@@ -103,12 +112,12 @@ export default {
   async mounted() {
     this.isLoading = true;
     await this.fetchData();
-    await this.fetchDataTmp();
     this.isLoading = false;
 
     this.$nextTick(() => {
       /* eslint-disable */
       M.FormSelect.init(this.$refs.selectPeriods, {});
+      M.FormSelect.init(this.$refs.selectMode, {});
       M.updateTextFields();
       /* eslint-enable */
     });
@@ -116,6 +125,13 @@ export default {
   methods: {
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
+      if (this.selectedMode === 'balance') {
+        this.fetchBalance();
+      } else {
+        this.fetchColumns();
+      }
+    },
+    async fetchBalance() {
       const columns = await api.balances(this.token, this.searchParams);
       this.fillSummary(columns);
       this.chart = c3.generate({
@@ -127,10 +143,7 @@ export default {
         axis: {
           x: {
             type: 'timeseries',
-            tick: {
-              format: '%d.%m.%Y',
-              count: 14
-            },
+            tick: { format: '%d.%m.%Y', count: 14 },
             padding: { left: 0, right: 0 }
           },
           y: {
@@ -144,20 +157,16 @@ export default {
         }
       });
     },
-    async fetchDataTmp() {
+    async fetchColumns() {
       const columns = await api.columns(this.token, this.searchParams);
       this.chart = c3.generate({
-        bindto: '.chart-tmp',
+        bindto: '.chart',
         data: {
           x: 'x',
           columns: columns,
           type: 'bar'
         },
-        bar: {
-          width: {
-            ratio: 0.8
-          }
-        },
+        bar: { width: { ratio: 0.8 } },
         axis: {
           x: {
             type: 'category',
@@ -181,7 +190,15 @@ export default {
         endBalance: parseFloat(v[v.length - 1])
       }));
     },
+    displayMode(mode) {
+      if (mode === 'balance') { return 'Баланс'; }
+      return 'Доход / Расход';
+    },
     onChangeFilter() {
+      this.fetchData();
+    },
+    onChangeMode({ target }) {
+      this.selectedMode = target.value;
       this.fetchData();
     },
     async onChangePeriod() {
