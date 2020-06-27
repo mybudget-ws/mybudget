@@ -22,6 +22,7 @@
           <SettingsEmail v-if='currentId === "email"' />
           <SettingsPassword v-if='currentId === "password"' />
           <SettingsSubscription v-if='currentId === "subscription"' />
+          <SettingsHelp v-if='currentId === "help"' />
           <SettingsSupport v-if='currentId === "support"' />
         </div>
       </div>
@@ -33,6 +34,7 @@
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import SettingsEmail from '@/views/settings/email';
+import SettingsHelp from '@/views/settings/help';
 import SettingsPassword from '@/views/settings/password';
 import SettingsProfile from '@/views/settings/profile';
 import SettingsSubscription from '@/views/settings/subscription';
@@ -44,6 +46,7 @@ export default {
     Menu,
     PageHeader,
     SettingsEmail,
+    SettingsHelp,
     SettingsPassword,
     SettingsProfile,
     SettingsSubscription,
@@ -56,6 +59,7 @@ export default {
       { id: 'email', name: 'Почта', long: 'Изменить почту' },
       { id: 'password', name: 'Пароль', long: 'Изменить пароль' },
       { id: 'subscription', name: 'Тарифный план' },
+      { id: 'help', name: 'Помощь', long: 'Помощь и документация' },
       { id: 'support', name: 'Поддержка', long: 'Написать разработчикам' }
     ]
   }),
