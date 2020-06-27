@@ -65,6 +65,37 @@
       </div>
     </div>
 
+    <div class='container blog'>
+      <div class='row'>
+        <h2 class='col'>Советы по использованию</h2>
+      </div>
+      <div class='row'>
+        <div class='col s12 m6'>
+          <div class='card horizontal z-depth-0'>
+            <div class='card-image'>
+              <img src='../assets/help/iphone-icon/main-screen-preview.png'>
+            </div>
+            <div class='card-stacked blue-grey lighten-5'>
+              <div class='card-content'>
+                <p>
+                  Создание иконки на домашнем экране iPhone для быстрого
+                  доступа на сайт
+                </p>
+              </div>
+              <div class='card-action'>
+                <router-link
+                  class='teal-text'
+                  :to='{ name: "helps_iphone_icon" }'
+                >
+                  Подробнее
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class='page-footer blue-grey lighten-4'>
       <div class='container'>
         <div class='row'>
@@ -166,8 +197,17 @@ h1
     background-repeat: no-repeat
     position: absolute
     width: 100%
-    height: 100%
+    height: 840px
     content: ''
     background-size: cover
     z-index: -1
+
+.blog
+  padding-top: 90px
+
+  @media only screen and (max-width: 601px)
+    padding-top: 0
+
+//.card
+  border-radius: 10px
 </style>

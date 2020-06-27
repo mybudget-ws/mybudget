@@ -13,7 +13,12 @@
             </p>
           </div>
           <div class='card-action'>
-            <a class='teal-text' href='#'>Подробнее</a>
+            <router-link
+              class='teal-text'
+              :to='{ name: "helps_iphone_icon" }'
+            >
+              Подробнее
+            </router-link>
           </div>
         </div>
       </div>

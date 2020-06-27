@@ -138,6 +138,10 @@ export default new Router({
       name: 'settings',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/settings/index'),
       beforeEnter: requireAuth
+    }, {
+      path: '/helps/iphone-icon',
+      name: 'helps_iphone_icon',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/helps/iphone_icon')
     }
     // , {
     //   path: '*',
