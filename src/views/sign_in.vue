@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class='main-background'>
     <Menu />
     <div class='container'>
-      <PageHeader name='Вход в Мой Бюджет' />
+      <PageHeader :name='`Войти в\xa0Мой\xa0Бюджет`' />
 
       <div class='row'>
         <form class='col l6 m8 s12' @submit.prevent='submit'>
@@ -91,4 +91,22 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.main-background
+  &:before
+    background-image: url('../assets/home-background.svg')
+    background-repeat: no-repeat
+    position: absolute
+    width: 100%
+    height: 840px
+    content: ''
+    background-size: cover
+    z-index: -1
+
+.container
+  background-color: #fff
+  border-radius: 10px
+  padding: 0 18px 12px
+
+  @media only screen and (max-width: 601px)
+    margin-top: 20px
 </style>

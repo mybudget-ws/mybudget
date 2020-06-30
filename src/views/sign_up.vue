@@ -1,7 +1,20 @@
 <template>
-  <div>
+  <div class='main-background'>
     <Menu />
     <div class='container'>
+      <div class='row'>
+        <div class='col m6 s12'>
+          <div class='block z-depth-1'>
+            TODO sign_up
+          </div>
+        </div>
+        <div class='col m6 s12'>
+          <div class='block z-depth-1'>
+            TODO sign_in
+          </div>
+        </div>
+      </div>
+      <!--
       <PageHeader name='Регистраиця' />
 
       <div class='row'>
@@ -37,22 +50,23 @@
           />
         </form>
       </div>
+      -->
     </div>
   </div>
 </template>
 
 <script>
-import Button from '@/components/button';
+// import Button from '@/components/button';
 import Menu from '@/components/menu';
-import PageHeader from '@/components/page_header';
+// import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
 export default {
   name: 'SignUp',
   components: {
-    Button,
-    Menu,
-    PageHeader
+    // Button,
+    // PageHeader,
+    Menu
   },
   props: {},
   data: () => ({
@@ -88,4 +102,21 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.block
+  background: #fff
+  padding: 10px 20px
+  border-radius: 10px
+  min-height: 10px
+  margin-top: 20px
+
+.main-background
+  &:before
+    background-image: url('../assets/home-background.svg')
+    background-repeat: no-repeat
+    position: absolute
+    width: 100%
+    height: 840px
+    content: ''
+    background-size: cover
+    z-index: -1
 </style>
