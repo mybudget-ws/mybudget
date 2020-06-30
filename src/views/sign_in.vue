@@ -97,6 +97,7 @@ export default {
     background-repeat: no-repeat
     position: absolute
     width: 100%
+    min-height: 100%
     height: 840px
     content: ''
     background-size: cover

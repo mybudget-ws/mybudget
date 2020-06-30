@@ -5,12 +5,14 @@
       <div class='row'>
         <div class='col m6 s12'>
           <div class='block z-depth-1'>
-            TODO sign_up
+            <h4>Новый пользователь</h4>
+            <p>Для тех кто первый раз на сайте</p>
           </div>
         </div>
         <div class='col m6 s12'>
           <div class='block z-depth-1'>
-            TODO sign_in
+            <h4>Войти</h4>
+            <p>У вас уже есть аккаунт или вы пользователь classic.mybudget.ws</p>
           </div>
         </div>
       </div>
@@ -109,12 +111,16 @@ export default {
   min-height: 10px
   margin-top: 20px
 
+  h4
+    margin-top: 10px
+
 .main-background
   &:before
     background-image: url('../assets/home-background.svg')
     background-repeat: no-repeat
     position: absolute
     width: 100%
+    min-height: 100%
     height: 840px
     content: ''
     background-size: cover
