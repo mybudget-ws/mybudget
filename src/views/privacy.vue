@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='main-background'>
     <Menu />
     <div class='container'>
       <PageHeader name='Политика конфиденциальности' />
@@ -31,3 +31,24 @@ export default {
   methods: {}
 };
 </script>
+
+<style scoped lang='sass'>
+.container
+  background: #fff
+  padding: 10px 20px
+  border-radius: 10px
+  min-height: 10px
+  margin-top: 20px
+
+.main-background
+  &:before
+    background-image: url('../assets/home-background.svg')
+    background-repeat: no-repeat
+    position: absolute
+    width: 100%
+    min-height: 100%
+    height: 840px
+    content: ''
+    background-size: cover
+    z-index: -1
+</style>
