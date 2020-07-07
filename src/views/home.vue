@@ -74,8 +74,8 @@
             <div class='card-stacked blue-grey lighten-5'>
               <div class='card-content'>
                 <p>
-                  Создание иконки на домашнем экране iPhone для быстрого
-                  доступа на сайт
+                  Создание иконки на домашнем экране iPhone
+                  <span v-if='!isPhone'>для быстрого доступа на сайт</span>
                 </p>
               </div>
               <div class='card-action'>
@@ -102,6 +102,9 @@ import Footer from '@/components/footer';
 import Menu from '@/components/menu';
 import { get, sync, call } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'Home',
   components: {
@@ -110,6 +113,9 @@ export default {
     Menu
   },
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     // NOTE: Just for test
     message: get('message'),
