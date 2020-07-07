@@ -92,44 +92,13 @@
       </div>
     </div>
 
-    <footer class='page-footer blue-grey lighten-4'>
-      <div class='container'>
-        <div class='row'>
-          <div class='col'>
-            <router-link
-              to='/agreement'
-              class='blue-grey-text text-darken-1'
-            >
-              Пользовательское соглашение
-            </router-link>
-          </div>
-          <div class='col'>
-            <router-link
-              to='/privacy'
-              class='blue-grey-text text-darken-1'
-            >
-              Политика конфиденциальности
-            </router-link>
-          </div>
-        </div>
-      </div>
-      <div class='footer-copyright'>
-        <div class='container blue-grey-text text-darken-1'>
-          <a
-            href='//kalinichev.net'
-            target='_blank'
-            class='blue-grey-text text-darken-1'
-          >
-            © 2020 Alexander Kalinichev
-          </a>
-        </div>
-      </div>
-    </footer>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Button from '@/components/button';
+import Footer from '@/components/footer';
 import Menu from '@/components/menu';
 import { get, sync, call } from 'vuex-pathify';
 
@@ -137,6 +106,7 @@ export default {
   name: 'Home',
   components: {
     Button,
+    Footer,
     Menu
   },
   props: {},
@@ -179,13 +149,6 @@ h1
   border-radius: 10px
   min-height: 10px
   margin-bottom: 20px
-
-.page-footer
-  margin-top: 200px
-
-  .footer-copyright
-    .container
-      padding-left: 0.75rem
 
 .main-background
   &:before
