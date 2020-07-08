@@ -48,6 +48,22 @@ export default {
     return data;
   },
 
+  async autoSignUp() {
+    const query = `
+      query {
+        user:autoSignUp {
+          email
+          token
+          defaultCurrency { name }
+        }
+      }
+    `;
+    const data = await this.client().request(query);
+    this.log('autoSignUp', data);
+
+    return data;
+  },
+
   async fetchProfile(token) {
     const query = `
       query {
@@ -142,18 +158,17 @@ export default {
     return data.item;
   },
 
-  async createAccount(token, { name, color, rest, currency }) {
+  async createAccount(token, { name, color, currency }) {
     const query = `
-      mutation($name:String!, $color:String!, $rest:String!, $currency:String!) {
+      mutation($name:String!, $color:String!, $currency:String!) {
         createAccount(
           name: $name,
           color: $color,
-          rest: $rest,
           currency: $currency
         ) { id name color balance currency { name } }
       }
     `;
-    const vars = { name, color, rest, currency };
+    const vars = { name, color, currency };
     const data = await this.client(token).request(query, vars);
     this.log('createAccount', data);
 

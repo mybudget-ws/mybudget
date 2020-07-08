@@ -19,7 +19,9 @@
             </p>
             <Button
               text='Продолжить'
-              @click='autoSignUp'
+              :is-disabled='isSubmitting'
+              :is-loading='isSubmitting'
+              @click='submit'
             />
           </div>
         </div>
@@ -62,10 +64,7 @@ export default {
   },
   props: {},
   data: () => ({
-    email: '',
-    password: '',
-    isSubmitting: false,
-    isAuthError: false
+    isSubmitting: false
   }),
   computed: {
     isSignedIn: get('user/isSignedIn')
@@ -77,20 +76,20 @@ export default {
   },
   methods: {
     ...call([
-      'user/registration'
+      'user/autoSignUp'
     ]),
     async submit() {
       this.isSubmitting = true;
+      const isSuccess = await this.autoSignUp();
+      this.isSubmitting = false;
 
-      const { email, password } = this;
-      const isSuccess = await this.registration({ email, password });
-      this.isSubmitting = isSuccess;
       if (isSuccess) {
         this.$router.push({ name: 'transactions' });
+      } else {
+        /* eslint-disable */
+        M.toast({ html: 'Непредвиденная ошибка' });
+        /* eslint-enable */
       }
-    },
-    async autoSignUp() {
-      alert('todo');
     }
   }
 };

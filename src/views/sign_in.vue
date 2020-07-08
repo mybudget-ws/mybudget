@@ -59,8 +59,8 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    isSubmitting: false,
-    isAuthError: false
+    isSubmitting: false
+    // isAuthError: false
   }),
   computed: {
     isSignedIn: get('user/isSignedIn')

@@ -30,6 +30,13 @@ export default {
       commit('LOGIN', user);
       return true;
     },
+    async autoSignUp({ commit }) {
+      const { user } = await api.autoSignUp();
+      if (user == null) { return false; }
+
+      commit('LOGIN', user);
+      return true;
+    },
     logout({ commit }) {
       commit('LOGOUT');
     },

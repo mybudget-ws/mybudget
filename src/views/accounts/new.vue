@@ -54,22 +54,6 @@
               </select>
               <label>Валюта</label>
             </div>
-            <!--div class='input-field col l3 s12'>
-              <input
-                id='rest'
-                v-model='rest'
-                :type='isPhone ? "number" : "text"'
-                :class='{ "validate": !isPhone }'
-              >
-              <label for='rest' class='active'>Текущий баланс, {{ currency }}</label>
-              <span
-                class='helper-text'
-                data-error='Похоже, что это не число'
-                data-success='Отлично'
-              >
-                Необязательно
-              </span>
-            </div-->
           </div>
 
           <div v-if='isPhone' class='mobile-submit'>
@@ -134,7 +118,6 @@ export default {
   props: {},
   data: () => ({
     name: 'Наличные',
-    rest: '0',
     color: 'light-blue lighten-2',
     currency: 'RUB',
 
@@ -183,8 +166,8 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { name, color, currency, rest, token } = this;
-      const account = { name, color, currency, rest };
+      const { name, color, currency, token } = this;
+      const account = { name, color, currency };
       const isSuccess = await this.create({ token, account });
       if (isSuccess != null) {
         this.$router.push({ name: 'accounts' });
