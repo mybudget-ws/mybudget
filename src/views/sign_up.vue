@@ -35,50 +35,16 @@
             </p>
             <router-link
               to='/sign_in'
-              class='sign-in btn btn-large grey lighten-5 waves-effect grey-text text-darken-4 z-depth-0'
+              class='
+                sign-in btn btn-large grey lighten-5
+                waves-effect grey-text text-darken-4 z-depth-0
+              '
             >
               Войти
             </router-link>
           </div>
         </div>
       </div>
-      <!--
-      <PageHeader name='Регистраиця' />
-
-      <div class='row'>
-        <form class='col l6 m8 s12' @submit.prevent='submit'>
-          <div class='row'>
-            <div class='input-field col s12'>
-              <input
-                id='email'
-                v-model='email'
-                type='email'
-                class='validate'
-              >
-              <label for='email'>Email</label>
-            </div>
-          </div>
-          <div class='row'>
-            <div class='input-field col s12'>
-              <input
-                id='password'
-                v-model='password'
-                type='password'
-                class='validate'
-              >
-              <label for='password'>Пароль</label>
-            </div>
-          </div>
-
-          <Button
-            text='Продолжить'
-            :is-disabled='isSubmitting'
-            :is-loading='isSubmitting'
-            @click='submit'
-          />
-        </form>
-      </div>
-      -->
     </div>
   </div>
 </template>
