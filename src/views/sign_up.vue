@@ -6,7 +6,7 @@
         <div class='col m6 s12'>
           <div class='block z-depth-1'>
             <h4>Регистрация</h4>
-            <p>Для тех кто на сайте первый раз</p>
+            <p>Для тех, кто на сайте впервые</p>
             <p class='grey-text'>
               Регистрируясь на сайте вы подтверждаете согласие с
               <a href='/#/agreement' target='_blank'>
@@ -35,7 +35,7 @@
             </p>
             <router-link
               to='/sign_in'
-              class='btn btn-large blue-grey lighten-5 waves-effect grey-text text-darken-4 z-depth-0'
+              class='sign-in btn btn-large grey lighten-5 waves-effect grey-text text-darken-4 z-depth-0'
             >
               Войти
             </router-link>
@@ -153,7 +153,7 @@ export default {
     background-size: cover
     z-index: -1
 
-.btn-large.blue-grey
+.btn.sign-in
   border: 1px #cfd8dc solid
 
 .btn
