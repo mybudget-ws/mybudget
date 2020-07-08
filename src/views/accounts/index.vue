@@ -81,6 +81,7 @@
                     <i class='material-icons grey-text'>visibility_off</i>
                   </a>
                   <a
+                    v-if='isTransferAllow'
                     class='waves-effect waves-teal btn-flat'
                     title='Удалить'
                     @click='onDestroy(item)'

@@ -180,7 +180,7 @@
           </div>
 
           <Filters
-            v-if='!isLoading'
+            v-if='!isLoading && !isAlert'
             class='col l2 m3 s12'
             @onChange='onChangeFilter'
           />
