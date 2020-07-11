@@ -42,6 +42,11 @@
               <i class='material-icons'>timeline</i>
             </router-link>
           </li>
+          <li class='right' title='Завершить Регистрацию'>
+            <router-link to='/currencies' class='amber-text text-darken-2'>
+              Завершить Регистрацию
+            </router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -92,10 +97,9 @@ export default {
       return this.$router.currentRoute.name === 'home' || !this.isSignedIn;
     },
     btnClasses() {
-      // 'waves-effect blue-grey-text text-lighten-5 btn-flat' :
       return this.isShortMenu ?
-        'waves-effect waves-yellow btn-flat grey-text text-lighten-5 z-depth-0' :
-        'waves-effect blue-grey-text text-lighten-5';
+        'waves-effect waves-light btn-flat grey-text text-lighten-5 z-depth-0' :
+        'blue-grey-text text-lighten-5';
     }
   },
   mounted() {
