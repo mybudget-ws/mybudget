@@ -20,7 +20,9 @@
     </nav>
     <nav v-else class='blue-grey darken-4 z-depth-0'>
       <div class='nav-wrapper container container-wide'>
-        <a href="#" data-target='mobile-demo' class='sidenav-trigger'><i class='material-icons'>menu</i></a>
+        <a href="#" data-target='mobile-demo' class='sidenav-trigger'>
+          <i class='material-icons'>menu</i>
+        </a>
         <ul class='hide-on-med-and-down'>
           <li v-for='item in items' :key='item.path'>
             <router-link :to='item.path' :class='btnClasses'>
@@ -42,7 +44,7 @@
               <i class='material-icons'>timeline</i>
             </router-link>
           </li>
-          <li class='right' title='Завершить Регистрацию'>
+          <li v-if='isGuest' class='right' title='Завершить Регистрацию'>
             <router-link to='/currencies' class='amber-text text-darken-2'>
               Завершить Регистрацию
             </router-link>
