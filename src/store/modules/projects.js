@@ -76,15 +76,14 @@ export default {
     },
     FINISH_SUBMITTING(state) {
       state.isSubmitting = false;
-    },
-    ADD_ITEM(state, item) {
-      state.items = [...state.items, item];
+      state.isLoadedFilter = false;
     },
     START_DESTROYING(state) {
       state.isDestroying = true;
     },
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
+      state.itemsFilter = state.itemsFilter.filter(v => v.id !== id);
       state.isDestroying = false;
     },
     TOGGLE_IS_HIDDEN(state, { item, isHidden }) {

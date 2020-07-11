@@ -35,7 +35,7 @@ export default {
     async create({ commit }, { token, account }) {
       commit('START_SUBMITTING');
       const item = await api.createAccount(token, account);
-      commit('FINISH_SUBMITTING', item);
+      commit('FINISH_SUBMITTING');
       return item;
     },
     async destroy({ commit }, { token, account }) {
@@ -80,9 +80,7 @@ export default {
     },
     FINISH_SUBMITTING(state) {
       state.isSubmitting = false;
-    },
-    ADD_ITEM(state, item) {
-      state.items = [...state.items, item];
+      state.isLoadedFilter = false;
     },
     TOGGLE_IS_FAVOURITE(state, { item, isFavourite }) {
       const account = state.items.find(v => v.id === item.id);
@@ -99,6 +97,7 @@ export default {
     },
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
+      state.itemsFilter = state.itemsFilter.filter(v => v.id !== id);
       state.isDestroying = false;
     },
 
