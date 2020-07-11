@@ -61,9 +61,15 @@ export default {
     isSubmitting: false
   }),
   computed: {
+    isGuest: get('user/isGuest'),
+    email: get('user/email'),
     currencies: get('currencies/items'),
-    currentEmail: get('user/email'),
-    defaultCurrency: get('user/defaultCurrency')
+    defaultCurrency: get('user/defaultCurrency'),
+    currentEmail() {
+      return this.isGuest ?
+        'Почта не задана, необходимо завершить регистрацию' :
+        this.email;
+    }
   },
   async mounted() {
     await this.fetchProfile();

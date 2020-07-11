@@ -6,7 +6,7 @@
         <div class='col s12 l2'>
           <ul class='collection'>
             <router-link
-              v-for='item in leftMenu'
+              v-for='item in visibleMenuItems'
               :key='item.id'
               class='collection-item grey-text text-darken-4'
               :class='submenuClass(item)'
@@ -40,6 +40,8 @@ import SettingsProfile from '@/views/settings/profile';
 import SettingsSubscription from '@/views/settings/subscription';
 import SettingsSupport from '@/views/settings/support';
 
+import { get } from 'vuex-pathify';
+
 export default {
   name: 'Settings',
   components: {
@@ -64,6 +66,7 @@ export default {
     ]
   }),
   computed: {
+    isGuest: get('user/isGuest'),
     currentHeader() {
       const item = this.leftMenu.find(v => v.id === this.currentId);
       if (item == null) { return 'Настройки'; }
@@ -71,6 +74,11 @@ export default {
     },
     currentId() {
       return this.$route.params.tab;
+    },
+    visibleMenuItems() {
+      return this.isGuest ?
+        this.leftMenu.filter(v => v.id !== 'email' && v.id !== 'password') :
+        this.leftMenu;
     }
   },
   methods: {
