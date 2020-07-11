@@ -19,6 +19,7 @@ export default {
 
   getters: {
     isSignedIn: state => (state.email != null && state.token != null),
+    isGuest: state => (state.email != null && state.email.match(/@2\.mybudget/)),
     defaultCurrency: state => (state?.currency?.name)
   },
 

@@ -87,6 +87,7 @@ export default {
   }),
   computed: {
     isSignedIn: get('user/isSignedIn'),
+    isGuest: get('user/isGuest'),
     isShortMenu() {
       return this.$router.currentRoute.name === 'home' || !this.isSignedIn;
     },
@@ -105,6 +106,11 @@ export default {
   methods: {
     logout: call('user/logout'),
     exit() {
+      if (this.isGuest) {
+        if (!confirm('Вы не завершили регистрацию. Все данные данные будут удалены. Удалить данные и выйти?')) {
+          return;
+        }
+      }
       this.logout();
       // NOTE: Use location to reload the page and hide overlay
       // this.$refs.sidenav.click();
