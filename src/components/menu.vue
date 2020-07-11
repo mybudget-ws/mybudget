@@ -107,9 +107,9 @@ export default {
     logout: call('user/logout'),
     exit() {
       if (this.isGuest) {
-        if (!confirm('Вы не завершили регистрацию. Все данные данные будут удалены. Удалить данные и выйти?')) {
-          return;
-        }
+        const message = 'Вы не завершили регистрацию. ' +
+          'Все данные данные будут удалены. Удалить данные и выйти?';
+        if (!confirm(message)) { return; }
       }
       this.logout();
       // NOTE: Use location to reload the page and hide overlay
