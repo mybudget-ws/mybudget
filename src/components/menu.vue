@@ -45,7 +45,7 @@
             </router-link>
           </li>
           <li v-if='isGuest' class='right' title='Завершить Регистрацию'>
-            <router-link to='/currencies' class='amber-text text-darken-2'>
+            <router-link to='/finish-sign-up' class='amber-text text-darken-2'>
               Завершить Регистрацию
             </router-link>
           </li>
