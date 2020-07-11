@@ -14,7 +14,12 @@
           <div v-else-if='isAlert' class='card blue-grey col s12'>
             <div class='card-content white-text'>
               <span class='card-title'>У вас пока нет операций</span>
-              <p>Нажмите на "плюс", чтобы добавить ваш первых доход или расход</p>
+              <p>
+                Нажмите на
+                <i class='material-icons' style='font-size: 1.2rem'>arrow_upward</i> или
+                <i class='material-icons' style='font-size: 1.2rem'>arrow_downward</i>,
+                чтобы добавить ваш первых доход, или расход
+              </p>
             </div>
           </div>
           <div v-if='isEmpty && !isAlert' class='card teal col l10 m9 s12'>
