@@ -21,8 +21,9 @@
               <input
                 id='new-email'
                 ref='email'
+                v-model='email'
                 type='email'
-                :value='email'
+                class='validate'
                 autofocus
               >
               <label for='new-email' class='active'>Email</label>
@@ -32,8 +33,9 @@
             <div class='input-field col s12'>
               <input
                 id='new-password'
+                v-model='password'
                 type='password'
-                :value='password'
+                class='validate'
               >
               <label for='new-password'>Пароль</label>
             </div>
@@ -56,6 +58,7 @@
 import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import { call } from 'vuex-pathify';
 
 export default {
   name: 'SettingsFinishSignUp',
@@ -66,7 +69,6 @@ export default {
   },
   props: {},
   data: () => ({
-    // TODO: Move isSubmitting to store.
     isSubmitting: false,
     email: '',
     password: ''
@@ -77,9 +79,23 @@ export default {
     this.$refs.email.focus();
   },
   methods: {
-    // async submit() {
-    submit() {
-      alert('todo');
+    ...call([
+      'user/registration'
+    ]),
+    async submit() {
+      const { email, password } = this;
+      if (this.isSubmitting || email == '' || password == '') { return; }
+
+      this.isSubmitting = true;
+      const { user, error } = await this.registration({ email, password });
+
+      if (user != null) {
+        this.$router.push({ name: 'transactions' });
+
+      } else {
+        this.isSubmitting = false;
+        /* eslint-disable */ M.toast({ html: error }); /* eslint-enable */
+      }
     }
   }
 };

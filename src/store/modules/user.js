@@ -38,6 +38,14 @@ export default {
       commit('LOGIN', user);
       return true;
     },
+    async registration({ commit, state }, { email, password }) {
+      const { token } = state;
+      const data = await api.registration(token, { email, password });
+      if (data.user == null) { return data; }
+
+      commit('LOGIN', data.user);
+      return data;
+    },
     logout({ commit }) {
       commit('LOGOUT');
     },

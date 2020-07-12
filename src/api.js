@@ -30,22 +30,24 @@ export default {
     return data;
   },
 
-  // TODO: Create SingUp mutation
-  async registration(email, password) {
+  async registration(token, { email, password }) {
     const query = `
-      query($email:String!, $password:String!) {
-        user:signIn(email: $email, password: $password) {
-          email
-          token
-          defaultCurrency { name }
+      mutation($email:String!, $password:String!) {
+        action:signUp(input: { email: $email, password: $password }) {
+          user {
+            email
+            token
+            defaultCurrency { name }
+          }
+          error
         }
       }
     `;
     const vars = { email, password };
-    const data = await this.client().request(query, vars);
-    this.log('registration', data);
+    const { action } = await this.client(token).request(query, vars);
+    this.log('registration', action);
 
-    return data;
+    return action;
   },
 
   async autoSignUp() {
