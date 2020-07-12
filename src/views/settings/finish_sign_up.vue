@@ -10,7 +10,7 @@
       </div>
 
       <div class='row'>
-        <form class='col l6 m8 s12' autocomplete='off' @submit.prevent='submit'>
+        <form class='col l5 m8 s12' autocomplete='off' @submit.prevent='submit'>
           <div class='row'>
             <!-- Work around to avoid autocomplete in chrome -->
             <input id='email' type='email' style='height: 0px; width: 0px'>
@@ -35,7 +35,7 @@
                 type='password'
                 :value='password'
               >
-              <label for='new-password' class='active-1'>Пароль</label>
+              <label for='new-password'>Пароль</label>
             </div>
           </div>
 
