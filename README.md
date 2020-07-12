@@ -1,6 +1,7 @@
 # myBudget II
 
 > Hobby project
+> [2.mybudget.ws](https://2.mybudget.ws)
 
 ## Project setup
 ```
