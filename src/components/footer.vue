@@ -18,6 +18,14 @@
             Политика конфиденциальности
           </router-link>
         </div>
+        <div class='col right'>
+          <a href='https://twitter.com/myBudget_' target='_blank' class='blue-grey-text text-darken-1'>
+            Twitter
+          </a>
+          <a href='https://github.com/mybudget-ws/mybudget' target='_blank' class='blue-grey-text text-darken-1 github'>
+            Исходный код
+          </a>
+        </div>
       </div>
     </div>
     <div class='footer-copyright'>
@@ -47,4 +55,7 @@ export default {
   .footer-copyright
     .container
       padding-left: 0.75rem
+
+  .github
+    margin-left: 10px
 </style>
