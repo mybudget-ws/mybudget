@@ -62,6 +62,11 @@
         <a href='#' @click='goto(item.path)'>{{ item.name }}</a>
       </li>
       <li class='divider' />
+      <li v-if='isGuest'>
+        <a href='#' class='amber-text text-darken-2' @click='goto("/finish-sign-up")'>
+          Завершить Регистрацию
+        </a>
+      </li>
       <li>
         <a href='#' @click='goto("currencies")'>Курсы валют</a>
       </li>
