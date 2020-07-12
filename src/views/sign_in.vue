@@ -13,6 +13,7 @@
                 v-model='email'
                 type='email'
                 class='validate'
+                required
               >
               <label for='email'>Email</label>
             </div>
@@ -24,6 +25,7 @@
                 v-model='password'
                 type='password'
                 class='validate'
+                required
               >
               <label for='password'>Пароль</label>
             </div>
@@ -75,6 +77,8 @@ export default {
       'user/login'
     ]),
     async submit() {
+      if (this.isSubmitting) { return; }
+
       const { email, password } = this;
       if (email == '' || password == '') { return; }
 
@@ -84,6 +88,8 @@ export default {
       this.isSubmitting = isSuccess;
       if (isSuccess) {
         this.$router.push({ name: 'transactions' });
+      } else {
+        /* eslint-disable */ M.toast({ html: 'Неверный email или пароль' }); /* eslint-enable */
       }
     }
   }

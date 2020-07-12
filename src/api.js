@@ -96,17 +96,20 @@ export default {
   async updateEmail(token, { password, newEmail }) {
     const query = `
       mutation($password:String!, $newEmail:String!) {
-        action:updateUserEmail(
+        action:updateUserEmail(input: {
           password: $password,
           newEmail: $newEmail
-        ) { email token }
+        }) {
+          user { email token }
+          error
+        }
       }
     `;
     const vars = { password, newEmail };
-    const data = await this.client(token).request(query, vars);
-    this.log('updateEmail', data);
+    const { action } = await this.client(token).request(query, vars);
+    this.log('updateEmail', action);
 
-    return data.action;
+    return action;
   },
 
   async updatePassword(token, { password, newPassword }) {

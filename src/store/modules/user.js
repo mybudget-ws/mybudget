@@ -67,11 +67,11 @@ export default {
     },
     async changeEmail({ commit, state }, { newEmail, password }) {
       const { token } = state;
-      const user = await api.updateEmail(token, { newEmail, password });
-      if (user == null) { return false; }
+      const data = await api.updateEmail(token, { newEmail, password });
+      if (data.user == null) { return data; }
 
-      commit('LOGIN', user);
-      return true;
+      commit('LOGIN', data.user);
+      return data;
     },
     async changePassword({ commit, state }, { password, newPassword }) {
       const { token } = state;

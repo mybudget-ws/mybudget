@@ -83,8 +83,10 @@ export default {
       'user/registration'
     ]),
     async submit() {
+      if (this.isSubmitting) { return; }
+
       const { email, password } = this;
-      if (this.isSubmitting || email == '' || password == '') { return; }
+      if (email == '' || password == '') { return; }
 
       this.isSubmitting = true;
       const { user, error } = await this.registration({ email, password });

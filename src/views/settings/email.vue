@@ -81,14 +81,14 @@ export default {
       if (this.isSubmitting) { return; }
       const { newEmail, password } = this;
       this.isSubmitting = true;
-      const isSuccess = await this.changeEmail({ newEmail, password });
+      const { error } = await this.changeEmail({ newEmail, password });
       this.isSubmitting = false;
 
-      const message = isSuccess ?
+      const message = error == null ?
         'Почта успешно изменена' :
-        'Ошибка изменения почты';
+        error;
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
-      if (isSuccess) {
+      if (error == null) {
         this.newEmail = '';
         this.password = '';
       }
