@@ -96,13 +96,13 @@ export default {
     summary: [],
     periods: [
       { name: 'Все время', months: 9999 },
-      { name: 'Десять лет', months: 120 },
-      { name: 'Пять лет', months: 60 },
-      { name: 'Два года', months: 24 },
-      { name: 'Год', months: 12 },
-      { name: 'Полгода', months: 6 },
-      { name: 'Квартал', months: 3 },
       { name: 'Месяц', months: 1 }
+      { name: 'Квартал', months: 3 },
+      { name: 'Полгода', months: 6 },
+      { name: 'Год', months: 12 },
+      { name: 'Два года', months: 24 },
+      { name: 'Пять лет', months: 60 },
+      { name: 'Десять лет', months: 120 },
     ]
   }),
   computed: {
