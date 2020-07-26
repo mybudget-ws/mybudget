@@ -252,6 +252,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.accounts
+  margin-bottom: 60px
+
 .mobile-submit
   z-index: 2
   position: fixed
