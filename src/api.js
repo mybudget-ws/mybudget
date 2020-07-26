@@ -282,8 +282,10 @@ export default {
           name
           accounts { id name color }
           amount
+          amountPerMonth
           currency { name }
           dueDateOn
+          dueMonths
           percentage
           balance
         }

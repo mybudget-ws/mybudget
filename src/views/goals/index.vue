@@ -22,7 +22,8 @@
               <tr>
                 <th class='name'>Название</th>
                 <th class='date'>Крайняя дата</th>
-                <th class='amount'>Величина</th>
+                <th class='amount' title='Итоговая сумма для накопления'>Величина</th>
+                <th class='amount' title='Сумму, которую нажно отложить в месяц'>В месяц</th>
                 <th class='percentage'>Прогресс</th>
                 <th />
               </tr>
@@ -30,14 +31,20 @@
             <tbody>
               <tr v-for='item in items' :key='item.id'>
                 <td>
-                  <span class='name'>{{ item.name }}</span>
-                  <span v-for='account in item.accounts' :key='account.id'>
-                    <BadgeAccount :account='account' />
-                  </span>
+                  {{ item.name }}
+                  <div class='accounts'>{{ accounts(item) }}</div>
                 </td>
-                <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
+                <td :title='dateTitleFormat(item)'>
+                  {{ dateFormat(item) }}
+                  <div class='due-months grey-text text-darken-2'>
+                    <i>месяцев в запасе ~ {{ item.dueMonths }}</i>
+                  </div>
+                </td>
                 <td class='amount'>
                   <Amount :value='item.amount' :currency='currency(item)' />
+                </td>
+                <td class='amount'>
+                  <Amount :value='item.amountPerMonth' :currency='currency(item)' />
                 </td>
                 <td class='percentage'>
                   <Amount :value='item.balance' :currency='currency(item)'>
@@ -84,7 +91,6 @@ import Card from '@/components/goals/card';
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
-import BadgeAccount from '@/components/badges/account';
 import { get, call } from 'vuex-pathify';
 
 import MobileDetect from 'mobile-detect';
@@ -97,7 +103,6 @@ export default {
   name: 'Goals',
   components: {
     Amount,
-    BadgeAccount,
     Card,
     Loader,
     Menu,
@@ -135,6 +140,9 @@ export default {
         /* eslint-enable */
       }
     },
+    accounts({ accounts }) {
+      return accounts.map(v => v.name).join(', ');
+    },
     dateFormat(goal) {
       const date = moment(goal.dueDateOn);
       return date.format('DD MMMM YYYY');
@@ -154,11 +162,13 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.name
-  margin-right: 6px
+.accounts,
+.due-months
+  font-size: 10px
+  font-weight: 200
 
 .amount
-  width: 140px
+  width: 160px
   @media only screen and (min-width: 992px)
     text-align: right
 
