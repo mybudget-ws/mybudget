@@ -76,7 +76,8 @@ import api from '../../api';
 import { get, call } from 'vuex-pathify';
 import c3 from 'c3';
 
-// var d3 = require('d3');
+// import MobileDetect from 'mobile-detect';
+// const md = new MobileDetect(window.navigator.userAgent);
 
 export default {
   name: 'Reports',
@@ -97,7 +98,6 @@ export default {
     periods: [
       { name: 'Все время', months: 9999 },
       { name: 'Месяц', months: 1 },
-      { name: 'Квартал', months: 3 },
       { name: 'Полгода', months: 6 },
       { name: 'Год', months: 12 },
       { name: 'Два года', months: 24 },
@@ -213,9 +213,13 @@ export default {
 
 <style scoped lang='sass'>
 .chart
-  height: 560px
+  height: 540px
   margin-top: 10px
   margin-left: -20px
+
+  @media only screen and (max-width: 601px)
+    margin-top: 0px
+    height: 320px
 
 th, td
   text-align: right
