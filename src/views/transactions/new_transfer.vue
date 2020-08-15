@@ -298,7 +298,11 @@ export default {
       };
       const isSuccess = await this.create({ token, transfer });
       if (isSuccess != null) {
-        this.$router.push({ name: 'transactions' });
+        if (this.$route.query.backTo) {
+          this.$router.push({ name: this.$route.query.backTo });
+        } else {
+          this.$router.push({ name: 'transactions' });
+        }
       } else {
         alert('Error');
       }
