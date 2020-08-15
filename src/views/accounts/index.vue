@@ -43,14 +43,14 @@
                 </td>
                 <td class='transacton-actions'>
                   <router-link
-                    :to="`/transactions/new?account=${item.id}`"
+                    :to="`/transactions/new?account=${item.id}&${backTo}`"
                     title='Новый расход'
                     class='btn-small waves-effect waves-light red lighten-4 z-depth-0'
                   >
                     <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
                   </router-link>
                   <router-link
-                    :to="`/transactions/new?account=${item.id}&isIncome=true`"
+                    :to="`/transactions/new?account=${item.id}&isIncome=true&${backTo}`"
                     title='Новый доход'
                     class='btn-small waves-effect waves-light green accent-1 z-depth-0'
                   >
@@ -58,7 +58,7 @@
                   </router-link>
                   <router-link
                     v-if='isTransferAllow'
-                    :to="`/transactions/transfers/new?accountIdSrc=${item.id}`"
+                    :to="`/transactions/transfers/new?accountIdSrc=${item.id}&${backTo}`"
                     title='Новый перевод'
                     class='btn-small waves-effect waves-light blue-grey lighten-5 z-depth-0'
                   >
@@ -217,6 +217,9 @@ export default {
       return Object
         .entries(totals)
         .map(v => ({ currency_name: v[0], balance: v[1] }));
+    },
+    backTo() {
+      return 'backTo=accounts';
     }
   },
   created() {
