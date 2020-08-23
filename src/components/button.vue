@@ -37,7 +37,6 @@ export default {
     text: { type: String, required: false, default: null },
     isDisabled: { type: Boolean, required: false, default: false },
     isLoading: { type: Boolean, required: false, default: false },
-    isMobile: { type: Boolean, required: false, default: false },
     isMobileDisable: { type: Boolean, required: false, default: false }
   },
   data: () => ({
@@ -51,7 +50,7 @@ export default {
     },
     isFloat() {
       if (this.isMobileDisable) { return false; }
-      return this.isMobile || this.isPhone;
+      return this.isPhone;
     }
   },
   methods: {

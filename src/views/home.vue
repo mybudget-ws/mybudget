@@ -11,7 +11,7 @@
 
           <div class='getstarted'>
             <Button
-              :is-mobile='false'
+              is-mobile-disable
               text='Начать сейчас'
               to='/sign_up'
             />
