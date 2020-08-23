@@ -63,7 +63,7 @@
 
     <div class='container blog'>
       <div class='row'>
-        <h2 class='col'>Советы по использованию</h2>
+        <h3 class='col'>Советы по использованию</h3>
       </div>
       <div class='row'>
         <div class='col s12 m6'>

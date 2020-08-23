@@ -1,6 +1,6 @@
 <template>
   <router-link
-    v-if='to && (!isMobile || !isPhone)'
+    v-if='to && !isFloat'
     :to='to'
     class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0'
     :class="{ 'disabled': isDisabled }"
@@ -8,7 +8,7 @@
     {{ buttonText }}
   </router-link>
   <button
-    v-else-if='!to && (!isMobile || !isPhone)'
+    v-else-if='!to && !isFloat'
     class='btn btn-large yellow waves-effect grey-text text-darken-4 z-depth-0'
     :class="{ 'disabled': isDisabled }"
     @click='click'
@@ -17,7 +17,7 @@
   </button>
   <button
     v-else
-    class='btn-floating btn-large waves-effect waves-light z-depth-0 yellow'
+    class='btn-floating btn-large yellow waves-effect waves-light z-depth-0'
     :class="{ 'disabled': isDisabled }"
     @click='click'
   >
@@ -37,7 +37,8 @@ export default {
     text: { type: String, required: false, default: null },
     isDisabled: { type: Boolean, required: false, default: false },
     isLoading: { type: Boolean, required: false, default: false },
-    isMobile: { type: Boolean, required: false, default: true }
+    isMobile: { type: Boolean, required: false, default: false },
+    isMobileDisable: { type: Boolean, required: false, default: false }
   },
   data: () => ({
     isPhone: md.phone() != null
@@ -47,6 +48,10 @@ export default {
       return this.isLoading ?
         `${this.text}...` :
         this.text;
+    },
+    isFloat() {
+      if (this.isMobileDisable) { return false; }
+      return this.isMobile || this.isPhone;
     }
   },
   methods: {

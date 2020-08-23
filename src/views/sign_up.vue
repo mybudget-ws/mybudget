@@ -21,6 +21,7 @@
               text='Продолжить'
               :is-disabled='isSubmitting'
               :is-loading='isSubmitting'
+              is-mobile-disable
               @click='submit'
             />
           </div>
@@ -33,7 +34,9 @@
               <a href='https://mybudget.ws' target='_blank'>classic.mybudget.ws</a>
             </p>
             <p class='grey-text'>
-              Больше подробностей для пользователей classic.mybudget.ws
+              Больше подробностей для пользователей предыдущей
+              <br>
+              версии classic.mybudget.ws
               <a href='//mybudget.ws/blog/11/mybudget2' target='_blank'>
                 <b class='grey-text'>на блоге сайта</b>
               </a>
