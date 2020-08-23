@@ -144,7 +144,7 @@ export default {
 <style scoped lang='sass'>
 .brand-logo
   font-size: 14px
-  margin-top: 4px
+  margin-top: 1px
 
 .row-menu
   margin-bottom: 0
