@@ -8,7 +8,15 @@
       <div v-else class='row'>
         <form class='col l12 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col l4 s12'>
+            <div v-if='isPhone' class='col l4 s12'>
+              <label>Со счета</label>
+              <select ref='selectSrcAccounts' v-model='accountIdSrc' class='browser-default'>
+                <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
+                  {{ v.name }}
+                </option>
+              </select>
+            </div>
+            <div v-else class='input-field col l4 s12'>
               <select ref='selectSrcAccounts' v-model='accountIdSrc'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
@@ -17,7 +25,15 @@
               <label>Со счета</label>
             </div>
 
-            <div class='input-field col l4 s12'>
+            <div v-if='isPhone' class='col l4 s12'>
+              <label>На счет</label>
+              <select ref='selectDstAccounts' v-model='accountIdDst' class='browser-default'>
+                <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
+                  {{ v.name }}
+                </option>
+              </select>
+            </div>
+            <div v-else class='input-field col l4 s12'>
               <select ref='selectDstAccounts' v-model='accountIdDst'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
@@ -155,8 +171,9 @@ export default {
   },
   props: {},
   data: () => ({
-    amountSrc: (md.phone() != null ? '' : '0'),
+    // amountSrc: (md.phone() != null ? '' : '0'),
     // amountDst: (md.phone() != null ? '' : '0'),
+    amountSrc: '0',
     amountDst: '0',
     date: new Date(),
     description: '',

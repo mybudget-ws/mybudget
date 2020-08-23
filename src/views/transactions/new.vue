@@ -34,7 +34,7 @@
               </span>
             </div>
             <div class='input-field col l4 s12'>
-              <select ref='selectAccounts' v-model='accountId'>
+              <select ref='selectAccounts' v-model='accountId' :class='{ "browser-default": isPhone }'>
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                   <!--span v-if='v.isFavourite' class='right'>
@@ -42,7 +42,7 @@
                   </span-->
                 </option>
               </select>
-              <label>Счет</label>
+              <label v-if='!isPhone'>Счет</label>
               <span v-if='topAccounts.length > 0' class='top-accounts'>
                 <span
                   v-for='account in topAccounts'
@@ -89,14 +89,15 @@
                   >
                   <label for='name' class='active'>Комментарий</label>
                 </div>
-                <div v-if='isProjects' class='input-field col l6 s12'>
-                  <select ref='selectProjects' v-model='projectId'>
+                <div v-if='isProjects' class='col l6 s12' :class='{ "input-field": !isPhone }'>
+                  <label v-if='isPhone'>Проект</label>
+                  <select ref='selectProjects' v-model='projectId' :class='{ "browser-default": isPhone }'>
                     <option value='' selected>Без проекта</option>
                     <option v-for='project in projects' :key='project.id' :value='project.id'>
                       {{ project.name }}
                     </option>
                   </select>
-                  <label>Проект</label>
+                  <label v-if='!isPhone'>Проект</label>
                 </div>
               </div>
             </div>
