@@ -13,8 +13,6 @@ import projects from './modules/projects';
 import transactions from './modules/transactions';
 import user from './modules/user';
 
-Vue.use(Vuex);
-
 const state = {
   greeting: 'Hello',
   name: 'World'
