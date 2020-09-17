@@ -41,7 +41,7 @@
 
               <tbody>
                 <tr v-for='item in items' :key='item.id'>
-                  <td :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
+                  <td class='date' :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
                   <td class='amount'>
                     <Amount :value='item.amount' :currency='item.account.currency.name' />
                   </td>
@@ -320,7 +320,8 @@ td
   padding: 10px 5px
 
 .date
-  width: 90px
+  width: 96px
+  white-space: nowrap
 
 .amount
   width: 140px
