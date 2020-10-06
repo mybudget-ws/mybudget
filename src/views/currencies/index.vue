@@ -147,6 +147,10 @@ export default {
   height: 300px
   margin-left: -20px
 
+select.browser-default
+  font-size: 18px
+  margin-top: 6px
+
 .container
   background-color: #fff
   margin-top: 10px
