@@ -25,7 +25,7 @@
                 <td>
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
+                    <span class='name'>{{ item.name }}</span>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
@@ -68,7 +68,7 @@
                 <td>
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
+                    <span class='name'>{{ item.name }}</span>
                   </div>
                 </td>
                 <td class='actions-hidden'>
@@ -170,10 +170,16 @@ export default {
   display: inline-block
   margin-right: 10px
 
+.name
+  @media only screen and (max-width: 601px)
+    max-width: 130px
+    overflow: auto
+    text-overflow: ellipsis
+
 .actions,
 .actions-hidden
   padding-right: 0px
-  width: 150px
+  width: 130px
   text-align: right
 
   .btn-flat
