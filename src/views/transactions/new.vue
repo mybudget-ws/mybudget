@@ -372,6 +372,9 @@ h6.subtitle
   i.left
     margin-right: 0px
 
+select.browser-default
+  margin-top: -1em
+
 .top-accounts
   position: absolute
   margin-top: -4px
@@ -380,6 +383,7 @@ h6.subtitle
     padding-bottom: 6px
     display: inline-block
     position: inherit
+    margin-top: 10px
 
   .top-account
     cursor: pointer
