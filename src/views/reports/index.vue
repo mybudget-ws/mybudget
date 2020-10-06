@@ -3,16 +3,26 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Отчеты'>
-        <div class='row right'>
+        <div class='row' :class="{ 'right': !isPhone }">
           <div class='col'>
-            <select ref='selectMode' v-model='selectedMode' @change='onChangeMode'>
+            <select
+              ref='selectMode'
+              v-model='selectedMode'
+              :class="{ 'browser-default': isPhone }"
+              @change='onChangeMode'
+            >
               <option v-for='(mode, index) in ["balance", "columns"]' :key='index' :value='mode'>
                 {{ displayMode(mode) }}
               </option>
             </select>
           </div>
           <div class='col'>
-            <select ref='selectPeriods' v-model='selectedPeriodMonths' @change='onChangePeriod'>
+            <select
+              ref='selectPeriods'
+              v-model='selectedPeriodMonths'
+              :class="{ 'browser-default': isPhone }"
+              @change='onChangePeriod'
+            >
               <option v-for='v in periods' :key='v.months' :value='v.months'>
                 {{ v.name }}
               </option>
@@ -72,9 +82,11 @@ import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '../../api';
-
 import { get, call } from 'vuex-pathify';
+
 import c3 from 'c3';
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
 
 // import MobileDetect from 'mobile-detect';
 // const md = new MobileDetect(window.navigator.userAgent);
@@ -104,7 +116,9 @@ export default {
       { name: 'Два года', months: 24 },
       { name: 'Пять лет', months: 60 },
       { name: 'Десять лет', months: 120 }
-    ]
+    ],
+
+    isPhone: md.phone() != null
   }),
   computed: {
     token: get('user/token'),
