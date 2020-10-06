@@ -3,8 +3,17 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Курсы валют'>
-        <div v-if='!isLoading' class='currencies right'>
-          <select ref='selectCurrencies' v-model='currency' @change='change'>
+        <div
+          v-if='!isLoading'
+          class='currencies'
+          :class="{ 'right': !isPhone }"
+        >
+          <select
+            ref='selectCurrencies'
+            v-model='currency'
+            :class="{ 'browser-default': isPhone }"
+            @change='change'
+          >
             <option v-for='curr in items' :key='curr.id' :value='curr.name'>
               {{ curr.name }}
             </option>
@@ -50,7 +59,10 @@ import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
 import api from '../../api';
 import { get, call, sync } from 'vuex-pathify';
+
 import c3 from 'c3';
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
 
 export default {
   name: 'Currencies',
@@ -60,6 +72,9 @@ export default {
     PageHeader
   },
   props: {},
+  data: () => ({
+    isPhone: md.phone() != null
+  }),
   computed: {
     ...get('currencies/*'),
     currency: sync('currencies/selected'),
