@@ -173,7 +173,7 @@ export default {
 .actions,
 .actions-hidden
   padding-right: 0px
-  width: 130px
+  width: 140px
   text-align: right
 
   .btn-flat
