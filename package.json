@@ -37,6 +37,10 @@
     "eslint-plugin-vue": "^6.1.2",
     "vue-template-compiler": "^2.6.10"
   },
+  "resolutions": {
+    "**/node-forge": "^0.10.0",
+    "**/node-fetch": "^2.6.1"
+  },
   "eslintConfig": {
     "root": true,
     "env": {
