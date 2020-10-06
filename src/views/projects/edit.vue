@@ -25,7 +25,7 @@
               class='input-field col l4 s12'
               :class='`color c-${color}`'
             >
-              <select ref='selectColors' v-model='color'>
+              <select ref='selectColors' v-model='color' :class="{ 'browser-default': isPhone }">
                 <option
                   v-for='color in colors'
                   :key='color.id'
@@ -34,7 +34,7 @@
                   {{ color.name }}
                 </option>
               </select>
-              <label>Цвет</label>
+              <label v-if='!isPhone'>Цвет</label>
             </div>
           </div>
 
@@ -151,6 +151,12 @@ export default {
     margin-left: -14px
     margin-top: 6px
     border-radius: 2px
+
+  @media only screen and (max-width: 601px)
+    &:before
+      margin-top: 0
+      width: 12px
+      height: 3rem
 
   &.c-red
     &:before
