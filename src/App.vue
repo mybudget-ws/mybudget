@@ -31,4 +31,7 @@ export default {
 
 .container.container-wide
   max-width: 1400px
+
+select.browser-default
+  font-size: 16px
 </style>

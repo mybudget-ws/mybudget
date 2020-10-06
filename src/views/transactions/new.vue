@@ -376,7 +376,7 @@ h6.subtitle
   position: absolute
   margin-top: -4px
 
-  @media only screen and (max-width: 601px)
+  @media only screen and (max-width: 996px)
     padding-bottom: 6px
     display: inline-block
     position: inherit
@@ -390,6 +390,10 @@ h6.subtitle
     &:hover
       color: #616161
       border-bottom: 1px dashed #757575
+
+    @media only screen and (max-width: 601px)
+      font-size: 14px
+      margin-right: 10px
 
 form
   @media only screen and (max-width: 601px)
