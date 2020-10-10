@@ -1,12 +1,15 @@
 <template>
-  <div>
-    <div class='card blue-grey'>
-      <div class='card-content white-text'>
-        <span class='card-title'>Скоро</span>
-        <p>Данный фукнционал находится в разработке</p>
-      </div>
-    </div>
-  </div>
+  <p>
+    Доброго времени суток, меня зовут Александр,
+    автор и&nbsp;разработчик этого сайта.
+    <br>
+    Если у вас есть возникли вопросы
+    или&nbsp;появились проблемы с работой сайта,
+    <br>пожалуйста, пишите на почту
+    <a href='mailto:alexander.kalinichev@gmail.com'>
+      alexander.kalinichev@gmail.com
+    </a>
+  </p>
 </template>
 
 <script>
