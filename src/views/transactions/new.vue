@@ -90,7 +90,6 @@
                   <label for='name' class='active'>Комментарий</label>
                 </div>
                 <div v-if='isProjects' class='col l6 s12' :class='{ "input-field": !isPhone }'>
-                  <label v-if='isPhone'>Проект</label>
                   <select ref='selectProjects' v-model='projectId' :class='{ "browser-default": isPhone }'>
                     <option value='' selected>Без проекта</option>
                     <option v-for='project in projects' :key='project.id' :value='project.id'>
