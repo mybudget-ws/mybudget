@@ -4,6 +4,23 @@
       <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
       <span class='date'>до {{ dateFormat }}</span>
       <Amount :value='amount' :currency='currency' class='card-title' />
+      <div class='card-content blue-grey-text text-darken-3'>
+        <div>
+          <span class='info-left'>Прогресс:</span>
+          <Amount :value='balance' :currency='currency' class='inline-amount' />
+        </div>
+        <div>
+          <span class='info-left'>В месяц по:</span>
+          <Amount :value='amountPerMonth' :currency='currency' class='inline-amount' />
+        </div>
+        <div>
+          <span class='info-left'>Осталось:</span>
+          <Amount :value='rest' :currency='currency' class='inline-amount' />
+        </div>
+        <div class='due-months grey-text text-darken-2'>
+          <i>месяцев в запасе ~ {{ dueMonths }}</i>
+        </div>
+      </div>
       <div v-for='account in accounts' :key='account.id' class='card-content tags'>
         <BadgeAccount :account='account' />
       </div>
@@ -46,9 +63,12 @@ export default {
     id: { type: Number, required: true },
     name: { type: String, required: true },
     amount: { type: Number, required: true },
+    amountPerMonth: { type: Number, required: true },
+    balance: { type: Number, required: true },
     currency: { type: String, required: true },
     percentage: { type: String, required: true },
     dueDateOn: { type: String, required: true },
+    dueMonths: { type: Number, required: true },
     accounts: { type: Array, required: true }
   },
   data: () => ({
@@ -68,6 +88,10 @@ export default {
       }
 
       return date.format('DD.MM.YYYY');
+    },
+    rest() {
+      if (this.balance >= this.amount) { return 0.0; }
+      return this.amount - this.balance;
     }
   },
   methods: {
@@ -124,4 +148,14 @@ export default {
     position: absolute
     right: 14px
     top: 39px
+
+  .due-months
+    font-weight: 200
+
+.inline-amount
+  display: inline-block
+
+.info-left
+  min-width: 80px
+  display: inline-block
 </style>

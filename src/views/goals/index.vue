@@ -23,7 +23,8 @@
                 <th class='name'>Название</th>
                 <th class='date'>Крайняя дата</th>
                 <th class='amount' title='Итоговая сумма для накопления'>Величина</th>
-                <th class='amount' title='Сумму, которую нажно отложить в месяц'>В месяц</th>
+                <th class='amount' title='Сумму, которую нужно отложить в месяц'>В месяц</th>
+                <th class='amount' title='Осталось накопить'>Осталось</th>
                 <th class='percentage'>Прогресс</th>
                 <th />
               </tr>
@@ -45,6 +46,9 @@
                 </td>
                 <td class='amount'>
                   <Amount :value='item.amountPerMonth' :currency='currency(item)' />
+                </td>
+                <td class='amount'>
+                  <Amount :value='rest(item)' :currency='currency(item)' />
                 </td>
                 <td class='percentage'>
                   <Amount :value='item.balance' :currency='currency(item)'>
@@ -153,6 +157,10 @@ export default {
     currency({ currency }) {
       if (currency == null) { return ''; }
       return currency.name;
+    },
+    rest({ amount, balance }) {
+      if (balance >= amount) { return 0.0; }
+      return amount - balance;
     },
     tagPercentage({ percentage }) {
       return `${percentage}%`;
