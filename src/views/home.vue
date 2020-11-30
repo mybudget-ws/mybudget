@@ -11,6 +11,13 @@
 
           <div class='getstarted'>
             <Button
+              v-if='isSignedIn'
+              is-mobile-disable
+              text='Войти'
+              to='/transactions'
+            />
+            <Button
+              v-else
               is-mobile-disable
               text='Начать сейчас'
               to='/sign_up'
@@ -117,6 +124,7 @@ export default {
     isPhone: md.phone() != null
   }),
   computed: {
+    isSignedIn: get('user/isSignedIn'),
     // NOTE: Just for test
     message: get('message'),
     ...sync('*')
