@@ -1,6 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
 
-
 const DOMAIN = {
   development: 'http://localhost:3000',
   production: 'https://api.mybudget.ws'
@@ -134,7 +133,7 @@ export default {
 
   async accounts(token) {
     const query = `{
-      items:accounts { id name color isFavourite isHidden balance currency { name } }
+      items:accounts { id name color kind isFavourite isHidden balance currency { name } }
     }`;
     const data = await this.client(token).request(query);
     this.log(query, data);
@@ -154,7 +153,7 @@ export default {
 
   async account(token, { id }) {
     const query = `query($id:ID!) {
-      item:account(id:$id) { id name color currency { name } }
+      item:account(id:$id) { id name color kind currency { name } }
     }`;
     const vars = { id };
     const data = await this.client(token).request(query, vars);
@@ -163,35 +162,37 @@ export default {
     return data.item;
   },
 
-  async createAccount(token, { name, color, currency }) {
+  async createAccount(token, { name, color, kind, currency }) {
     const query = `
-      mutation($name:String!, $color:String!, $currency:String!) {
+      mutation($name:String!, $color:String!, $kind:String!, $currency:String!) {
         createAccount(
           name: $name,
           color: $color,
+          kind: $kind,
           currency: $currency
         ) { id name color balance currency { name } }
       }
     `;
-    const vars = { name, color, currency };
+    const vars = { name, color, kind, currency };
     const data = await this.client(token).request(query, vars);
     this.log('createAccount', data);
 
     return data.createAccount;
   },
 
-  async updateAccount(token, { id, name, color, currency }) {
+  async updateAccount(token, { id, name, color, kind, currency }) {
     const query = `
-      mutation($id:ID!, $name:String!, $color:String!, $currency:String!) {
+      mutation($id:ID!, $name:String!, $color:String!, $kind:String!, $currency:String!) {
         action:updateAccount(
           id: $id,
           name: $name,
           color: $color,
+          kind: $kind,
           currency: $currency
         ) { id name color currency { name } }
       }
     `;
-    const vars = { id, name, color, currency };
+    const vars = { id, name, color, kind, currency };
     const data = await this.client(token).request(query, vars);
     this.log('updateAccount', data);
 

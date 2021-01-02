@@ -1,5 +1,10 @@
 import api from '../../api';
 
+const KINDS = [
+  { value: 'debit', name: 'Дебитовая карта, наличные' },
+  { value: 'credit', name: 'Кредитная карта' }
+];
+
 export default {
   namespaced: true,
 
@@ -18,7 +23,8 @@ export default {
   getters: {
     visibleItems: state => state.items.filter(v => !v.isHidden),
     hiddenItems: state => state.items.filter(v => v.isHidden),
-    visibleItemsFilter: state => state.itemsFilter.filter(v => !v.isHidden)
+    visibleItemsFilter: state => state.itemsFilter.filter(v => !v.isHidden),
+    kinds: _state => KINDS
   },
 
   actions: {

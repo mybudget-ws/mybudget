@@ -8,7 +8,7 @@
       <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col l8 s12'>
+            <div class='input-field col l9 s12'>
               <input
                 id='name'
                 ref='name'
@@ -23,7 +23,7 @@
           </div>
           <div class='row'>
             <div
-              class='input-field col l4 s12'
+              class='input-field col l3 s12'
               :class='`color c-${color}`'
             >
               <select ref='selectColors' v-model='color' :class="{ 'browser-default': isPhone }">
@@ -37,7 +37,7 @@
               </select>
               <label v-if='!isPhone'>Цвет</label>
             </div>
-            <div class='input-field col l4 s12'>
+            <div class='input-field col l3 s12'>
               <select ref='selectCurrencies' v-model='currency' :class="{ 'browser-default': isPhone }">
                 <option
                   v-for='curr in currencies'
@@ -48,6 +48,18 @@
                 </option>
               </select>
               <label v-if='!isPhone'>Валюта</label>
+            </div>
+            <div class='input-field col l3 s12'>
+              <select ref='selectKinds' v-model='kind' :class="{ 'browser-default': isPhone }">
+                <option
+                  v-for='kind in kinds'
+                  :key='kind.value'
+                  :value='kind.value'
+                >
+                  {{ kind.name }}
+                </option>
+              </select>
+              <label v-if='!isPhone'>Тип</label>
             </div>
           </div>
 
@@ -114,6 +126,7 @@ export default {
     name: '',
     color: '',
     currency: '',
+    kind: '',
 
     isLoading: true,
     isSubmitting: false,
@@ -124,6 +137,7 @@ export default {
     defaultCurrency: get('user/defaultCurrency'),
     colors: get('colors/items'),
     currencies: get('currencies/items'),
+    kinds: get('accounts/kinds'),
     id() { return this.$route.params.id; }
   },
   async mounted() {
@@ -131,6 +145,7 @@ export default {
     this.name = account.name;
     this.color = account.color;
     this.currency = account.currency.name;
+    this.kind = account.kind;
 
     await this.fetchCurrencies({ base: this.currency });
     await this.fetchColors();
@@ -144,6 +159,9 @@ export default {
       this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
       M.updateTextFields();
 
+      this.selectKinds = M.FormSelect.init(this.$refs.selectKinds, {});
+      M.updateTextFields();
+
       this.$refs.name.focus();
     });
     /* eslint-enable */
@@ -154,10 +172,10 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { id, name, color, currency } = this;
+      const { id, name, color, kind, currency } = this;
       const isSuccess = await api.updateAccount(
         this.token,
-        { id, name, color, currency }
+        { id, name, color, kind, currency }
       );
       if (isSuccess != null) {
         this.$router.push({ name: 'accounts' }).catch(_e => {});

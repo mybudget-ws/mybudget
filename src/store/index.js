@@ -13,6 +13,8 @@ import projects from './modules/projects';
 import transactions from './modules/transactions';
 import user from './modules/user';
 
+// Vue.config.devtools = process.env.NODE_ENV === 'development';
+
 const state = {
   greeting: 'Hello',
   name: 'World'

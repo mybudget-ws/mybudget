@@ -54,6 +54,18 @@
               </select>
               <label v-if='!isPhone'>Валюта</label>
             </div>
+            <div class='input-field col l3 s12'>
+              <select ref='selectKinds' v-model='kind' :class="{ 'browser-default': isPhone }">
+                <option
+                  v-for='kind in kinds'
+                  :key='kind.value'
+                  :value='kind.value'
+                >
+                  {{ kind.name }}
+                </option>
+              </select>
+              <label v-if='!isPhone'>Тип</label>
+            </div>
           </div>
 
           <div v-if='isPhone' class='mobile-submit'>
@@ -120,6 +132,7 @@ export default {
     name: 'Наличные',
     color: 'light-blue lighten-2',
     currency: 'RUB',
+    kind: 'debit',
 
     isLoading: true,
     isPhone: md.phone() != null
@@ -129,6 +142,7 @@ export default {
     defaultCurrency: get('user/defaultCurrency'),
     colors: get('colors/items'),
     currencies: get('currencies/items'),
+    kinds: get('accounts/kinds'),
     isSubmitting: get('accounts/isSubmitting'),
     isFirst() {
       return this.$route.query.first === 'true';
@@ -154,6 +168,9 @@ export default {
       this.selectColors = M.FormSelect.init(this.$refs.selectColors, {});
       M.updateTextFields();
 
+      this.selectKinds = M.FormSelect.init(this.$refs.selectKinds, {});
+      M.updateTextFields();
+
       this.$refs.name.focus();
     });
     /* eslint-enable */
@@ -166,8 +183,8 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { name, color, currency, token } = this;
-      const account = { name, color, currency };
+      const { name, color, kind, currency, token } = this;
+      const account = { name, color, kind, currency };
       const isSuccess = await this.create({ token, account });
       if (isSuccess != null) {
         this.$router.push({ name: 'accounts' });
