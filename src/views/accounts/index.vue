@@ -276,11 +276,11 @@ export default {
   width: 200px
 
 .badge
-  background-color: #e8eaf6
+  background-color: #eceff1
   border-radius: 4px
-  border: 1px solid #c5cae9
+  border: 1px solid #b0bec5
   box-sizing: border-box
-  color: #5c6bc0
+  color: #607d8b
   font-size: 12px
   height: 20px
   line-height: 18px
