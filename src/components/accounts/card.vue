@@ -4,7 +4,10 @@
     :class='color'
   >
     <div class='card-content'>
-      <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
+      <div class='name blue-grey-text text-darken-3'>
+        {{ name }}
+        <span v-if='kind === "credit"' class='badge'>Кредит</span>
+      </div>
       <a class='btn-flat star' @click='$emit("favourite")'>
         <i v-if='isFavourite' class='material-icons yellow-text text-accent-4' style='font-size: 1.8rem'>star</i>
         <i v-else class='material-icons grey-text' style='font-size: 1.8rem'>star_border</i>
@@ -70,7 +73,8 @@ export default {
     currency: { type: Object, required: true },
     isFavourite: { type: Boolean, required: true },
     isTransferAllow: { type: Boolean, required: true },
-    color: { type: String, required: true }
+    color: { type: String, required: true },
+    kind: { type: String, required: true }
   },
   data: () => ({
   }),
@@ -99,6 +103,19 @@ export default {
     .name
       font-size: 18px
       font-weight: 400
+
+    .badge
+      border-radius: 4px
+      border: 1px solid #90a4ae
+      box-sizing: border-box
+      color: #546e7a
+      float: none
+      font-size: 12px
+      margin-left: 4px
+      min-width: 1.8rem
+      vertical-align: top
+      display: inline-block
+      margin-top: 2px
 
     .star
       position: absolute
