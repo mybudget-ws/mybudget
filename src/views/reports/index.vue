@@ -39,9 +39,30 @@
           <div class='col l10 m9 s12'>
             <div class='chart' />
 
-            <table v-if='selectedMode === "balance" && summary.length > 0'>
+            <div v-if='isShowSummary && isPhone'>
+              <div v-for='(row, index) in summary' :key='index' class='card blue-grey lighten-5 z-depth-0'>
+                <div class='card-content'>
+                  <div class='card-title'>{{ row.currency }}</div>
+                  <div>
+                    Начало периода
+                    <Amount :value='row.startBalance' :currency='row.currency' class='amount' />
+                  </div>
+                  <div>
+                    Изменение
+                    <Amount :value='row.endBalance - row.startBalance' :currency='row.currency' class='amount' />
+                  </div>
+                  <hr>
+                  <div>
+                    <b>Итого</b>
+                    <Amount :value='row.endBalance' :currency='row.currency' class='amount' />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <table v-if='isShowSummary && !isPhone'>
               <thead>
                 <tr>
+                  <th class='min' />
                   <th>Начало периода</th>
                   <th>Изменение</th>
                   <th>Итого</th>
@@ -49,6 +70,9 @@
               </thead>
               <tbody>
                 <tr v-for='(row, index) in summary' :key='index'>
+                  <td class='min'>
+                    <strong>{{ row.currency }}</strong>
+                  </td>
                   <td>
                     <Amount :value='row.startBalance' :currency='row.currency' />
                   </td>
@@ -122,7 +146,10 @@ export default {
   }),
   computed: {
     token: get('user/token'),
-    searchParams: get('filters/searchParams')
+    searchParams: get('filters/searchParams'),
+    isShowSummary() {
+      return this.selectedMode === 'balance' && this.summary.length > 0;
+    }
   },
   async mounted() {
     this.isLoading = true;
@@ -238,5 +265,14 @@ export default {
 
 th, td
   text-align: right
-  width: 33%
+  width: 30%
+
+  &.min
+    width: 10%
+    text-align: left
+
+.card
+  .amount
+    //display: inline-block
+    float: right
 </style>
