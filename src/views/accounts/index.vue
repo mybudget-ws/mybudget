@@ -32,7 +32,7 @@
                   <div class='valign-wrapper'>
                     <span class='color' :class='item.color' />
                     <span>{{ item.name }}</span>
-                    <span v-if='item.kind === "credit"' class='badge'>кредит</span>
+                    <span v-if='item.kind === "credit"' class='badge' title='Кредитная карта'>K</span>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
@@ -276,12 +276,16 @@ export default {
   width: 200px
 
 .badge
-  margin-left: 8px
-  border: 1px solid #aaa
+  background-color: #e8eaf6
   border-radius: 4px
+  border: 1px solid #c5cae9
   box-sizing: border-box
-  font-size: 14px
-  line-height: 20px
+  color: #5c6bc0
+  font-size: 12px
+  height: 20px
+  line-height: 18px
+  margin-left: 8px
+  min-width: 1.8rem
 
 .amount
   text-align: right
@@ -306,6 +310,7 @@ export default {
 
   .btn-small
     padding: 0 14px
+    border-radius: 4px
 
 .actions-hidden
   width: 82px
