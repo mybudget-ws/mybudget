@@ -109,13 +109,14 @@ export default {
       border: 1px solid #90a4ae
       box-sizing: border-box
       color: #546e7a
+      display: inline-block
       float: none
       font-size: 12px
+      line-height: 20px
       margin-left: 4px
+      margin-top: 2px
       min-width: 1.8rem
       vertical-align: top
-      display: inline-block
-      margin-top: 2px
 
     .star
       position: absolute
