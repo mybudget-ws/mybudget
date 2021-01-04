@@ -56,7 +56,7 @@
             </router-link>
             <router-link
               title='Редактировать операцию'
-              :to="`/transactions/${item.id}/edit`"
+              :to="`/transactions/${item.id}/edit?backTo=${backPath}`"
               class='waves-effect waves-teal btn-flat'
             >
               <i class='material-icons grey-text'>edit</i>

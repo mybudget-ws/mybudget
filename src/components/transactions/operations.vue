@@ -3,7 +3,7 @@
     <router-link
       title='Новый расход'
       class='btn-floating waves-effect waves-light z-depth-0 red'
-      :to='expenseUrl'
+      :to='expensePath'
       :class='isPhone ? "accent-1 btn-large" : "accent-1"'
     >
       <i
@@ -17,7 +17,7 @@
     <router-link
       title='Новый доход'
       class='btn-floating waves-effect waves-light green z-depth-0 new-income'
-      :to='incomeUrl'
+      :to='incomePath'
       :class='isPhone ? "accent-4 btn-large" : " accent-4"'
     >
       <i
@@ -31,9 +31,9 @@
     <router-link
       v-if='isTransferVisible'
       title='Новый перевод'
-      to='/transactions/transfers/new'
-      class='btn-floating waves-effect waves-light indigo z-depth-0 new-transfer'
+      :to='newTransferPath'
       :class='isPhone ? "lighten-3 btn-large" : "lighten-3"'
+      class='btn-floating waves-effect waves-light indigo z-depth-0 new-transfer'
     >
       <i
         class='material-icons'
@@ -65,7 +65,7 @@ export default {
   computed: {
     accounts: get('accounts/visibleItemsFilter'),
     selectedAccounts: get('filters/accounts'),
-    expenseUrl() {
+    expensePath() {
       if (this.accountId) {
         if (this.backPath) {
           return `/transactions/new?account=${this.accountId}&backTo=${this.backPath}`;
@@ -78,10 +78,11 @@ export default {
       }
       return '/transactions/new';
     },
-    incomeUrl() {
+    incomePath() {
       if (this.accountId) {
         if (this.backPath) {
-          return `/transactions/new??isIncome=true&account=${this.accountId}&backTo=${this.backPath}`;
+          return `/transactions/new??isIncome=true&account=${this.accountId}` +
+            `&backTo=${this.backPath}`;
         } else {
           return `/transactions/new??isIncome=true&account=${this.accountId}`;
         }
@@ -90,6 +91,12 @@ export default {
         return `/transactions/new?isIncome=true&account=${this.selectedAccounts[0].id}`;
       }
       return '/transactions/new?isIncome=true';
+    },
+    newTransferPath() {
+      if (this.accountId) {
+        return `/transactions/transfers/new?accountIdDst=${this.accountId}&backTo=${this.backPath}`;
+      }
+      return '/transactions/transfers/new?backTo=${backPath}';
     },
     isTransferVisible() { return this.accounts.length > 1; }
   },

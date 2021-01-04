@@ -59,7 +59,7 @@
                   </router-link>
                   <router-link
                     v-if='isTransferAllow'
-                    :to="`/transactions/transfers/new?accountIdSrc=${item.id}&${backTo}`"
+                    :to="`/transactions/transfers/new?accountIdDst=${item.id}&${backTo}`"
                     title='Новый перевод'
                     class='btn-small waves-effect waves-light indigo lighten-5 z-depth-0'
                   >
