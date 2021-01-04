@@ -55,7 +55,10 @@ const md = new MobileDetect(window.navigator.userAgent);
 export default {
   name: 'TransactionOperations',
   components: {},
-  props: {},
+  props: {
+    accountId: { type: Number, required: false, default: null },
+    backPath: { type: String, required: false, default: null }
+  },
   data: () => ({
     isPhone: md.phone() != null
   }),
@@ -63,12 +66,26 @@ export default {
     accounts: get('accounts/visibleItemsFilter'),
     selectedAccounts: get('filters/accounts'),
     expenseUrl() {
+      if (this.accountId) {
+        if (this.backPath) {
+          return `/transactions/new?account=${this.accountId}&backTo=${this.backPath}`;
+        } else {
+          return `/transactions/new?account=${this.accountId}`;
+        }
+      }
       if (this.selectedAccounts.length > 0) {
         return `/transactions/new?account=${this.selectedAccounts[0].id}`;
       }
       return '/transactions/new';
     },
     incomeUrl() {
+      if (this.accountId) {
+        if (this.backPath) {
+          return `/transactions/new??isIncome=true&account=${this.accountId}&backTo=${this.backPath}`;
+        } else {
+          return `/transactions/new??isIncome=true&account=${this.accountId}`;
+        }
+      }
       if (this.selectedAccounts.length > 0) {
         return `/transactions/new?isIncome=true&account=${this.selectedAccounts[0].id}`;
       }

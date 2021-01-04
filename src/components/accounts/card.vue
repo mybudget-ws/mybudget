@@ -33,6 +33,12 @@
         >
           <i class='material-icons white-text' style='font-size: 1.4rem'>repeat</i>
         </router-link>
+        <router-link
+          :to="`/accounts/${id}`"
+          class='btn-small waves-effect waves-light grey lighten-1 z-depth-0'
+        >
+          <i class='material-icons white-text' style='font-size: 1.4rem'>list</i>
+        </router-link>
       </div>
       <div class='card-action'>
         <a
@@ -129,6 +135,7 @@ export default {
 
       .btn-small
         margin-right: 16px
+        border-radius: 4px
 
   .card-action
     padding: 12px 0

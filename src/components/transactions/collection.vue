@@ -120,7 +120,7 @@
         </div>
         <div class='card-action'>
           <router-link
-            :to="`/transactions/${item.id}/edit`"
+            :to="`/transactions/${item.id}/edit?backTo=${backPath}`"
             class='grey-text text-darken-2'
           >
             Изменить
@@ -179,7 +179,11 @@ export default {
     BadgeProject,
     Loader
   },
-  props: {},
+  props: {
+    accountId: { type: Number, required: false, default: undefined },
+    backPath: { type: String, required: false, default: '/transactions' },
+    isFiltersDisabled: { type: Boolean, required: false, default: false }
+  },
   data: () => ({
     isPhone: md.phone() != null
   }),
@@ -189,14 +193,20 @@ export default {
     isVisible: get('filters/isVisible'),
     ...get('transactions/*'),
     isEmpty() { return !this.isLoading && this.items.length === 0; },
-    isTableVisible() { return !this.isLoading && !this.isEmpty; }
+    isTableVisible() { return !this.isLoading && !this.isEmpty; },
+    collectionFilters() {
+      if (this.accountId) {
+        return { accountIds: [this.accountId] };
+      }
+      return this.filters;
+    }
   },
   async created() {
-    await this.fetch({ token: this.token, filters: this.filters });
+    await this.fetch({ token: this.token, filters: this.collectionFilters });
   },
   methods: {
     more() {
-      this.fetchNext({ token: this.token, filters: this.filters });
+      this.fetchNext({ token: this.token, filters: this.collectionFilters });
     },
     ...call([
       'transactions/fetch',
@@ -209,16 +219,9 @@ export default {
     dateFormat(transaction) {
       const date = moment(transaction.dateAt);
       const current = moment();
-      if (moment(date).isSame(current, 'day')) {
-        return 'Сегодня';
-      }
-      if (current.subtract(1, 'days').isSame(date, 'day')) {
-        return 'Вчера';
-      }
-      if (current.year() === date.year()) {
-        return date.format('DD MMMM');
-      }
-
+      if (moment(date).isSame(current, 'day')) { return 'Сегодня'; }
+      if (current.subtract(1, 'days').isSame(date, 'day')) { return 'Вчера'; }
+      if (current.year() === date.year()) { return date.format('DD MMMM'); }
       return date.format('DD.MM.YYYY');
     },
     dateTitleFormat(transaction) {
@@ -231,13 +234,16 @@ export default {
       return `/transactions/new?account=${accountId}` +
         `&project=${projectId}&category=${categoryIds}` +
         `&description=${item.description == null ? '' : encodeURIComponent(item.description)}` +
-        `&amount=${Math.abs(item.amount)}&isIncome=${item.amount > 0}`;
+        `&amount=${Math.abs(item.amount)}&isIncome=${item.amount > 0}` +
+        `&backTo=${this.backPath}`;
     },
     onAccount(account) {
+      if (this.isFiltersDisabled) { return; }
       this.toggleAccount({ account });
       this.onChangeFilter();
     },
     onCategory(category) {
+      if (this.isFiltersDisabled) { return; }
       this.toggleCategory({ category });
       this.onChangeFilter();
     },
@@ -247,8 +253,12 @@ export default {
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить операцию. Вы уверены?')) {
-        const { token, filters } = this;
-        const res = await this.destroy({ token, transaction, filters });
+        console.log(this.collectionFilters);
+        const res = await this.destroy({
+          token: this.token,
+          transaction,
+          filters: this.collectionFilters
+        });
         const message = res != null ?
           'Операция успешно удалена' :
           'Непредвиденная ошибка';

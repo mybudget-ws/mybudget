@@ -116,7 +116,7 @@
               </i>
             </Button>
             <router-link
-              to='/transactions'
+              :to='backPath'
               class='btn-floating btn-large waves-effect waves-light grey lighten-2 z-depth-0'
             >
               <i class='material-icons grey-text text-darken-1' style='font-size: 2rem'>close</i>

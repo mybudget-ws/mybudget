@@ -8,6 +8,10 @@
         :cover=coverClasses
         class='header'
       >
+        <TransactionOperations
+          :account-id='parseInt(id)'
+          :back-path='backPath'
+        />
         <Amount :value='balance' :currency='currency' class='balance' />
         <a
           class='edit waves-effect waves-teal btn-flat'
@@ -21,7 +25,11 @@
       <div class='row transactions'>
         <div class='col s12'>
           <Loader v-if='isLoadingAccount' />
-          <Collection />
+          <Collection
+            :account-id='parseInt(id)'
+            :back-path='backPath'
+            is-filters-disabled
+          />
         </div>
       </div>
     </div>
@@ -34,6 +42,7 @@ import Collection from '@/components/transactions/collection';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import TransactionOperations from '@/components/transactions/operations';
 import api from '@/api';
 import { get, call } from 'vuex-pathify';
 
@@ -47,12 +56,10 @@ export default {
     Collection,
     Loader,
     Menu,
-    PageHeader
+    PageHeader,
+    TransactionOperations
   },
-  props: {
-    // initName: { type: String, required: false, default: '' },
-    // initColor: { type: String, required: false, default: '' }
-  },
+  props: {},
   data: () => ({
     name: '',
     color: '',
@@ -83,7 +90,7 @@ export default {
     this.balance = account.balance;
 
     this.isLoadingAccount = false;
-    this.fetch({ token: this.token, filters: { accountIds: [parseInt(this.id)] } });
+    // this.fetch({ token: this.token, filters: { accountIds: [parseInt(this.id)] } });
   },
   methods: {
     ...call([
