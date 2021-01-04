@@ -25,7 +25,8 @@ export default {
         'red-text text-darken-4';
     },
     formatedValue() {
-      return Money.format(Math.abs(this.value), 2);
+      const digits = (this.value | 0) == this.value ? 0 : 2;
+      return Money.format(Math.abs(this.value), digits);
     },
     isCurrency() {
       return this.currency != null && this.currency != '';
