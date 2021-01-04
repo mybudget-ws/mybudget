@@ -51,9 +51,6 @@ import PageHeader from '@/components/page_header';
 import TransactionOperations from '@/components/transactions/operations';
 import { get, call } from 'vuex-pathify';
 
-const moment = require('moment');
-moment.locale('ru');
-
 export default {
   name: 'Transactions',
   components: {

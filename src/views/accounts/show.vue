@@ -18,13 +18,19 @@
         </a>
       </PageHeader>
 
-      <Loader v-if='isLoadingAccount' />
+      <div class='row transactions'>
+        <div class='col s12'>
+          <Loader v-if='isLoadingAccount' />
+          <Collection />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Amount from '@/components/amount';
+import Collection from '@/components/transactions/collection';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -38,6 +44,7 @@ export default {
   name: 'ShowAccount',
   components: {
     Amount,
+    Collection,
     Loader,
     Menu,
     PageHeader
@@ -89,21 +96,6 @@ export default {
         query: { backTo: this.backPath }
       });
     }
-    // fetchCurrencies: call('currencies/fetch'),
-    // fetchColors: call('colors/fetch'),
-    // async submit() {
-    //   if (this.isSubmitting) { return; }
-    //   const { id, name, color, kind, currency } = this;
-    //   const isSuccess = await api.updateAccount(
-    //     this.token,
-    //     { id, name, color, kind, currency }
-    //   );
-    //   if (isSuccess != null) {
-    //     this.$router.push({ name: 'accounts' }).catch(_e => {});
-    //   } else {
-    //     alert('Error');
-    //   }
-    // }
   }
 };
 </script>
@@ -122,4 +114,7 @@ a.edit
   position: absolute
   right: 0
   top: 0
+
+.transactions
+  padding-top: 18px
 </style>
