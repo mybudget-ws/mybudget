@@ -3,7 +3,7 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader
-        v-if='!isLoading'
+        v-if='!isLoadingAccount'
         :name='name'
         :cover=coverClasses
         class='header'
@@ -18,7 +18,7 @@
         </a>
       </PageHeader>
 
-      <Loader v-if='isLoading' />
+      <Loader v-if='isLoadingAccount' />
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
@@ -53,21 +53,18 @@ export default {
     currency: '',
     balance: 0,
 
-    isLoading: true,
-    // isSubmitting: false,
+    isLoadingAccount: true,
     isPhone: md.phone() != null
   }),
   computed: {
     token: get('user/token'),
     kinds: get('accounts/kinds'),
-    fetchTransactions: get('transactions/*'),
+    ...get('transactions/*'),
     id() { return this.$route.params.id; },
+    backPath() { return `/accounts/${this.id}`; },
     coverClasses() {
-      if (this.isLoading) { return null; }
+      if (this.isLoadingAccount) { return null; }
       return `${this.color} lighten-3`;
-    },
-    backPath() {
-      return `/accounts/${this.id}`;
     }
   },
   async mounted() {
@@ -77,11 +74,14 @@ export default {
     this.kind = account.kind;
     this.currency = account.currency.name;
     this.balance = account.balance;
-    // console.log(account);
 
-    this.isLoading = false;
+    this.isLoadingAccount = false;
+    this.fetch({ token: this.token, filters: { accountIds: [parseInt(this.id)] } });
   },
   methods: {
+    ...call([
+      'transactions/fetch'
+    ]),
     onEdit() {
       this.$router.push({
         name: 'edit_account',
