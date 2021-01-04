@@ -116,7 +116,7 @@
               </i>
             </Button>
             <router-link
-              to='/transactions'
+              :to='backPath'
               class='btn-floating btn-large waves-effect waves-light grey lighten-2 z-depth-0'
             >
               <i class='material-icons grey-text text-darken-1' style='font-size: 2rem'>close</i>
@@ -132,7 +132,7 @@
               />
             </div>
             <div class='col'>
-              <router-link to='/transactions' class='btn-flat btn-large'>
+              <router-link :to='backPath' class='btn-flat btn-large'>
                 Отмена
               </router-link>
             </div>
@@ -233,6 +233,10 @@ export default {
       if (this.$route.query.category == null) { return; }
       if (this.$route.query.category == '') { return; }
       return this.$route.query.category.split(',').map(v => parseInt(v));
+    },
+    backPath() {
+      if (this.$route.query.backTo) { return this.$route.query.backTo; }
+      return '/transactions';
     }
   },
   async created() {
@@ -339,11 +343,7 @@ export default {
       };
       const isSuccess = await this.create({ token, transaction });
       if (isSuccess != null) {
-        if (this.$route.query.backTo) {
-          this.$router.push({ name: this.$route.query.backTo });
-        } else {
-          this.$router.push({ name: 'transactions' });
-        }
+        this.$router.push({ path: this.backPath }).catch(_e => {});
       } else {
         alert('Error');
       }

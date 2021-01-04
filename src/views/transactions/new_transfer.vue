@@ -120,7 +120,7 @@
               </i>
             </Button>
             <router-link
-              to='/transactions'
+              :to='backPath'
               class='btn-floating btn-large waves-effect waves-light grey lighten-2 z-depth-0'
             >
               <i class='material-icons grey-text text-darken-1' style='font-size: 2rem'>close</i>
@@ -136,7 +136,7 @@
               />
             </div>
             <div class='col'>
-              <router-link to='/transactions' class='btn-flat btn-large'>
+              <router-link :to='backPath' class='btn-flat btn-large'>
                 Отмена
               </router-link>
             </div>
@@ -171,8 +171,6 @@ export default {
   },
   props: {},
   data: () => ({
-    // amountSrc: (md.phone() != null ? '' : '0'),
-    // amountDst: (md.phone() != null ? '' : '0'),
     amountSrc: '0',
     amountDst: '0',
     date: new Date(),
@@ -216,6 +214,10 @@ export default {
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
+    },
+    backPath() {
+      if (this.$route.query.backTo) { return this.$route.query.backTo; }
+      return '/transactions';
     }
   },
   async mounted() {
@@ -264,6 +266,12 @@ export default {
 
         this.accountIdDst = this.orderedAccounts
           .filter(v => v.id != this.accountIdSrc)[0].id;
+      } else if (this.$route.query.accountIdDst) {
+        this.accountIdDst = this.orderedAccounts
+          .find(v => v.id == this.$route.query.accountIdDst)?.id ||
+            this.orderedAccounts[0].id;
+        this.accountIdSrc = this.orderedAccounts
+          .filter(v => v.id != this.accountIdDst)[0].id;
       } else {
         this.accountIdSrc = this.orderedAccounts[0].id;
         this.accountIdDst = this.orderedAccounts[1].id;
@@ -315,11 +323,7 @@ export default {
       };
       const isSuccess = await this.create({ token, transfer });
       if (isSuccess != null) {
-        if (this.$route.query.backTo) {
-          this.$router.push({ name: this.$route.query.backTo });
-        } else {
-          this.$router.push({ name: 'transactions' });
-        }
+        this.$router.push({ path: this.backPath });
       } else {
         alert('Error');
       }

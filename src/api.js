@@ -153,7 +153,7 @@ export default {
 
   async account(token, { id }) {
     const query = `query($id:ID!) {
-      item:account(id:$id) { id name color kind currency { name } }
+      item:account(id:$id) { id name color kind balance currency { name } }
     }`;
     const vars = { id };
     const data = await this.client(token).request(query, vars);

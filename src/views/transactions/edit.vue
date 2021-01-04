@@ -103,7 +103,7 @@
               </i>
             </Button>
             <router-link
-              to='/transactions'
+              :to='backPath'
               class='btn-floating btn-large waves-effect waves-light grey lighten-2 z-depth-0'
             >
               <i class='material-icons grey-text text-darken-1' style='font-size: 2rem'>close</i>
@@ -119,7 +119,7 @@
               />
             </div>
             <div class='col'>
-              <router-link to='/transactions' class='btn-flat btn-large'>
+              <router-link :to='backPath' class='btn-flat btn-large'>
                 Отмена
               </router-link>
             </div>
@@ -202,6 +202,10 @@ export default {
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
+    },
+    backPath() {
+      if (this.$route.query.backTo) { return this.$route.query.backTo; }
+      return '/transactions';
     }
   },
   async mounted() {
@@ -298,7 +302,7 @@ export default {
       this.isSubmitting = false;
 
       if (isSuccess != null) {
-        this.$router.push({ name: 'transactions' });
+        this.$router.push({ path: this.backPath });
       } else {
         alert('Error');
       }

@@ -3,6 +3,7 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader :name='header' />
+
       <div v-if='isFirst' class='row'>
         <h6 class='grey-text text-darken-1 col s12'>
           Чтобы начать создайте ваш основной счет

@@ -59,11 +59,18 @@
                   </router-link>
                   <router-link
                     v-if='isTransferAllow'
-                    :to="`/transactions/transfers/new?accountIdSrc=${item.id}&${backTo}`"
+                    :to="`/transactions/transfers/new?accountIdDst=${item.id}&${backTo}`"
                     title='Новый перевод'
-                    class='btn-small waves-effect waves-light blue-grey lighten-5 z-depth-0'
+                    class='btn-small waves-effect waves-light indigo lighten-5 z-depth-0'
                   >
                     <i class='material-icons grey-text text-darken-1'>repeat</i>
+                  </router-link>
+                  <router-link
+                    :to="`/accounts/${item.id}?${backTo}`"
+                    title='Просмотр счета'
+                    class='btn-small waves-effect waves-light grey lighten-2 z-depth-0'
+                  >
+                    <i class='material-icons grey-text text-darken-1'>list</i>
                   </router-link>
                 </td>
                 <td class='actions'>
@@ -220,7 +227,7 @@ export default {
         .map(v => ({ currency_name: v[0], balance: v[1] }));
     },
     backTo() {
-      return 'backTo=accounts';
+      return 'backTo=/accounts';
     }
   },
   created() {
@@ -301,7 +308,7 @@ export default {
     padding: 0 8px !important
 
 .transacton-actions
-  width: 154px
+  width: 208px
   max-width: 10px // magic style
   text-align: right
 

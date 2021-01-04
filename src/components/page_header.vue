@@ -1,7 +1,11 @@
 <template>
-  <div class='row'>
+  <div class='row page-header'>
     <div class='col s12'>
-      <div v-if='cover' class='cover' :class='cover' />
+      <div
+        v-if='cover'
+        class='cover'
+        :class='cover'
+      />
       <h3>
         <!--button @click='$router.go(-1)'>Назад</button-->
         {{ name }}
@@ -25,7 +29,8 @@ export default {
   props: {
     name: { type: String, required: true },
     action: { type: String, required: false, default: null },
-    cover: { type: String, required: false, default: null }
+    cover: { type: String, required: false, default: null },
+    coverStyle: { type: Object, required: false, default: null }
   },
   computed: {},
   methods: {}
@@ -61,8 +66,8 @@ h3
     background-color: #fff
     position: absolute
     width: 100%
-    margin-top: 10rem
     height: 36px
+    bottom: -18px
 
   &.expence
     background-color: #ffcdd2
