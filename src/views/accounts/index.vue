@@ -227,7 +227,7 @@ export default {
         .map(v => ({ currency_name: v[0], balance: v[1] }));
     },
     backTo() {
-      return 'backTo=accounts';
+      return 'backTo=/accounts';
     }
   },
   created() {
@@ -241,9 +241,6 @@ export default {
     onEdit({ id }) {
       this.$router.push({ name: 'edit_account', params: { id } });
     },
-    // onShow({ id }) {
-    //   this.$router.push({ name: 'show_account', params: { id } });
-    // },
     async onHide(account) {
       if (this.isSubmitting) { return; }
 

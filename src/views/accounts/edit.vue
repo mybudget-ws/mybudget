@@ -92,7 +92,7 @@
                 @click='submit'
               />
             </div>
-            <router-link to='/accounts' class='btn-flat btn-large'>
+            <router-link :to='backPath' class='btn-flat btn-large'>
               Отмена
             </router-link>
           </div>
@@ -138,7 +138,11 @@ export default {
     colors: get('colors/items'),
     currencies: get('currencies/items'),
     kinds: get('accounts/kinds'),
-    id() { return this.$route.params.id; }
+    id() { return this.$route.params.id; },
+    backPath() {
+      if (this.$route.query.backTo) { return this.$route.query.backTo; }
+      return '/accounts';
+    }
   },
   async mounted() {
     const account = await api.account(this.token, { id: this.id });
@@ -172,16 +176,18 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
+      this.isSubmitting = true;
       const { id, name, color, kind, currency } = this;
       const isSuccess = await api.updateAccount(
         this.token,
         { id, name, color, kind, currency }
       );
       if (isSuccess != null) {
-        this.$router.push({ name: 'accounts' }).catch(_e => {});
+        this.$router.push({ path: this.backPath }).catch(_e => {});
       } else {
         alert('Error');
       }
+      this.isSubmitting = false;
     }
   }
 };

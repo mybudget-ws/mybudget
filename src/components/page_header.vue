@@ -1,11 +1,10 @@
 <template>
-  <div class='row'>
+  <div class='row page-header'>
     <div class='col s12'>
       <div
         v-if='cover'
         class='cover'
         :class='cover'
-        :style='coverStyle'
       />
       <h3>
         <!--button @click='$router.go(-1)'>Назад</button-->
@@ -67,8 +66,8 @@ h3
     background-color: #fff
     position: absolute
     width: 100%
-    margin-top: 10rem
     height: 36px
+    bottom: -18px
 
   &.expence
     background-color: #ffcdd2

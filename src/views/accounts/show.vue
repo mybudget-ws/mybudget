@@ -1,13 +1,22 @@
 <template>
-  <div :style='coverStyle'>
+  <div>
     <Menu />
     <div class='container container-wide'>
       <PageHeader
         v-if='!isLoading'
         :name='name'
-        :cover-style='coverStyle'
-        cover='account'
-      />
+        :cover=coverClasses
+        class='header'
+      >
+        <Amount :value='balance' :currency='currency' class='balance' />
+        <a
+          class='edit waves-effect waves-teal btn-flat'
+          title='Редактировать'
+          @click='onEdit(item)'
+        >
+          <i class='material-icons grey-text'>edit</i>
+        </a>
+      </PageHeader>
 
       <Loader v-if='isLoading' />
     </div>
@@ -15,6 +24,7 @@
 </template>
 
 <script>
+import Amount from '@/components/amount';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -27,6 +37,7 @@ const md = new MobileDetect(window.navigator.userAgent);
 export default {
   name: 'ShowAccount',
   components: {
+    Amount,
     Loader,
     Menu,
     PageHeader
@@ -49,12 +60,14 @@ export default {
   computed: {
     token: get('user/token'),
     kinds: get('accounts/kinds'),
+    fetchTransactions: get('transactions/*'),
     id() { return this.$route.params.id; },
-    coverStyle() {
-      if (!this.isLoading) { return {}; }
-      return {
-        backgroundColor: this.color
-      };
+    coverClasses() {
+      if (this.isLoading) { return null; }
+      return `${this.color} lighten-3`;
+    },
+    backPath() {
+      return `/accounts/${this.id}`;
     }
   },
   async mounted() {
@@ -64,10 +77,18 @@ export default {
     this.kind = account.kind;
     this.currency = account.currency.name;
     this.balance = account.balance;
+    // console.log(account);
 
     this.isLoading = false;
   },
   methods: {
+    onEdit() {
+      this.$router.push({
+        name: 'edit_account',
+        params: { id: this.id },
+        query: { backTo: this.backPath }
+      });
+    }
     // fetchCurrencies: call('currencies/fetch'),
     // fetchColors: call('colors/fetch'),
     // async submit() {
@@ -88,111 +109,17 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.color
-  &:before
-    position: absolute
-    width: 8px
-    height: 2.65rem
-    content: ''
-    margin-left: -14px
-    margin-top: 6px
-    border-radius: 2px
+/deep/ h3
+  position: relative
 
-  @media only screen and (max-width: 601px)
-    &:before
-      margin-top: 0
-      width: 12px
-      height: 3rem
+/deep/ .cover
+  min-height: 230px
 
-  &.c-red
-    &:before
-      background-color: #f44336
+.balance
+  margin-top: 10px
 
-  &.c-pink
-    &:before
-      background-color: #e91e63
-
-  &.c-purple
-    &:before
-      background-color: #9c27b0
-
-  &.c-deep-purple
-    &:before
-      background-color: #673ab7
-
-  &.c-indigo
-    &:before
-      background-color: #3f51b5
-
-  &.c-blue
-    &:before
-      background-color: #2196f3
-
-  &.c-light-blue.lighten-2
-    &:before
-      background-color: #4fc3f7
-
-  &.c-cyan
-    &:before
-      background-color: #00bcd4
-
-  &.c-teal
-    &:before
-      background-color: #009688
-
-  &.c-green
-    &:before
-      background-color: #4caf50
-
-  &.c-light-green
-    &:before
-      background-color: #8bc34a
-
-  &.c-lime
-    &:before
-      background-color: #cddc39
-
-  &.c-yellow
-    &:before
-      background-color: #ffeb3b
-
-  &.c-amber
-    &:before
-      background-color: #ffc107
-
-  &.c-orange
-    &:before
-      background-color: #ff9800
-
-  &.c-deep-orange
-    &:before
-      background-color: #ff5722
-
-  &.c-brown
-    &:before
-      background-color: #795548
-
-  &.c-grey
-    &:before
-      background-color: #9e9e9e
-
-  &.c-blue-grey
-    &:before
-      background-color: #607d8b
-
-form
-  @media only screen and (max-width: 601px)
-    padding-bottom: 3rem !important
-
-.mobile-submit
-  z-index: 2
-  position: fixed
-  bottom: 0
+a.edit
+  position: absolute
   right: 0
-  padding: 0 20px 20px 0
-  min-width: 146px
-  width: 146px
-
-  a
-    margin-left: 12px
+  top: 0
 </style>
