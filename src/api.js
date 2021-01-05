@@ -133,7 +133,10 @@ export default {
 
   async accounts(token) {
     const query = `{
-      items:accounts { id name color kind isFavourite isHidden balance currency { name } }
+      items:accounts {
+        id name color kind isFavourite isHidden balance balanceBase
+        currency { name }
+      }
     }`;
     const data = await this.client(token).request(query);
     this.log(query, data);

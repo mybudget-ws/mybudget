@@ -110,6 +110,12 @@
                     :value='total.balance'
                     :currency='total.currency_name'
                   />
+                  <Amount
+                    v-if='isShowBalanceBase'
+                    class='value amount-base-total'
+                    :value='balanceBaseTotal'
+                    :currency='defaultCurrency'
+                  />
                 </td>
                 <td />
                 <td />
@@ -125,6 +131,19 @@
               @destroy='onDestroy(item)'
               @favourite='onFavourite(item)'
             />
+          </div>
+          <div v-if='isPhone' class='card blue-grey lighten-5 z-depth-0 card-total'>
+            <div class='card-content'>
+              <b>Всего</b>
+              <div v-for='total in orderedTotals' :key='total.currency_name'>
+                <Amount :value='total.balance' :currency='total.currency_name' />
+              </div>
+              <hr v-if='isShowBalanceBase'>
+              <div v-if='isShowBalanceBase'>
+                <b>По текущему курсу</b>
+                <Amount :value='balanceBaseTotal' :currency='defaultCurrency' />
+              </div>
+            </div>
           </div>
 
           <!-- Archive -->
@@ -199,6 +218,7 @@ export default {
   }),
   computed: {
     token: get('user/token'),
+    defaultCurrency: get('user/defaultCurrency'),
     ...get('accounts/*'),
     isAlert() {
       return !this.isLoading && this.items.length === 0;
@@ -226,15 +246,23 @@ export default {
         .entries(totals)
         .map(v => ({ currency_name: v[0], balance: v[1] }));
     },
+    isShowBalanceBase() { return this.orderedTotals.length > 1; },
+    balanceBaseTotal() {
+      return this.visibleItems.map(v => v.balanceBase).reduce((a, b) => a + b);
+    },
     backTo() {
       return 'backTo=/accounts';
     }
   },
-  created() {
-    this.fetch(this.token);
+  async created() {
+    if (this.defaultCurrency == null) {
+      await this.fetchProfile();
+    }
+    await this.fetch(this.token);
   },
   methods: {
     ...call('accounts/*'),
+    ...call(['user/fetchProfile']),
     titleFavourite(item) {
       return item.isFavourite ? 'Удалить из избранного' : 'Добавить в избранное';
     },
@@ -335,4 +363,27 @@ export default {
 
     .value + .value
       margin-top: 6px
+
+  .amount-base-total
+    border-top: 1px solid #d4d4d4
+    padding-top: 4px
+
+    &:before
+      color: #757575
+      content: 'Всего по текущему курсу:'
+      font-size: 13px
+      font-weight: 200
+      margin-left: -164px
+      margin-top: -3.6px
+      padding-top: 4px
+      position: absolute
+
+.card-total
+  text-align: right
+
+  .card-title
+    text-align: left
+
+  b
+    float: left
 </style>

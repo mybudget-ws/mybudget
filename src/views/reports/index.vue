@@ -273,6 +273,5 @@ th, td
 
 .card
   .amount
-    //display: inline-block
     float: right
 </style>

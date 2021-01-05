@@ -228,7 +228,7 @@ export default {
 
     &:before
       color: #757575
-      content: 'Всего (по текущему курсу):'
+      content: 'Всего по текущему курсу:'
       font-size: 13px
       font-weight: 200
       margin-left: -164px
