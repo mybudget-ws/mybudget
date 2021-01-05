@@ -27,7 +27,6 @@
           <i class='material-icons white-text' style='font-size: 1.4rem'>arrow_upward</i>
         </router-link>
         <router-link
-          v-if='isTransferAllow'
           :to="`/transactions/transfers/new?accountIdSrc=${id}`"
           class='btn-small waves-effect waves-light indigo lighten-3 z-depth-0'
         >
@@ -48,12 +47,14 @@
           Изменить
         </a>
         <a
+          v-if='isDeleteAllow'
           class='grey-text text-darken-2'
           @click='$emit("hide")'
         >
           Скрыть
         </a>
         <a
+          v-if='isDeleteAllow'
           class='grey-text text-darken-2 last'
           @click='$emit("destroy")'
         >
@@ -78,7 +79,7 @@ export default {
     balance: { type: Number, required: true },
     currency: { type: Object, required: true },
     isFavourite: { type: Boolean, required: true },
-    isTransferAllow: { type: Boolean, required: true },
+    isDeleteAllow: { type: Boolean, required: true },
     color: { type: String, required: true },
     kind: { type: String, required: true }
   },

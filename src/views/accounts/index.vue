@@ -58,7 +58,6 @@
                     <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
                   </router-link>
                   <router-link
-                    v-if='isTransferAllow'
                     :to="`/transactions/transfers/new?accountIdDst=${item.id}&${backTo}`"
                     title='Новый перевод'
                     class='btn-small waves-effect waves-light indigo lighten-5 z-depth-0'
@@ -82,6 +81,7 @@
                     <i class='material-icons grey-text'>edit</i>
                   </a>
                   <a
+                    v-if='isDeleteAllow'
                     class='waves-effect waves-teal btn-flat'
                     title='Скрыть'
                     @click='onHide(item)'
@@ -89,7 +89,7 @@
                     <i class='material-icons grey-text'>visibility_off</i>
                   </a>
                   <a
-                    v-if='isTransferAllow'
+                    v-if='isDeleteAllow'
                     class='waves-effect waves-teal btn-flat'
                     title='Удалить'
                     @click='onDestroy(item)'
@@ -125,7 +125,7 @@
           <div v-for='item in orderedVisibleAccounts' v-else :key='item.id'>
             <Card
               v-bind='item'
-              :is-transfer-allow='isTransferAllow'
+              :is-delete-allow='isDeleteAllow'
               @edit='onEdit(item)'
               @hide='onHide(item)'
               @destroy='onDestroy(item)'
@@ -223,7 +223,7 @@ export default {
     isAlert() {
       return !this.isLoading && this.items.length === 0;
     },
-    isTransferAllow() {
+    isDeleteAllow() {
       return this.orderedVisibleAccounts.length > 1;
     },
     orderedVisibleAccounts() {

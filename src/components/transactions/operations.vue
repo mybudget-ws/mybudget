@@ -29,7 +29,6 @@
       </i>
     </router-link>
     <router-link
-      v-if='isTransferVisible'
       title='Новый перевод'
       :to='newTransferPath'
       :class='isPhone ? "lighten-3 btn-large" : "lighten-3"'
@@ -57,7 +56,7 @@ export default {
   components: {},
   props: {
     accountId: { type: Number, required: false, default: null },
-    backPath: { type: String, required: false, default: null }
+    backPath: { type: String, required: false, default: '/transactions' }
   },
   data: () => ({
     isPhone: md.phone() != null
@@ -96,9 +95,8 @@ export default {
       if (this.accountId) {
         return `/transactions/transfers/new?accountIdDst=${this.accountId}&backTo=${this.backPath}`;
       }
-      return '/transactions/transfers/new?backTo=${backPath}';
-    },
-    isTransferVisible() { return this.accounts.length > 1; }
+      return `/transactions/transfers/new?backTo=${this.backPath}`;
+    }
   },
   methods: {}
 };
