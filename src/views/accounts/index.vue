@@ -58,7 +58,6 @@
                     <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
                   </router-link>
                   <router-link
-                    v-if='isTransferAllow'
                     :to="`/transactions/transfers/new?accountIdDst=${item.id}&${backTo}`"
                     title='Новый перевод'
                     class='btn-small waves-effect waves-light indigo lighten-5 z-depth-0'
@@ -226,10 +225,6 @@ export default {
     },
     isDeleteAllow() {
       return this.orderedVisibleAccounts.length > 1;
-    },
-    isTransferAllow() {
-      return true;
-      //return this.orderedVisibleAccounts.length > 1;
     },
     orderedVisibleAccounts() {
       return [
