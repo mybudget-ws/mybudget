@@ -98,7 +98,8 @@ export default {
       }
       return '/transactions/transfers/new?backTo=${backPath}';
     },
-    isTransferVisible() { return this.accounts.length > 1; }
+    // isTransferVisible() { return this.accounts.length > 1; }
+    isTransferVisible() { return true; }
   },
   methods: {}
 };

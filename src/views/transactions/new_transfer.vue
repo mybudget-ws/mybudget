@@ -5,6 +5,19 @@
       <PageHeader name='Новый перевод' cover='transfer' />
 
       <Loader v-if='isLoading' />
+      <div v-else-if='isAlert' class='card blue-grey'>
+        <div class='card-content white-text'>
+          <span class='card-title'>На данный момент у вас меньше двух счетов</span>
+          <p>
+            Чтобы создать перевод средств со счета на счет
+            нужно как минимум два счета.
+            Создать новый счет можно на странице списка счетов.
+          </p>
+        </div>
+        <div class='card-action'>
+          <a href='/#/accounts'>Перейти к списку счетов</a>
+        </div>
+      </div>
       <div v-else class='row'>
         <form class='col l12 s12' @submit.prevent='submit'>
           <div class='row'>
@@ -188,10 +201,13 @@ export default {
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
-
     isSubmitting: get('transactions/isSubmitting'),
-
     isLoading() { return this.isAccountsLoading; },
+    isAlert() {
+      return this.isAccountsLoaded &&
+        !this.isAccountsLoading &&
+        this.accounts.length < 2;
+    },
     amountLableSrc() {
       return `Величина (источник), ${this.selectedAccountSrc?.currency?.name}`;
     },
@@ -203,11 +219,6 @@ export default {
     },
     selectedAccountDst() {
       return this.accounts.find(v => v.id === this.accountIdDst);
-    },
-    isNotReadyToAdd() {
-      return this.isAccountsLoaded &&
-        !this.isAccountsLoading &&
-        this.accounts.length === 0;
     },
     orderedAccounts() {
       return [
@@ -222,68 +233,67 @@ export default {
   },
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
-    if (this.isNotReadyToAdd) {
-      this.$router.push({ name: 'new_account', query: { first: true } });
-    }
 
-    /* eslint-disable */
-    M.Datepicker.init(
-      this.$refs.datepicker,
-      {
-        format: 'dd mmm, yyyy',
-        firstDay: 1,
-        autoClose: true,
-        setDefaultDate: true,
-        defaultDate: new Date(),
-        i18n: {
-          cancel: 'Закрыть',
-          months: [
-            'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-            'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-          monthsShort: [
-            'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-            'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-          ],
-          weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-          weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+    if (!this.isAlert) {
+      /* eslint-disable */
+      M.Datepicker.init(
+        this.$refs.datepicker,
+        {
+          format: 'dd mmm, yyyy',
+          firstDay: 1,
+          autoClose: true,
+          setDefaultDate: true,
+          defaultDate: new Date(),
+          i18n: {
+            cancel: 'Закрыть',
+            months: [
+              'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+              'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            monthsShort: [
+              'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
+              'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
+            ],
+            weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+          }
         }
-      }
-    );
-    /* eslint-enable */
-    /* eslint-disable */
-    M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
-    /* eslint-enable */
+      );
+      /* eslint-enable */
+      /* eslint-disable */
+      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+      /* eslint-enable */
 
-    if (this.selectedAccounts.length > 0) {
-      this.accountIdSrc = this.selectedAccounts[0].id;
-      this.accountIdDst = this.orderedAccounts
-        .filter(v => v.id != this.accountIdSrc)[0].id;
-    } else {
-      if (this.$route.query.accountIdSrc) {
-        this.accountIdSrc = this.orderedAccounts
-          .find(v => v.id == this.$route.query.accountIdSrc)?.id ||
-            this.orderedAccounts[0].id;
-
+      if (this.selectedAccounts.length > 0) {
+        this.accountIdSrc = this.selectedAccounts[0].id;
         this.accountIdDst = this.orderedAccounts
           .filter(v => v.id != this.accountIdSrc)[0].id;
-      } else if (this.$route.query.accountIdDst) {
-        this.accountIdDst = this.orderedAccounts
-          .find(v => v.id == this.$route.query.accountIdDst)?.id ||
-            this.orderedAccounts[0].id;
-        this.accountIdSrc = this.orderedAccounts
-          .filter(v => v.id != this.accountIdDst)[0].id;
       } else {
-        this.accountIdSrc = this.orderedAccounts[0].id;
-        this.accountIdDst = this.orderedAccounts[1].id;
+        if (this.$route.query.accountIdSrc) {
+          this.accountIdSrc = this.orderedAccounts
+            .find(v => v.id == this.$route.query.accountIdSrc).id ||
+              this.orderedAccounts[0].id;
+
+          this.accountIdDst = this.orderedAccounts
+            .filter(v => v.id != this.accountIdSrc)[0].id;
+        } else if (this.$route.query.accountIdDst) {
+          this.accountIdDst = this.orderedAccounts
+            .find(v => v.id == this.$route.query.accountIdDst)?.id ||
+              this.orderedAccounts[0].id;
+          this.accountIdSrc = this.orderedAccounts
+            .filter(v => v.id != this.accountIdDst)[0].id;
+        } else {
+          this.accountIdSrc = this.orderedAccounts[0].id;
+          this.accountIdDst = this.orderedAccounts[1].id;
+        }
       }
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectSrcAccounts, {});
+        M.FormSelect.init(this.$refs.selectDstAccounts, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      });
     }
-    this.$nextTick(() => {
-      /* eslint-disable */
-      M.FormSelect.init(this.$refs.selectSrcAccounts, {});
-      M.FormSelect.init(this.$refs.selectDstAccounts, {});
-      M.updateTextFields();
-      /* eslint-enable */
-    });
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
