@@ -132,7 +132,7 @@
               @favourite='onFavourite(item)'
             />
           </div>
-          <div v-if='isPhone' class='card blue-grey lighten-5 z-depth-0 card-total'>
+          <div v-if='isPhone && !isLoading' class='card blue-grey lighten-5 z-depth-0 card-total'>
             <div class='card-content'>
               <b>Всего</b>
               <div v-for='total in orderedTotals' :key='total.currency_name'>
