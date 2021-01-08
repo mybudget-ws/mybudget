@@ -37,7 +37,14 @@
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div class='col l10 m9 s12'>
-            <div class='chart' />
+            <div v-if='selectedMode != "donuts"' class='chart' />
+            <div v-else>
+              <div
+                v-for='id in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]'
+                :key='id'
+                :class='`chart-${id}`'
+              />
+            </div>
 
             <div v-if='isShowSummary && isPhone'>
               <div v-for='(row, index) in summary' :key='index' class='card blue-grey lighten-5 z-depth-0'>
@@ -232,44 +239,24 @@ export default {
     },
     async fetchDonuts() {
       const donuts = await api.donuts(this.token, this.searchParams);
-      // console.log(donuts_1);
-      // const donuts = {
-      //   'expense': [
-      //     ['data1', 30],
-      //     ['data2', 120]
-      //   ]
-      // };
-      this.chart = c3.generate({
-        bindto: '.chart',
-        data: {
-          // x: 'x',
-          columns: donuts['expense']['data'],
-          type: 'donut'
-        },
-        donut: {
-          title: donuts['expense']['title'],
-          label: {
-            format: function(value) {
-              const digits = (value | 0) == value ? 0 : 2;
-              return Money.format(Math.abs(value), digits);
+      // console.log(donuts);
+      donuts.forEach((json, index) => {
+        c3.generate({
+          bindto: `.chart-${index}`,
+          data: {
+            columns: json['data'],
+            type: 'donut'
+          },
+          donut: {
+            title: json['title'],
+            label: {
+              format: function(value) {
+                const digits = (value | 0) == value ? 0 : 2;
+                return Money.format(Math.abs(value), digits);
+              }
             }
           }
-        }
-        // bar: { width: { ratio: 0.8 } },
-        // axis: {
-        //   x: {
-        //     type: 'category',
-        //     padding: { left: 0, right: 0 }
-        //   },
-        //   y: {
-        //     padding: { top: 20 }
-        //   }
-        // },
-        // point: { show: false },
-        // grid: {
-        //   x: { show: true },
-        //   y: { show: true }
-        // }
+        });
       });
     },
     fillSummary(columns) {
