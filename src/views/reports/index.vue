@@ -135,9 +135,9 @@ export default {
   },
   props: {},
   data: () => ({
-    // selectedMode: 'balance',
+    selectedMode: 'balance',
     // selectedMode: 'columns',
-    selectedMode: 'donuts',
+    // selectedMode: 'donuts',
     selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
     summary: [],
