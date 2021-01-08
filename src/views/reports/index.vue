@@ -11,7 +11,7 @@
               :class="{ 'browser-default': isPhone }"
               @change='onChangeMode'
             >
-              <option v-for='(mode, index) in ["balance", "columns"]' :key='index' :value='mode'>
+              <option v-for='(mode, index) in modes' :key='index' :value='mode'>
                 {{ displayMode(mode) }}
               </option>
             </select>
@@ -37,7 +37,14 @@
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div class='col l10 m9 s12'>
-            <div class='chart' />
+            <div v-if='selectedMode != "donuts"' class='chart' />
+            <div v-else>
+              <div
+                v-for='id in donutsArray'
+                :key='id'
+                :class='`chart-${id}`'
+              />
+            </div>
 
             <div v-if='isShowSummary && isPhone'>
               <div v-for='(row, index) in summary' :key='index' class='card blue-grey lighten-5 z-depth-0'>
@@ -104,6 +111,7 @@ import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
+import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import api from '../../api';
 import { get, call } from 'vuex-pathify';
@@ -129,9 +137,11 @@ export default {
   data: () => ({
     selectedMode: 'balance',
     // selectedMode: 'columns',
+    // selectedMode: 'donuts',
     selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
     summary: [],
+    modes: ['balance', 'columns', 'donuts'],
     periods: [
       { name: 'Все время', months: 9999 },
       { name: 'Месяц', months: 1 },
@@ -141,6 +151,7 @@ export default {
       { name: 'Пять лет', months: 60 },
       { name: 'Десять лет', months: 120 }
     ],
+    donutsCount: 0,
 
     isPhone: md.phone() != null
   }),
@@ -149,6 +160,9 @@ export default {
     searchParams: get('filters/searchParams'),
     isShowSummary() {
       return this.selectedMode === 'balance' && this.summary.length > 0;
+    },
+    donutsArray() {
+      return [...Array(this.donutsCount).keys()];
     }
   },
   async mounted() {
@@ -168,10 +182,12 @@ export default {
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
       if (this.selectedMode === 'balance') {
-        this.fetchBalance();
-      } else {
-        this.fetchColumns();
+        return this.fetchBalance();
       }
+      if (this.selectedMode === 'columns') {
+        return this.fetchColumns();
+      }
+      return this.fetchDonuts();
     },
     async fetchBalance() {
       const columns = await api.balances(this.token, this.searchParams);
@@ -225,6 +241,31 @@ export default {
         }
       });
     },
+    async fetchDonuts() {
+      this.donutsCount = 0;
+      const donuts = await api.donuts(this.token, this.searchParams);
+      this.donutsCount = donuts.length;
+      await this.$nextTick();
+
+      donuts.forEach((json, index) => {
+        c3.generate({
+          bindto: `.chart-${index}`,
+          data: {
+            columns: json['data'],
+            type: 'donut'
+          },
+          donut: {
+            title: json['title'],
+            label: {
+              format: function(value) {
+                const digits = (value | 0) == value ? 0 : 2;
+                return Money.format(Math.abs(value), digits);
+              }
+            }
+          }
+        });
+      });
+    },
     fillSummary(columns) {
       this.summary = columns.slice(1).map(v => ({
         currency: v[0],
@@ -234,7 +275,8 @@ export default {
     },
     displayMode(mode) {
       if (mode === 'balance') { return 'Баланс'; }
-      return 'Доход / Расход';
+      if (mode === 'columns') { return 'Доход / Расход'; }
+      return 'Категории';
     },
     onChangeFilter() {
       this.fetchData();
