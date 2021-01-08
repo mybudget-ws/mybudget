@@ -40,7 +40,7 @@
             <div v-if='selectedMode != "donuts"' class='chart' />
             <div v-else>
               <div
-                v-for='id in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]'
+                v-for='id in donutsArray'
                 :key='id'
                 :class='`chart-${id}`'
               />
@@ -151,6 +151,7 @@ export default {
       { name: 'Пять лет', months: 60 },
       { name: 'Десять лет', months: 120 }
     ],
+    donutsCount: 0,
 
     isPhone: md.phone() != null
   }),
@@ -159,6 +160,9 @@ export default {
     searchParams: get('filters/searchParams'),
     isShowSummary() {
       return this.selectedMode === 'balance' && this.summary.length > 0;
+    },
+    donutsArray() {
+      return [...Array(this.donutsCount).keys()];
     }
   },
   async mounted() {
@@ -238,8 +242,11 @@ export default {
       });
     },
     async fetchDonuts() {
+      this.donutsCount = 0;
       const donuts = await api.donuts(this.token, this.searchParams);
-      // console.log(donuts);
+      this.donutsCount = donuts.length;
+      await this.$nextTick();
+
       donuts.forEach((json, index) => {
         c3.generate({
           bindto: `.chart-${index}`,
