@@ -11,7 +11,7 @@
               :class="{ 'browser-default': isPhone }"
               @change='onChangeMode'
             >
-              <option v-for='(mode, index) in ["balance", "columns"]' :key='index' :value='mode'>
+              <option v-for='(mode, index) in modes' :key='index' :value='mode'>
                 {{ displayMode(mode) }}
               </option>
             </select>
@@ -104,6 +104,7 @@ import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
+import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import api from '../../api';
 import { get, call } from 'vuex-pathify';
@@ -127,11 +128,13 @@ export default {
   },
   props: {},
   data: () => ({
-    selectedMode: 'balance',
+    // selectedMode: 'balance',
     // selectedMode: 'columns',
+    selectedMode: 'donuts',
     selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
     summary: [],
+    modes: ['balance', 'columns', 'donuts'],
     periods: [
       { name: 'Все время', months: 9999 },
       { name: 'Месяц', months: 1 },
@@ -168,10 +171,12 @@ export default {
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
       if (this.selectedMode === 'balance') {
-        this.fetchBalance();
-      } else {
-        this.fetchColumns();
+        return this.fetchBalance();
       }
+      if (this.selectedMode === 'columns') {
+        return this.fetchColumns();
+      }
+      return this.fetchDonuts();
     },
     async fetchBalance() {
       const columns = await api.balances(this.token, this.searchParams);
@@ -225,6 +230,48 @@ export default {
         }
       });
     },
+    async fetchDonuts() {
+      const donuts = await api.donuts(this.token, this.searchParams);
+      // console.log(donuts_1);
+      // const donuts = {
+      //   'expense': [
+      //     ['data1', 30],
+      //     ['data2', 120]
+      //   ]
+      // };
+      this.chart = c3.generate({
+        bindto: '.chart',
+        data: {
+          // x: 'x',
+          columns: donuts['expense']['data'],
+          type: 'donut'
+        },
+        donut: {
+          title: donuts['expense']['title'],
+          label: {
+            format: function(value) {
+              const digits = (value | 0) == value ? 0 : 2;
+              return Money.format(Math.abs(value), digits);
+            }
+          }
+        }
+        // bar: { width: { ratio: 0.8 } },
+        // axis: {
+        //   x: {
+        //     type: 'category',
+        //     padding: { left: 0, right: 0 }
+        //   },
+        //   y: {
+        //     padding: { top: 20 }
+        //   }
+        // },
+        // point: { show: false },
+        // grid: {
+        //   x: { show: true },
+        //   y: { show: true }
+        // }
+      });
+    },
     fillSummary(columns) {
       this.summary = columns.slice(1).map(v => ({
         currency: v[0],
@@ -234,7 +281,8 @@ export default {
     },
     displayMode(mode) {
       if (mode === 'balance') { return 'Баланс'; }
-      return 'Доход / Расход';
+      if (mode === 'columns') { return 'Доход / Расход'; }
+      return 'Категории';
     },
     onChangeFilter() {
       this.fetchData();
