@@ -256,6 +256,7 @@ export default {
           },
           donut: {
             title: json['title'],
+            width: 68,
             label: {
               format: function(value) {
                 const digits = (value | 0) == value ? 0 : 2;
