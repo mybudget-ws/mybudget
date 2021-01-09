@@ -259,7 +259,7 @@ export default {
             width: 68,
             label: {
               format: function(value) {
-                const digits = (value | 0) == value ? 0 : 2;
+                const digits = (value > 1000 || (value | 0) == value) ? 0 : 2;
                 return Money.format(Math.abs(value), digits);
               }
             }
