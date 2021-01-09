@@ -275,7 +275,7 @@ export default {
     },
     displayMode(mode) {
       if (mode === 'balance') { return 'Баланс'; }
-      if (mode === 'columns') { return 'Доход / Расход'; }
+      if (mode === 'columns') { return 'Доходы и расходы'; }
       return 'Категории';
     },
     onChangeFilter() {
