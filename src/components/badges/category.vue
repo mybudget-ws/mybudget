@@ -53,5 +53,6 @@ export default {
   &.amber,
   &.orange,
   &.grey
+  &.white
     color: #000
 </style>

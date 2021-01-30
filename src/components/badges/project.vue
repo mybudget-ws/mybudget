@@ -64,5 +64,6 @@ i.project
   &.amber,
   &.orange,
   &.grey
+  &.white
     color: #000
 </style>
