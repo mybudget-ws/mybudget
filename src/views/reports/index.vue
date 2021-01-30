@@ -277,18 +277,19 @@ export default {
         startBalanceInDefaultCurrency: parseFloat(v[1]) * currencies[v[0]].rate,
         endBalanceInDefaultCurrency: parseFloat(v[v.length - 1]) * currencies[v[0]].rate
       }));
+
       if (this.summary.length > 1) {
         this.summary.push(
           {
             class: 'total',
             name: `Всего, ${currencies['default']}`,
             currency: currencies['default'],
-            startBalance: this.summary.reduce((a, b) => (
-              a.startBalanceInDefaultCurrency + b.startBalanceInDefaultCurrency
-            )),
-            endBalance: this.summary.reduce((a, b) => (
-              a.endBalanceInDefaultCurrency + b.endBalanceInDefaultCurrency
-            ))
+            startBalance: this.summary
+              .map(v => v.startBalanceInDefaultCurrency)
+              .reduce((a, b) => a + b),
+            endBalance: this.summary
+              .map(v => v.endBalanceInDefaultCurrency)
+              .reduce((a, b) => a + b)
           }
         );
       }
