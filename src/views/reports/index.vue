@@ -76,9 +76,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for='(row, index) in summary' :key='index'>
+                <tr v-for='(row, index) in summary' :key='index' :class='row.class'>
                   <td class='min'>
-                    <strong>{{ row.currency }}</strong>
+                    <strong>{{ row.name }}</strong>
                   </td>
                   <td>
                     <Amount :value='row.startBalance' :currency='row.currency' />
@@ -179,6 +179,7 @@ export default {
     });
   },
   methods: {
+    ...call(['user/fetchProfile']),
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
       if (this.selectedMode === 'balance') {
@@ -190,8 +191,8 @@ export default {
       return this.fetchDonuts();
     },
     async fetchBalance() {
-      const columns = await api.balances(this.token, this.searchParams);
-      this.fillSummary(columns);
+      const { columns, currencies } = await api.balances(this.token, this.searchParams);
+      this.fillSummary(columns, currencies);
       this.chart = c3.generate({
         bindto: '.chart',
         data: {
@@ -267,12 +268,30 @@ export default {
         });
       });
     },
-    fillSummary(columns) {
+    fillSummary(columns, currencies) {
       this.summary = columns.slice(1).map(v => ({
+        name: v[0],
         currency: v[0],
         startBalance: parseFloat(v[1]),
-        endBalance: parseFloat(v[v.length - 1])
+        endBalance: parseFloat(v[v.length - 1]),
+        startBalanceInDefaultCurrency: parseFloat(v[1]) * currencies[v[0]].rate,
+        endBalanceInDefaultCurrency: parseFloat(v[v.length - 1]) * currencies[v[0]].rate
       }));
+      if (this.summary.length > 1) {
+        this.summary.push(
+          {
+            class: 'total',
+            name: `Всего, ${currencies['default']}`,
+            currency: currencies['default'],
+            startBalance: this.summary.reduce((a, b) => (
+              a.startBalanceInDefaultCurrency + b.startBalanceInDefaultCurrency
+            )),
+            endBalance: this.summary.reduce((a, b) => (
+              a.endBalanceInDefaultCurrency + b.endBalanceInDefaultCurrency
+            ))
+          }
+        );
+      }
     },
     displayMode(mode) {
       if (mode === 'balance') { return 'Баланс'; }
@@ -311,8 +330,21 @@ th, td
   width: 30%
 
   &.min
-    width: 10%
+    width: 16%
     text-align: left
+
+tbody
+  tr.total
+    background-color: #fafafa
+
+    td
+      &:first-child
+        &:after
+          color: #757575
+          content: '(по текущему курсу)'
+          font-size: 13px
+          display: block
+          font-weight: 200
 
 .card
   .amount
