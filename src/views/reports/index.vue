@@ -49,7 +49,7 @@
             <div v-if='isShowSummary && isPhone'>
               <div v-for='(row, index) in summary' :key='index' class='card blue-grey lighten-5 z-depth-0'>
                 <div class='card-content'>
-                  <div class='card-title'>{{ row.currency }}</div>
+                  <div class='card-title'>{{ row.name }}</div>
                   <div>
                     Начало периода
                     <Amount :value='row.startBalance' :currency='row.currency' class='amount' />
