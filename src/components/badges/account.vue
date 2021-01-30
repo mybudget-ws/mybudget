@@ -62,7 +62,7 @@ i.account
   &.yellow,
   &.amber,
   &.orange,
-  &.grey
+  &.grey,
   &.white
     color: #000
 </style>
