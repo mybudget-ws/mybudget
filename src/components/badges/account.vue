@@ -38,6 +38,8 @@ i.account
 
 .badge
   cursor: pointer
+  min-width: auto
+
   &:hover
     opacity: 0.9
 

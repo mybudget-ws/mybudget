@@ -28,6 +28,8 @@ export default {
 <style scoped lang='sass'>
 .badge
   cursor: pointer
+  min-width: auto
+
   &:hover
     opacity: 0.9
 
