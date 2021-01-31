@@ -296,7 +296,7 @@ export default {
     },
     displayMode(mode) {
       if (mode === 'balance') { return 'Баланс'; }
-      if (mode === 'columns') { return 'Доходы и расходы'; }
+      if (mode === 'columns') { return 'Доходы и расходы'; }
       return 'Категории';
     },
     onChangeFilter() {
