@@ -41,7 +41,7 @@
               <tr v-for='curr in displayedItems' :key='curr.id'>
                 <td class='name'>{{ curr.displayName }}</td>
                 <td class='usd right'>
-                  <pre>{{ curr.baseRate.toFixed(6) }}</pre>
+                  <pre class='rate'>{{ curr.baseRate.toFixed(6) }}</pre>
                 </td>
                 <td>
                   <span class='grey-text darken-1'>{{ curr.description }}</span>
@@ -148,6 +148,10 @@ export default {
 .chart
   height: 300px
   margin-left: -20px
+
+pre.rate
+  margin: 0
+  font-size: 1.14em
 
 select.browser-default
   font-size: 18px
