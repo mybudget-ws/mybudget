@@ -166,6 +166,7 @@ import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
 moment.locale('ru');
+const SERVER_UTC_OFFSET = -3;
 
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
@@ -216,16 +217,17 @@ export default {
       'filters/toggleCategory',
       'filters/toggleProject'
     ]),
-    dateFormat(transaction) {
-      const date = moment(transaction.dateAt);
-      const current = moment();
+    dateFormat({ dateAt }) {
+      const date = moment(dateAt).utcOffset(SERVER_UTC_OFFSET, true);
+      const current = moment().utcOffset(SERVER_UTC_OFFSET, true);
+
       if (moment(date).isSame(current, 'day')) { return 'Сегодня'; }
       if (current.subtract(1, 'days').isSame(date, 'day')) { return 'Вчера'; }
       if (current.year() === date.year()) { return date.format('DD MMMM'); }
       return date.format('DD.MM.YYYY');
     },
-    dateTitleFormat(transaction) {
-      return moment(transaction.dateAt).format('DD.MM.YYYY');
+    dateTitleFormat({ dateAt }) {
+      return moment(dateAt).utcOffset(SERVER_UTC_OFFSET, true).format('DD.MM.YYYY');
     },
     copyUrl(item) {
       const accountId = item.account.id;
