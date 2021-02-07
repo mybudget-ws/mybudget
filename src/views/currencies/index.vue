@@ -15,7 +15,7 @@
             @change='change'
           >
             <option v-for='curr in items' :key='curr.id' :value='curr.name'>
-              {{ curr.name }}
+              {{ curr.displayName }}
             </option>
           </select>
         </div>
@@ -39,8 +39,10 @@
 
             <tbody>
               <tr v-for='curr in displayedItems' :key='curr.id'>
-                <td class='name'>{{ curr.name }}</td>
-                <td class='usd right'>{{ curr.baseRate.toFixed(6) }}</td>
+                <td class='name'>{{ curr.displayName }}</td>
+                <td class='usd right'>
+                  <pre>{{ curr.baseRate.toFixed(6) }}</pre>
+                </td>
                 <td>
                   <span class='grey-text darken-1'>{{ curr.description }}</span>
                 </td>

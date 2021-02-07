@@ -720,7 +720,14 @@ export default {
   async currencies(base = 'RUB') {
     const query = `
       query($base:String!) {
-        items:currencies(base: $base) { id name description usdRate baseRate }
+        items:currencies(base: $base) {
+          id
+          name
+          displayName
+          description
+          usdRate
+          baseRate
+        }
       }
     `;
     const vars = { base };
