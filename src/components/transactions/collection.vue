@@ -166,7 +166,7 @@ import { get, call } from 'vuex-pathify';
 
 const moment = require('moment');
 moment.locale('ru');
-const SERVER_UTC_OFFSET = -3;
+const SERVER_UTC_OFFSET = 3;
 
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
