@@ -46,6 +46,9 @@ export default {
       commit('LOGIN', data.user);
       return data;
     },
+    async resetPassword({ _commit }, { email }) {
+      return await api.resetPassword({ email });
+    },
     logout({ commit }) {
       commit('LOGOUT');
     },

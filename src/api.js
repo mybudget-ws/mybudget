@@ -49,6 +49,21 @@ export default {
     return action;
   },
 
+  async resetPassword({ email }) {
+    const query = `
+      mutation($email:String!) {
+        action:resetPassword(input: { email: $email }) {
+          error
+        }
+      }
+    `;
+    const vars = { email };
+    const { action } = await this.client().request(query, vars);
+    this.log('reset_password', action);
+
+    return action;
+  },
+
   async autoSignUp() {
     const query = `
       query {

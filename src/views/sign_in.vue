@@ -5,7 +5,7 @@
       <PageHeader :name='`Войти в\xa0Мой\xa0Бюджет`' />
 
       <div class='row'>
-        <form class='col l6 m8 s12' @submit.prevent='submit'>
+        <form class='col l6 m12 s12' @submit.prevent='submit'>
           <div class='row'>
             <div class='input-field col s12'>
               <input
@@ -31,13 +31,22 @@
             </div>
           </div>
 
-          <Button
-            text='Продолжить'
-            is-mobile-disable
-            :is-disabled='isSubmitting'
-            :is-loading='isSubmitting'
-            @click='submit'
-          />
+          <div class='row'>
+            <div class='col'>
+              <Button
+                text='Продолжить'
+                is-mobile-disable
+                :is-disabled='isSubmitting'
+                :is-loading='isSubmitting'
+                @click='submit'
+              />
+            </div>
+            <div class='col'>
+              <router-link class='btn btn-large btn-flat' :to='{ name: "forgot_password" }'>
+                Забыли пароль?
+              </router-link>
+            </div>
+          </div>
         </form>
       </div>
     </div>

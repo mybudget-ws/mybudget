@@ -40,6 +40,10 @@ export default new Router({
       name: 'sign_up',
       component: () => import(/* webpackChunkName: "landing" */ '@/views/sign_up')
     }, {
+      path: '/forgot_password',
+      name: 'forgot_password',
+      component: () => import(/* webpackChunkName: "landing" */ '@/views/forgot_password')
+    }, {
       path: '/transactions',
       name: 'transactions',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/transactions/index'),
