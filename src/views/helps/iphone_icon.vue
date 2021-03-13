@@ -71,6 +71,12 @@ export default {
   }),
   computed: {
   },
+  mounted() {
+    /* eslint-disable */
+    const elems = document.querySelectorAll('.materialboxed');
+    M.Materialbox.init(elems, {});
+    /* eslint-enable */
+  },
   methods: {
   }
 };

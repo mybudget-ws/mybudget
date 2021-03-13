@@ -15,7 +15,7 @@
                 Вот пример иконок, которые использую я:
               </p>
               <img
-                class='materialboxed'
+                class='materialboxed responsive-img'
                 src='../../assets/help/emoji-and-icons-in-categories/main.png'
               >
               <p>
@@ -37,14 +37,14 @@
               <p>
                 Выбираете иконку, копируете ее символ:
                 <img
-                  class='materialboxed'
+                  class='materialboxed responsive-img'
                   src='../../assets/help/emoji-and-icons-in-categories/example-1.png'
                 >
                 <br>
                 Затем вставьте скопированный символ в поле с названием категории
                 и сохраните изменения.
                 <img
-                  class='materialboxed'
+                  class='materialboxed responsive-img'
                   src='../../assets/help/emoji-and-icons-in-categories/example-2.png'
                 >
               </p>
@@ -84,6 +84,12 @@ export default {
   data: () => ({
   }),
   computed: {
+  },
+  mounted() {
+    /* eslint-disable */
+    const elems = document.querySelectorAll('.materialboxed');
+    M.Materialbox.init(elems, {});
+    /* eslint-enable */
   },
   methods: {
   }
