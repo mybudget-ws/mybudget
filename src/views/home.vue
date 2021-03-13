@@ -207,14 +207,14 @@ h1
     padding-top: 0
 
 .card
-  max-height: 346px
+  max-height: 340px
 
   .card-image
     box-sizing: border-box
 
     img
       border-radius: 10px 0 0 10px
-      max-height: 346px
+      max-height: 340px
 
       &.bordered
         border: 1px solid rgba(160, 160, 160, 0.2)
