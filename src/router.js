@@ -156,6 +156,10 @@ export default new Router({
       path: '/helps/iphone-icon',
       name: 'helps_iphone_icon',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/helps/iphone_icon')
+    }, {
+      path: '/helps/emoji-and-icons-in-categories',
+      name: 'helps_emoji_icon_in_categories',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/helps/emoji_icon_in_categories')
     }
     // , {
     //   path: '*',
