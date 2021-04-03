@@ -339,7 +339,7 @@ td
     min-height: 24px
     display: flex
     flex-direction: row
-    overflow: scroll
+    overflow-x: scroll
 
     span.badge
       margin-left: 0
