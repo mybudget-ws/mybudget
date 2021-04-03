@@ -86,7 +86,7 @@
             class='card-title'
           />
           <span :title='dateTitleFormat(item)' class='date'>{{ dateFormat(item) }}</span>
-          <div class='card-content tags'>
+          <div class='tag-list'>
             <BadgeAccount
               :account='item.account'
               @click='onAccount(item.account)'
@@ -110,13 +110,12 @@
               v-bind='category'
               @click='onCategory(category)'
             />
-            <i
-              v-if='item.description != null && item.description != ""'
-              class='description grey-text text-darken-2'
-            >
+          </div>
+          <p v-if='item.description != null && item.description != ""'>
+            <i class='description blue-grey-text text-darken-4'>
               {{ item.description }}
             </i>
-          </div>
+          </p>
         </div>
         <div class='card-action'>
           <router-link
@@ -326,8 +325,8 @@ td
     top: 10px
     right: 14px
     text-align: right
-    font-weight: 200
-    color: #424242
+    font-weight: 400
+    color: #37474f
 
   .card-title
     margin-bottom: 2px
@@ -336,13 +335,16 @@ td
     padding: 0
     margin-bottom: 10px
 
-    &.tags
-      min-height: 24px
+  .tag-list
+    min-height: 24px
+    display: flex
+    flex-direction: row
+    overflow: scroll
 
     span.badge
-      float: left
       margin-left: 0
       margin-bottom: 4px
+      display: flex
 
   .card-action
     padding: 12px 0
