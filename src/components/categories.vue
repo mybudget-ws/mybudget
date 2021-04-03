@@ -1,6 +1,15 @@
 <template>
   <div v-if='!isEmpty'>
-    <h6 class='subtitle'>Категории</h6>
+    <h6 class='subtitle'>
+      Категории
+      <a
+        v-if='isNeedShowAll && isShowAllCategories'
+        class='btn-flat btn-small waves-effect waves-teal hide-additional'
+        @click='hideAll'
+      >
+        Скрыть
+      </a>
+    </h6>
     <p v-for='category in displayedCategories' :key='category.id'>
       <label>
         <input
@@ -80,4 +89,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.subtitle
+  display: flex
+  align-items: center
+  justify-content: space-between
+  line-height: 33px
 </style>
