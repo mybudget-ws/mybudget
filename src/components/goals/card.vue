@@ -154,6 +154,7 @@ export default {
 
 .inline-amount
   display: inline-block
+  float: right
 
 .info-left
   min-width: 80px
