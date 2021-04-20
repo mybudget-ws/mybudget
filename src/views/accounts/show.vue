@@ -113,11 +113,10 @@ export default {
 /deep/ .page-header
   .title
     display: inline-block
-    max-width: 80%
+    max-width: 92%
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
-    width: 80%
 
 /deep/ .cover
   min-height: 230px
