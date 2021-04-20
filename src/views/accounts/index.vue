@@ -147,7 +147,7 @@
           </div>
 
           <!-- Archive -->
-          <table v-if='hiddenItems.length' class='hidden-table'>
+          <table v-if='hiddenItems.length && !isLoading' class='hidden-table'>
             <thead>
               <tr>
                 <th>Архив</th>
