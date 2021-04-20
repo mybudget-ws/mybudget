@@ -6,7 +6,7 @@
           to='/'
           class='brand-logo grey-text text-lighten-2 left col'
         >
-          myBudget v2.0
+          myBudget v2.1
         </router-link>
         <div class='right'>
           <router-link to='/currencies' :class='btnClasses'>

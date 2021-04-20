@@ -6,7 +6,6 @@
         v-if='!isLoadingAccount'
         :name='name'
         :cover=coverClasses
-        class='header'
       >
         <TransactionOperations
           :account-id='parseInt(id)'
@@ -110,6 +109,15 @@ export default {
 <style scoped lang='sass'>
 /deep/ h3
   position: relative
+
+/deep/ .page-header
+  .title
+    display: inline-block
+    max-width: 80%
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    width: 80%
 
 /deep/ .cover
   min-height: 230px

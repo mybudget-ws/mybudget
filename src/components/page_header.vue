@@ -7,8 +7,7 @@
         :class='cover'
       />
       <h3>
-        <!--button @click='$router.go(-1)'>Назад</button-->
-        {{ name }}
+        <span class='title'>{{ name }}&nbsp;</span>
         <router-link
           v-if='action != null'
           :to='action'
