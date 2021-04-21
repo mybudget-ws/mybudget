@@ -4,14 +4,8 @@
     <div class='container container-wide'>
       <PageHeader
         v-if='!isLoadingAccount'
-        :name='name'
         :cover=coverClasses
       >
-        <TransactionOperations
-          :account-id='parseInt(id)'
-          :back-path='backPath'
-        />
-        <Amount :value='balance' :currency='currency' class='balance' />
         <a
           class='edit waves-effect waves-teal btn-flat'
           title='Редактировать'
@@ -19,6 +13,16 @@
         >
           <i class='material-icons grey-text'>edit</i>
         </a>
+        <span class='account-header'>
+          <span class='name-with-operations'>
+            <span class='name'>{{ name }}</span>
+            <TransactionOperations
+              :account-id='parseInt(id)'
+              :back-path='backPath'
+            />
+          </span>
+          <Amount :value='balance' :currency='currency' class='balance' />
+        </span>
       </PageHeader>
 
       <div class='row transactions'>
@@ -110,16 +114,21 @@ export default {
 /deep/ h3
   position: relative
 
-/deep/ .page-header
-  .title
-    display: inline-block
-    max-width: 92%
-    overflow: hidden
-    text-overflow: ellipsis
-    white-space: nowrap
 
 /deep/ .cover
-  min-height: 230px
+  min-height: 220px
+
+.name-with-operations
+  display: flex
+
+  .name
+    @media only screen and (max-width: 601px)
+      max-width: 310px
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+    @media only screen and (max-width: 321px)
+      max-width: 270px
 
 .balance
   margin-top: 10px
@@ -130,5 +139,5 @@ a.edit
   top: 0
 
 .transactions
-  padding-top: 18px
+  padding-top: 8px
 </style>

@@ -7,7 +7,7 @@
         :class='cover'
       />
       <h3>
-        <span class='title'>{{ name }}&nbsp;</span>
+        <span v-if='name' class='name'>{{ name }}</span>
         <router-link
           v-if='action != null'
           :to='action'
@@ -26,7 +26,7 @@ export default {
   name: 'PageHeader',
   components: {},
   props: {
-    name: { type: String, required: true },
+    name: { type: String, required: false, default: null },
     action: { type: String, required: false, default: null },
     cover: { type: String, required: false, default: null },
     coverStyle: { type: Object, required: false, default: null }
@@ -37,12 +37,14 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-// h3
-//   margin-bottom: 0
-
 h3
   margin-top: 1.36rem
   margin-bottom: 0
+  display: flex
+  align-items: center
+
+  .name
+    margin-right: 18px
 
 .cover + h3
   margin-bottom: 1.3rem

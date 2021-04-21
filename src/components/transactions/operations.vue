@@ -1,5 +1,5 @@
 <template>
-  <div class='operations'>
+  <span class='operations'>
     <router-link
       title='Новый расход'
       class='btn-floating waves-effect waves-light z-depth-0 red'
@@ -42,7 +42,7 @@
         repeat
       </i>
     </router-link>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -104,7 +104,9 @@ export default {
 
 <style scoped lang='sass'>
 .operations
-  display: inline-block
+  display: flex
+  align-items: center
+
   @media only screen and (max-width: 601px)
     z-index: 2
     position: fixed
