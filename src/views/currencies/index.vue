@@ -3,22 +3,17 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Курсы валют'>
-        <div
+        <select
           v-if='!isLoading'
-          class='currencies'
-          :class="{ 'right': !isPhone }"
+          ref='selectCurrencies'
+          v-model='currency'
+          :class="{ 'browser-default': isPhone }"
+          @change='change'
         >
-          <select
-            ref='selectCurrencies'
-            v-model='currency'
-            :class="{ 'browser-default': isPhone }"
-            @change='change'
-          >
-            <option v-for='curr in items' :key='curr.id' :value='curr.name'>
-              {{ curr.displayName }}
-            </option>
-          </select>
-        </div>
+          <option v-for='curr in items' :key='curr.id' :value='curr.name'>
+            {{ curr.displayName }}
+          </option>
+        </select>
       </PageHeader>
       <div class='row'>
         <div class='col s12'>
@@ -135,9 +130,14 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.currencies
-  max-width: 110px
-  margin-top: 0px
+/deep/
+  .page-header
+    h3
+      justify-content: space-between
+
+      @media only screen and (max-width: 601px)
+        align-items: flex-start
+        flex-direction: column
 
 .name
   width: 80px
