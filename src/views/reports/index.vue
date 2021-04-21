@@ -3,31 +3,27 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Отчеты'>
-        <div class='row' :class="{ 'right': !isPhone }">
-          <div class='col'>
-            <select
-              ref='selectMode'
-              v-model='selectedMode'
-              :class="{ 'browser-default': isPhone }"
-              @change='onChangeMode'
-            >
-              <option v-for='(mode, index) in modes' :key='index' :value='mode'>
-                {{ displayMode(mode) }}
-              </option>
-            </select>
-          </div>
-          <div class='col'>
-            <select
-              ref='selectPeriods'
-              v-model='selectedPeriodMonths'
-              :class="{ 'browser-default': isPhone }"
-              @change='onChangePeriod'
-            >
-              <option v-for='v in periods' :key='v.months' :value='v.months'>
-                {{ v.name }}
-              </option>
-            </select>
-          </div>
+        <div class='select-mode'>
+          <select
+            ref='selectMode'
+            v-model='selectedMode'
+            :class="{ 'browser-default': isPhone }"
+            @change='onChangeMode'
+          >
+            <option v-for='(mode, index) in modes' :key='index' :value='mode'>
+              {{ displayMode(mode) }}
+            </option>
+          </select>
+          <select
+            ref='selectPeriods'
+            v-model='selectedPeriodMonths'
+            :class="{ 'browser-default': isPhone }"
+            @change='onChangePeriod'
+          >
+            <option v-for='v in periods' :key='v.months' :value='v.months'>
+              {{ v.name }}
+            </option>
+          </select>
         </div>
       </PageHeader>
 
@@ -317,6 +313,27 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+/deep/
+  .page-header
+    h3
+      justify-content: space-between
+
+      @media only screen and (max-width: 601px)
+        align-items: flex-start
+        flex-direction: column
+
+  .select-mode
+    display: flex
+    align-items: center
+    justify-content: flex-end
+
+    @media only screen and (max-width: 601px)
+      margin-top: 10px
+
+    select + select,
+    .select-wrapper + .select-wrapper
+      margin-left: 10px
+
 .chart
   height: 540px
   margin-top: 10px
