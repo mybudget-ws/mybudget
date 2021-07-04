@@ -27,11 +27,13 @@
 
       <div class='row transactions'>
         <div class='col s12'>
-          <Loader v-if='isLoadingAccount' />
+          <Loader v-if='isLoading' />
           <Collection
+            v-show='!isLoading'
             :account-id='parseInt(id)'
             :back-path='backPath'
             is-filters-disabled
+            @loaded='onTransactionLoaded'
             @destroy='onTransactionDestroy'
           />
         </div>
@@ -72,6 +74,7 @@ export default {
     balance: 0,
 
     isLoadingAccount: true,
+    isLoadingTransactions: true,
     isPhone: md.phone() != null
   }),
   computed: {
@@ -79,6 +82,7 @@ export default {
     kinds: get('accounts/kinds'),
     ...get('transactions/*'),
     id() { return this.$route.params.id; },
+    isLoading() { return this.isLoadingAccount || this.isLoadingTransactions; },
     backPath() { return `/accounts/${this.id}`; },
     coverClasses() {
       if (this.isLoadingAccount) { return null; }
@@ -92,9 +96,7 @@ export default {
     this.kind = account.kind;
     this.currency = account.currency.name;
     this.balance = account.balance;
-
     this.isLoadingAccount = false;
-    // this.fetch({ token: this.token, filters: { accountIds: [parseInt(this.id)] } });
   },
   methods: {
     ...call([
@@ -113,6 +115,9 @@ export default {
           this.balance = account.balance;
         }
       });
+    },
+    onTransactionLoaded() {
+      this.isLoadingTransactions = false;
     }
   }
 };

@@ -203,6 +203,9 @@ export default {
   },
   async created() {
     await this.fetch({ token: this.token, filters: this.collectionFilters });
+    this.$nextTick(() => {
+      this.$emit('loaded');
+    });
   },
   methods: {
     more() {
