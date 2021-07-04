@@ -254,7 +254,6 @@ export default {
     async onDestroy(transaction) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить операцию. Вы уверены?')) {
-        console.log(this.collectionFilters);
         const res = await this.destroy({
           token: this.token,
           transaction,
@@ -266,6 +265,7 @@ export default {
         /* eslint-disable */
         M.toast({ html: message });
         /* eslint-enable */
+        this.$emit('destroy');
       }
     },
     onProject(project) {

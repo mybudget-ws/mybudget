@@ -32,6 +32,7 @@
             :account-id='parseInt(id)'
             :back-path='backPath'
             is-filters-disabled
+            @destroy='onTransactionDestroy'
           />
         </div>
       </div>
@@ -104,6 +105,13 @@ export default {
         name: 'edit_account',
         params: { id: this.id },
         query: { backTo: this.backPath }
+      });
+    },
+    onTransactionDestroy() {
+      api.account(this.token, { id: this.id }).then(account => {
+        if (account != null && account.balance != null) {
+          this.balance = account.balance;
+        }
       });
     }
   }
