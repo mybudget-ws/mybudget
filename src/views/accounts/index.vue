@@ -329,15 +329,14 @@ export default {
 .actions,
 .actions-hidden
   padding-right: 0px
-  width: 54px
+  width: 40px
   text-align: right
 
   .btn-flat
     padding: 0 8px !important
 
 .transacton-actions
-  width: 208px
-  max-width: 10px // magic style
+  width: 78px
   text-align: right
 
   .btn-small + .btn-small
