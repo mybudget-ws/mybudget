@@ -31,7 +31,7 @@
         <FilterTags class='col s12' @onChange='onChangeFilter' />
 
         <div class='col s12'>
-          <Loader v-if='isLoading' />
+          <Loader v-if='isLoading' class='loader' />
           <div class='col l10 m9 s12'>
             <div v-if='selectedMode != "donuts"' class='chart' />
             <div v-else>
@@ -115,9 +115,6 @@ import { get, call } from 'vuex-pathify';
 import c3 from 'c3';
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
-
-// import MobileDetect from 'mobile-detect';
-// const md = new MobileDetect(window.navigator.userAgent);
 
 export default {
   name: 'Reports',
@@ -295,8 +292,10 @@ export default {
       if (mode === 'columns') { return 'Доходы и расходы'; }
       return 'Категории';
     },
-    onChangeFilter() {
-      this.fetchData();
+    async onChangeFilter() {
+      this.isLoading = true;
+      await this.fetchData();
+      this.isLoading = false;
     },
     onChangeMode({ target }) {
       this.selectedMode = target.value;
@@ -333,6 +332,11 @@ export default {
     select + select,
     .select-wrapper + .select-wrapper
       margin-left: 10px
+
+.loader
+  position: absolute
+  left: calc(50% - 40px)
+  top: 140px
 
 .chart
   height: 540px
