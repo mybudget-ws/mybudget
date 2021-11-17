@@ -12,11 +12,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 import * as Sentry from '@sentry/browser';
-import { Vue as VueIntegration } from '@sentry/integrations';
+import { Integrations } from '@sentry/tracing';
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: 'https://31a2997a7521403fa04ac9e939bd5bf2@o242649.ingest.sentry.io/5266881',
-    integrations: [new VueIntegration({ Vue, attachProps: true })]
+    integrations: [new Integrations.BrowserTracing()],
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0
   });
 }
 
