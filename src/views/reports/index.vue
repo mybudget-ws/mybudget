@@ -35,59 +35,13 @@
           <div class='col l10 m9 s12'>
             <div v-if='selectedMode != "donuts"' class='chart' />
             <div v-else>
-              <div
-                v-for='id in donutsArray'
-                :key='id'
-                :class='`chart-${id}`'
-              />
-            </div>
-
-            <div v-if='isShowSummary && isPhone'>
-              <div v-for='(row, index) in summary' :key='index' class='card blue-grey lighten-5 z-depth-0'>
-                <div class='card-content'>
-                  <div class='card-title'>{{ row.name }}</div>
-                  <div>
-                    Начало периода
-                    <Amount :value='row.startBalance' :currency='row.currency' class='amount' />
-                  </div>
-                  <div>
-                    Изменение
-                    <Amount :value='row.endBalance - row.startBalance' :currency='row.currency' class='amount' />
-                  </div>
-                  <hr>
-                  <div>
-                    <b>Итого</b>
-                    <Amount :value='row.endBalance' :currency='row.currency' class='amount' />
-                  </div>
-                </div>
+              <div v-for='id in donutsArray' :key='id'>
+                <div :class='`chart-${id}`' />
+                <CategoriesSummary v-bind='donuts[id]' />
               </div>
             </div>
-            <table v-if='isShowSummary && !isPhone'>
-              <thead>
-                <tr>
-                  <th class='min' />
-                  <th>Начало периода</th>
-                  <th>Изменение</th>
-                  <th>Итого</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for='(row, index) in summary' :key='index' :class='row.class'>
-                  <td class='min'>
-                    <strong>{{ row.name }}</strong>
-                  </td>
-                  <td>
-                    <Amount :value='row.startBalance' :currency='row.currency' />
-                  </td>
-                  <td>
-                    <Amount :value='row.endBalance - row.startBalance' :currency='row.currency' />
-                  </td>
-                  <td>
-                    <Amount :value='row.endBalance' :currency='row.currency' />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+
+            <BalanceSummary v-if='isShowSummary' :summary='summary' />
           </div>
 
           <Filters
@@ -102,7 +56,8 @@
 </template>
 
 <script>
-import Amount from '@/components/amount';
+import BalanceSummary from '@/components/reports/balance_summary';
+import CategoriesSummary from '@/components/reports/categories_summary';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
@@ -119,7 +74,8 @@ const md = new MobileDetect(window.navigator.userAgent);
 export default {
   name: 'Reports',
   components: {
-    Amount,
+    BalanceSummary,
+    CategoriesSummary,
     FilterTags,
     Filters,
     Loader,
@@ -128,9 +84,9 @@ export default {
   },
   props: {},
   data: () => ({
-    selectedMode: 'balance',
+    // selectedMode: 'balance',
     // selectedMode: 'columns',
-    // selectedMode: 'donuts',
+    selectedMode: 'donuts',
     selectedPeriodMonths: 12, // All time: 9999,
     isLoading: true,
     summary: [],
@@ -144,6 +100,7 @@ export default {
       { name: 'Пять лет', months: 60 },
       { name: 'Десять лет', months: 120 }
     ],
+    donuts: [],
     donutsCount: 0,
 
     isPhone: md.phone() != null
@@ -236,12 +193,13 @@ export default {
       });
     },
     async fetchDonuts() {
+      this.donuts = [];
       this.donutsCount = 0;
-      const donuts = await api.donuts(this.token, this.searchParams);
-      this.donutsCount = donuts.length;
+      this.donuts = await api.donuts(this.token, this.searchParams);
+      this.donutsCount = this.donuts.length;
       await this.$nextTick();
 
-      donuts.forEach((json, index) => {
+      this.donuts.forEach((json, index) => {
         c3.generate({
           bindto: `.chart-${index}`,
           data: {
@@ -250,7 +208,7 @@ export default {
           },
           donut: {
             title: json['title'],
-            width: 68,
+            width: 70,
             label: {
               format: function(value) {
                 const digits = (value > 1000 || (value | 0) == value) ? 0 : 2;
@@ -346,29 +304,4 @@ export default {
   @media only screen and (max-width: 601px)
     margin-top: 0px
     height: 320px
-
-th, td
-  text-align: right
-  width: 30%
-
-  &.min
-    width: 16%
-    text-align: left
-
-tbody
-  tr.total
-    background-color: #fafafa
-
-    td
-      &:first-child
-        &:after
-          color: #757575
-          content: '(по текущему курсу)'
-          font-size: 13px
-          display: block
-          font-weight: 200
-
-.card
-  .amount
-    float: right
 </style>
