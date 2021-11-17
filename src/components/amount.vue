@@ -14,7 +14,7 @@ import Money from '@/utils/money';
 export default {
   name: 'Amount',
   props: {
-    value: { type: Number, required: true },
+    value: { type: [Number, String], required: true },
     currency: { type: String, required: true }
   },
   computed: {
