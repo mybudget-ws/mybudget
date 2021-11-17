@@ -255,9 +255,11 @@ export default {
       await this.fetchData();
       this.isLoading = false;
     },
-    onChangeMode({ target }) {
+    async onChangeMode({ target }) {
       this.selectedMode = target.value;
-      this.fetchData();
+      this.isLoading = true;
+      await this.fetchData();
+      this.isLoading = false;
     },
     async onChangePeriod() {
       this.setPeriod({ period: this.selectedPeriodMonths });
