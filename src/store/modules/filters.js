@@ -5,6 +5,8 @@ export default {
     accounts: [],
     categories: [],
     projects: [],
+    dateStart: null,
+    dateEnd: null,
     period: 12 // All time: 9999
   },
 
@@ -24,7 +26,9 @@ export default {
         accounts: state.accounts.map(v => v.id),
         categories: state.categories.map(v => v.id),
         projects: state.projects.map(v => v.id),
-        months: state.period
+        months: state.period,
+        dateStart: state.dateStart,
+        dateEnd: state.dateEnd
       }).toString()
     )
   },
@@ -69,8 +73,8 @@ export default {
         commit('ADD_PROJECT', project);
       }
     },
-    setPeriod({ commit }, { period }) {
-      commit('SET_PERIOD', period);
+    setPeriod({ commit }, { period, dateStart, dateEnd }) {
+      commit('SET_PERIOD', { period, dateStart, dateEnd });
     }
   },
 
@@ -108,8 +112,10 @@ export default {
     REMOVE_PROJECT(state, project) {
       state.projects = state.projects.filter(v => v.id !== project.id);
     },
-    SET_PERIOD(state, period) {
+    SET_PERIOD(state, { period, dateStart, dateEnd }) {
       state.period = period;
+      state.dateStart = dateStart;
+      state.dateEnd = dateEnd;
     }
   }
 };
