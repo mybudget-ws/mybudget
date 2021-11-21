@@ -388,10 +388,16 @@ export default {
 
     @media only screen and (max-width: 601px)
       margin-top: 10px
+      flex-direction: column
+      width: 100%
 
     select + select,
     .select-wrapper + .select-wrapper
       margin-left: 10px
+
+      @media only screen and (max-width: 601px)
+        margin-top: 4px
+        margin-left: 0
 
   .custom-period
     display: flex
@@ -399,6 +405,9 @@ export default {
 
     input.datepicker
       margin-left: 10px
+
+      @media only screen and (max-width: 601px)
+        margin-left: 0
 
 .loader
   position: absolute
