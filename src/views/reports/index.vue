@@ -24,6 +24,20 @@
               {{ v.name }}
             </option>
           </select>
+          <div v-show='isCustomPeriod' class='custom-period'>
+            <input
+              id='dateStart'
+              ref='datepickerStart'
+              type='text'
+              class='datepicker'
+            >
+            <input
+              id='dateEnd'
+              ref='datepickerEnd'
+              type='text'
+              class='datepicker'
+            >
+          </div>
         </div>
       </PageHeader>
 
@@ -71,6 +85,9 @@ import c3 from 'c3';
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
 
+const moment = require('moment');
+moment.locale('ru');
+
 export default {
   name: 'Reports',
   components: {
@@ -84,10 +101,12 @@ export default {
   },
   props: {},
   data: () => ({
-    // selectedMode: 'balance',
+    selectedMode: 'balance',
     // selectedMode: 'columns',
-    selectedMode: 'donuts',
+    // selectedMode: 'donuts',
     selectedPeriodMonths: 12, // All time: 9999,
+    dateStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    dateEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     isLoading: true,
     summary: [],
     modes: ['balance', 'columns', 'donuts'],
@@ -98,7 +117,8 @@ export default {
       { name: 'Год', months: 12 },
       { name: 'Два года', months: 24 },
       { name: 'Пять лет', months: 60 },
-      { name: 'Десять лет', months: 120 }
+      { name: 'Десять лет', months: 120 },
+      { name: 'Свой интервал', months: 0 }
     ],
     donuts: [],
     donutsCount: 0,
@@ -108,6 +128,7 @@ export default {
   computed: {
     token: get('user/token'),
     searchParams: get('filters/searchParams'),
+    isCustomPeriod() { return this.selectedPeriodMonths === 0; },
     isShowSummary() {
       return this.selectedMode === 'balance' && this.summary.length > 0;
     },
@@ -120,13 +141,8 @@ export default {
     await this.fetchData();
     this.isLoading = false;
 
-    this.$nextTick(() => {
-      /* eslint-disable */
-      M.FormSelect.init(this.$refs.selectPeriods, {});
-      M.FormSelect.init(this.$refs.selectMode, {});
-      M.updateTextFields();
-      /* eslint-enable */
-    });
+    this.initSelects();
+    this.initDatepickers();
   },
   methods: {
     ...call(['user/fetchProfile']),
@@ -250,6 +266,72 @@ export default {
       if (mode === 'columns') { return 'Доходы и расходы'; }
       return 'Категории';
     },
+    initSelects() {
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectPeriods, {});
+        M.FormSelect.init(this.$refs.selectMode, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      });
+    },
+    initDatepickers() {
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.Datepicker.init(
+          this.$refs.datepickerStart,
+          {
+            format: 'dd mmm, yyyy',
+            firstDay: 1,
+            autoClose: true,
+            setDefaultDate: true,
+            defaultDate: this.dateStart,
+            i18n: {
+              cancel: 'Закрыть',
+              months: [
+                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+              monthsShort: [
+                'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
+                'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
+              ],
+              weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+              weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+            },
+            onSelect: this.onSelectDateStart
+          }
+        );
+        M.Datepicker.getInstance(this.$refs.datepickerStart).setDate(this.dateStart);
+        /* eslint-enable */
+
+        /* eslint-disable */
+        M.Datepicker.init(
+          this.$refs.datepickerEnd,
+          {
+            format: 'dd mmm, yyyy',
+            firstDay: 1,
+            autoClose: true,
+            setDefaultDate: true,
+            defaultDate: this.dateEnd,
+            i18n: {
+              cancel: 'Закрыть',
+              months: [
+                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+              monthsShort: [
+                'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
+                'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
+              ],
+              weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+              weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+            },
+            onSelect: this.onSelectDateEnd
+          }
+        );
+        M.Datepicker.getInstance(this.$refs.datepickerEnd).setDate(this.dateEnd);
+        /* eslint-enable */
+      });
+    },
     async onChangeFilter() {
       this.isLoading = true;
       await this.fetchData();
@@ -262,10 +344,28 @@ export default {
       this.isLoading = false;
     },
     async onChangePeriod() {
-      this.setPeriod({ period: this.selectedPeriodMonths });
+      this.setPeriod({
+        period: this.selectedPeriodMonths,
+        dateStart: moment(this.dateStart).format(),
+        dateEnd: moment(this.dateEnd).format()
+      });
       this.isLoading = true;
       await this.fetchData();
       this.isLoading = false;
+    },
+    onSelectDateStart(date) {
+      if (date == null) { return; }
+      if (date == this.dateStart) { return; }
+
+      this.dateStart = date;
+      this.onChangePeriod();
+    },
+    onSelectDateEnd(date) {
+      if (date == null) { return; }
+      if (date == this.dateEnd) { return; }
+
+      this.dateEnd = date;
+      this.onChangePeriod();
     }
   }
 };
@@ -291,6 +391,13 @@ export default {
 
     select + select,
     .select-wrapper + .select-wrapper
+      margin-left: 10px
+
+  .custom-period
+    display: flex
+    align-items: center
+
+    input.datepicker
       margin-left: 10px
 
 .loader
