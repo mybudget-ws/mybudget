@@ -75,6 +75,9 @@ export default {
     },
     setPeriod({ commit }, { period, dateStart, dateEnd }) {
       commit('SET_PERIOD', { period, dateStart, dateEnd });
+    },
+    reset({ commit }) {
+      commit('RESET');
     }
   },
 
@@ -116,6 +119,11 @@ export default {
       state.period = period;
       state.dateStart = dateStart;
       state.dateEnd = dateEnd;
+    },
+    RESET(state) {
+      state.accounts = [];
+      state.categories = [];
+      state.projects = [];
     }
   }
 };
