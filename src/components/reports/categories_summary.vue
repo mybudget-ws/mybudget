@@ -12,7 +12,7 @@
       <tr v-for='(row, index) in data' :key='index'>
         <td>{{ row[0] }}</td>
         <td class='amount'>
-          <Amount :value='row[1]' :currency='currency' />
+          <Amount :value='normalizedValue(row[1])' :currency='currency' />
         </td>
       </tr>
     </tbody>
@@ -36,8 +36,19 @@ export default {
       const parts = this.title.split(' ');
       return parts[parts.length - 1];
     },
+    isIncome() {
+      return !this.title.match(/Расход/);
+    },
     total() {
-      return this.data.map(v => parseFloat(v[1])).reduce((a, b) => a + b, 0);
+      const totalValue = this.data.map(v => parseFloat(v[1])).reduce((a, b) => a + b, 0);
+      if (this.isIncome) { return totalValue; }
+      return -totalValue;
+    }
+  },
+  methods: {
+    normalizedValue(value) {
+      if (this.isIncome) { return value; }
+      return -parseFloat(value);
     }
   }
 };
