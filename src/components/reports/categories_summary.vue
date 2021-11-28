@@ -89,5 +89,8 @@ export default {
 
 .amount
   float: right
-  white-space: nowrap;
+  white-space: nowrap
+
+thead
+  background-color: #fafafa
 </style>
