@@ -84,7 +84,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "inner" */ '@/views/accounts/show'),
       beforeEnter: requireAuth
     }, {
-      path: '/reports',
+      path: '/reports/:mode?',
       name: 'reports',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/reports/index'),
       beforeEnter: requireAuth

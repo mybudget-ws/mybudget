@@ -137,6 +137,10 @@ export default {
     }
   },
   async mounted() {
+    if (this.$route.params.mode) {
+      this.selectedMode = this.modes.find(v => v === this.$route.params.mode) ||
+        this.selectedMode;
+    }
     this.isLoading = true;
     await this.fetchData();
     this.isLoading = false;
@@ -338,6 +342,7 @@ export default {
       this.isLoading = false;
     },
     async onChangeMode({ target }) {
+      this.$router.push({ name: 'reports', params: { mode: target.value } });
       this.selectedMode = target.value;
       this.isLoading = true;
       await this.fetchData();
