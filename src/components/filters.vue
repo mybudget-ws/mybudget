@@ -8,7 +8,7 @@
     <div v-if='isAccounts' class='accounts'>
       <h6>Счета</h6>
       <p v-for='account in displayedAcccounts' :key='account.id'>
-        <label>
+        <label class='truncate'>
           <Checkbox
             :id='account.id'
             :value='isCheckedAccount(account.id)'
@@ -38,7 +38,7 @@
     <div v-if='isProjects' class='projects'>
       <h6>Проекты</h6>
       <p v-for='project in projects' :key='project.id'>
-        <label>
+        <label class='truncate'>
           <Checkbox
             :id='project.id'
             :value='isCheckedProject(project.id)'

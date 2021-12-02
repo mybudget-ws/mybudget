@@ -11,7 +11,7 @@
       </a>
     </h6>
     <p v-for='category in displayedCategories' :key='category.id'>
-      <label>
+      <label class='truncate'>
         <input
           :id='category.id'
           v-model='categoryIds'
