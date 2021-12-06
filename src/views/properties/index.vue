@@ -5,7 +5,19 @@
       <PageHeader name='Имущество' action='/properties/new' />
       <div class='row'>
         <div class='col'>
-          <div class='grey-text'>На данный момент раздел находится в разработке</div>
+          <div class='grey-text'>
+            На данный момент раздел находится в разработке
+            <ol>
+              <li><strike>Список</strike></li>
+              <li><strike>Создание</strike></li>
+              <li>Редактирование</li>
+              <li>Удаление</li>
+              <li>Архив</li>
+              <li>Привязка операций</li>
+              <li>График истории цены</li>
+              <li>Просмотр со списком цен и операций</li>
+            </ol>
+          </div>
         </div>
       </div>
       <div class='row'>
@@ -25,7 +37,8 @@
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <th class='amount'>Баланс</th>
+                <th>Тип</th>
+                <th class='amount'>Стоимость</th>
                 <th />
               </tr>
             </thead>
@@ -37,17 +50,12 @@
                     <span>{{ item.name }}</span>
                   </div>
                 </td>
+                <td>{{ kindName(item.kind) }}</td>
                 <td class='amount'>
-                  <div v-for='(balance, index) in item.balances' :key='index'>
-                    <Amount :value='balance.amount' :currency='balance.currency.name' />
-                  </div>
-                  <div v-if='item.balances.length > 1' class='total'>
-                    <Amount
-                      class='total-amount'
-                      :value='item.balances.map(v => v.amountBase).reduce((a, b) => a + b)'
-                      :currency='item.balances[0].currencyBase.name'
-                    />
-                  </div>
+                  <Amount
+                    :value='item.price'
+                    :currency='item.currency.name'
+                  />
                 </td>
                 <td class='actions'>
                   <a
@@ -163,6 +171,12 @@ export default {
       'properties/destroy',
       'properties/toggleIsHidden'
     ]),
+    kindName(kind) {
+      if (kind == 'realty') { return 'Недвижимость'; }
+      if (kind == 'transport') { return 'Транспорт'; }
+
+      return 'Другое';
+    },
     onEdit(category) {
       const { id } = category;
       this.$router.push({ name: 'edit_project', params: { id } });
@@ -192,47 +206,34 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-// .color
-//   width: 20px
-//   height: 20px
-//   border-radius: 3px
-//   display: inline-block
-//   margin-right: 10px
-//
-// .amount
-//   width: 200px
-//   text-align: right
-//
-// .actions,
-// .actions-hidden
-//   padding-right: 0px
-//   width: 124px
-//   text-align: right
-//
-//   .btn-flat
-//     padding: 0 8px !important
-//
-// .actions-hidden
-//   width: 82px
-//
-// .hidden-table
-//   margin-top: 60px
-//   opacity: 0.4
-//
-// .total
-//   margin-top: 4px
-//   border-top: 1px solid #d4d4d4
-//
-//   .total-amount
-//     margin-top: 2px
-//
-//     &:before
-//       color: #757575
-//       content: 'Всего по текущему курсу:'
-//       font-size: 13px
-//       font-weight: 200
-//       margin-left: -164px
-//       margin-top: -3.6px
-//       padding-top: 4px
-//       position: absolute
+.color
+  width: 20px
+  height: 20px
+  border-radius: 3px
+  display: inline-block
+  margin-right: 10px
+
+.amount
+  width: 200px
+  text-align: right
+
+.actions,
+.actions-hidden
+  padding-right: 0px
+  width: 124px
+  text-align: right
+
+  .btn-flat
+    padding: 0 8px !important
+
+.actions-hidden
+  width: 82px
+
+.hidden-table
+  margin-top: 60px
+  opacity: 0.4
+
+.total
+  margin-top: 4px
+  border-top: 1px solid #d4d4d4
 </style>

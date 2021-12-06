@@ -477,8 +477,11 @@ export default {
         items:properties {
           id
           name
-          isHidden
+          kind
           color
+          price
+          isHidden
+          currency { name }
         }
       }
     `;
@@ -497,7 +500,7 @@ export default {
           kind: $kind,
           currency: $currency,
           amount: $amount
-        ) { id name color kind currency } }
+        ) { id name color kind price currency { name } }
       }
     `;
     const vars = { name, color, kind, currency, amount };

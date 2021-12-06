@@ -192,9 +192,9 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { name, color, token } = this;
-      const project = { name, color };
-      const isSuccess = await this.create({ token, project });
+      const { name, color, token, kind, currency, amount } = this;
+      const property = { name, color, kind, currency, amount };
+      const isSuccess = await this.create({ token, property });
       if (isSuccess != null) {
         this.$router.push({ name: 'properties' });
       } else {
