@@ -125,6 +125,7 @@
 import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import Loader from '@/components/loader';
 import { get, call } from 'vuex-pathify';
 
 import MobileDetect from 'mobile-detect';
@@ -134,6 +135,7 @@ export default {
   name: 'NewProperty',
   components: {
     Button,
+    Loader,
     Menu,
     PageHeader
   },
