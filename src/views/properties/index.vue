@@ -31,7 +31,7 @@
               </p>
             </div>
           </div>
-          <table v-else-if='!isPhone'>
+          <table>
             <thead>
               <tr>
                 <th class='name'>Название</th>
@@ -78,14 +78,6 @@
               </tr>
             </tbody>
           </table>
-          <div v-for='item in visibleItems' v-else :key='item.id'>
-            <Card
-              v-bind='item'
-              @edit='onEdit(item)'
-              @hide='onHide(item)'
-              @destroy='onDestroy(item)'
-            />
-          </div>
 
           <table v-if='hiddenItems.length' class='hidden-table'>
             <thead>
@@ -131,7 +123,6 @@
 
 <script>
 import Amount from '@/components/amount';
-import Card from '@/components/projects/card';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -144,7 +135,6 @@ export default {
   name: 'Properties',
   components: {
     Amount,
-    Card,
     Loader,
     Menu,
     PageHeader
