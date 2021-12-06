@@ -4,15 +4,18 @@
     <div class='container container-wide'>
       <PageHeader name='Имущество' action='/properties/new' />
       <div class='row'>
+        <div class='col'>
+          <div class='grey-text'>На данный момент раздел находится в разработке</div>
+        </div>
+      </div>
+      <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey'>
             <div class='card-content white-text'>
               <span class='card-title'>На данный момент имущество не добавлено</span>
               <p>
-                При желании можно добавить движимое и недвижимое имущество
-                для учета изменения его стоимости, а так же для отражения затрат на него.
-                Например: Строительство дачи, покупка квартиры, ремонт автомобиля и т.д.
+                При желании добавьте движимое и/или недвижимое имущество для учета изменения стоимости, а так же для отражения затрат на него.
               </p>
             </div>
           </div>

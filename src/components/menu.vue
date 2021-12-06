@@ -27,6 +27,7 @@
           <li v-for='item in items' :key='item.path'>
             <router-link :to='item.path' :class='btnClasses'>
               {{ item.name }}
+              <span v-if='item.badge' class='badge new grey' :data-badge-caption='item.badge' />
             </router-link>
           </li>
           <li class='right' title='Выход'>
@@ -59,7 +60,10 @@
       class='sidenav'
     >
       <li v-for='item in items' :key='item.path'>
-        <a href='#' @click='goto(item.path)'>{{ item.name }}</a>
+        <a href='#' @click='goto(item.path)'>
+          {{ item.name }}
+          <span v-if='item.badge' class='badge new' :data-badge-caption='item.badge' />
+        </a>
       </li>
       <li class='divider' />
       <li v-if='isGuest'>
@@ -94,7 +98,7 @@ export default {
       { path: '/categories', name: 'Категории' },
       { path: '/goals', name: 'Цели' },
       { path: '/projects', name: 'Проекты' },
-      { path: '/properties', name: 'Имущество' }
+      { path: '/properties', name: 'Имущество', badge: 'Beta' }
     ]
   }),
   computed: {
