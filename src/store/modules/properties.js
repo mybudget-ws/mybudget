@@ -30,9 +30,9 @@ export default {
       const items = await api.properties(token);
       commit('FINISH_LOADING', items);
     },
-    async create({ commit }, { token, account }) {
+    async create({ commit }, { token, property }) {
       commit('START_SUBMITTING');
-      const item = await api.createAccount(token, account);
+      const item = await api.createProperty(token, property);
       commit('FINISH_SUBMITTING');
       return item;
     },
@@ -71,7 +71,6 @@ export default {
     },
     FINISH_SUBMITTING(state) {
       state.isSubmitting = false;
-      state.isLoadedFilter = false;
     },
     TOGGLE_IS_HIDDEN(state, { item, isHidden }) {
       const account = state.items.find(v => v.id === item.id);
