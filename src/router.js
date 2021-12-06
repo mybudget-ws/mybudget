@@ -139,6 +139,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "inner" */ '@/views/projects/edit'),
       beforeEnter: requireAuth
     }, {
+      path: '/properties',
+      name: 'properties',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/properties/index'),
+      beforeEnter: requireAuth
+    }, {
+      path: '/properties/new',
+      name: 'new_property',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/properties/new'),
+      beforeEnter: requireAuth
+    }, {
       path: '/currencies',
       name: 'currencies',
       component: () => import(/* webpackChunkName: "home-group" */ '@/views/currencies/index')
@@ -159,7 +169,9 @@ export default new Router({
     }, {
       path: '/helps/emoji-and-icons-in-categories',
       name: 'helps_emoji_icon_in_categories',
-      component: () => import(/* webpackChunkName: "inner" */ '@/views/helps/emoji_icon_in_categories')
+      component: () => import(
+        /* webpackChunkName: "inner" */ '@/views/helps/emoji_icon_in_categories'
+      )
     }
     // , {
     //   path: '*',

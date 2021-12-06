@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import pathify, { make } from 'vuex-pathify';
 
 import accounts from './modules/accounts';
+import properties from './modules/properties';
 import api from '../api';
 import categories from './modules/categories';
 import colors from './modules/colors';
@@ -55,6 +56,7 @@ const store = new Vuex.Store({
     filters,
     goals,
     projects,
+    properties,
     transactions,
     user
   },
