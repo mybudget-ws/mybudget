@@ -488,6 +488,25 @@ export default {
     return data.items;
   },
 
+  async createProperty(token, { name, color, kind, currency, amount }) {
+    const query = `
+      mutation($name:String!, $color:String!, $kind:String!, $currency:String!, $amount:String!) {
+        action:createProperty(
+          name: $name,
+          color: $color,
+          kind: $kind,
+          currency: $currency,
+          amount: $amount
+        ) { id name color kind currency } }
+      }
+    `;
+    const vars = { name, color, kind, currency, amount };
+    const data = await this.client(token).request(query, vars);
+    this.log('createProperty', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Transaction
   // ---------------------------------
