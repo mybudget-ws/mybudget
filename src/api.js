@@ -543,6 +543,16 @@ export default {
     return data.action;
   },
 
+  async destroyProperty(token, id) {
+    const query = `
+      mutation($id:ID!) { action:destroyProperty(id: $id) { id } }
+    `;
+    const data = await this.client(token).request(query, { id });
+    this.log('destroyProperty', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Transaction
   // ---------------------------------

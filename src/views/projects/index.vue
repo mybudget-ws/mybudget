@@ -181,7 +181,6 @@ export default {
     },
     async onHide(project) {
       if (this.isSubmitting) { return; }
-      console.log(project);
 
       const isHidden = await this.toggleIsHidden({ token: this.token, project });
       const message = isHidden ? 'Проект добавлен в архив' : 'Проект удален из архива';

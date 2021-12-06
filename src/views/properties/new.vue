@@ -140,7 +140,7 @@ export default {
   props: {},
   data: () => ({
     name: '',
-    amount: 0,
+    amount: '0',
     color: 'blue',
     kind: 'realty',
     currency: 'RUB',
@@ -193,6 +193,8 @@ export default {
       if (this.isSubmitting) { return; }
 
       const { name, color, token, kind, currency, amount } = this;
+      if (name === '' || amount === '') { return; }
+
       const property = { name, color, kind, currency, amount };
       const isSuccess = await this.create({ token, property });
       if (isSuccess != null) {

@@ -9,9 +9,7 @@
             На данный момент раздел находится в разработке
             <ol>
               <li><strike>Список</strike></li>
-              <li><strike>Создание</strike></li>
-              <li><strike>Редактирование</strike></li>
-              <li>Удаление</li>
+              <li><strike>Создание / Редактирование / Удаление</strike></li>
               <li>Архив</li>
               <li>Привязка операций</li>
               <li>Просмотр со списком цен и операций</li>
@@ -69,13 +67,13 @@
                     @click='onHide(item)'
                   >
                     <i class='material-icons grey-text'>visibility_off</i>
-                  </a>
+                  </a-->
                   <a
                     class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
-                  </a-->
+                  </a>
                 </td>
               </tr>
             </tbody>
@@ -181,10 +179,10 @@ export default {
       const { id } = category;
       this.$router.push({ name: 'edit_property', params: { id } });
     },
-    async onDestroy(project) {
+    async onDestroy(property) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить имущество. Вы уверены?')) {
-        const res = await this.destroy({ token: this.token, project });
+        const res = await this.destroy({ token: this.token, property });
         const message = res != null ?
           'Успешно удалено' :
           'Непредвиденная ошибка';
@@ -193,11 +191,10 @@ export default {
         /* eslint-enable */
       }
     },
-    async onHide(project) {
+    async onHide(property) {
       if (this.isSubmitting) { return; }
-      console.log(project);
 
-      const isHidden = await this.toggleIsHidden({ token: this.token, project });
+      const isHidden = await this.toggleIsHidden({ token: this.token, property });
       const message = isHidden ? 'Отправлено в архив' : 'Извлечено из архива';
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }

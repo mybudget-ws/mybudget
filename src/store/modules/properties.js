@@ -36,12 +36,12 @@ export default {
       commit('FINISH_SUBMITTING');
       return item;
     },
-    async destroy({ commit }, { token, account }) {
+    async destroy({ commit }, { token, property }) {
       try {
         commit('START_DESTROYING');
-        await api.destroyAccount(token, account.id);
-        commit('FINISH_DESTROYING', account);
-        return account;
+        await api.destroyProperty(token, property.id);
+        commit('FINISH_DESTROYING', property);
+        return property;
       } catch (e) {
         console.error(e);
         commit('FINISH_DESTROYING', {});
@@ -82,7 +82,6 @@ export default {
     },
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
-      state.itemsFilter = state.itemsFilter.filter(v => v.id !== id);
       state.isDestroying = false;
     }
   }
