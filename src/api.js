@@ -510,6 +510,39 @@ export default {
     return data.action;
   },
 
+  async property(token, { id }) {
+    const query = `query($id:ID!) {
+      item:property(id:$id) { id name color kind amount:price currency { name } }
+    }`;
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
+  async updateProperty(token, { id, name, color, kind, currency, amount }) {
+    const query = `
+      mutation(
+        $id:ID!, $name:String!, $color:String!, $kind:String!, $currency:String!, $amount:String!
+      ) {
+        action:updateProperty(
+          id: $id,
+          name: $name,
+          color: $color,
+          kind: $kind,
+          currency: $currency
+          amount: $amount
+        ) { id }
+      }
+    `;
+    const vars = { id, name, color, kind, currency, amount };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateProperty', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Transaction
   // ---------------------------------

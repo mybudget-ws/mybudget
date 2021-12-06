@@ -10,7 +10,7 @@
             <ol>
               <li><strike>Список</strike></li>
               <li><strike>Создание</strike></li>
-              <li>Редактирование</li>
+              <li><strike>Редактирование</strike></li>
               <li>Удаление</li>
               <li>Архив</li>
               <li>Привязка операций</li>
@@ -64,7 +64,7 @@
                   >
                     <i class='material-icons grey-text'>edit</i>
                   </a>
-                  <a
+                  <!--a
                     class='waves-effect waves-teal btn-flat'
                     @click='onHide(item)'
                   >
@@ -75,7 +75,7 @@
                     @click='onDestroy(item)'
                   >
                     <i class='material-icons grey-text'>delete</i>
-                  </a>
+                  </a-->
                 </td>
               </tr>
             </tbody>
@@ -179,7 +179,7 @@ export default {
     },
     onEdit(category) {
       const { id } = category;
-      this.$router.push({ name: 'edit_project', params: { id } });
+      this.$router.push({ name: 'edit_property', params: { id } });
     },
     async onDestroy(project) {
       if (this.isDestroying) { return; }
