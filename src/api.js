@@ -468,6 +468,92 @@ export default {
   },
 
   // ---------------------------------
+  // Property
+  // ---------------------------------
+
+  async properties(token) {
+    const query = `
+      {
+        items:properties {
+          id
+          name
+          kind
+          color
+          price
+          isHidden
+          currency { name }
+        }
+      }
+    `;
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  async createProperty(token, { name, color, kind, currency, amount }) {
+    const query = `
+      mutation($name:String!, $color:String!, $kind:String!, $currency:String!, $amount:String!) {
+        action:createProperty(
+          name: $name,
+          color: $color,
+          kind: $kind,
+          currency: $currency,
+          amount: $amount
+        ) { id name color kind price currency { name } }
+      }
+    `;
+    const vars = { name, color, kind, currency, amount };
+    const data = await this.client(token).request(query, vars);
+    this.log('createProperty', data);
+
+    return data.action;
+  },
+
+  async property(token, { id }) {
+    const query = `query($id:ID!) {
+      item:property(id:$id) { id name color kind amount:price currency { name } }
+    }`;
+    const vars = { id };
+    const data = await this.client(token).request(query, vars);
+    this.log(query, data);
+
+    return data.item;
+  },
+
+  async updateProperty(token, { id, name, color, kind, currency, amount }) {
+    const query = `
+      mutation(
+        $id:ID!, $name:String!, $color:String!, $kind:String!, $currency:String!, $amount:String!
+      ) {
+        action:updateProperty(
+          id: $id,
+          name: $name,
+          color: $color,
+          kind: $kind,
+          currency: $currency
+          amount: $amount
+        ) { id }
+      }
+    `;
+    const vars = { id, name, color, kind, currency, amount };
+    const data = await this.client(token).request(query, vars);
+    this.log('updateProperty', data);
+
+    return data.action;
+  },
+
+  async destroyProperty(token, id) {
+    const query = `
+      mutation($id:ID!) { action:destroyProperty(id: $id) { id } }
+    `;
+    const data = await this.client(token).request(query, { id });
+    this.log('destroyProperty', data);
+
+    return data.action;
+  },
+
+  // ---------------------------------
   // Transaction
   // ---------------------------------
 

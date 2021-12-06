@@ -2,30 +2,41 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Проекты' action='/projects/new' />
+      <PageHeader name='Имущество' action='/properties/new' />
+      <div class='row'>
+        <div class='col'>
+          <div class='grey-text'>
+            На данный момент раздел находится в разработке
+            <ol>
+              <li><strike>Список</strike></li>
+              <li><strike>Создание / Редактирование / Удаление</strike></li>
+              <li>Архив</li>
+              <li>Привязка операций</li>
+              <li>Просмотр со списком цен и операций</li>
+              <li>График истории цены</li>
+            </ol>
+          </div>
+        </div>
+      </div>
       <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey'>
             <div class='card-content white-text'>
-              <span class='card-title'>На данный момент у вас нет Проектов</span>
+              <span class='card-title'>На данный момент имущество не добавлено</span>
               <p>
-                Проекты это способ группировать доходы и расходы,
-                которые относятся к одной финансовой активности,
-                а одними категориями уже не обойтись.
-                Например: "Ремонт Квартиры", "Поездка во Вьетнам 2020" и т.п.
-                Это полезно, когда доходы и расходы приходятся на различные
-                счета и хочется узнать итоговый баланс, чтобы определить
-                насколько та, или иная деятельность была прибыльной
-                или затратной.
+                При желании добавьте движимое и/или недвижимое имущество
+                для учета изменения стоимости, а так же для отражения
+                затрат на него.
               </p>
             </div>
           </div>
-          <table v-else-if='!isPhone'>
+          <table>
             <thead>
               <tr>
                 <th class='name'>Название</th>
-                <th class='amount'>Баланс</th>
+                <th>Тип</th>
+                <th class='amount'>Стоимость</th>
                 <th />
               </tr>
             </thead>
@@ -37,17 +48,12 @@
                     <span>{{ item.name }}</span>
                   </div>
                 </td>
+                <td>{{ kindName(item.kind) }}</td>
                 <td class='amount'>
-                  <div v-for='(balance, index) in item.balances' :key='index'>
-                    <Amount :value='balance.amount' :currency='balance.currency.name' />
-                  </div>
-                  <div v-if='item.balances.length > 1' class='total'>
-                    <Amount
-                      class='total-amount'
-                      :value='item.balances.map(v => v.amountBase).reduce((a, b) => a + b)'
-                      :currency='item.balances[0].currencyBase.name'
-                    />
-                  </div>
+                  <Amount
+                    :value='item.price'
+                    :currency='item.currency.name'
+                  />
                 </td>
                 <td class='actions'>
                   <a
@@ -56,12 +62,12 @@
                   >
                     <i class='material-icons grey-text'>edit</i>
                   </a>
-                  <a
+                  <!--a
                     class='waves-effect waves-teal btn-flat'
                     @click='onHide(item)'
                   >
                     <i class='material-icons grey-text'>visibility_off</i>
-                  </a>
+                  </a-->
                   <a
                     class='waves-effect waves-teal btn-flat'
                     @click='onDestroy(item)'
@@ -72,14 +78,6 @@
               </tr>
             </tbody>
           </table>
-          <div v-for='item in visibleItems' v-else :key='item.id'>
-            <Card
-              v-bind='item'
-              @edit='onEdit(item)'
-              @hide='onHide(item)'
-              @destroy='onDestroy(item)'
-            />
-          </div>
 
           <table v-if='hiddenItems.length' class='hidden-table'>
             <thead>
@@ -125,7 +123,6 @@
 
 <script>
 import Amount from '@/components/amount';
-import Card from '@/components/projects/card';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -135,10 +132,9 @@ import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
 
 export default {
-  name: 'Projects',
+  name: 'Properties',
   components: {
     Amount,
-    Card,
     Loader,
     Menu,
     PageHeader
@@ -149,7 +145,7 @@ export default {
   }),
   computed: {
     token: get('user/token'),
-    ...get('projects/*'),
+    ...get('properties/*'),
     isAlert() {
       return !this.isLoading && this.items.length === 0;
     }
@@ -159,31 +155,40 @@ export default {
   },
   methods: {
     ...call([
-      'projects/fetch',
-      'projects/destroy',
-      'projects/toggleIsHidden'
+      'properties/fetch',
+      'properties/destroy',
+      'properties/toggleIsHidden'
     ]),
+    kindName(kind) {
+      if (kind == 'realty') { return 'Недвижимость'; }
+      if (kind == 'transport') { return 'Транспорт'; }
+
+      return 'Другое';
+    },
     onEdit(category) {
       const { id } = category;
-      this.$router.push({ name: 'edit_project', params: { id } });
+      this.$router.push({ name: 'edit_property', params: { id } });
     },
-    async onDestroy(project) {
+    async onDestroy(property) {
       if (this.isDestroying) { return; }
-      if (confirm('Удалить проект. Вы уверены?')) {
-        const res = await this.destroy({ token: this.token, project });
+      if (confirm('Удалить имущество. Вы уверены?')) {
+        const res = await this.destroy({ token: this.token, property });
         const message = res != null ?
-          'Проект успешно удален' :
+          'Успешно удалено' :
           'Непредвиденная ошибка';
         /* eslint-disable */
         M.toast({ html: message });
         /* eslint-enable */
       }
     },
-    async onHide(project) {
+    async onHide(property) {
+      // TODO: Add hide property method;
+      if (property.id != null) { return; }
+      // -------
       if (this.isSubmitting) { return; }
 
-      const isHidden = await this.toggleIsHidden({ token: this.token, project });
-      const message = isHidden ? 'Проект добавлен в архив' : 'Проект удален из архива';
+      const isHidden = await this.toggleIsHidden({ token: this.token, property });
+      const message = isHidden ? 'Отправлено в архив' : 'Извлечено из архива';
       /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */
     }
   }
@@ -221,17 +226,4 @@ export default {
 .total
   margin-top: 4px
   border-top: 1px solid #d4d4d4
-
-  .total-amount
-    margin-top: 2px
-
-    &:before
-      color: #757575
-      content: 'Всего по текущему курсу:'
-      font-size: 13px
-      font-weight: 200
-      margin-left: -164px
-      margin-top: -3.6px
-      padding-top: 4px
-      position: absolute
 </style>

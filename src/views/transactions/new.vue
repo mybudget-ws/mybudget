@@ -23,7 +23,7 @@
                 @click='$refs.amount.focus()'
                 @input='onChangeAmount'
               >
-              <label for='name' class='active'>{{ amountLable }}</label>
+              <label for='amount' class='active'>{{ amountLable }}</label>
               <span
                 v-if='!isPhone'
                 class='helper-text'
