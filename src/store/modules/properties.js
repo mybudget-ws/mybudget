@@ -27,7 +27,7 @@ export default {
   actions: {
     async fetch({ commit }, token) {
       commit('START_LOADING');
-      const items = await api.accounts(token);
+      const items = await api.properties(token);
       commit('FINISH_LOADING', items);
     },
     async create({ commit }, { token, account }) {
@@ -63,8 +63,6 @@ export default {
     },
     FINISH_LOADING(state, items) {
       state.items = items;
-      // TODO: Remove
-      state.items = [];
       state.isLoading = false;
       state.isLoaded = true;
     },

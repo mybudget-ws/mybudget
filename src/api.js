@@ -468,6 +468,27 @@ export default {
   },
 
   // ---------------------------------
+  // Property
+  // ---------------------------------
+
+  async properties(token) {
+    const query = `
+      {
+        items:properties {
+          id
+          name
+          isHidden
+          color
+        }
+      }
+    `;
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
+  // ---------------------------------
   // Transaction
   // ---------------------------------
 
