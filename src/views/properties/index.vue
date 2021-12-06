@@ -192,6 +192,9 @@ export default {
       }
     },
     async onHide(property) {
+      // TODO: Add hide property method;
+      if (property.id != null) { return; }
+      // -------
       if (this.isSubmitting) { return; }
 
       const isHidden = await this.toggleIsHidden({ token: this.token, property });
