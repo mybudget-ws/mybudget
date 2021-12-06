@@ -31,7 +31,7 @@
               </p>
             </div>
           </div>
-          <table>
+          <table v-if='items.length > 0'>
             <thead>
               <tr>
                 <th class='name'>Название</th>
