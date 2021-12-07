@@ -31,53 +31,11 @@
               </p>
             </div>
           </div>
-          <table v-if='items.length > 0'>
-            <thead>
-              <tr>
-                <th class='name'>Название</th>
-                <th>Тип</th>
-                <th class='amount'>Стоимость</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for='item in visibleItems' :key='item.id'>
-                <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
-                  </div>
-                </td>
-                <td>{{ kindName(item.kind) }}</td>
-                <td class='amount'>
-                  <Amount
-                    :value='item.price'
-                    :currency='item.currency.name'
-                  />
-                </td>
-                <td class='actions'>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onEdit(item)'
-                  >
-                    <i class='material-icons grey-text'>edit</i>
-                  </a>
-                  <!--a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onHide(item)'
-                  >
-                    <i class='material-icons grey-text'>visibility_off</i>
-                  </a-->
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onDestroy(item)'
-                  >
-                    <i class='material-icons grey-text'>delete</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Collection
+            v-if='items.length > 0'
+            @destroy='onDestroy'
+            @hide='onHide'
+          />
 
           <table v-if='hiddenItems.length' class='hidden-table'>
             <thead>
@@ -122,7 +80,7 @@
 </template>
 
 <script>
-import Amount from '@/components/amount';
+import Collection from '@/components/properties/collection';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -134,7 +92,7 @@ const md = new MobileDetect(window.navigator.userAgent);
 export default {
   name: 'Properties',
   components: {
-    Amount,
+    Collection,
     Loader,
     Menu,
     PageHeader
@@ -159,16 +117,6 @@ export default {
       'properties/destroy',
       'properties/toggleIsHidden'
     ]),
-    kindName(kind) {
-      if (kind == 'realty') { return 'Недвижимость'; }
-      if (kind == 'transport') { return 'Транспорт'; }
-
-      return 'Другое';
-    },
-    onEdit(category) {
-      const { id } = category;
-      this.$router.push({ name: 'edit_property', params: { id } });
-    },
     async onDestroy(property) {
       if (this.isDestroying) { return; }
       if (confirm('Удалить имущество. Вы уверены?')) {
@@ -197,17 +145,13 @@ export default {
 
 <style scoped lang='sass'>
 .color
+  min-width: 20px
   width: 20px
   height: 20px
   border-radius: 3px
   display: inline-block
   margin-right: 10px
 
-.amount
-  width: 200px
-  text-align: right
-
-.actions,
 .actions-hidden
   padding-right: 0px
   width: 124px
@@ -222,8 +166,4 @@ export default {
 .hidden-table
   margin-top: 60px
   opacity: 0.4
-
-.total
-  margin-top: 4px
-  border-top: 1px solid #d4d4d4
 </style>
