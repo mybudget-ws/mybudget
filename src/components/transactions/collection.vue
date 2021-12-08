@@ -110,6 +110,12 @@
               :name='item.project.name'
               @click='onProject(item.project)'
             />
+            <BadgeProperty
+              v-if='item.property != null'
+              :color='item.property.color'
+              :name='item.property.name'
+              @click='onProperty(item.property)'
+            />
             <BadgeCategory
               v-for='category in item.categories'
               :key='category.id'
@@ -225,7 +231,8 @@ export default {
       'transactions/destroy',
       'filters/toggleAccount',
       'filters/toggleCategory',
-      'filters/toggleProject'
+      'filters/toggleProject',
+      'filters/toggleProperty'
     ]),
     dateFormat({ dateAt }) {
       const date = moment(dateAt).utcOffset(SERVER_UTC_OFFSET, true);
@@ -281,6 +288,10 @@ export default {
     },
     onProject(project) {
       this.toggleProject({ project });
+      this.onChangeFilter();
+    },
+    onProperty(property) {
+      this.toggleProperty({ property });
       this.onChangeFilter();
     }
   }
