@@ -48,6 +48,20 @@
         </label>
       </p>
     </div>
+
+    <div v-if='isProperties' class='properties'>
+      <h6>Имущество</h6>
+      <p v-for='property in properties' :key='property.id'>
+        <label class='truncate'>
+          <Checkbox
+            :id='property.id'
+            :value='isCheckedProperty(property.id)'
+            @change='onChangeProperty(property)'
+          />
+          <span>{{ property.name }}</span>
+        </label>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -70,12 +84,16 @@ export default {
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
     projects: get('projects/visibleItemsFilter'),
+    properties: get('properties/visibleItemsFilter'),
     selectedAccounts: get('filters/accounts'),
     selectedProjects: get('filters/projects'),
+    selectedProperties: get('filters/properties'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
     isProjectsLoaded: get('projects/isLoadedFilter'),
+    isPropertiesLoaded: get('projects/isLoadedFilter'),
     isAccounts() { return this.accounts.length > 0; },
     isProjects() { return this.projects.length > 0; },
+    isProperties() { return this.properties.length > 0; },
     favouriteAccounts() { return this.accounts.filter(v => v.isFavourite); },
     isNeedShowAllAccounts() {
       return this.favouriteAccounts.length > 0 &&
@@ -92,12 +110,15 @@ export default {
   created() {
     if (!this.isAccountsLoaded) { this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { this.fetchProjects(this.token); }
+    if (!this.isPropertiesLoaded) { this.fetchProperties(this.token); }
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetchFilter'),
+    fetchProperties: call('properties/fetchFilter'),
     toggleAccount: call('filters/toggleAccount'),
     toggleProject: call('filters/toggleProject'),
+    toggleProperty: call('filters/toggleProperty'),
     showAll() { this.isShowAllAccounts = true; },
     hideAll() { this.isShowAllAccounts = false; },
     isCheckedAccount(id) {
@@ -106,12 +127,19 @@ export default {
     isCheckedProject(id) {
       return this.selectedProjects.find(v => v.id === id) != null;
     },
+    isCheckedProperty(id) {
+      return this.selectedProperties.find(v => v.id === id) != null;
+    },
     onChangeAccount(account) {
       this.toggleAccount({ account });
       this.$emit('onChange');
     },
     onChangeProject(project) {
       this.toggleProject({ project });
+      this.$emit('onChange');
+    },
+    onChangeProperty(property) {
+      this.toggleProperty({ property });
       this.$emit('onChange');
     }
   }
@@ -124,6 +152,7 @@ export default {
     padding-left: 30px
 
   .accounts,
-  .categories
+  .categories,
+  .projects
     margin-bottom: 40px
 </style>

@@ -14,7 +14,11 @@ export default {
     isLoaded: false,
     isSubmitting: false,
     isDestroying: false,
-    items: []
+    items: [],
+
+    itemsFilter: [],
+    isLoadingFilter: true,
+    isLoadedFilter: false
   },
 
   getters: {
@@ -54,6 +58,12 @@ export default {
       commit('TOGGLE_IS_HIDDEN', { item:property, isHidden });
       commit('FINISH_SUBMITTING');
       return isHidden;
+    },
+
+    async fetchFilter({ commit }, token) {
+      commit('START_LOADING_FILTER');
+      const items = await api.propertiesFilter(token);
+      commit('FINISH_LOADING_FILTER', items);
     }
   },
 
@@ -83,6 +93,15 @@ export default {
     FINISH_DESTROYING(state, { id }) {
       state.items = state.items.filter(v => v.id !== id);
       state.isDestroying = false;
+    },
+
+    START_LOADING_FILTER(state) {
+      state.isLoadingFilter = true;
+    },
+    FINISH_LOADING_FILTER(state, items) {
+      state.itemsFilter = items;
+      state.isLoadingFilter = false;
+      state.isLoadedFilter = true;
     }
   }
 };

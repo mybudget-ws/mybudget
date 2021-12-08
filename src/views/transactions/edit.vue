@@ -77,13 +77,24 @@
                   <label for='name' class='active'>Комментарий</label>
                 </div>
                 <div v-if='isProjects' class='input-field col l6 s12'>
+                  <label v-if='isPhone'>Проект</label>
                   <select ref='selectProjects' v-model='projectId' :class='{ "browser-default": isPhone }'>
-                    <option value='' selected>Без проекта</option>
+                    <option value='' selected>Нет</option>
                     <option v-for='project in projects' :key='project.id' :value='project.id'>
                       {{ project.name }}
                     </option>
                   </select>
                   <label v-if='!isPhone'>Проект</label>
+                </div>
+                <div v-if='isProperties' class='input-field col l6 s12'>
+                  <label v-if='isPhone'>Имущество</label>
+                  <select ref='selectProperties' v-model='propertyId' :class='{ "browser-default": isPhone }'>
+                    <option value='' selected>Нет</option>
+                    <option v-for='property in properties' :key='property.id' :value='property.id'>
+                      {{ property.name }}
+                    </option>
+                  </select>
+                  <label v-if='!isPhone'>Имущество</label>
                 </div>
               </div>
             </div>
@@ -161,6 +172,7 @@ export default {
     description: '',
     accountId: '',
     projectId: '',
+    inititalProjectId: '',
     isIncome: false,
     categoryIds: [],
 
@@ -173,17 +185,37 @@ export default {
     id() { return this.$route.params.id; },
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
-    projects: get('projects/itemsFilter'),
+    allProjects: get('projects/itemsFilter'),
+    visibleProjects: get('projects/visibleItemsFilter'),
+    projects() {
+      if (this.inititalProjectId == '') {
+        return this.visibleProjects;
+      } else {
+        return this.allProjects;
+      }
+    },
+    allProperties: get('properties/itemsFilter'),
+    visibleProperties: get('properties/visibleItemsFilter'),
+    properties() {
+      if (this.inititalPropertyId == '') {
+        return this.visibleProperties;
+      } else {
+        return this.allProperties;
+      }
+    },
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
     isProjectsLoading: get('projects/isLoadingFilter'),
     isProjectsLoaded: get('projects/isLoadedFilter'),
+    isPropertiesLoading: get('projects/isLoadingFilter'),
+    isPropertiesLoaded: get('properties/isLoadedFilter'),
 
     isLoading() {
       return this.isLoadingTransaction ||
         this.isAccountsLoading ||
-        this.isProjectsLoading;
+        this.isProjectsLoading ||
+        this.isPropertiesLoading;
     },
     amountLable() {
       return `Величина, ${this.selectedAccount?.currency?.name}`;
@@ -197,6 +229,7 @@ export default {
         this.accounts.length === 0;
     },
     isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
+    isProperties() { return this.isPropertiesLoaded && this.properties.length > 0; },
     orderedAccounts() {
       return [
         ...this.accounts.filter(v => v.isFavourite),
@@ -211,6 +244,7 @@ export default {
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+    if (!this.isPropertiesLoaded) { await this.fetchProperties(this.token); }
 
     const transaction = await api.transaction(this.token, { id: this.id });
     this.isIncome = transaction.amount > 0;
@@ -219,6 +253,9 @@ export default {
     this.description = transaction.description;
     this.accountId = transaction.account.id;
     this.projectId = transaction.project?.id || '';
+    this.inititalProjectId = this.projectId;
+    this.propertyId = transaction.property?.id || '';
+    this.inititalPropertyId = this.propertyId;
     this.categoryIds = transaction.categories.map(v => v.id);
     this.isLoadingTransaction = false;
 
@@ -265,6 +302,14 @@ export default {
         /* eslint-enable */
       });
     }
+    if (this.isProperties) {
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectProperties, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      });
+    }
     this.$nextTick(() => {
       // this.$refs.amount.select();
       this.$refs.amount.focus();
@@ -273,6 +318,7 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetchFilter'),
+    fetchProperties: call('properties/fetchFilter'),
     onSelectCategory(ids) { this.categoryIds = ids; },
     onChangeAmount(_e) {
       this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');
@@ -284,7 +330,16 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { id, amount, isIncome, description, accountId, projectId, categoryIds } = this;
+      const {
+        id,
+        amount,
+        isIncome,
+        description,
+        accountId,
+        categoryIds,
+        projectId,
+        propertyId
+      } = this;
       const evalAmount = eval(
         amount.toString().replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
       );
@@ -296,7 +351,8 @@ export default {
         categoryIds,
         description,
         accountId,
-        projectId
+        projectId,
+        propertyId
       };
       const isSuccess = await api.updateTransaction(this.token, transaction);
       this.isSubmitting = false;

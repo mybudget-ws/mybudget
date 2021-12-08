@@ -90,13 +90,24 @@
                   <label for='name' class='active'>Комментарий</label>
                 </div>
                 <div v-if='isProjects' class='col l6 s12' :class='{ "input-field": !isPhone }'>
+                  <label v-if='isPhone'>Проект</label>
                   <select ref='selectProjects' v-model='projectId' :class='{ "browser-default": isPhone }'>
-                    <option value='' selected>Без проекта</option>
+                    <option value='' selected><span class='grey-text'>Нет</span></option>
                     <option v-for='project in projects' :key='project.id' :value='project.id'>
                       {{ project.name }}
                     </option>
                   </select>
                   <label v-if='!isPhone'>Проект</label>
+                </div>
+                <div v-if='isProperties' class='col l6 s12' :class='{ "input-field": !isPhone }'>
+                  <label v-if='isPhone'>Имущество</label>
+                  <select ref='selectProperties' v-model='propertyId' :class='{ "browser-default": isPhone }'>
+                    <option value='' selected>Нет</option>
+                    <option v-for='property in properties' :key='property.id' :value='property.id'>
+                      {{ property.name }}
+                    </option>
+                  </select>
+                  <label v-if='!isPhone'>Имущество</label>
                 </div>
               </div>
             </div>
@@ -173,6 +184,7 @@ export default {
     description: '',
     accountId: '',
     projectId: '',
+    propertyId: '',
     isIncome: false,
     categoryIds: [],
 
@@ -182,15 +194,18 @@ export default {
   computed: {
     token: get('user/token'),
     accounts: get('accounts/visibleItemsFilter'),
-    projects: get('projects/itemsFilter'),
+    projects: get('projects/visibleItemsFilter'),
+    properties: get('properties/visibleItemsFilter'),
     filterAccounts: get('filters/accounts'),
     filterCategories: get('filters/categories'),
     filterProjects: get('filters/projects'),
+    filterProperties: get('filters/properties'),
 
     isAccountsLoading: get('accounts/isLoadingFilter'),
     isAccountsLoaded: get('accounts/isLoadedFilter'),
     isProjectsLoading: get('projects/isLoadingFilter'),
     isProjectsLoaded: get('projects/isLoadedFilter'),
+    isPropertiesLoaded: get('properties/isLoadedFilter'),
 
     isSubmitting: get('transactions/isSubmitting'),
 
@@ -210,6 +225,7 @@ export default {
         this.accounts.length === 0;
     },
     isProjects() { return this.isProjectsLoaded && this.projects.length > 0; },
+    isProperties() { return this.isPropertiesLoaded && this.properties.length > 0; },
     orderedAccounts() {
       return [
         ...this.accounts.filter(v => v.isFavourite),
@@ -229,6 +245,7 @@ export default {
     },
     initAccountId() { return this.$route.query.account; },
     initProjectId() { return this.$route.query.project; },
+    initPropertyId() { return this.$route.query.property; },
     initCategoryIds() {
       if (this.$route.query.category == null) { return; }
       if (this.$route.query.category == '') { return; }
@@ -250,6 +267,7 @@ export default {
   async mounted() {
     if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
     if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+    if (!this.isPropertiesLoaded) { await this.fetchProperties(this.token); }
     if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
@@ -300,12 +318,24 @@ export default {
         /* eslint-enable */
       });
     }
+    if (this.isProperties) {
+      this.propertyId = this.initPropertyId ||
+        this.filterProperties.map(v => v.id)[0] ||
+        '';
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectProperties, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      });
+    }
     this.$refs.amount.select();
     this.$refs.amount.focus();
   },
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
     fetchProjects: call('projects/fetchFilter'),
+    fetchProperties: call('properties/fetchFilter'),
     create: call('transactions/create'),
     onSelectCategory(ids) { this.categoryIds = ids; },
     onChangeAmount(_e) {
@@ -326,7 +356,16 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, amount, isIncome, description, accountId, projectId, categoryIds } = this;
+      const {
+        token,
+        amount,
+        isIncome,
+        description,
+        accountId,
+        categoryIds,
+        projectId,
+        propertyId
+      } = this;
       const evalAmount = eval(
         amount.replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
       );
@@ -339,7 +378,8 @@ export default {
         categoryIds,
         description,
         accountId,
-        projectId
+        projectId,
+        propertyId
       };
       const isSuccess = await this.create({ token, transaction });
       if (isSuccess != null) {
@@ -372,7 +412,7 @@ h6.subtitle
     margin-right: 0px
 
 select.browser-default
-  margin-top: -1em
+  margin-bottom: 1em
 
 .top-accounts
   position: absolute

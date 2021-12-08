@@ -471,6 +471,14 @@ export default {
   // Property
   // ---------------------------------
 
+  async propertiesFilter(token) {
+    const query = '{ items:properties { id name isHidden } }';
+    const data = await this.client(token).request(query);
+    this.log(query, data);
+
+    return data.items;
+  },
+
   async properties(token) {
     const query = `
       {
@@ -559,13 +567,18 @@ export default {
 
   async transactions(token, { page, perPage, filters }) {
     const query = `
-      query($page:Int, $perPage:Int, $accountIds:[Int!], $categoryIds:[Int!], $projectIds:[Int!]) {
+      query(
+        $page:Int, $perPage:Int,
+        $accountIds:[Int!], $categoryIds:[Int!],
+        $projectIds:[Int!], $propertyIds:[Int!]
+      ) {
         items:transactions(
           page: $page,
           perPage: $perPage,
           accountIds: $accountIds,
           categoryIds: $categoryIds,
-          projectIds: $projectIds
+          projectIds: $projectIds,
+          propertyIds: $propertyIds
         ) {
           id
           amount
@@ -574,12 +587,13 @@ export default {
           account { id name color currency { name } }
           categories { id name color }
           project { id name color }
+          property { id name color }
           isTransfer
         }
       }
     `;
-    const { accountIds, categoryIds, projectIds } = filters;
-    const vars = { page, perPage, accountIds, categoryIds, projectIds };
+    const { accountIds, categoryIds, projectIds, propertyIds } = filters;
+    const vars = { page, perPage, accountIds, categoryIds, projectIds, propertyIds };
     const data = await this.client(token).request(query, vars);
     this.log('transactions', data);
     return data.items;
@@ -596,6 +610,7 @@ export default {
           account { id name color currency { name } }
           categories { id name color }
           project { id name color }
+          property { id name color }
         }
       }
     `;
@@ -608,7 +623,7 @@ export default {
 
   async createTransaction(
     token,
-    { amount, isIncome, date, description, accountId, projectId, categoryIds }
+    { amount, isIncome, date, description, accountId, categoryIds, projectId, propertyId }
   ) {
     const query = `
       mutation(
@@ -618,7 +633,8 @@ export default {
         $categoryIds:[Int!]!,
         $description:String,
         $accountId:String!,
-        $projectId:String
+        $projectId:String,
+        $propertyId:String
       ) {
         action:createTransaction(
           amount: $amount,
@@ -628,6 +644,7 @@ export default {
           description: $description,
           accountId: $accountId,
           projectId: $projectId,
+          propertyId: $propertyId
         )
       }
     `;
@@ -638,7 +655,8 @@ export default {
       categoryIds,
       description,
       accountId: accountId.toString(),
-      projectId: projectId.toString()
+      projectId: (projectId && projectId.toString() || null),
+      propertyId: (propertyId && propertyId.toString() || null)
     };
     const data = await this.client(token).request(query, vars);
     this.log('createTransaction', data);
@@ -648,7 +666,7 @@ export default {
 
   async updateTransaction(
     token,
-    { id, amount, isIncome, date, description, accountId, projectId, categoryIds }
+    { id, amount, isIncome, date, description, accountId, categoryIds, projectId, propertyId }
   ) {
     const query = `
       mutation(
@@ -659,7 +677,8 @@ export default {
         $categoryIds:[Int!]!,
         $description:String,
         $accountId:String!,
-        $projectId:String
+        $projectId:String,
+        $propertyId:String
       ) {
         action:updateTransaction(
           id: $id,
@@ -670,6 +689,7 @@ export default {
           description: $description,
           accountId: $accountId,
           projectId: $projectId,
+          propertyId: $propertyId
         ) { id }
       }
     `;
@@ -681,7 +701,8 @@ export default {
       categoryIds,
       description,
       accountId: accountId.toString(),
-      projectId: projectId.toString()
+      projectId: (projectId && projectId.toString() || null),
+      propertyId: (propertyId && propertyId.toString() || null)
     };
     const data = await this.client(token).request(query, vars);
     this.log('updateTransaction', data);
