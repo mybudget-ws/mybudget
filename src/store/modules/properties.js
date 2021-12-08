@@ -48,10 +48,10 @@ export default {
         return null;
       }
     },
-    async toggleIsHidden({ commit }, { token, account }) {
+    async toggleIsHidden({ commit }, { token, property }) {
       commit('START_SUBMITTING');
-      const isHidden = await api.toggleIsHidden(token, account.id, 'account');
-      commit('TOGGLE_IS_HIDDEN', { item:account, isHidden });
+      const isHidden = await api.toggleIsHidden(token, property.id, 'property');
+      commit('TOGGLE_IS_HIDDEN', { item:property, isHidden });
       commit('FINISH_SUBMITTING');
       return isHidden;
     }
@@ -73,9 +73,9 @@ export default {
       state.isSubmitting = false;
     },
     TOGGLE_IS_HIDDEN(state, { item, isHidden }) {
-      const account = state.items.find(v => v.id === item.id);
-      if (account == null) { return; }
-      account.isHidden = isHidden;
+      const property = state.items.find(v => v.id === item.id);
+      if (property == null) { return; }
+      property.isHidden = isHidden;
     },
     START_DESTROYING(state) {
       state.isDestroying = true;
