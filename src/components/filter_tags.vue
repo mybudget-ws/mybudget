@@ -23,6 +23,16 @@
       <i class='close material-icons'>close</i>
     </div>
     <div
+      v-for='property in properties'
+      :key="'prop-' + property.id"
+      class='chip'
+      @click='onRemoveProperty(property)'
+    >
+      <i class='property material-icons left'>vpn_key</i>
+      {{ property.name }}
+      <i class='close material-icons'>close</i>
+    </div>
+    <div
       v-for='category in categories'
       :key="'c-' + category.id"
       class='chip'
@@ -46,12 +56,14 @@ export default {
     isVisible: get('filters/isVisible'),
     accounts: get('filters/accounts'),
     categories: get('filters/categories'),
-    projects: get('filters/projects')
+    projects: get('filters/projects'),
+    properties: get('filters/properties')
   },
   methods: {
     removeAccount: call('filters/removeAccount'),
     removeCategory: call('filters/removeCategory'),
     removeProject: call('filters/removeProject'),
+    removeProperty: call('filters/removeProperty'),
     onRemoveAccount(account) {
       this.removeAccount({ account });
       this.$emit('onChange');
@@ -63,6 +75,10 @@ export default {
     onRemoveProject(project) {
       this.removeProject({ project });
       this.$emit('onChange');
+    },
+    onRemoveProperty(property) {
+      this.removeProperty({ property });
+      this.$emit('onChange');
     }
   }
 };
@@ -70,7 +86,8 @@ export default {
 
 <style scoped lang='sass'>
 i.account,
-i.project
+i.project,
+i.property
   margin-right: 4px
   padding-left: 4px
   font-size: 16px

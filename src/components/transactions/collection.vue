@@ -34,6 +34,12 @@
               :name='item.project.name'
               @click='onProject(item.project)'
             />
+            <BadgeProperty
+              v-if='item.property != null'
+              :color='item.property.color'
+              :name='item.property.name'
+              @click='onProperty(item.property)'
+            />
             <BadgeCategory
               v-for='category in item.categories'
               :key='category.id'
@@ -104,6 +110,12 @@
               :name='item.project.name'
               @click='onProject(item.project)'
             />
+            <BadgeProperty
+              v-if='item.property != null'
+              :color='item.property.color'
+              :name='item.property.name'
+              @click='onProperty(item.property)'
+            />
             <BadgeCategory
               v-for='category in item.categories'
               :key='category.id'
@@ -160,6 +172,7 @@ import Amount from '@/components/amount';
 import BadgeAccount from '@/components/badges/account';
 import BadgeCategory from '@/components/badges/category';
 import BadgeProject from '@/components/badges/project';
+import BadgeProperty from '@/components/badges/property';
 import Loader from '@/components/loader';
 import { get, call } from 'vuex-pathify';
 
@@ -177,6 +190,7 @@ export default {
     BadgeAccount,
     BadgeCategory,
     BadgeProject,
+    BadgeProperty,
     Loader
   },
   props: {
@@ -217,7 +231,8 @@ export default {
       'transactions/destroy',
       'filters/toggleAccount',
       'filters/toggleCategory',
-      'filters/toggleProject'
+      'filters/toggleProject',
+      'filters/toggleProperty'
     ]),
     dateFormat({ dateAt }) {
       const date = moment(dateAt).utcOffset(SERVER_UTC_OFFSET, true);
@@ -273,6 +288,10 @@ export default {
     },
     onProject(project) {
       this.toggleProject({ project });
+      this.onChangeFilter();
+    },
+    onProperty(property) {
+      this.toggleProperty({ property });
       this.onChangeFilter();
     }
   }

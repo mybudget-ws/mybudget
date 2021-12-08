@@ -33,12 +33,12 @@
           >
             <i class='material-icons grey-text'>edit</i>
           </a>
-          <!--a
+          <a
             class='waves-effect waves-teal btn-flat'
             @click='onHide(item)'
           >
             <i class='material-icons grey-text'>visibility_off</i>
-          </a-->
+          </a>
           <a
             class='waves-effect waves-teal btn-flat'
             @click='onDestroy(item)'
@@ -87,7 +87,7 @@ export default {
     },
     onHide(property) {
       if (this.isSubmitting) { return; }
-      this.$emit('destroy', property);
+      this.$emit('hide', property);
     }
   }
 };

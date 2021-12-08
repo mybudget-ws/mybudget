@@ -5,6 +5,7 @@ export default {
     accounts: [],
     categories: [],
     projects: [],
+    properties: [],
     dateStart: null,
     dateEnd: null,
     period: 12 // All time: 9999
@@ -14,18 +15,21 @@ export default {
     isVisible: state => (
       state.categories.length > 0 ||
         state.accounts.length > 0 ||
-        state.projects.length > 0
+        state.projects.length > 0 ||
+        state.properties.length > 0
     ),
     params: state => ({
       accountIds: state.accounts.map(v => v.id),
       categoryIds: state.categories.map(v => v.id),
-      projectIds: state.projects.map(v => v.id)
+      projectIds: state.projects.map(v => v.id),
+      propertyIds: state.properties.map(v => v.id)
     }),
     searchParams: state => (
       new URLSearchParams({
         accounts: state.accounts.map(v => v.id),
         categories: state.categories.map(v => v.id),
         projects: state.projects.map(v => v.id),
+        properties: state.properties.map(v => v.id),
         months: state.period,
         dateStart: state.dateStart,
         dateEnd: state.dateEnd
@@ -73,6 +77,19 @@ export default {
         commit('ADD_PROJECT', project);
       }
     },
+    setProperties({ commit }, { properties }) {
+      commit('SET_PROPERTIES', properties);
+    },
+    removeProperty({ commit }, { property }) {
+      commit('REMOVE_PROPERTY', property);
+    },
+    toggleProperty({ commit, state }, { property }) {
+      if (state.properties.find(v => v.id === property.id)) {
+        commit('REMOVE_PROPERTY', property);
+      } else {
+        commit('ADD_PROPERTY', property);
+      }
+    },
     setPeriod({ commit }, { period, dateStart, dateEnd }) {
       commit('SET_PERIOD', { period, dateStart, dateEnd });
     },
@@ -112,8 +129,19 @@ export default {
       state.projects = [...state.projects, project];
       return true;
     },
-    REMOVE_PROJECT(state, project) {
-      state.projects = state.projects.filter(v => v.id !== project.id);
+    REMOVE_PROJECT(state, { id }) {
+      state.projects = state.projects.filter(v => v.id !== id);
+    },
+    SET_PROPERTIES(state, properties) { state.properties = properties; },
+    ADD_PROPERTY(state, property) {
+      const isPresent = state.properties.find(v => v.id === property.id);
+      if (isPresent) { return false; }
+
+      state.properties = [...state.properties, property];
+      return true;
+    },
+    REMOVE_PROPERTY(state, { id }) {
+      state.properties = state.properties.filter(v => v.id !== id);
     },
     SET_PERIOD(state, { period, dateStart, dateEnd }) {
       state.period = period;

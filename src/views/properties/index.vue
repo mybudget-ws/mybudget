@@ -8,10 +8,9 @@
           <div class='grey-text'>
             На данный момент раздел находится в разработке
             <ol>
-              <li><strike>Список</strike></li>
+              <li><strike>Список и архив</strike></li>
               <li><strike>Создание / Редактирование / Удаление</strike></li>
-              <li>Архив</li>
-              <li>Привязка операций</li>
+              <li><strike>Привязка операций</strike></li>
               <li>Просмотр со списком цен и операций</li>
               <li>График истории цены</li>
             </ol>
@@ -37,42 +36,10 @@
             @hide='onHide'
           />
 
-          <table v-if='hiddenItems.length' class='hidden-table'>
-            <thead>
-              <tr>
-                <th>Архив</th>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for='item in hiddenItems' :key='item.id'>
-                <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
-                  </div>
-                </td>
-                <td>
-                  <i class='description grey-text text-darken-1'>В архиве</i>
-                </td>
-                <td class='actions-hidden'>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onHide(item)'
-                  >
-                    <i class='material-icons grey-text'>visibility</i>
-                  </a>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    @click='onDestroy(item)'
-                  >
-                    <i class='material-icons grey-text'>delete</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <CollectionArchive
+            @hide='onHide'
+            @destroy='onDestroy'
+          />
         </div>
       </div>
     </div>
@@ -81,6 +48,7 @@
 
 <script>
 import Collection from '@/components/properties/collection';
+import CollectionArchive from '@/components/properties/collection_archive';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -93,6 +61,7 @@ export default {
   name: 'Properties',
   components: {
     Collection,
+    CollectionArchive,
     Loader,
     Menu,
     PageHeader
@@ -130,9 +99,6 @@ export default {
       }
     },
     async onHide(property) {
-      // TODO: Add hide property method;
-      if (property.id != null) { return; }
-      // -------
       if (this.isSubmitting) { return; }
 
       const isHidden = await this.toggleIsHidden({ token: this.token, property });
@@ -144,26 +110,4 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.color
-  min-width: 20px
-  width: 20px
-  height: 20px
-  border-radius: 3px
-  display: inline-block
-  margin-right: 10px
-
-.actions-hidden
-  padding-right: 0px
-  width: 124px
-  text-align: right
-
-  .btn-flat
-    padding: 0 8px !important
-
-.actions-hidden
-  width: 82px
-
-.hidden-table
-  margin-top: 60px
-  opacity: 0.4
 </style>

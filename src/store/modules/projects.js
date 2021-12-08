@@ -54,7 +54,6 @@ export default {
       commit('FINISH_SUBMITTING');
       return isHidden;
     },
-
     async fetchFilter({ commit }, token) {
       commit('START_LOADING_FILTER');
       const items = await api.projectsFilter(token);

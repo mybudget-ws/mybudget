@@ -146,45 +146,10 @@
             </div>
           </div>
 
-          <!-- Archive -->
-          <table v-if='hiddenItems.length && !isLoading' class='hidden-table'>
-            <thead>
-              <tr>
-                <th>Архив</th>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for='item in hiddenItems' :key='item.id'>
-                <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
-                  </div>
-                </td>
-                <td>
-                  <i class='description grey-text text-darken-1'>В архиве</i>
-                </td>
-                <td class='actions-hidden'>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    title='Сделать активным'
-                    @click='onHide(item)'
-                  >
-                    <i class='material-icons grey-text'>visibility</i>
-                  </a>
-                  <a
-                    class='waves-effect waves-teal btn-flat'
-                    title='Удалить'
-                    @click='onDestroy(item)'
-                  >
-                    <i class='material-icons grey-text'>delete</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <CollectionArchive
+            @hide='onHide'
+            @destroy='onDestroy'
+          />
         </div>
       </div>
     </div>
@@ -194,6 +159,7 @@
 <script>
 import Amount from '@/components/amount';
 import Card from '@/components/accounts/card';
+import CollectionArchive from '@/components/accounts/collection_archive';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import Money from '@/utils/money';
@@ -208,6 +174,7 @@ export default {
   components: {
     Amount,
     Card,
+    CollectionArchive,
     Menu,
     Loader,
     PageHeader
@@ -307,9 +274,6 @@ export default {
   display: inline-block
   margin-right: 10px
 
-.name
-  width: 200px
-
 .badge
   background-color: #eceff1
   border-radius: 4px
@@ -324,20 +288,24 @@ export default {
 
 .amount
   text-align: right
-  width: 140px
+  text-overflow: ellipsis
+  white-space: nowrap
 
-.actions,
-.actions-hidden
+.actions
   padding-right: 0px
-  width: 40px
   text-align: right
+  text-overflow: ellipsis
+  white-space: nowrap
+  width: 120px
 
   .btn-flat
     padding: 0 8px !important
 
 .transacton-actions
-  width: 78px
   text-align: right
+  text-overflow: ellipsis
+  white-space: nowrap
+  width: 240px
 
   .btn-small + .btn-small
     margin-left: 8px
@@ -345,13 +313,6 @@ export default {
   .btn-small
     padding: 0 14px
     border-radius: 4px
-
-.actions-hidden
-  width: 82px
-
-.hidden-table
-  margin-top: 60px
-  opacity: 0.4
 
 .totals
   background-color: #fafafa
