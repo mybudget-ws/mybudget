@@ -123,7 +123,9 @@ export default {
     donuts: [],
     donutsCount: 0,
 
-    isPhone: md.phone() != null
+    isPhone: md.phone() != null,
+    isSelectDateStartInit: false,
+    isSelectDateEndInit: false
   }),
   computed: {
     token: get('user/token'),
@@ -361,6 +363,10 @@ export default {
     onSelectDateStart(date) {
       if (date == null) { return; }
       if (date == this.dateStart) { return; }
+      if (this.isSelectDateStartInit == false) {
+        this.isSelectDateStartInit = true;
+        return;
+      }
 
       this.dateStart = date;
       this.onChangePeriod();
@@ -368,6 +374,10 @@ export default {
     onSelectDateEnd(date) {
       if (date == null) { return; }
       if (date == this.dateEnd) { return; }
+      if (this.isSelectDateEndInit == false) {
+        this.isSelectDateEndInit = true;
+        return;
+      }
 
       this.dateEnd = date;
       this.onChangePeriod();
