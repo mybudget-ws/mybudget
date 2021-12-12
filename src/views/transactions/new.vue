@@ -160,6 +160,7 @@ import Categories from '@/components/categories';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import delay from 'delay';
 import { get, call } from 'vuex-pathify';
 
 import MobileDetect from 'mobile-detect';
@@ -187,6 +188,7 @@ export default {
     propertyId: '',
     isIncome: false,
     categoryIds: [],
+    isSubmitting: false,
 
     isPhone: md.phone() != null,
     datepicker: null
@@ -206,8 +208,6 @@ export default {
     isProjectsLoading: get('projects/isLoadingFilter'),
     isProjectsLoaded: get('projects/isLoadedFilter'),
     isPropertiesLoaded: get('properties/isLoadedFilter'),
-
-    isSubmitting: get('transactions/isSubmitting'),
 
     isLoading() { return this.isAccountsLoading || this.isProjectsLoading; },
     submitText() { return this.isIncome ? 'Создать доход' : 'Создать расход'; },
@@ -265,9 +265,13 @@ export default {
       (this.isPhone ? '' : '0');
   },
   async mounted() {
-    if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
-    if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
-    if (!this.isPropertiesLoaded) { await this.fetchProperties(this.token); }
+    try {
+      if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
+      if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+      if (!this.isPropertiesLoaded) { await this.fetchProperties(this.token); }
+    } catch {
+      /* eslint-disable */ M.toast({ html: 'Непредвиденная ошибка' }); /* eslint-enable */
+    }
     if (this.isNotReadyToAdd) {
       this.$router.push({ name: 'new_account', query: { first: true } });
     }
@@ -353,6 +357,7 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
+      this.isSubmitting = true;
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
@@ -366,10 +371,18 @@ export default {
         projectId,
         propertyId
       } = this;
-      const evalAmount = eval(
-        amount.replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
-      );
-      if (evalAmount == null) { return; }
+
+      let evalAmount = undefined;
+      try {
+        evalAmount = eval(
+          amount.replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
+        );
+      } catch {
+        /* eslint-disable */ M.toast({ html: 'Ошибка в выражении' }); /* eslint-enable */
+        await delay(100); // Избегаем двойного отображения ошибки.
+        this.isSubmitting = false;
+      }
+      if (evalAmount == undefined) { return; }
 
       const transaction = {
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
@@ -382,10 +395,11 @@ export default {
         propertyId
       };
       const isSuccess = await this.create({ token, transaction });
+      this.isSubmitting = false;
       if (isSuccess != null) {
         this.$router.push({ path: this.backPath }).catch(_e => {});
       } else {
-        alert('Error');
+        /* eslint-disable */ M.toast({ html: 'Непредвиденная ошибка' }); /* eslint-enable */
       }
     }
   }

@@ -149,6 +149,7 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import api from '@/api';
 import { get, call } from 'vuex-pathify';
+import delay from 'delay';
 
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
@@ -242,9 +243,13 @@ export default {
     }
   },
   async mounted() {
-    if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
-    if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
-    if (!this.isPropertiesLoaded) { await this.fetchProperties(this.token); }
+    try {
+      if (!this.isAccountsLoaded) { await this.fetchAccounts(this.token); }
+      if (!this.isProjectsLoaded) { await this.fetchProjects(this.token); }
+      if (!this.isPropertiesLoaded) { await this.fetchProperties(this.token); }
+    } catch {
+      /* eslint-disable */ M.toast({ html: 'Непредвиденная ошибка' }); /* eslint-enable */
+    }
 
     const transaction = await api.transaction(this.token, { id: this.id });
     this.isIncome = transaction.amount > 0;
@@ -340,9 +345,19 @@ export default {
         projectId,
         propertyId
       } = this;
-      const evalAmount = eval(
-        amount.toString().replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
-      );
+
+      let evalAmount = undefined;
+      try {
+        evalAmount = eval(
+          amount.toString().replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
+        );
+      } catch {
+        /* eslint-disable */ M.toast({ html: 'Ошибка в выражении' }); /* eslint-enable */
+        await delay(100); // Избегаем двойного отображения ошибки.
+        this.isSubmitting = false;
+      }
+      if (evalAmount === undefined) { return; }
+
       const transaction = {
         id,
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
@@ -360,7 +375,7 @@ export default {
       if (isSuccess != null) {
         this.$router.push({ path: this.backPath });
       } else {
-        alert('Error');
+        /* eslint-disable */ M.toast({ html: 'Непредвиденная ошибка' }); /* eslint-enable */
       }
     }
   }
