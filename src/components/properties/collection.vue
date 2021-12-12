@@ -11,10 +11,7 @@
     <tbody>
       <tr v-for='item in visibleItems' :key='item.id'>
         <td>
-          <div class='valign-wrapper'>
-            <span v-if='!isPhone' class='color' :class='item.color' />
-            <span>{{ item.name }}</span>
-          </div>
+          <RecordName v-bind='item' />
           <div v-if='isPhone' class='grey-text'>
             {{ kindName(item) }}
           </div>
@@ -54,6 +51,7 @@
 <script>
 import Amount from '@/components/amount';
 import MobileDetect from 'mobile-detect';
+import RecordName from '@/components/record_name';
 import { get } from 'vuex-pathify';
 
 const md = new MobileDetect(window.navigator.userAgent);
@@ -61,7 +59,8 @@ const md = new MobileDetect(window.navigator.userAgent);
 export default {
   name: 'PropertyCollection',
   components: {
-    Amount
+    Amount,
+    RecordName
   },
   props: {},
   data: () => ({
@@ -94,14 +93,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.color
-  min-width: 20px
-  width: 20px
-  height: 20px
-  border-radius: 3px
-  display: inline-block
-  margin-right: 10px
-
 .amount
   text-align: right
   text-overflow: ellipsis

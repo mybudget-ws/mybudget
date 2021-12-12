@@ -32,10 +32,7 @@
             <tbody>
               <tr v-for='item in visibleItems' :key='item.id'>
                 <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
-                  </div>
+                  <RecordName v-bind='item' />
                 </td>
                 <td class='amount'>
                   <div v-for='(balance, index) in item.balances' :key='index'>
@@ -92,10 +89,7 @@
             <tbody>
               <tr v-for='item in hiddenItems' :key='item.id'>
                 <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
-                  </div>
+                  <RecordName v-bind='item' />
                 </td>
                 <td>
                   <i class='description grey-text text-darken-1'>В архиве</i>
@@ -129,6 +123,7 @@ import Card from '@/components/projects/card';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import RecordName from '@/components/record_name';
 import { get, call } from 'vuex-pathify';
 
 import MobileDetect from 'mobile-detect';
@@ -141,7 +136,8 @@ export default {
     Card,
     Loader,
     Menu,
-    PageHeader
+    PageHeader,
+    RecordName
   },
   props: {},
   data: () => ({
@@ -191,13 +187,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.color
-  width: 20px
-  height: 20px
-  border-radius: 3px
-  display: inline-block
-  margin-right: 10px
-
 .amount
   width: 200px
   text-align: right

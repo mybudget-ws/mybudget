@@ -23,14 +23,12 @@
             <tbody>
               <tr v-for='item in orderedVisibleCategories' :key='item.id'>
                 <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span class='name'>{{ item.name }}</span>
+                  <RecordName v-bind='item'>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
                     </a>
-                  </div>
+                  </RecordName>
                 </td>
                 <td class='actions'>
                   <a
@@ -66,10 +64,7 @@
             <tbody>
               <tr v-for='item in hiddenItems' :key='item.id'>
                 <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span class='name'>{{ item.name }}</span>
-                  </div>
+                  <RecordName v-bind='item' />
                 </td>
                 <td class='actions-hidden'>
                   <a
@@ -98,6 +93,7 @@
 import Menu from '@/components/menu';
 import Loader from '@/components/loader';
 import PageHeader from '@/components/page_header';
+import RecordName from '@/components/record_name';
 import { get, call } from 'vuex-pathify';
 
 export default {
@@ -105,7 +101,8 @@ export default {
   components: {
     Menu,
     Loader,
-    PageHeader
+    PageHeader,
+    RecordName
   },
   props: {},
   computed: {

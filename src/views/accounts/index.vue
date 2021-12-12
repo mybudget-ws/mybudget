@@ -29,15 +29,13 @@
             <tbody>
               <tr v-for='item in orderedVisibleAccounts' :key='item.id'>
                 <td>
-                  <div class='valign-wrapper'>
-                    <span class='color' :class='item.color' />
-                    <span>{{ item.name }}</span>
+                  <RecordName v-bind='item'>
                     <span v-if='item.kind === "credit"' class='badge' title='Кредитная карта'>K</span>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
                     </a>
-                  </div>
+                  </RecordName>
                 </td>
                 <td class='amount'>
                   <Amount :value='item.balance' :currency='item.currency.name' />
@@ -164,6 +162,7 @@ import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
+import RecordName from '@/components/record_name';
 import { get, call } from 'vuex-pathify';
 
 import MobileDetect from 'mobile-detect';
@@ -177,7 +176,8 @@ export default {
     CollectionArchive,
     Menu,
     Loader,
-    PageHeader
+    PageHeader,
+    RecordName
   },
   props: {},
   data: () => ({
@@ -267,13 +267,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.color
-  width: 20px
-  height: 20px
-  border-radius: 3px
-  display: inline-block
-  margin-right: 10px
-
 .badge
   background-color: #eceff1
   border-radius: 4px

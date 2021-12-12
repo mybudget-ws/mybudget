@@ -10,10 +10,7 @@
     <tbody>
       <tr v-for='item in hiddenItems' :key='item.id'>
         <td>
-          <div class='valign-wrapper'>
-            <span class='color' :class='item.color' />
-            <span>{{ item.name }}</span>
-          </div>
+          <RecordName v-bind='item' />
         </td>
         <td>
           <i class='description grey-text text-darken-1'>В архиве</i>
@@ -40,11 +37,14 @@
 </template>
 
 <script>
+import RecordName from '@/components/record_name';
 import { get } from 'vuex-pathify';
 
 export default {
   name: 'PropertyCollectionArchive',
-  components: {},
+  components: {
+    RecordName
+  },
   props: {},
   data: () => ({}),
   computed: {
@@ -64,13 +64,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.color
-  width: 20px
-  height: 20px
-  border-radius: 3px
-  display: inline-block
-  margin-right: 10px
-
 .actions-hidden
   padding-right: 0px
   text-align: right
