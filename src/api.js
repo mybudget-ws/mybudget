@@ -901,7 +901,7 @@ export default {
   },
 
   log(query, data) {
-    if (!process.env.NODE_ENV != 'development') { return; }
+    if (process.env.NODE_ENV != 'development') { return; }
 
     if (data != null) {
       console.log(query, JSON.stringify(data, undefined, 2));
