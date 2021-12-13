@@ -3,6 +3,7 @@
     <Menu />
     <div class='container container-wide'>
       <PageHeader name='Имущество' action='/properties/new' />
+
       <div class='row'>
         <div class='col'>
           <div class='grey-text'>

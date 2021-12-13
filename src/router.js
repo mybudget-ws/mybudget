@@ -154,6 +154,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "inner" */ '@/views/properties/edit'),
       beforeEnter: requireAuth
     }, {
+      path: '/properties/:id',
+      name: 'show_property',
+      component: () => import(/* webpackChunkName: "inner" */ '@/views/properties/show'),
+      beforeEnter: requireAuth
+    }, {
       path: '/currencies',
       name: 'currencies',
       component: () => import(/* webpackChunkName: "home-group" */ '@/views/currencies/index')

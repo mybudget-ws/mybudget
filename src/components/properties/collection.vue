@@ -25,7 +25,7 @@
         </td>
         <td class='actions'>
           <LinkAction
-            :to="`/accounts/${item.id}`"
+            :to="`/properties/${item.id}`"
             color='grey lighten-2'
             icon='list'
             title='Подробнее'
