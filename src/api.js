@@ -520,7 +520,9 @@ export default {
 
   async property(token, { id }) {
     const query = `query($id:ID!) {
-      item:property(id:$id) { id name color kind amount:price currency { name } }
+      item:property(id:$id) {
+        id name color kind amount:price currency { name }
+      }
     }`;
     const vars = { id };
     const data = await this.client(token).request(query, vars);

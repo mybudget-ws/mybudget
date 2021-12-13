@@ -18,6 +18,7 @@
         <slot />
       </h3>
     </div>
+    <slot name='subtitle' />
   </div>
 </template>
 
