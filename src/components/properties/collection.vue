@@ -24,6 +24,13 @@
           />
         </td>
         <td class='actions'>
+          <LinkAction
+            :to="`/accounts/${item.id}`"
+            color='grey lighten-2'
+            icon='list'
+            title='Подробнее'
+            class='action-link'
+          />
           <a
             class='waves-effect waves-teal btn-flat'
             @click='onEdit(item)'
@@ -50,6 +57,7 @@
 
 <script>
 import Amount from '@/components/amount';
+import LinkAction from '@/components/link_action';
 import MobileDetect from 'mobile-detect';
 import RecordName from '@/components/record_name';
 import { get } from 'vuex-pathify';
@@ -60,6 +68,7 @@ export default {
   name: 'PropertyCollection',
   components: {
     Amount,
+    LinkAction,
     RecordName
   },
   props: {},
@@ -103,7 +112,11 @@ export default {
   text-align: right
   text-overflow: ellipsis
   white-space: nowrap
+  width: 190px
 
   .btn-flat
     padding: 0 8px !important
+
+  .action-link
+    margin-right: 10px
 </style>

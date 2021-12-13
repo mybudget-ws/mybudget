@@ -41,34 +41,30 @@
                   <Amount :value='item.balance' :currency='item.currency.name' />
                 </td>
                 <td class='transacton-actions'>
-                  <router-link
+                  <LinkAction
                     :to="`/transactions/new?account=${item.id}&${backTo}`"
                     title='Новый расход'
-                    class='btn-small waves-effect waves-light red lighten-4 z-depth-0'
-                  >
-                    <i class='material-icons grey-text text-darken-1'>arrow_downward</i>
-                  </router-link>
-                  <router-link
+                    color='red lighten-4'
+                    icon='arrow_downward'
+                  />
+                  <LinkAction
                     :to="`/transactions/new?account=${item.id}&isIncome=true&${backTo}`"
                     title='Новый доход'
-                    class='btn-small waves-effect waves-light green accent-1 z-depth-0'
-                  >
-                    <i class='material-icons grey-text text-darken-1'>arrow_upward</i>
-                  </router-link>
-                  <router-link
+                    color='green accent-1'
+                    icon='arrow_upward'
+                  />
+                  <LinkAction
                     :to="`/transactions/transfers/new?accountIdDst=${item.id}&${backTo}`"
                     title='Новый перевод'
-                    class='btn-small waves-effect waves-light indigo lighten-5 z-depth-0'
-                  >
-                    <i class='material-icons grey-text text-darken-1'>repeat</i>
-                  </router-link>
-                  <router-link
+                    color='indigo lighten-5'
+                    icon='repeat'
+                  />
+                  <LinkAction
                     :to="`/accounts/${item.id}?${backTo}`"
                     title='Просмотр счета'
-                    class='btn-small waves-effect waves-light grey lighten-2 z-depth-0'
-                  >
-                    <i class='material-icons grey-text text-darken-1'>list</i>
-                  </router-link>
+                    color='grey lighten-2'
+                    icon='list'
+                  />
                 </td>
                 <td class='actions'>
                   <a
@@ -158,6 +154,7 @@
 import Amount from '@/components/amount';
 import Card from '@/components/accounts/card';
 import CollectionArchive from '@/components/accounts/collection_archive';
+import LinkAction from '@/components/link_action';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import Money from '@/utils/money';
@@ -174,6 +171,7 @@ export default {
     Amount,
     Card,
     CollectionArchive,
+    LinkAction,
     Menu,
     Loader,
     PageHeader,
@@ -302,10 +300,6 @@ export default {
 
   .btn-small + .btn-small
     margin-left: 8px
-
-  .btn-small
-    padding: 0 14px
-    border-radius: 4px
 
 .totals
   background-color: #fafafa
