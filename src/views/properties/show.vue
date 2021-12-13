@@ -17,13 +17,19 @@
 
       <div class='row'>
         <div class='col'>
-          TODO: Изменение цен
+          График изменений цены (скоро)
         </div>
       </div>
 
       <div class='row'>
         <div class='col'>
-          TODO: Список расходов
+          Список цен (скоро)
+        </div>
+      </div>
+
+      <div class='row'>
+        <div class='col'>
+          Список расходов/расходов (скоро)
         </div>
       </div>
     </div>
