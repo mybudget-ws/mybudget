@@ -130,6 +130,7 @@ export default {
   computed: {
     token: get('user/token'),
     defaultReportMode: get('user/reportMode'),
+    defaultReportPeriodMonths: get('user/reportPeriodMonths'),
     searchParams: get('filters/searchParams'),
     isCustomPeriod() { return this.selectedPeriodMonths === 0; },
     isShowSummary() {
@@ -142,6 +143,7 @@ export default {
   async mounted() {
     const mode = this.$route.params.mode || this.defaultReportMode;
     this.selectedMode = this.modes.find(v => v === mode) || this.selectedMode;
+    this.selectedPeriodMonths = this.defaultReportPeriodMonths;
     this.isLoading = true;
     await this.fetchData();
     this.isLoading = false;
@@ -152,7 +154,8 @@ export default {
   methods: {
     ...call([
       'user/fetchProfile',
-      'user/updateReportMode'
+      'user/updateReportMode',
+      'user/updateReportPeriodMonths'
     ]),
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
@@ -359,6 +362,7 @@ export default {
         dateStart: moment(this.dateStart).format(),
         dateEnd: moment(this.dateEnd).format()
       });
+      this.updateReportPeriodMonths({ months: this.selectedPeriodMonths });
       this.isLoading = true;
       await this.fetchData();
       this.isLoading = false;

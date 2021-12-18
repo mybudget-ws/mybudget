@@ -15,6 +15,7 @@ export default {
     email: CookieStore.get(NAMESPACE, 'email', null),
     token: CookieStore.get(NAMESPACE, 'token', null),
     reportMode: CookieStore.get(NAMESPACE, 'report_mode', 'balance'),
+    reportPeriodMonths: CookieStore.get(NAMESPACE, 'report_period_months', 12),
     currency: undefined
   },
 
@@ -89,6 +90,11 @@ export default {
       if (mode == null) { return; }
       if (mode == state.reportMode) { return; }
       commit('UPDATE_REPORT_MODE', mode);
+    },
+    updateReportPeriodMonths({ commit, state }, { months }) {
+      if (months == null) { return; }
+      if (months == state.reportPeriodMonths) { return; }
+      commit('UPDATE_REPORT_PERIOD_MONTHS', months);
     }
   },
 
@@ -118,6 +124,10 @@ export default {
     UPDATE_REPORT_MODE(state, mode) {
       state.reportMode = mode;
       saveCookies('report_mode', mode);
+    },
+    UPDATE_REPORT_PERIOD_MONTHS(state, months) {
+      state.reportPeriodMonths = months;
+      saveCookies('report_period_months', months);
     }
   }
 };
