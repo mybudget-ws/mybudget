@@ -1,5 +1,5 @@
 <template>
-  <div class='valign-wrapper'>
+  <div class='valign-wrapper' v-bind='$attrs'>
     <span class='color' :class='color' />
     <span>{{ name }}</span>
     <slot />

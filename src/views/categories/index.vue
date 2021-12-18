@@ -23,7 +23,7 @@
             <tbody>
               <tr v-for='item in orderedVisibleCategories' :key='item.id'>
                 <td>
-                  <RecordName v-bind='item'>
+                  <RecordName v-bind='item' class='record-name'>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
@@ -160,6 +160,10 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.record-name
+  width: 50vw
+  overflow: hidden
+
 .color
   width: 20px
   height: 20px
