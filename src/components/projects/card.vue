@@ -5,14 +5,17 @@
   >
     <div class='card-content'>
       <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
+      <div v-if='balances.length === 0' class='card-title'>
+        <Amount value='0' currency='RUB' />
+      </div>
       <div v-if='balances.length == 1' class='card-title'>
         <Amount :value='balances[0].amount' :currency='balances[0].currency.name' />
       </div>
-      <div v-else class='card-title'>
+      <div v-if='balances.length > 1' class='card-title'>
         <Amount
           class='total-amount'
           :value='balances.map(v => v.amountBase).reduce((a, b) => a + b)'
-          :currency='balances[0].currencyBase.name'
+          :currency='currencyName'
         />
         <Amount
           v-for='(balance, index) in balances'
@@ -68,6 +71,10 @@ export default {
     }
   },
   methods: {
+    currencyName() {
+      if (this.balances == null || this.balances.length === 0) { return ''; }
+      return this.balances[0].currencyBase.name;
+    }
   }
 };
 </script>

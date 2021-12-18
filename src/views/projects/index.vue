@@ -159,6 +159,10 @@ export default {
       'projects/destroy',
       'projects/toggleIsHidden'
     ]),
+    currencyName({ balances }) {
+      if (balances == null || balances.length === 0) { return ''; }
+      return balances[0].currencyBase.name;
+    },
     onEdit(category) {
       const { id } = category;
       this.$router.push({ name: 'edit_project', params: { id } });
