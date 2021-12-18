@@ -129,6 +129,7 @@ export default {
   }),
   computed: {
     token: get('user/token'),
+    defaultReportMode: get('user/reportMode'),
     searchParams: get('filters/searchParams'),
     isCustomPeriod() { return this.selectedPeriodMonths === 0; },
     isShowSummary() {
@@ -139,10 +140,8 @@ export default {
     }
   },
   async mounted() {
-    if (this.$route.params.mode) {
-      this.selectedMode = this.modes.find(v => v === this.$route.params.mode) ||
-        this.selectedMode;
-    }
+    const mode = this.$route.params.mode || this.defaultReportMode;
+    this.selectedMode = this.modes.find(v => v === mode) || this.selectedMode;
     this.isLoading = true;
     await this.fetchData();
     this.isLoading = false;
@@ -151,7 +150,10 @@ export default {
     this.initDatepickers();
   },
   methods: {
-    ...call(['user/fetchProfile']),
+    ...call([
+      'user/fetchProfile',
+      'user/updateReportMode'
+    ]),
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
       if (this.selectedMode === 'balance') {
@@ -346,6 +348,7 @@ export default {
     async onChangeMode({ target }) {
       this.$router.push({ name: 'reports', params: { mode: target.value } });
       this.selectedMode = target.value;
+      this.updateReportMode({ mode: this.selectedMode });
       this.isLoading = true;
       await this.fetchData();
       this.isLoading = false;

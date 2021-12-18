@@ -14,6 +14,7 @@ export default {
   state: {
     email: CookieStore.get(NAMESPACE, 'email', null),
     token: CookieStore.get(NAMESPACE, 'token', null),
+    reportMode: CookieStore.get(NAMESPACE, 'report_mode', 'balance'),
     currency: undefined
   },
 
@@ -83,6 +84,11 @@ export default {
 
       commit('LOGIN', user);
       return true;
+    },
+    updateReportMode({ commit, state }, { mode }) {
+      if (mode == null) { return; }
+      if (mode == state.reportMode) { return; }
+      commit('UPDATE_REPORT_MODE', mode);
     }
   },
 
@@ -108,6 +114,10 @@ export default {
     FETCH(state, user) {
       state.email = user.email;
       state.currency = user.defaultCurrency;
+    },
+    UPDATE_REPORT_MODE(state, mode) {
+      state.reportMode = mode;
+      saveCookies('report_mode', mode);
     }
   }
 };
