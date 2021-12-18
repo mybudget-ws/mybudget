@@ -144,7 +144,7 @@ export default {
       max-width: 270px
 
 .balance
-  margin-top: 10px
+  font-size: 36px
 
 a.edit
   position: absolute

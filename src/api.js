@@ -522,6 +522,17 @@ export default {
     const query = `query($id:ID!) {
       item:property(id:$id) {
         id name color kind amount:price currency { name }
+        transactions {
+          id
+          amount
+          description
+          dateAt
+          account { id name color currency { name } }
+          categories { id name color }
+          project { id name color }
+          property { id name color }
+          isTransfer
+        }
       }
     }`;
     const vars = { id };

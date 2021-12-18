@@ -55,9 +55,6 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import { get, call } from 'vuex-pathify';
 
-import MobileDetect from 'mobile-detect';
-const md = new MobileDetect(window.navigator.userAgent);
-
 export default {
   name: 'Properties',
   components: {
@@ -68,9 +65,7 @@ export default {
     PageHeader
   },
   props: {},
-  data: () => ({
-    isPhone: md.phone() != null
-  }),
+  data: () => ({}),
   computed: {
     token: get('user/token'),
     ...get('properties/*'),
