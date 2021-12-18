@@ -68,14 +68,13 @@ export default {
   computed: {
     colorClasses() {
       return `${this.color.replace('lighten-2', '')} lighten-4`;
-    }
-  },
-  methods: {
+    },
     currencyName() {
       if (this.balances == null || this.balances.length === 0) { return ''; }
       return this.balances[0].currencyBase.name;
     }
-  }
+  },
+  methods: {}
 };
 </script>
 
