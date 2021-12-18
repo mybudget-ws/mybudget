@@ -28,13 +28,16 @@
               <p>Попробуйте изменить настройки фильтров</p>
             </div>
           </div>
-          <Collection class='col l10 m9 s12' />
 
-          <Filters
-            v-if='!isLoading && !isAlert'
-            class='col l2 m3 s12'
-            @onChange='onChangeFilter'
-          />
+          <div class='row'>
+            <Collection class='col l10 m9 s12' />
+
+            <Filters
+              v-if='!isLoading && !isAlert'
+              class='col l2 m3 s12'
+              @onChange='onChangeFilter'
+            />
+          </div>
         </div>
       </div>
     </div>

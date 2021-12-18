@@ -1,5 +1,5 @@
 <template>
-  <div v-if='isTableVisible' class='col l10 m9 s12'>
+  <div v-if='isTableVisible'>
     <List
       :items='items'
       @onAccount='onAccount'

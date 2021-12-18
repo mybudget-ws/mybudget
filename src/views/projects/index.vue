@@ -69,14 +69,15 @@
               </tr>
             </tbody>
           </table>
-          <div v-for='item in visibleItems' v-else :key='item.id'>
-            <Card
-              v-bind='item'
-              @edit='onEdit(item)'
-              @hide='onHide(item)'
-              @destroy='onDestroy(item)'
-            />
-          </div>
+          <Card
+            v-for='item in visibleItems'
+            v-else
+            :key='item.id'
+            v-bind='item'
+            @edit='onEdit(item)'
+            @hide='onHide(item)'
+            @destroy='onDestroy(item)'
+          />
 
           <table v-if='hiddenItems.length' class='hidden-table'>
             <thead>

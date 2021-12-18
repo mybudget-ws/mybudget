@@ -116,16 +116,17 @@
               </tr>
             </tbody>
           </table>
-          <div v-for='item in orderedVisibleAccounts' v-else :key='item.id'>
-            <Card
-              v-bind='item'
-              :is-delete-allow='isDeleteAllow'
-              @edit='onEdit(item)'
-              @hide='onHide(item)'
-              @destroy='onDestroy(item)'
-              @favourite='onFavourite(item)'
-            />
-          </div>
+          <Card
+            v-for='item in orderedVisibleAccounts'
+            v-else
+            :key='item.id'
+            v-bind='item'
+            :is-delete-allow='isDeleteAllow'
+            @edit='onEdit(item)'
+            @hide='onHide(item)'
+            @destroy='onDestroy(item)'
+            @favourite='onFavourite(item)'
+          />
           <div v-if='isPhone && !isLoading' class='card blue-grey lighten-5 z-depth-0 card-total'>
             <div class='card-content'>
               <b>Всего</b>
