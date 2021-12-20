@@ -29,17 +29,10 @@
         <div class='col m6 s12'>
           <div class='block z-depth-1'>
             <h4>Вход</h4>
-            <p>
-              У вас уже есть аккаунт или вы пользователь
-              <a href='https://mybudget.ws' target='_blank'>classic.mybudget.ws</a>
-            </p>
+            <p>У вас уже есть аккаунт</p>
             <p class='grey-text'>
-              Больше подробностей для пользователей предыдущей
               <br>
-              версии classic.mybudget.ws
-              <a href='//mybudget.ws/blog/11/mybudget2' target='_blank'>
-                <b class='grey-text'>на блоге сайта</b>
-              </a>
+              <br>
             </p>
             <router-link
               to='/sign_in'
