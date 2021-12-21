@@ -161,7 +161,7 @@ export default {
 
 <style scoped lang='sass'>
 .record-name
-  width: 50vw
+  width: 60%
   overflow: hidden
 
 .color
