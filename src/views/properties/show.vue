@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <div v-if='isTransactionVisible' class='row'>
+      <div v-if='!isLoading' class='row'>
         <h5 class='col s12'>
           Операции
           <router-link
@@ -48,10 +48,14 @@
         </h5>
         <div class='col s12'>
           <TransactionList
+            v-if='transactions.length > 0'
             :items='transactions'
             :back-path='backPath'
             @onDestroy='onDestroy'
           />
+          <p v-else class='grey-text text-darken-1'>
+            Нет операций связанных с данным имуществом
+          </p>
         </div>
       </div>
     </div>
@@ -82,9 +86,6 @@ export default {
     ...get('property/*'),
     id() { return this.$route.params.id; },
     backPath() { return `/properties/${this.id}`; },
-    isTransactionVisible() {
-      return !this.isLoading && this.transactions.length > 0;
-    },
     newTransactionUrl() {
       return `/transactions/new?property=${this.id}&backTo=${this.backPath}`;
     }
