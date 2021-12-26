@@ -966,9 +966,9 @@ export default {
     if (process.env.NODE_ENV != 'development') { return; }
 
     if (data != null) {
-      console.log(query, JSON.stringify(data, undefined, 2));
+      console.log('query: %s', query, JSON.stringify(data, undefined, 2));
     } else {
-      console.log(query, 'Data is NULL!');
+      console.log('query: %s', query, 'Data is NULL!');
     }
   }
 };
