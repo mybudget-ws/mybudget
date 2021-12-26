@@ -5,20 +5,6 @@
       <PageHeader name='Имущество' action='/properties/new' />
 
       <div class='row'>
-        <div class='col'>
-          <div class='grey-text'>
-            На данный момент раздел находится в разработке
-            <ol>
-              <li><strike>Список и архив</strike></li>
-              <li><strike>Создание / Редактирование / Удаление</strike></li>
-              <li><strike>Привязка операций</strike></li>
-              <li><strike>Просмотр со списком цен и операций</strike></li>
-              <li>График истории цены</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-      <div class='row'>
         <div class='col s12'>
           <Loader v-if='isLoading' />
           <div v-else-if='isAlert' class='card blue-grey'>

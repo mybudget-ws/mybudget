@@ -886,6 +886,17 @@ export default {
     return data;
   },
 
+  async propertyPricesChart(token, propertyId) {
+    const url = DOMAIN + '/charts/property_prices/' + propertyId;
+    const response = await fetch(url, {
+      headers: this.headers(token)
+    });
+    const data = await response.json();
+    this.log(url, data);
+
+    return data;
+  },
+
   // ---------------------------------
   // Common
   // ---------------------------------

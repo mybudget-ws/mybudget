@@ -16,8 +16,8 @@
       </PageHeader>
 
       <div class='row'>
-        <div class='col'>
-          <span class='blue-grey-text'>График изменения цены (скоро)</span>
+        <div class='col s12'>
+          <div class='chart' />
         </div>
       </div>
 
@@ -72,7 +72,12 @@ import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import PriceList from '@/components/properties/price_list';
 import TransactionList from '@/components/transactions/list';
+import api from '../../api';
+
 import { get, call } from 'vuex-pathify';
+import c3 from 'c3';
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
 
 export default {
   components: {
@@ -84,7 +89,9 @@ export default {
     TransactionList
   },
   data: () => ({
-    isDestroying: false
+    isDestroying: false,
+
+    isPhone: md.phone() != null
   }),
   computed: {
     token: get('user/token'),
@@ -93,10 +100,39 @@ export default {
     backPath() { return `/properties/${this.id}`; },
     newTransactionUrl() {
       return `/transactions/new?property=${this.id}&backTo=${this.backPath}`;
+    },
+    chartTickCount() {
+      return this.isPhone ? 4 : 14;
     }
   },
   created() {
     this.fetch({ token: this.token, id: this.id });
+  },
+  async mounted() {
+    const { columns } = await api.propertyPricesChart(this.token, this.id);
+    this.chart = c3.generate({
+      bindto: '.chart',
+      data: {
+        x: 'x',
+        columns: columns
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: { format: '%d.%m.%Y', count: this.chartTickCount },
+          padding: { left: 0, right: 0 }
+        },
+        y: {
+          padding: { top: 20 }
+        }
+      },
+      point: { show: false },
+      grid: {
+        x: { show: true },
+        y: { show: true }
+      },
+      legend: { show: false }
+    });
   },
   methods: {
     ...call('property/*'),
@@ -139,4 +175,11 @@ h5
 
 .btn-floating.yellow
   margin-left: 10px
+
+.chart
+  height: 300px
+  margin-left: -20px
+
+  @media only screen and (max-width: 601px)
+    height: 220px
 </style>
