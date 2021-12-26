@@ -17,19 +17,35 @@
 
       <div class='row'>
         <div class='col'>
-          <span class='blue-grey-text'>График изменений цены (скоро)</span>
+          <span class='blue-grey-text'>График изменения цены (скоро)</span>
         </div>
       </div>
 
       <div v-if='!isLoading' class='row'>
-        <h5 class='col s12'>Изменение стоимости</h5>
+        <h5 class='col s12'>
+          История изменения цены
+          <router-link
+            :to="`/properties/${id}/prices/new`"
+            class='btn-floating waves-effect waves-light yellow z-depth-0'
+          >
+            <i class='material-icons grey-text text-darken-4'>add</i>
+          </router-link>
+        </h5>
         <div class='col s12'>
           <PriceList :items='prices' />
         </div>
       </div>
 
       <div v-if='isTransactionVisible' class='row'>
-        <h5 class='col s12'>Операции</h5>
+        <h5 class='col s12'>
+          Операции
+          <router-link
+            :to="`/transactions/new?property=${this.id}&backTo=${this.backPath}`"
+            class='btn-floating waves-effect waves-light yellow z-depth-0'
+          >
+            <i class='material-icons grey-text text-darken-4'>add</i>
+          </router-link>
+        </h5>
         <div class='col s12'>
           <TransactionList
             :items='transactions'
@@ -87,7 +103,13 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+h5
+  margin-bottom: 0
+
 .balance
   font-weight: 500
   font-size: 36px
+
+.btn-floating.yellow
+  margin-left: 10px
 </style>
