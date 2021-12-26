@@ -32,7 +32,10 @@
           </router-link>
         </h5>
         <div class='col s12'>
-          <PriceList :items='prices' />
+          <PriceList
+            :items='prices'
+            @onDestroy='onDestroyPrice'
+          />
         </div>
       </div>
 
@@ -51,7 +54,7 @@
             v-if='transactions.length > 0'
             :items='transactions'
             :back-path='backPath'
-            @onDestroy='onDestroy'
+            @onDestroy='onDestroyTransaction'
           />
           <p v-else class='grey-text text-darken-1'>
             Нет операций связанных с данным имуществом
@@ -80,7 +83,9 @@ export default {
     PriceList,
     TransactionList
   },
-  data: () => ({}),
+  data: () => ({
+    isDestroying: false
+  }),
   computed: {
     token: get('user/token'),
     ...get('property/*'),
@@ -95,12 +100,29 @@ export default {
   },
   methods: {
     ...call('property/*'),
-    async onDestroy({ id }) {
+    async onDestroyTransaction({ id }) {
       if (this.isDestroying) { return; }
+      this.isDestroying = true;
+
       if (confirm('Удалить операцию. Вы уверены?')) {
         await this.destroyTransaction({ token: this.token, id });
+        this.isDestroying = false;
+        this.fetch({ token: this.token, id: this.id });
       }
-      this.fetch({ token: this.token, id: this.id });
+    },
+    async onDestroyPrice(id) {
+      if (this.isDestroying) { return; }
+      this.isDestroying = true;
+
+      if (confirm('Удалить цену. Вы уверены?')) {
+        await this.destroyPropertyPrice({
+          token: this.token,
+          propertyId: this.id,
+          id
+        });
+        this.isDestroying = false;
+        this.fetch({ token: this.token, id: this.id });
+      }
     }
   }
 };

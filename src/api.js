@@ -597,6 +597,21 @@ export default {
     return data.action;
   },
 
+  async destroyPropertyPrice(token, { propertyId, id }) {
+    const query = `
+      mutation($propertyId:ID!, $id:ID!) {
+        action:destroyPropertyPrice(
+          propertyId: $propertyId,
+          id: $id
+        ) { id }
+      }
+    `;
+    const data = await this.client(token).request(query, { propertyId, id });
+    this.log('destroyPropertyPrice', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Transaction
   // ---------------------------------

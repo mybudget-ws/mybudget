@@ -64,9 +64,9 @@ export default {
     },
     onDestroy({ id }) {
       if (this.items.length <= 1) {
-        return alert('Нельзя удалить последнюю цену');
+        return alert('Нельзя удалить единственную цену');
       }
-      console.log(id);
+      this.$emit('onDestroy', id);
     }
   }
 };

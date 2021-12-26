@@ -39,6 +39,10 @@ export default {
       const result = await api.createPropertyPrice(token, price);
       commit('FINISH_CREATE_PRICE');
       return result;
+    },
+    async destroyPropertyPrice({ commit }, { token, propertyId, id }) {
+      await api.destroyPropertyPrice(token, { propertyId, id });
+      commit('FINISH_PRICE_DESTROYING', id);
     }
   },
 
@@ -64,6 +68,9 @@ export default {
     FINISH_CREATE_PRICE(state) {
       state.isLoading = true;
       state.isLoaded = false;
+    },
+    FINISH_PRICE_DESTROYING(state, id) {
+      state.prices = state.prices.filter(v => v.id !== id);
     }
   }
 };
