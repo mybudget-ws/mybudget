@@ -533,6 +533,12 @@ export default {
           property { id name color }
           isTransfer
         }
+        prices {
+          id
+          date:dateOn
+          amount
+          currency { name }
+        }
       }
     }`;
     const vars = { id };
@@ -570,6 +576,38 @@ export default {
     `;
     const data = await this.client(token).request(query, { id });
     this.log('destroyProperty', data);
+
+    return data.action;
+  },
+
+  async createPropertyPrice(token, { amount, date, propertyId }) {
+    const query = `
+      mutation($propertyId:ID!, $amount:String!, $date:String!) {
+        action:createPropertyPrice(
+          propertyId: $propertyId,
+          date: $date,
+          amount: $amount
+        ) { id }
+      }
+    `;
+    const vars = { amount, date, propertyId };
+    const data = await this.client(token).request(query, vars);
+    this.log('createPropertyPrice', data);
+
+    return data.action;
+  },
+
+  async destroyPropertyPrice(token, { propertyId, id }) {
+    const query = `
+      mutation($propertyId:ID!, $id:ID!) {
+        action:destroyPropertyPrice(
+          propertyId: $propertyId,
+          id: $id
+        ) { id }
+      }
+    `;
+    const data = await this.client(token).request(query, { propertyId, id });
+    this.log('destroyPropertyPrice', data);
 
     return data.action;
   },

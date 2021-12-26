@@ -162,15 +162,12 @@ import BadgeCategory from '@/components/badges/category';
 import BadgeProject from '@/components/badges/project';
 import BadgeProperty from '@/components/badges/property';
 
+import DateFormat from '@/utils/date_format';
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
 
-const moment = require('moment');
-moment.locale('ru');
-const SERVER_UTC_OFFSET = 3;
-
 export default {
-  name: 'Collection',
+  name: 'TransactionList',
   components: {
     Amount,
     BadgeAccount,
@@ -188,16 +185,10 @@ export default {
   computed: {},
   methods: {
     dateFormat({ dateAt }) {
-      const date = moment(dateAt).utcOffset(SERVER_UTC_OFFSET, true);
-      const current = moment().utcOffset(SERVER_UTC_OFFSET, true);
-
-      if (moment(date).isSame(current, 'day')) { return 'Сегодня'; }
-      if (current.subtract(1, 'days').isSame(date, 'day')) { return 'Вчера'; }
-      if (current.year() === date.year()) { return date.format('DD MMMM'); }
-      return date.format('DD.MM.YYYY');
+      return DateFormat.adaptive(dateAt);
     },
     dateTitleFormat({ dateAt }) {
-      return moment(dateAt).utcOffset(SERVER_UTC_OFFSET, true).format('DD.MM.YYYY');
+      return DateFormat.fixed(dateAt);
     },
     copyUrl(item) {
       const accountId = item.account.id;
