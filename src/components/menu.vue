@@ -98,7 +98,7 @@ export default {
       { path: '/categories', name: 'Категории' },
       { path: '/goals', name: 'Цели' },
       { path: '/projects', name: 'Проекты' },
-      { path: '/properties', name: 'Имущество', badge: 'Beta' }
+      { path: '/properties', name: 'Имущество' } // badge: 'Beta'
     ]
   }),
   computed: {
