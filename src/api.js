@@ -886,6 +886,17 @@ export default {
     return data;
   },
 
+  async propertyPricesChart(token, propertyId) {
+    const url = DOMAIN + '/charts/property_prices/' + propertyId;
+    const response = await fetch(url, {
+      headers: this.headers(token)
+    });
+    const data = await response.json();
+    this.log(url, data);
+
+    return data;
+  },
+
   // ---------------------------------
   // Common
   // ---------------------------------
@@ -955,9 +966,9 @@ export default {
     if (process.env.NODE_ENV != 'development') { return; }
 
     if (data != null) {
-      console.log(query, JSON.stringify(data, undefined, 2));
+      console.log('query: %s', query, JSON.stringify(data, undefined, 2));
     } else {
-      console.log(query, 'Data is NULL!');
+      console.log('query: %s', query, 'Data is NULL!');
     }
   }
 };

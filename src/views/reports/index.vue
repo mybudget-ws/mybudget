@@ -79,8 +79,8 @@ import Menu from '@/components/menu';
 import Money from '@/utils/money';
 import PageHeader from '@/components/page_header';
 import api from '../../api';
-import { get, call } from 'vuex-pathify';
 
+import { get, call } from 'vuex-pathify';
 import c3 from 'c3';
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
@@ -138,6 +138,9 @@ export default {
     },
     donutsArray() {
       return [...Array(this.donutsCount).keys()];
+    },
+    chartTickCount() {
+      return this.isPhone ? 8 : 14;
     }
   },
   async mounted() {
@@ -179,7 +182,7 @@ export default {
         axis: {
           x: {
             type: 'timeseries',
-            tick: { format: '%d.%m.%Y', count: 14 },
+            tick: { format: '%d.%m.%Y', count: this.chartTickCount },
             padding: { left: 0, right: 0 }
           },
           y: {
