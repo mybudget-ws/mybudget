@@ -580,6 +580,23 @@ export default {
     return data.action;
   },
 
+  async createPropertyPrice(token, { amount, date, propertyId }) {
+    const query = `
+      mutation($propertyId:ID!, $amount:String!, $date:String!) {
+        action:createPropertyPrice(
+          propertyId: $propertyId,
+          date: $date,
+          amount: $amount
+        ) { id }
+      }
+    `;
+    const vars = { amount, date, propertyId };
+    const data = await this.client(token).request(query, vars);
+    this.log('createPropertyPrice', data);
+
+    return data.action;
+  },
+
   // ---------------------------------
   // Transaction
   // ---------------------------------

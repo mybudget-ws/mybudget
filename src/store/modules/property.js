@@ -34,6 +34,11 @@ export default {
     async destroyTransaction({ commit }, { token, id }) {
       await api.destroyTransaction(token, id);
       commit('FINISH_TRANSACTION_DESTROYING', id);
+    },
+    async createPrice({ commit }, { token, price }) {
+      const result = await api.createPropertyPrice(token, price);
+      commit('FINISH_CREATE_PRICE');
+      return result;
     }
   },
 
@@ -55,6 +60,10 @@ export default {
     },
     FINISH_TRANSACTION_DESTROYING(state, id) {
       state.transactions = state.transactions.filter(v => v.id !== id);
+    },
+    FINISH_CREATE_PRICE(state) {
+      state.isLoading = true;
+      state.isLoaded = false;
     }
   }
 };
