@@ -16,13 +16,13 @@
           <Amount :value='item.amount' :currency='item.currency.name' />
         </td>
         <td class='actions'>
-          <router-link
+          <!--router-link
             title='Редактировать цену'
             :to='editUrl(item)'
             class='waves-effect waves-teal btn-flat'
           >
             <i class='material-icons grey-text'>edit</i>
-          </router-link>
+          </router-link-->
           <a
             title='Удалить цену'
             class='waves-effect waves-teal btn-flat'
