@@ -63,7 +63,7 @@
               >
               <label for='amount' class='active'>{{ amountLable }}</label>
               <span class='helper-text'>
-                В дальнейшем стоимость можно будет менять, для учета изменений в ценности имущества
+                В дальнейшем стоимость можно будет менять
               </span>
             </div>
             <div class='input-field col l4 s12'>
