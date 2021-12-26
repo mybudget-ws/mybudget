@@ -40,7 +40,7 @@
         <h5 class='col s12'>
           Операции
           <router-link
-            :to="`/transactions/new?property=${this.id}&backTo=${this.backPath}`"
+            :to='newTransactionUrl'
             class='btn-floating waves-effect waves-light yellow z-depth-0'
           >
             <i class='material-icons grey-text text-darken-4'>add</i>
@@ -84,6 +84,9 @@ export default {
     backPath() { return `/properties/${this.id}`; },
     isTransactionVisible() {
       return !this.isLoading && this.transactions.length > 0;
+    },
+    newTransactionUrl() {
+      return `/transactions/new?property=${this.id}&backTo=${this.backPath}`;
     }
   },
   created() {
