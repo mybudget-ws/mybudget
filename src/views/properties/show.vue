@@ -21,9 +21,10 @@
         </div>
       </div>
 
-      <div class='row'>
-        <div class='col'>
-          <span class='blue-grey-text'>Список цен (скоро)</span>
+      <div v-if='!isLoading' class='row'>
+        <h5 class='col s12'>Изменение стоимости</h5>
+        <div class='col s12'>
+          <PriceList :items='prices' />
         </div>
       </div>
 
@@ -43,19 +44,21 @@
 
 <script>
 import Amount from '@/components/amount';
-import TransactionList from '@/components/transactions/list';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import PriceList from '@/components/properties/price_list';
+import TransactionList from '@/components/transactions/list';
 import { get, call } from 'vuex-pathify';
 
 export default {
   components: {
     Amount,
-    TransactionList,
     Loader,
     Menu,
-    PageHeader
+    PageHeader,
+    PriceList,
+    TransactionList
   },
   data: () => ({}),
   computed: {

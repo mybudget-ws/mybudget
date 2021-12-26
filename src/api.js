@@ -533,6 +533,12 @@ export default {
           property { id name color }
           isTransfer
         }
+        prices {
+          id
+          date:dateOn
+          amount
+          currency { name }
+        }
       }
     }`;
     const vars = { id };

@@ -15,6 +15,7 @@ export default {
     kind: null,
     amount: null,
     currency: null,
+    prices: [],
     transactions: [],
     isLoading: true,
     isLoaded: false
@@ -41,12 +42,14 @@ export default {
       state.id = id;
       state.isLoading = true;
     },
-    FINISH_LOADING(state, { name, kind, amount, currency, transactions }) {
+    FINISH_LOADING(state, property) {
+      const { name, kind, amount, currency, transactions, prices } = property;
       state.name = name;
       state.kind = kind;
       state.amount = amount;
       state.currency = currency.name;
       state.transactions = transactions;
+      state.prices = prices;
       state.isLoading = false;
       state.isLoaded = true;
     },
