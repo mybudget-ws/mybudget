@@ -108,7 +108,8 @@ export default {
 
 <style scoped lang='sass'>
 h5
-  margin-bottom: 0
+  @media only screen and (min-width: 600px)
+    margin-bottom: 0
 
 .balance
   font-weight: 500
