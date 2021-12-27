@@ -37,7 +37,12 @@ export default {
     },
     async createPrice({ commit }, { token, price }) {
       const result = await api.createPropertyPrice(token, price);
-      commit('FINISH_CREATE_PRICE');
+      commit('FINISH_PRICE_MODIFICATION');
+      return result;
+    },
+    async updatePrice({ commit }, { token, price }) {
+      const result = await api.updatePropertyPrice(token, price);
+      commit('FINISH_PRICE_MODIFICATION');
       return result;
     },
     async destroyPropertyPrice({ commit }, { token, propertyId, id }) {
@@ -65,7 +70,7 @@ export default {
     FINISH_TRANSACTION_DESTROYING(state, id) {
       state.transactions = state.transactions.filter(v => v.id !== id);
     },
-    FINISH_CREATE_PRICE(state) {
+    FINISH_PRICE_MODIFICATION(state) {
       state.isLoading = true;
       state.isLoaded = false;
     },
