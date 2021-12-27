@@ -27,6 +27,9 @@ export default {
   fixed(date) {
     return moment(date).utcOffset(SERVER_UTC_OFFSET, true).format('DD.MM.YYYY');
   },
+  toParam(date) {
+    return moment(date).utcOffset(SERVER_UTC_OFFSET, true).format('YYYY-MM-DD');
+  },
   i18nDatePicker() {
     return I18N_DATE_PICKER;
   },

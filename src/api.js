@@ -597,6 +597,24 @@ export default {
     return data.action;
   },
 
+  async updatePropertyPrice(token, { amount, date, propertyId, id }) {
+    const query = `
+      mutation($propertyId:ID!, $id:ID!, $amount:String!, $date:String!) {
+        action:updatePropertyPrice(
+          propertyId: $propertyId,
+          id: $id,
+          date: $date,
+          amount: $amount
+        ) { id }
+      }
+    `;
+    const vars = { amount, date, propertyId, id };
+    const data = await this.client(token).request(query, vars);
+    this.log('updatePropertyPrice', data);
+
+    return data.action;
+  },
+
   async destroyPropertyPrice(token, { propertyId, id }) {
     const query = `
       mutation($propertyId:ID!, $id:ID!) {

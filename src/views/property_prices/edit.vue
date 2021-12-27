@@ -166,7 +166,7 @@ export default {
         date: moment(date).format(),
         propertyId
       };
-      const result = await this.update(token, price);
+      const result = await this.update({ token, price });
       this.isSubmitting = false;
 
       if (result != null) {
