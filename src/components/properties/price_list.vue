@@ -16,13 +16,13 @@
           <Amount :value='item.amount' :currency='item.currency.name' />
         </td>
         <td class='actions'>
-          <!--router-link
+          <router-link
             title='Редактировать цену'
             :to='editUrl(item)'
             class='waves-effect waves-teal btn-flat'
           >
             <i class='material-icons grey-text'>edit</i>
-          </router-link-->
+          </router-link>
           <a
             title='Удалить цену'
             class='waves-effect waves-teal btn-flat'
@@ -59,8 +59,9 @@ export default {
     dateTitleFormat({ date }) {
       return DateFormat.fixed(date);
     },
-    editUrl({ id }) {
-      return `${this.backPath}/prices/${id}/edit?backTo=${this.backPath}`;
+    editUrl({ id, amount, date }) {
+      return `${this.backPath}/prices/${id}/edit?amount=${amount}` +
+        `&date=${DateFormat.toParam(date)}&backTo=${this.backPath}`;
     },
     onDestroy({ id }) {
       if (this.items.length <= 1) {

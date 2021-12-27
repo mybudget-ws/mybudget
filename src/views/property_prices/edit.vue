@@ -2,7 +2,7 @@
   <div>
     <Menu />
     <div class='container container-wide'>
-      <PageHeader name='Новая цена' />
+      <PageHeader name='Редактирование' />
 
       <div class='row'>
         <form class='col l12 s12' @submit.prevent='submit'>
@@ -11,7 +11,7 @@
               <input
                 id='amount'
                 ref='amount'
-                v-model='newAmount'
+                v-model='amount'
                 :type='isPhone ? "number" : "text"'
                 :class='{ "validate": !isPhone }'
                 autofocus
@@ -19,7 +19,7 @@
                 @click='$refs.amount.focus()'
                 @input='onChangeAmount'
               >
-              <label for='amount' class='active'>{{ amountLable }}</label>
+              <label for='name' class='active'>{{ amountLable }}</label>
             </div>
             <div class='input-field col l4 s12'>
               <input
@@ -55,7 +55,7 @@
           <div v-else class='row'>
             <div class='col'>
               <Button
-                text='Создать цену'
+                text='Изменить'
                 :is-disabled='isSubmitting'
                 :is-loading='isSubmitting'
                 @click='submit'
@@ -78,8 +78,8 @@ import Button from '@/components/button';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
 import DateFormat from '@/utils/date_format';
-import delay from 'delay';
 import { get, call } from 'vuex-pathify';
+import delay from 'delay';
 
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
@@ -88,7 +88,7 @@ const moment = require('moment');
 moment.locale('ru');
 
 export default {
-  name: 'NewPropertyPrice',
+  name: 'EditPropertyPrice',
   components: {
     Button,
     Menu,
@@ -96,17 +96,17 @@ export default {
   },
   props: {},
   data: () => ({
-    newAmount: '',
-    date: new Date(),
+    amount: '',
+    date: null,
 
     datepicker: null,
     isPhone: md.phone() != null,
     isSubmitting: false
   }),
   computed: {
+    id() { return this.$route.params.id; },
+    propertyId() { return this.$route.params.propertyId; },
     token: get('user/token'),
-    ...get('property/*'),
-    propertyId() { return this.$route.params.id; },
     amountLable() {
       if (this.currency == null) { return 'Величина'; }
       return `Величина, ${this.currency}`;
@@ -116,24 +116,28 @@ export default {
       return `/properties/${this.propertyId}`;
     }
   },
-  async created() {
-    this.newAmount = this.amount.toString();
-  },
   async mounted() {
+    this.amount = Math.abs(this.$route.query.amount);
+    this.date = new Date(Date.parse(this.$route.query.date));
+
     /* eslint-disable */
-    M.Datepicker.init(
-      this.$refs.datepicker,
-      DateFormat.datePickerInitData()
-    );
-    M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+    this.$nextTick(() => {
+      M.Datepicker.init(
+        this.$refs.datepicker,
+        DateFormat.datePickerInitData(this.date)
+      );
+      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+    });
     /* eslint-enable */
+
     this.$refs.amount.select();
     this.$refs.amount.focus();
   },
   methods: {
-    create: call('property/createPrice'),
+    // TODO: update
+    update: call('property/updatePrice'),
     onChangeAmount(_e) {
-      this.newAmount = this.newAmount.replace(/[^0-9,.+-/*\s]/g, '');
+      this.amount = this.amount.toString().replace(/[^0-9,.+-/*\s]/g, '');
     },
     async submit() {
       if (this.isSubmitting) { return; }
@@ -142,30 +146,31 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, newAmount, propertyId } = this;
+      const { token, id, propertyId, amount } = this;
 
       let evalAmount = undefined;
       try {
         evalAmount = eval(
-          newAmount.replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
+          amount.toString().replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
         );
-      } catch (e) {
-        console.error(e);
+      } catch {
         /* eslint-disable */ M.toast({ html: 'Ошибка в выражении' }); /* eslint-enable */
         await delay(100); // Избегаем двойного отображения ошибки.
         this.isSubmitting = false;
       }
-      if (evalAmount == undefined) { return; }
+      if (evalAmount === undefined) { return; }
 
       const price = {
+        id,
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
         date: moment(date).format(),
         propertyId
       };
-      const result = await this.create({ token, price });
+      const result = await this.update({ token, price });
       this.isSubmitting = false;
+
       if (result != null) {
-        this.$router.push({ path: this.backPath }).catch(_e => {});
+        this.$router.push({ path: this.backPath });
       } else {
         /* eslint-disable */ M.toast({ html: 'Непредвиденная ошибка' }); /* eslint-enable */
       }
