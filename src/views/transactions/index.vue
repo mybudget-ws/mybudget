@@ -90,4 +90,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.container
+  min-height: calc(100vh - 64px)
 </style>
