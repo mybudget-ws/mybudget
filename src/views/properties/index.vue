@@ -6,7 +6,7 @@
 
       <div class='row'>
         <div class='col s12'>
-          <Loader v-if='isLoading' />
+          <Loader v-if='isLoading' is-fixed />
           <div v-else-if='isAlert' class='card blue-grey'>
             <div class='card-content white-text'>
               <span class='card-title'>На данный момент имущество не добавлено</span>

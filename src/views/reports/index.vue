@@ -45,7 +45,7 @@
         <FilterTags class='col s12' @onChange='onChangeFilter' />
 
         <div class='col s12'>
-          <Loader v-if='isLoading' class='loader' />
+          <Loader v-if='isLoading' is-fixed />
           <div class='col l10 m9 s12'>
             <div v-if='selectedMode != "donuts"' class='chart' />
             <div v-else>
@@ -433,11 +433,6 @@ export default {
 
       @media only screen and (max-width: 601px)
         margin-left: 0
-
-.loader
-  position: absolute
-  left: calc(50% - 40px)
-  top: 140px
 
 .chart
   height: 540px
