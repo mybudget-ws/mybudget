@@ -35,7 +35,7 @@
           target='_blank'
           class='blue-grey-text text-darken-1'
         >
-          © 2020 Alexander Kalinichev
+          ©2012-2022 Alexander Kalinichev
         </a>
       </div>
     </div>
