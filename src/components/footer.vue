@@ -3,6 +3,11 @@
     <div class='container'>
       <div class='row'>
         <div class='col'>
+          <a href='https://mybudget.ws/' class='blue-grey-text text-darken-1'>
+            Главная
+          </a>
+        </div>
+        <div class='col'>
           <router-link
             to='/agreement'
             class='blue-grey-text text-darken-1'
