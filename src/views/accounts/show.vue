@@ -127,9 +127,11 @@ export default {
 /deep/ h3
   position: relative
 
-
 /deep/ .cover
   min-height: 220px
+
+.container
+  min-height: calc(100vh - 64px)
 
 .name-with-operations
   display: flex
