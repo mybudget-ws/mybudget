@@ -23,7 +23,7 @@
             <tbody>
               <tr v-for='item in orderedVisibleCategories' :key='item.id'>
                 <td>
-                  <RecordName v-bind='item' class='record-name'>
+                  <RecordName v-bind='item'>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
@@ -160,10 +160,6 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.record-name
-  width: 60%
-  overflow: hidden
-
 .color
   width: 20px
   height: 20px
@@ -173,15 +169,16 @@ export default {
 
 .name
   @media only screen and (max-width: 601px)
-    max-width: 130px
+    max-width: 300px
     overflow: auto
     text-overflow: ellipsis
 
 .actions,
 .actions-hidden
-  padding-right: 0px
-  width: 130px
+  width: 118px
+  min-width: 118px
   text-align: right
+  padding-right: 0
 
   .btn-flat
     padding: 0 8px !important
