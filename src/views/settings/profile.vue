@@ -18,8 +18,9 @@
       </div>
       <div class='row'>
         <Loader v-if='isLoading' />
-        <div v-else class='input-field col l6 s12'>
-          <select ref='selectCurrencies' v-model='currency'>
+        <div v-else class='col l6 s12' :class='{ "input-field": !isPhone }'>
+          <label v-if='isPhone'>Валюта по умолчанию</label>
+          <select ref='selectCurrencies' v-model='currency' :class='{ "browser-default": isPhone }'>
             <option
               v-for='curr in currencies'
               :key='curr.id'
@@ -28,7 +29,7 @@
               {{ curr.name }}
             </option>
           </select>
-          <label>Валюта по умолчанию</label>
+          <label v-if='!isPhone'>Валюта по умолчанию</label>
         </div>
       </div>
 
@@ -48,6 +49,9 @@ import Button from '@/components/button';
 import Loader from '@/components/loader';
 import { get, call } from 'vuex-pathify';
 
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+
 export default {
   name: 'SettingsProfile',
   components: {
@@ -58,7 +62,9 @@ export default {
   data: () => ({
     currency: '',
     isLoading: true,
-    isSubmitting: false
+    isSubmitting: false,
+
+    isPhone: md.phone() != null
   }),
   computed: {
     isGuest: get('user/isGuest'),
