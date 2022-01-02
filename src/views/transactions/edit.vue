@@ -76,7 +76,7 @@
                   >
                   <label for='name' class='active'>Комментарий</label>
                 </div>
-                <div v-if='isProjects' class='input-field col l6 s12'>
+                <div v-if='isProjects' class='col l6 s12' :class='{ "input-field": !isPhone }'>
                   <label v-if='isPhone'>Проект</label>
                   <select ref='selectProjects' v-model='projectId' :class='{ "browser-default": isPhone }'>
                     <option value='' selected>Нет</option>
@@ -86,7 +86,7 @@
                   </select>
                   <label v-if='!isPhone'>Проект</label>
                 </div>
-                <div v-if='isProperties' class='input-field col l6 s12'>
+                <div v-if='isProperties' class='col l6 s12' :class='{ "input-field": !isPhone }'>
                   <label v-if='isPhone'>Имущество</label>
                   <select ref='selectProperties' v-model='propertyId' :class='{ "browser-default": isPhone }'>
                     <option value='' selected>Нет</option>
@@ -392,6 +392,9 @@ h6.subtitle
 
 .categories
   padding-bottom: 30px
+
+select.browser-default
+  margin-bottom: 1em
 
 form
   @media only screen and (max-width: 601px)
