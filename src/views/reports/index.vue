@@ -142,7 +142,8 @@ export default {
     },
     isShowColumnsSummary() { return this.selectedMode === 'columns'; },
     donutsArray() { return [...Array(this.donutsCount).keys()]; },
-    chartTickCount() { return this.isPhone ? 8 : 14; }
+    chartTickCount() { return this.isPhone ? 8 : 14; },
+    chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; }
   },
   async mounted() {
     const mode = this.$route.params.mode || this.defaultReportMode;
@@ -183,7 +184,7 @@ export default {
         axis: {
           x: {
             type: 'timeseries',
-            tick: { format: '%d.%m.%Y', count: this.chartTickCount },
+            tick: { format: this.chartTickFormat, count: this.chartTickCount },
             padding: { left: 0, right: 0 }
           },
           y: {
@@ -211,6 +212,7 @@ export default {
         axis: {
           x: {
             type: 'category',
+            tick: { culling: this.isPhone, multiline: false },
             padding: { left: 0, right: 0 }
           },
           y: {

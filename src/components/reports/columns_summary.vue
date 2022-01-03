@@ -1,31 +1,53 @@
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th />
-        <th>Минимум</th>
-        <th>Максимум</th>
-        <th>Среднее</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for='(title, index) in rowTitles' :key='index'>
-        <td class='title'>{{ title }}</td>
-        <td>
-          <Amount :value='min(index)' :currency='currency(index)' />
-        </td>
-        <td>
-          <Amount :value='max(index)' :currency='currency(index)' />
-        </td>
-        <td>
-          <Amount :value='avg(index)' :currency='currency(index)' />
-        </td>
-      </tr>
-      <tr v-if='isEmpty'>
-        <td colspan='4' class='empty grey-text'>Недостаточно данных</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <div v-if='isPhone' class='card-list'>
+      <div v-for='(title, index) in rowTitles' :key='index' class='card blue-grey lighten-5 z-depth-0'>
+        <div class='card-content'>
+          <div class='card-title'>{{ title }}</div>
+          <div>
+            Минимум
+            <Amount :value='min(index)' :currency='currency(index)' class='amount' />
+          </div>
+          <div>
+            Максимум
+            <Amount :value='max(index)' :currency='currency(index)' class='amount' />
+          </div>
+          <div>
+            Среднее
+            <Amount :value='avg(index)' :currency='currency(index)' class='amount' />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table v-else>
+      <thead>
+        <tr>
+          <th />
+          <th>Минимум</th>
+          <th>Максимум</th>
+          <th>Среднее</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for='(title, index) in rowTitles' :key='index'>
+          <td class='title'>{{ title }}</td>
+          <td>
+            <Amount :value='min(index)' :currency='currency(index)' />
+          </td>
+          <td>
+            <Amount :value='max(index)' :currency='currency(index)' />
+          </td>
+          <td>
+            <Amount :value='avg(index)' :currency='currency(index)' />
+          </td>
+        </tr>
+        <tr v-if='isEmpty'>
+          <td colspan='4' class='empty grey-text'>Недостаточно данных</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -99,6 +121,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.card-list
+  margin-top: 20px
+
 .card
   .amount
     float: right
