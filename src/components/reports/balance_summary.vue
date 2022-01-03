@@ -1,5 +1,5 @@
 <template>
-  <div class='balance-summary'>
+  <div>
     <div v-if='isPhone'>
       <div v-for='(row, index) in summary' :key='index' class='card blue-grey lighten-5 z-depth-0'>
         <div class='card-content'>

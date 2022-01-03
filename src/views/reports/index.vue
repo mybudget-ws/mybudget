@@ -55,7 +55,8 @@
               </div>
             </div>
 
-            <BalanceSummary v-if='isShowSummary' :summary='summary' />
+            <BalanceSummary v-if='isShowBalanceSummary' :summary='balanceSummary' />
+            <ColumnsSummary v-if='isShowColumnsSummary' :data='columnsSummary' />
           </div>
 
           <Filters
@@ -72,6 +73,7 @@
 <script>
 import BalanceSummary from '@/components/reports/balance_summary';
 import CategoriesSummary from '@/components/reports/categories_summary';
+import ColumnsSummary from '@/components/reports/columns_summary';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
@@ -93,6 +95,7 @@ export default {
   components: {
     BalanceSummary,
     CategoriesSummary,
+    ColumnsSummary,
     FilterTags,
     Filters,
     Loader,
@@ -108,7 +111,8 @@ export default {
     dateStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     dateEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     isLoading: true,
-    summary: [],
+    balanceSummary: [],
+    columnsSummary: [],
     modes: ['balance', 'columns', 'donuts'],
     periods: [
       { name: 'Все время', months: 9999 },
@@ -133,15 +137,13 @@ export default {
     defaultReportPeriodMonths: get('user/reportPeriodMonths'),
     searchParams: get('filters/searchParams'),
     isCustomPeriod() { return this.selectedPeriodMonths === 0; },
-    isShowSummary() {
-      return this.selectedMode === 'balance' && this.summary.length > 0;
+    isShowBalanceSummary() {
+      return this.selectedMode === 'balance' && this.balanceSummary.length > 0;
     },
-    donutsArray() {
-      return [...Array(this.donutsCount).keys()];
-    },
-    chartTickCount() {
-      return this.isPhone ? 8 : 14;
-    }
+    isShowColumnsSummary() { return this.selectedMode === 'columns'; },
+    donutsArray() { return [...Array(this.donutsCount).keys()]; },
+    chartTickCount() { return this.isPhone ? 8 : 14; },
+    chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; }
   },
   async mounted() {
     const mode = this.$route.params.mode || this.defaultReportMode;
@@ -182,7 +184,7 @@ export default {
         axis: {
           x: {
             type: 'timeseries',
-            tick: { format: '%d.%m.%Y', count: this.chartTickCount },
+            tick: { format: this.chartTickFormat, count: this.chartTickCount },
             padding: { left: 0, right: 0 }
           },
           y: {
@@ -198,6 +200,7 @@ export default {
     },
     async fetchColumns() {
       const columns = await api.columns(this.token, this.searchParams);
+      if (columns != null) { this.columnsSummary = columns; }
       this.chart = c3.generate({
         bindto: '.chart',
         data: {
@@ -209,6 +212,7 @@ export default {
         axis: {
           x: {
             type: 'category',
+            tick: { culling: this.isPhone, multiline: false },
             padding: { left: 0, right: 0 }
           },
           y: {
@@ -250,7 +254,7 @@ export default {
       });
     },
     fillSummary(columns, currencies) {
-      this.summary = columns.slice(1).map(v => ({
+      this.balanceSummary = columns.slice(1).map(v => ({
         name: v[0],
         currency: v[0],
         startBalance: parseFloat(v[1]),
@@ -259,16 +263,16 @@ export default {
         endBalanceInDefaultCurrency: parseFloat(v[v.length - 1]) * currencies[v[0]].rate
       }));
 
-      if (this.summary.length > 1) {
-        this.summary.push(
+      if (this.balanceSummary.length > 1) {
+        this.balanceSummary.push(
           {
             class: 'total',
             name: `Всего, ${currencies['default']}`,
             currency: currencies['default'],
-            startBalance: this.summary
+            startBalance: this.balanceSummary
               .map(v => v.startBalanceInDefaultCurrency)
               .reduce((a, b) => a + b),
-            endBalance: this.summary
+            endBalance: this.balanceSummary
               .map(v => v.endBalanceInDefaultCurrency)
               .reduce((a, b) => a + b)
           }
