@@ -55,7 +55,8 @@
               </div>
             </div>
 
-            <BalanceSummary v-if='isShowSummary' :summary='balanceSummary' />
+            <BalanceSummary v-if='isShowBalanceSummary' :summary='balanceSummary' />
+            <ColumnsSummary v-if='isShowColumnsSummary' :data='columnsSummary' />
           </div>
 
           <Filters
@@ -72,6 +73,7 @@
 <script>
 import BalanceSummary from '@/components/reports/balance_summary';
 import CategoriesSummary from '@/components/reports/categories_summary';
+import ColumnsSummary from '@/components/reports/columns_summary';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
@@ -93,6 +95,7 @@ export default {
   components: {
     BalanceSummary,
     CategoriesSummary,
+    ColumnsSummary,
     FilterTags,
     Filters,
     Loader,
@@ -109,6 +112,7 @@ export default {
     dateEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     isLoading: true,
     balanceSummary: [],
+    columnsSummary: [],
     modes: ['balance', 'columns', 'donuts'],
     periods: [
       { name: 'Все время', months: 9999 },
@@ -133,15 +137,12 @@ export default {
     defaultReportPeriodMonths: get('user/reportPeriodMonths'),
     searchParams: get('filters/searchParams'),
     isCustomPeriod() { return this.selectedPeriodMonths === 0; },
-    isShowSummary() {
+    isShowBalanceSummary() {
       return this.selectedMode === 'balance' && this.balanceSummary.length > 0;
     },
-    donutsArray() {
-      return [...Array(this.donutsCount).keys()];
-    },
-    chartTickCount() {
-      return this.isPhone ? 8 : 14;
-    }
+    isShowColumnsSummary() { return this.selectedMode === 'columns'; },
+    donutsArray() { return [...Array(this.donutsCount).keys()]; },
+    chartTickCount() { return this.isPhone ? 8 : 14; }
   },
   async mounted() {
     const mode = this.$route.params.mode || this.defaultReportMode;
@@ -198,6 +199,7 @@ export default {
     },
     async fetchColumns() {
       const columns = await api.columns(this.token, this.searchParams);
+      if (columns != null) { this.columnsSummary = columns; }
       this.chart = c3.generate({
         bindto: '.chart',
         data: {
