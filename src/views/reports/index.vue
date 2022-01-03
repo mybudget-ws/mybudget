@@ -55,7 +55,7 @@
               </div>
             </div>
 
-            <BalanceSummary v-if='isShowSummary' :summary='summary' />
+            <BalanceSummary v-if='isShowSummary' :summary='balanceSummary' />
           </div>
 
           <Filters
@@ -108,7 +108,7 @@ export default {
     dateStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     dateEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     isLoading: true,
-    summary: [],
+    balanceSummary: [],
     modes: ['balance', 'columns', 'donuts'],
     periods: [
       { name: 'Все время', months: 9999 },
@@ -134,7 +134,7 @@ export default {
     searchParams: get('filters/searchParams'),
     isCustomPeriod() { return this.selectedPeriodMonths === 0; },
     isShowSummary() {
-      return this.selectedMode === 'balance' && this.summary.length > 0;
+      return this.selectedMode === 'balance' && this.balanceSummary.length > 0;
     },
     donutsArray() {
       return [...Array(this.donutsCount).keys()];
@@ -250,7 +250,7 @@ export default {
       });
     },
     fillSummary(columns, currencies) {
-      this.summary = columns.slice(1).map(v => ({
+      this.balanceSummary = columns.slice(1).map(v => ({
         name: v[0],
         currency: v[0],
         startBalance: parseFloat(v[1]),
@@ -259,16 +259,16 @@ export default {
         endBalanceInDefaultCurrency: parseFloat(v[v.length - 1]) * currencies[v[0]].rate
       }));
 
-      if (this.summary.length > 1) {
-        this.summary.push(
+      if (this.balanceSummary.length > 1) {
+        this.balanceSummary.push(
           {
             class: 'total',
             name: `Всего, ${currencies['default']}`,
             currency: currencies['default'],
-            startBalance: this.summary
+            startBalance: this.balanceSummary
               .map(v => v.startBalanceInDefaultCurrency)
               .reduce((a, b) => a + b),
-            endBalance: this.summary
+            endBalance: this.balanceSummary
               .map(v => v.endBalanceInDefaultCurrency)
               .reduce((a, b) => a + b)
           }
