@@ -56,6 +56,15 @@
             </div>
 
             <BalanceSummary v-if='isShowBalanceSummary' :summary='balanceSummary' />
+
+            <form v-if='isShowColumnsSummary' @submit.prevent='submit'>
+              <div class='row'>
+                <label class='col s12 right-align'>
+                  <Checkbox :value='isNoTransfers' @change=onChangeNoTransfers />
+                  <span>Без учета переводов</span>
+                </label>
+              </div>
+            </form>
             <ColumnsSummary v-if='isShowColumnsSummary' :data='columnsSummary' />
           </div>
 
@@ -73,6 +82,7 @@
 <script>
 import BalanceSummary from '@/components/reports/balance_summary';
 import CategoriesSummary from '@/components/reports/categories_summary';
+import Checkbox from '@/components/checkbox';
 import ColumnsSummary from '@/components/reports/columns_summary';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
@@ -95,6 +105,7 @@ export default {
   components: {
     BalanceSummary,
     CategoriesSummary,
+    Checkbox,
     ColumnsSummary,
     FilterTags,
     Filters,
@@ -111,6 +122,7 @@ export default {
     dateStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     dateEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     isLoading: true,
+    isNoTransfers: true,
     balanceSummary: [],
     columnsSummary: [],
     modes: ['balance', 'columns', 'donuts'],
@@ -150,9 +162,7 @@ export default {
     const mode = this.$route.params.mode || this.defaultReportMode;
     this.selectedMode = this.modes.find(v => v === mode) || this.selectedMode;
     this.selectedPeriodMonths = this.defaultReportPeriodMonths;
-    this.isLoading = true;
     await this.fetchData();
-    this.isLoading = false;
 
     this.initSelects();
     this.initDatepickers();
@@ -165,13 +175,15 @@ export default {
     ]),
     setPeriod: call('filters/setPeriod'),
     async fetchData() {
+      this.isLoading = true;
       if (this.selectedMode === 'balance') {
-        return this.fetchBalance();
+        await this.fetchBalance();
+      } else if (this.selectedMode === 'columns') {
+        await this.fetchColumns();
+      } else {
+        await this.fetchDonuts();
       }
-      if (this.selectedMode === 'columns') {
-        return this.fetchColumns();
-      }
-      return this.fetchDonuts();
+      this.isLoading = false;
     },
     async fetchBalance() {
       const { columns, currencies } = await api.balances(this.token, this.searchParams);
@@ -200,7 +212,10 @@ export default {
       });
     },
     async fetchColumns() {
-      const columns = await api.columns(this.token, this.searchParams);
+      const params = this.isNoTransfers ?
+        (this.searchParams + '&wo_transfers=true') :
+        this.searchParams;
+      const columns = await api.columns(this.token, params);
       if (columns != null) { this.columnsSummary = columns; }
       this.chart = c3.generate({
         bindto: '.chart',
@@ -351,18 +366,12 @@ export default {
         /* eslint-enable */
       });
     },
-    async onChangeFilter() {
-      this.isLoading = true;
-      await this.fetchData();
-      this.isLoading = false;
-    },
+    async onChangeFilter() { await this.fetchData(); },
     async onChangeMode({ target }) {
       this.$router.push({ name: 'reports', params: { mode: target.value } });
       this.selectedMode = target.value;
       this.updateReportMode({ mode: this.selectedMode });
-      this.isLoading = true;
       await this.fetchData();
-      this.isLoading = false;
     },
     async onChangePeriod() {
       this.setPeriod({
@@ -371,9 +380,7 @@ export default {
         dateEnd: moment(this.dateEnd).format()
       });
       this.updateReportPeriodMonths({ months: this.selectedPeriodMonths });
-      this.isLoading = true;
       await this.fetchData();
-      this.isLoading = false;
     },
     onSelectDateStart(date) {
       if (date == null) { return; }
@@ -396,6 +403,10 @@ export default {
 
       this.dateEnd = date;
       this.onChangePeriod();
+    },
+    onChangeNoTransfers(value) {
+      this.isNoTransfers = value;
+      this.fetchData();
     }
   }
 };
