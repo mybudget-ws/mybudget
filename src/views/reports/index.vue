@@ -212,7 +212,10 @@ export default {
       });
     },
     async fetchColumns() {
-      const columns = await api.columns(this.token, this.searchParams);
+      const params = this.isNoTransfers ?
+        (this.searchParams + '&noTransfers=true') :
+        this.searchParams;
+      const columns = await api.columns(this.token, params);
       if (columns != null) { this.columnsSummary = columns; }
       this.chart = c3.generate({
         bindto: '.chart',
