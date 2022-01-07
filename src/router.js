@@ -165,7 +165,7 @@ export default new Router({
       beforeEnter: requireAuth
     }, {
       path: '/properties/:propertyId/prices/:id/edit',
-      name: 'new_property_price',
+      name: 'edit_property_price',
       component: () => import(/* webpackChunkName: "inner" */ '@/views/property_prices/edit'),
       beforeEnter: requireAuth
     }, {
