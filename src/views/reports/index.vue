@@ -138,9 +138,10 @@ export default {
     searchParams: get('filters/searchParams'),
     isCustomPeriod() { return this.selectedPeriodMonths === 0; },
     isShowBalanceSummary() {
+      if (this.isLoading) { return false; }
       return this.selectedMode === 'balance' && this.balanceSummary.length > 0;
     },
-    isShowColumnsSummary() { return this.selectedMode === 'columns'; },
+    isShowColumnsSummary() { return !this.isLoading && this.selectedMode === 'columns'; },
     donutsArray() { return [...Array(this.donutsCount).keys()]; },
     chartTickCount() { return this.isPhone ? 8 : 14; },
     chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; }
