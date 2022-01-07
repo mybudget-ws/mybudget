@@ -322,7 +322,7 @@ export default {
       font-size: 13px
       font-weight: 200
       margin-left: -164px
-      margin-top: -3.6px
+      margin-top: -1.6px
       padding-top: 4px
       position: absolute
 
