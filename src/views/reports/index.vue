@@ -213,7 +213,7 @@ export default {
     },
     async fetchColumns() {
       const params = this.isNoTransfers ?
-        (this.searchParams + '&no_transfers=true') :
+        (this.searchParams + '&wo_transfers=true') :
         this.searchParams;
       const columns = await api.columns(this.token, params);
       if (columns != null) { this.columnsSummary = columns; }
