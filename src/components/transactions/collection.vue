@@ -2,6 +2,7 @@
   <div v-if='isTableVisible'>
     <List
       :items='items'
+      :back-path='backPath'
       @onAccount='onAccount'
       @onCategory='onCategory'
       @onProject='onProject'
