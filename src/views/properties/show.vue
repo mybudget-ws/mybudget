@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div v-if='totalIncome !== 0 || totalExpense !== 0' class='row'>
+      <div v-if='!isLoading && (totalIncome !== 0 || totalExpense !== 0)' class='row'>
         <div class='col s12'>
           <table>
             <thead>
