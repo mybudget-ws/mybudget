@@ -21,6 +21,33 @@
         </div>
       </div>
 
+      <div v-if='totalIncome !== 0 || totalExpense !== 0' class='row'>
+        <div class='col s12'>
+          <table>
+            <thead>
+              <tr>
+                <th>Всего</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if='totalIncome !== 0'>
+                <td>Доходы</td>
+                <td>
+                  <Amount :value='totalIncome' :currency='currency' class='amount' />
+                </td>
+              </tr>
+              <tr v-if='totalExpense !== 0'>
+                <td>Расходы</td>
+                <td>
+                  <Amount :value='totalExpense' :currency='currency' class='amount' />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div v-if='!isLoading' class='row'>
         <h5 class='col s12'>
           История изменения цены
@@ -182,4 +209,7 @@ h5
 
   @media only screen and (max-width: 601px)
     height: 220px
+
+.amount
+  text-align: right
 </style>

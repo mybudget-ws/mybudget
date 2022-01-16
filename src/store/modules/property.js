@@ -15,6 +15,8 @@ export default {
     kind: null,
     amount: null,
     currency: null,
+    totalIncome: null,
+    totalExpense: null,
     prices: [],
     transactions: [],
     isLoading: true,
@@ -57,13 +59,17 @@ export default {
       state.isLoading = true;
     },
     FINISH_LOADING(state, property) {
-      const { name, kind, amount, currency, transactions, prices } = property;
+      const {
+        name, kind, amount, currency, transactions, prices, totalIncome, totalExpense
+      } = property;
       state.name = name;
       state.kind = kind;
       state.amount = amount;
       state.currency = currency.name;
       state.transactions = transactions;
       state.prices = prices;
+      state.totalIncome = totalIncome;
+      state.totalExpense = totalExpense;
       state.isLoading = false;
       state.isLoaded = true;
     },

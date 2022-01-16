@@ -522,6 +522,8 @@ export default {
     const query = `query($id:ID!) {
       item:property(id:$id) {
         id name color kind amount:price currency { name }
+        totalIncome
+        totalExpense
         transactions {
           id
           amount
