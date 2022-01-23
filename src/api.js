@@ -539,6 +539,7 @@ export default {
           id
           date:dateOn
           amount
+          description
           currency { name }
         }
       }
@@ -582,35 +583,37 @@ export default {
     return data.action;
   },
 
-  async createPropertyPrice(token, { amount, date, propertyId }) {
+  async createPropertyPrice(token, { amount, date, propertyId, description }) {
     const query = `
-      mutation($propertyId:ID!, $amount:String!, $date:String!) {
+      mutation($propertyId:ID!, $amount:String!, $date:String!, $description:String) {
         action:createPropertyPrice(
           propertyId: $propertyId,
           date: $date,
-          amount: $amount
+          amount: $amount,
+          description: $description
         ) { id }
       }
     `;
-    const vars = { amount, date, propertyId };
+    const vars = { amount, date, propertyId, description };
     const data = await this.client(token).request(query, vars);
     this.log('createPropertyPrice', data);
 
     return data.action;
   },
 
-  async updatePropertyPrice(token, { amount, date, propertyId, id }) {
+  async updatePropertyPrice(token, { amount, date, propertyId, id, description }) {
     const query = `
-      mutation($propertyId:ID!, $id:ID!, $amount:String!, $date:String!) {
+      mutation($propertyId:ID!, $id:ID!, $amount:String!, $date:String!, $description:String) {
         action:updatePropertyPrice(
           propertyId: $propertyId,
           id: $id,
           date: $date,
-          amount: $amount
+          amount: $amount,
+          description: $description
         ) { id }
       }
     `;
-    const vars = { amount, date, propertyId, id };
+    const vars = { amount, date, propertyId, id, description };
     const data = await this.client(token).request(query, vars);
     this.log('updatePropertyPrice', data);
 

@@ -2,7 +2,7 @@
   <table v-bind='$attrs'>
     <thead>
       <tr>
-        <th class='date'>Дата</th>
+        <th>Дата</th>
         <th class='amount'>Величина</th>
         <th />
       </tr>
@@ -10,7 +10,12 @@
     <tbody>
       <tr v-for='item in items' :key='item.id'>
         <td :title='dateTitleFormat(item)'>
-          {{ dateFormat(item) }}
+          <span class='date'>
+            {{ dateFormat(item) }}
+          </span>
+          <i class='description grey-text text-darken-1'>
+            {{ item.description }}
+          </i>
         </td>
         <td class='amount'>
           <Amount :value='item.amount' :currency='item.currency.name' />
@@ -59,9 +64,10 @@ export default {
     dateTitleFormat({ date }) {
       return DateFormat.fixed(date);
     },
-    editUrl({ id, amount, date }) {
+    editUrl({ id, amount, date, description }) {
       return `${this.backPath}/prices/${id}/edit?amount=${amount}` +
-        `&date=${DateFormat.toParam(date)}&backTo=${this.backPath}`;
+        `&date=${DateFormat.toParam(date)}&description=${encodeURI(description)}` +
+        `&backTo=${this.backPath}`;
     },
     onDestroy({ id }) {
       if (this.items.length <= 1) {
@@ -76,12 +82,16 @@ export default {
 <style scoped lang='sass'>
 .date
   white-space: nowrap
+  margin-right: 10px
+
+.description
+  font-weight: 200
 
 .amount
   text-align: right
 
 .actions
-  width: 118px
+  width: 100px
   text-align: right
   padding-right: 0
 

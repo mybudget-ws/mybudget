@@ -32,6 +32,17 @@
             </div>
           </div>
 
+          <div class='row'>
+            <div class='input-field col l4 s12'>
+              <input
+                id='description'
+                v-model='description'
+                type='text'
+              >
+              <label for='description' :class='{ "active": !!description }'>Комментарий</label>
+            </div>
+          </div>
+
           <div v-if='isPhone' class='mobile-submit'>
             <Button
               :is-disabled='isSubmitting'
@@ -97,6 +108,7 @@ export default {
   props: {},
   data: () => ({
     amount: '',
+    description: null,
     date: null,
 
     datepicker: null,
@@ -117,8 +129,12 @@ export default {
     }
   },
   async mounted() {
-    this.amount = Math.abs(this.$route.query.amount);
-    this.date = new Date(Date.parse(this.$route.query.date));
+    const { amount, date, description } = this.$route.query;
+    this.amount = Math.abs(amount);
+    this.date = new Date(Date.parse(date));
+    if (description != null && description !== 'null') {
+      this.description = description.toString();
+    }
 
     /* eslint-disable */
     this.$nextTick(() => {
@@ -146,7 +162,7 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, id, propertyId, amount } = this;
+      const { token, id, propertyId, amount, description } = this;
 
       let evalAmount = undefined;
       try {
@@ -164,7 +180,8 @@ export default {
         id,
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
         date: moment(date).format(),
-        propertyId
+        propertyId,
+        description
       };
       const result = await this.update({ token, price });
       this.isSubmitting = false;

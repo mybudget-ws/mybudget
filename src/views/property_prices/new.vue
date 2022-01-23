@@ -32,6 +32,17 @@
             </div>
           </div>
 
+          <div class='row'>
+            <div class='input-field col l4 s12'>
+              <input
+                id='description'
+                v-model='description'
+                type='text'
+              >
+              <label for='description'>Комментарий</label>
+            </div>
+          </div>
+
           <div v-if='isPhone' class='mobile-submit'>
             <Button
               :is-disabled='isSubmitting'
@@ -97,6 +108,7 @@ export default {
   props: {},
   data: () => ({
     newAmount: '',
+    description: '',
     date: new Date(),
 
     datepicker: null,
@@ -142,7 +154,7 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { token, newAmount, propertyId } = this;
+      const { token, newAmount, propertyId, description } = this;
 
       let evalAmount = undefined;
       try {
@@ -160,7 +172,8 @@ export default {
       const price = {
         amount: (evalAmount === Infinity ? 0 : evalAmount).toString(),
         date: moment(date).format(),
-        propertyId
+        propertyId,
+        description
       };
       const result = await this.create({ token, price });
       this.isSubmitting = false;

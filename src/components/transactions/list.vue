@@ -252,7 +252,7 @@ td
     vertical-align: bottom
 
 .description
-  font-size: 14px
+  // font-size: 14px
   font-weight: 200
 
 .card.mobile-transaction

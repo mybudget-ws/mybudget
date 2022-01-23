@@ -74,7 +74,7 @@
                     v-model='description'
                     type='text'
                   >
-                  <label for='name' class='active'>Комментарий</label>
+                  <label for='description' :class='{ "active": !!description }'>Комментарий</label>
                 </div>
                 <div v-if='isProjects' class='col l6 s12' :class='{ "input-field": !isPhone }'>
                   <label v-if='isPhone'>Проект</label>
