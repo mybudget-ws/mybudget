@@ -186,6 +186,7 @@ export default {
     backPath: { type: String, required: false, default: '/transactions' }
   },
   data: () => ({
+    firstMonth: null,
     months: {},
     isPhone: md.phone() != null
   }),
@@ -225,10 +226,11 @@ export default {
     },
     isMonthShow({ id, dateAt }) {
       const month = DateFormat.month(dateAt);
-      if (Object.entries(this.months).length === 0) {
-        this.months[month] = id;
+      if (this.firstMonth == null) {
+        this.firstMonth = month;
         return false;
       }
+      if (this.firstMonth === month) { return false; }
       if (this.months[month] == null) {
         this.months[month] = id;
         return true;
