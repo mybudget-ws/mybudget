@@ -42,5 +42,9 @@ export default {
       defaultDate: date,
       i18n: I18N_DATE_PICKER
     };
+  },
+  month(date) {
+    const dateTime = moment(date).utcOffset(SERVER_UTC_OFFSET, true);
+    return dateTime.format('MMMM');
   }
 };

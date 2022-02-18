@@ -11,12 +11,18 @@
       </thead>
 
       <tbody>
-        <tr v-for='item in items' :key='item.id'>
-          <td class='date' :title='dateTitleFormat(item)'>{{ dateFormat(item) }}</td>
-          <td class='amount'>
+        <tr
+          v-for='item in items'
+          :key='item.id'
+          :data-month='monthDelimiter(item)'
+        >
+          <td class='date' :class="{ 'with-month': isMonthShow(item) }" :title='dateTitleFormat(item)'>
+            {{ dateFormat(item) }}
+          </td>
+          <td class='amount' :class="{ 'with-month': isMonthShow(item) }" :title='dateTitleFormat(item)'>
             <Amount :value='item.amount' :currency='item.account.currency.name' />
           </td>
-          <td>
+          <td :class="{ 'with-month': isMonthShow(item) }" :title='dateTitleFormat(item)'>
             <BadgeAccount
               :account='item.account'
               @click='onAccount(item.account)'
@@ -51,7 +57,7 @@
               {{ item.description }}
             </i>
           </td>
-          <td class='actions'>
+          <td class='actions' :class="{ 'with-month': isMonthShow(item) }" :title='dateTitleFormat(item)'>
             <router-link
               v-if='!item.isTransfer'
               title='Скопировать операцию'
@@ -180,6 +186,7 @@ export default {
     backPath: { type: String, required: false, default: '/transactions' }
   },
   data: () => ({
+    months: {},
     isPhone: md.phone() != null
   }),
   computed: {},
@@ -215,12 +222,52 @@ export default {
     },
     onDestroy(transaction) {
       this.$emit('onDestroy', transaction);
+    },
+    isMonthShow({ id, dateAt }) {
+      const month = DateFormat.month(dateAt);
+      if (Object.entries(this.months).length === 0) {
+        this.months[month] = id;
+        return false;
+      }
+      if (this.months[month] == null) {
+        this.months[month] = id;
+        return true;
+      }
+      if (this.months[month] == id && Object.entries(this.months).length > 1) {
+        return true;
+      }
+      return false;
+    },
+    monthDelimiter(item) {
+      if (!this.isMonthShow(item)) { return null; }
+
+      return DateFormat.month(item.dateAt);
     }
   }
 };
 </script>
 
 <style scoped lang='sass'>
+tr
+  position: relative
+
+td.with-month
+  padding-top: 60px
+
+[data-month]:after
+  content: attr(data-month)
+  position: absolute
+  font-size: 18px
+  left: 0
+  top: 20px
+  width: 100%
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12)
+  // color: #757575
+  color: #9e9e9e
+  padding-left: 5px
+  padding-bottom: 4px
+  text-transform: capitalize
+
 td
   padding: 10px 5px
 
