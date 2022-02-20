@@ -46,5 +46,14 @@ export default {
   month(date) {
     const dateTime = moment(date).utcOffset(SERVER_UTC_OFFSET, true);
     return dateTime.format('MMMM');
+  },
+  monthAdaptive(date) {
+    const dateTime = moment(date).utcOffset(SERVER_UTC_OFFSET, true);
+    const current = moment().utcOffset(SERVER_UTC_OFFSET, true);
+
+    if (moment(dateTime).isSame(current, 'year')) {
+      return dateTime.format('MMMM');
+    }
+    return dateTime.format('MMMM YYYY');
   }
 };

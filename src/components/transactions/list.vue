@@ -224,7 +224,7 @@ export default {
       this.$emit('onDestroy', transaction);
     },
     isMonthShow({ id, dateAt }) {
-      const month = DateFormat.month(dateAt);
+      const month = DateFormat.monthAdaptive(dateAt);
       if (Object.entries(this.months).length == 0) {
         this.months[month] = '';
         return false;
@@ -238,7 +238,7 @@ export default {
     monthDelimiter(item) {
       if (!this.isMonthShow(item)) { return null; }
 
-      return DateFormat.month(item.dateAt);
+      return DateFormat.monthAdaptive(item.dateAt);
     }
   }
 };
