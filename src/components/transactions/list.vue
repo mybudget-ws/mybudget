@@ -186,7 +186,6 @@ export default {
     backPath: { type: String, required: false, default: '/transactions' }
   },
   data: () => ({
-    firstMonth: null,
     months: {},
     isPhone: md.phone() != null
   }),
@@ -226,19 +225,15 @@ export default {
     },
     isMonthShow({ id, dateAt }) {
       const month = DateFormat.month(dateAt);
-      if (this.firstMonth == null) {
-        this.firstMonth = month;
+      if (Object.entries(this.months).length == 0) {
+        this.months[month] = '';
         return false;
       }
-      if (this.firstMonth === month) { return false; }
       if (this.months[month] == null) {
         this.months[month] = id;
         return true;
       }
-      if (this.months[month] == id && Object.entries(this.months).length > 1) {
-        return true;
-      }
-      return false;
+      return this.months[month] == id;
     },
     monthDelimiter(item) {
       if (!this.isMonthShow(item)) { return null; }
@@ -264,7 +259,6 @@ td.with-month
   top: 20px
   width: 100%
   border-bottom: 1px solid rgba(0, 0, 0, 0.12)
-  // color: #757575
   color: #9e9e9e
   padding-left: 5px
   padding-bottom: 4px
