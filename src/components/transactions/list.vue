@@ -89,7 +89,12 @@
         v-for='item in items'
         :key='item.id'
         class='card z-depth-0 mobile-transaction'
-        :class='item.amount > 0 ? "green lighten-5" : "red lighten-5"'
+        :class="{
+          'green lighten-5': item.amount > 0,
+          'red lighten-5': item.amount <= 0,
+          'with-month': isMonthShow(item)
+        }"
+        :data-month='monthDelimiter(item)'
       >
         <div class='card-content'>
           <Amount
@@ -248,9 +253,6 @@ export default {
 tr
   position: relative
 
-td.with-month
-  padding-top: 60px
-
 [data-month]:after
   content: attr(data-month)
   position: absolute
@@ -264,8 +266,17 @@ td.with-month
   padding-bottom: 4px
   text-transform: capitalize
 
+  @media only screen and (max-width: 601px)
+    border-bottom: none
+    padding-left: 0
+    top: -34px
+    color: #455a64
+
 td
   padding: 10px 5px
+
+  &.with-month
+    padding-top: 60px
 
 .date
   width: 96px
@@ -295,7 +306,6 @@ td
     vertical-align: bottom
 
 .description
-  // font-size: 14px
   font-weight: 200
 
 .card.mobile-transaction
@@ -304,6 +314,9 @@ td
   margin: 0 0 18px
   padding: 8px 12px 0px
   border-radius: 8px
+
+  &.with-month
+    margin-top: 50px
 
   .date
     position: absolute
