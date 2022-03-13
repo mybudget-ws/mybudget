@@ -42,6 +42,10 @@
       </PageHeader>
 
       <div class='row'>
+        <div class='col s12 chart-description'>
+          1 марта &mdash; 30 марта
+        </div>
+
         <FilterTags class='col s12' @onChange='onChangeFilter' />
 
         <div class='col s12'>
@@ -450,10 +454,16 @@ export default {
       @media only screen and (max-width: 601px)
         margin-left: 0
 
+.chart-description
+  margin-top: -14px
+  margin-bottom: 8px
+  color: #9e9e9e
+  font-size: 1rem
+
 .chart
   height: 540px
   margin-top: 10px
-  margin-left: -20px
+  margin-left: -30px
 
   @media only screen and (max-width: 601px)
     margin-top: 0px
