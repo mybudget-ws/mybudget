@@ -88,6 +88,7 @@ import BalanceSummary from '@/components/reports/balance_summary';
 import CategoriesSummary from '@/components/reports/categories_summary';
 import Checkbox from '@/components/checkbox';
 import ColumnsSummary from '@/components/reports/columns_summary';
+import DateFormat from '@/utils/date_format';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
@@ -319,50 +320,16 @@ export default {
         M.Datepicker.init(
           this.$refs.datepickerStart,
           {
-            format: 'dd mmm, yyyy',
-            firstDay: 1,
-            autoClose: true,
-            setDefaultDate: true,
-            defaultDate: this.dateStart,
-            i18n: {
-              cancel: 'Закрыть',
-              months: [
-                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-              monthsShort: [
-                'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-                'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-              ],
-              weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-              weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-            },
+            ...DateFormat.datePickerInitData(this.dateStart),
             onSelect: this.onSelectDateStart
           }
         );
         M.Datepicker.getInstance(this.$refs.datepickerStart).setDate(this.dateStart);
-        /* eslint-enable */
 
-        /* eslint-disable */
         M.Datepicker.init(
           this.$refs.datepickerEnd,
           {
-            format: 'dd mmm, yyyy',
-            firstDay: 1,
-            autoClose: true,
-            setDefaultDate: true,
-            defaultDate: this.dateEnd,
-            i18n: {
-              cancel: 'Закрыть',
-              months: [
-                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-              monthsShort: [
-                'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-                'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-              ],
-              weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-              weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-            },
+            ...DateFormat.datePickerInitData(this.dateEnd),
             onSelect: this.onSelectDateEnd
           }
         );
