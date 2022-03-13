@@ -42,6 +42,8 @@
       </PageHeader>
 
       <div class='row'>
+        <div class='col s12 chart-description' v-html='displayInterval' />
+
         <FilterTags class='col s12' @onChange='onChangeFilter' />
 
         <div class='col s12'>
@@ -84,6 +86,7 @@ import BalanceSummary from '@/components/reports/balance_summary';
 import CategoriesSummary from '@/components/reports/categories_summary';
 import Checkbox from '@/components/checkbox';
 import ColumnsSummary from '@/components/reports/columns_summary';
+import DateFormat from '@/utils/date_format';
 import FilterTags from '@/components/filter_tags';
 import Filters from '@/components/filters';
 import Loader from '@/components/loader';
@@ -156,7 +159,25 @@ export default {
     isShowColumnsSummary() { return !this.isLoading && this.selectedMode === 'columns'; },
     donutsArray() { return [...Array(this.donutsCount).keys()]; },
     chartTickCount() { return this.isPhone ? 8 : 14; },
-    chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; }
+    chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; },
+    displayInterval() {
+      if (this.selectedPeriodMonths === 9999) {
+        return 'За весь период';
+      }
+      return `${this.displayDateStart } &mdash; ${this.displayDateEnd}`;
+    },
+    displayDateStart() {
+      if (this.isCustomPeriod) {
+        return DateFormat.reportAdaptive(this.dateStart);
+      }
+      return DateFormat.reportAdaptiveMonthAgo(this.selectedPeriodMonths);
+    },
+    displayDateEnd() {
+      if (this.isCustomPeriod) {
+        return DateFormat.reportAdaptive(this.dateEnd);
+      }
+      return DateFormat.reportAdaptive();
+    }
   },
   async mounted() {
     const mode = this.$route.params.mode || this.defaultReportMode;
@@ -315,50 +336,16 @@ export default {
         M.Datepicker.init(
           this.$refs.datepickerStart,
           {
-            format: 'dd mmm, yyyy',
-            firstDay: 1,
-            autoClose: true,
-            setDefaultDate: true,
-            defaultDate: this.dateStart,
-            i18n: {
-              cancel: 'Закрыть',
-              months: [
-                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-              monthsShort: [
-                'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-                'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-              ],
-              weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-              weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-            },
+            ...DateFormat.datePickerInitData(this.dateStart),
             onSelect: this.onSelectDateStart
           }
         );
         M.Datepicker.getInstance(this.$refs.datepickerStart).setDate(this.dateStart);
-        /* eslint-enable */
 
-        /* eslint-disable */
         M.Datepicker.init(
           this.$refs.datepickerEnd,
           {
-            format: 'dd mmm, yyyy',
-            firstDay: 1,
-            autoClose: true,
-            setDefaultDate: true,
-            defaultDate: this.dateEnd,
-            i18n: {
-              cancel: 'Закрыть',
-              months: [
-                'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-              monthsShort: [
-                'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-                'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-              ],
-              weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-              weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-            },
+            ...DateFormat.datePickerInitData(this.dateEnd),
             onSelect: this.onSelectDateEnd
           }
         );
@@ -450,10 +437,16 @@ export default {
       @media only screen and (max-width: 601px)
         margin-left: 0
 
+.chart-description
+  margin-top: -14px
+  margin-bottom: 8px
+  color: #9e9e9e
+  font-size: 1rem
+
 .chart
   height: 540px
   margin-top: 10px
-  margin-left: -20px
+  margin-left: -30px
 
   @media only screen and (max-width: 601px)
     margin-top: 0px

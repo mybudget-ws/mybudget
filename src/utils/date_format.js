@@ -15,14 +15,28 @@ const I18N_DATE_PICKER = {
 };
 
 export default {
-  adaptive(date) {
+  adaptive(date = new Date()) {
     const dateTime = moment(date).utcOffset(SERVER_UTC_OFFSET, true);
     const current = moment().utcOffset(SERVER_UTC_OFFSET, true);
 
     if (moment(dateTime).isSame(current, 'day')) { return 'Сегодня'; }
     if (current.subtract(1, 'days').isSame(dateTime, 'day')) { return 'Вчера'; }
-    if (current.year() === dateTime.year()) { return dateTime.format('DD MMMM'); }
+    if (current.year() === dateTime.year()) { return dateTime.format('D MMMM'); }
     return dateTime.format('DD.MM.YYYY');
+  },
+  reportAdaptive(date = new Date()) {
+    const dateTime = moment(date).utcOffset(SERVER_UTC_OFFSET, true);
+    const current = moment().utcOffset(SERVER_UTC_OFFSET, true);
+
+    if (current.year() === dateTime.year()) { return dateTime.format('D MMMM'); }
+    return dateTime.format('DD.MM.YYYY');
+  },
+  reportAdaptiveMonthAgo(months) {
+    const current = moment().utcOffset(SERVER_UTC_OFFSET, true);
+    const dateTime = moment().utcOffset(SERVER_UTC_OFFSET, true).subtract(months, 'months');
+
+    if (current.year() === dateTime.year()) { return dateTime.format('D MMMM'); }
+    return dateTime.format('D MMMM YYYY');
   },
   fixed(date) {
     return moment(date).utcOffset(SERVER_UTC_OFFSET, true).format('DD.MM.YYYY');
