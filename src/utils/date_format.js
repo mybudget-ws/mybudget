@@ -21,7 +21,7 @@ export default {
 
     if (moment(dateTime).isSame(current, 'day')) { return 'Сегодня'; }
     if (current.subtract(1, 'days').isSame(dateTime, 'day')) { return 'Вчера'; }
-    if (current.year() === dateTime.year()) { return dateTime.format('DD MMMM'); }
+    if (current.year() === dateTime.year()) { return dateTime.format('D MMMM'); }
     return dateTime.format('DD.MM.YYYY');
   },
   fixed(date) {
