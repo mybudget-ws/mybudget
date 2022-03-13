@@ -42,9 +42,7 @@
       </PageHeader>
 
       <div class='row'>
-        <div class='col s12 chart-description'>
-          1 марта &mdash; 30 марта
-        </div>
+        <div class='col s12 chart-description' v-html='displayInterval' />
 
         <FilterTags class='col s12' @onChange='onChangeFilter' />
 
@@ -161,7 +159,25 @@ export default {
     isShowColumnsSummary() { return !this.isLoading && this.selectedMode === 'columns'; },
     donutsArray() { return [...Array(this.donutsCount).keys()]; },
     chartTickCount() { return this.isPhone ? 8 : 14; },
-    chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; }
+    chartTickFormat() { return this.isPhone ? '%d.%m' : '%d.%m.%Y'; },
+    displayInterval() {
+      if (this.selectedPeriodMonths === 9999) {
+        return 'За весь период';
+      }
+      return `${this.displayDateStart } &mdash; ${this.displayDateEnd}`;
+    },
+    displayDateStart() {
+      if (this.isCustomPeriod) {
+        return DateFormat.reportAdaptive(this.dateStart);
+      }
+      return DateFormat.reportAdaptiveMonthAgo(this.selectedPeriodMonths);
+    },
+    displayDateEnd() {
+      if (this.isCustomPeriod) {
+        return DateFormat.reportAdaptive(this.dateEnd);
+      }
+      return DateFormat.reportAdaptive();
+    }
   },
   async mounted() {
     const mode = this.$route.params.mode || this.defaultReportMode;
