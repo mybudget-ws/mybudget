@@ -86,12 +86,12 @@
 
 <script>
 import Button from '@/components/button';
+import DateFormat from '@/utils/date_format';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
-import DateFormat from '@/utils/date_format';
+
 import { get, call } from 'vuex-pathify';
 import delay from 'delay';
-
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
 
