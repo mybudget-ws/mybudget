@@ -130,13 +130,13 @@ export default {
     columnsSummary: [],
     modes: ['balance', 'columns', 'donuts'],
     periods: [
-      { name: 'Все время', months: 9999 },
       { name: 'Месяц', months: 1 },
       { name: 'Полгода', months: 6 },
       { name: 'Год', months: 12 },
       { name: 'Два года', months: 24 },
       { name: 'Пять лет', months: 60 },
       { name: 'Десять лет', months: 120 },
+      { name: 'Все время', months: 9999 },
       { name: 'Свой интервал', months: 0 }
     ],
     donuts: [],
