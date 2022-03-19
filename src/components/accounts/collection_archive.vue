@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for='item in hiddenItems' :key='item.id'>
+      <tr v-for='item in orderedItems' :key='item.id'>
         <td>
           <RecordName v-bind='item' />
         </td>
@@ -48,7 +48,10 @@ export default {
   props: {},
   data: () => ({}),
   computed: {
-    ...get('accounts/*')
+    ...get('accounts/*'),
+    orderedItems() {
+      return [...this.hiddenItems].sort((a, b) => b.id - a.id);
+    }
   },
   methods: {
     async onHide(account) {
