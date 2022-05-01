@@ -1,8 +1,9 @@
 # myBudget II
 
-> Landing
+## Landing
+
 [mybudget.ws](https://mybudget.ws)
 
-> WebApp
+## WebApp
 
 [2.mybudget.ws](https://2.mybudget.ws)
