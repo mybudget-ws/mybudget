@@ -1,5 +1,7 @@
 # myBudget II
 
+`Finance` `Budget` `Financial analysis` `Budget analysis`
+
 ## Landing
 
 [mybudget.ws](https://mybudget.ws)
