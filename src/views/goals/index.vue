@@ -53,7 +53,13 @@
                 <td class='percentage'>
                   <Amount :value='item.balance' :currency='currency(item)'>
                     <span
-                      class='new badge black-text tag light-blue lighten-3'
+                      v-if='item.percentage >= 100'
+                      class='new badge black-text tag light-green'
+                      :data-badge-caption='tagPercentage(item)'
+                    />
+                    <span
+                      v-else
+                      class='new badge black-text tag grey lighten-2'
                       :data-badge-caption='tagPercentage(item)'
                     />
                   </Amount>
