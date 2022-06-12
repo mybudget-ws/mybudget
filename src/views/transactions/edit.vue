@@ -61,6 +61,14 @@
           </div>
 
           <div class='row'>
+            <div v-if='isPhone' class='input-field col s12'>
+              <input
+                id='description'
+                v-model='description'
+                type='text'
+              >
+              <label for='description'>Комментарий</label>
+            </div>
             <Categories
               class='categories col l4 s12'
               :ids='categoryIds'
@@ -68,7 +76,7 @@
             />
             <div class='col l8 s12'>
               <div class='row'>
-                <div class='input-field col s12'>
+                <div v-if='!isPhone' class='input-field col s12'>
                   <input
                     id='description'
                     v-model='description'
