@@ -149,7 +149,7 @@ export default {
   async accounts(token) {
     const query = `{
       items:accounts {
-        id name color kind isFavourite isHidden balance balanceBase
+        id name color kind isFavourite isHidden balance balanceBase position
         currency { name }
       }
     }`;
