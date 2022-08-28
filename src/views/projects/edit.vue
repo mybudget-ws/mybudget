@@ -36,6 +36,18 @@
               </select>
               <label v-if='!isPhone'>Цвет</label>
             </div>
+            <div class='input-field col l4 s12'>
+              <input
+                id='position'
+                ref='position'
+                v-model='position'
+                type='number'
+                min='1'
+                step='1'
+                class='validate'
+              >
+              <label for='position' class='active'>Позиция в списке</label>
+            </div>
           </div>
 
           <div v-if='isPhone' class='mobile-submit'>
@@ -100,6 +112,7 @@ export default {
   data: () => ({
     name: '',
     color: 'light-blue',
+    position: 0,
 
     isLoading: true,
     isSubmitting: false,
@@ -115,6 +128,7 @@ export default {
     this.isLoading = false;
     this.name = project.name;
     this.color = project.color;
+    this.position = project.position;
 
     await this.fetchColors();
     /* eslint-disable */
@@ -129,8 +143,10 @@ export default {
     async submit() {
       if (this.isSubmitting) { return; }
 
-      const { id, name, color } = this;
-      const isSuccess = await api.updateProject(this.token, { id, name, color });
+      const { id, name, color, position } = this;
+      const isSuccess = await api.updateProject(
+        this.token, { id, name, color, position: parseInt(position) }
+      );
       if (isSuccess != null) {
         this.$router.push({ name: 'projects' }).catch(_e => {});
       } else {

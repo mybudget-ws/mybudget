@@ -42,6 +42,18 @@
               >
               <label for='name' class='active'>Накопить</label>
             </div>
+            <div class='input-field col l4 s12'>
+              <input
+                id='position'
+                ref='position'
+                v-model='position'
+                type='number'
+                min='1'
+                step='1'
+                class='validate'
+              >
+              <label for='position' class='active'>Позиция в списке</label>
+            </div>
           </div>
           <div class='accounts'>
             <!-- TODO: Extract accounts (components/filters.vue) -->
@@ -140,6 +152,7 @@ export default {
     name: '',
     date: null,
     amount: '0',
+    position: 0,
     selectedAccounts: [],
     isLoading: true,
     isSubmitting: false,
@@ -177,6 +190,7 @@ export default {
     this.amount = item.amount;
     this.date = new Date(Date.parse(item.dueDateOn));
     this.selectedAccounts = item.accounts;
+    this.position = item.position;
 
     /* eslint-disable */
     M.Datepicker.init(
@@ -229,7 +243,7 @@ export default {
       /* eslint-disable */
       const date = M.Datepicker.getInstance(this.$refs.datepicker).date;
       /* eslint-enable */
-      const { id, name, amount } = this;
+      const { id, name, amount, position } = this;
       const accountIds = this.selectedAccounts.map(v => v.id);
       const isSuccess = await api.updateGoal(
         this.token,
@@ -238,7 +252,8 @@ export default {
           name,
           amount: amount.toString(),
           dueDateOn: moment(date).format(),
-          accountIds
+          accountIds,
+          position: parseInt(position)
         }
       );
       if (isSuccess != null) {
