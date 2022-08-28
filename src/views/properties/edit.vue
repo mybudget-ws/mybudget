@@ -8,7 +8,7 @@
       <div v-else class='row'>
         <form class='col l10 s12' @submit.prevent='submit'>
           <div class='row'>
-            <div class='input-field col l8 s12'>
+            <div class='input-field col l9 s12'>
               <input
                 id='name'
                 v-model='name'
@@ -21,22 +21,31 @@
             </div>
           </div>
           <div class='row'>
-            <div
-              class='input-field col l4 s12'
-              :class='`color c-${color}`'
-            >
-              <select ref='selectColors' v-model='color' :class="{ 'browser-default': isPhone }">
+            <div class='input-field col l3 s12'>
+              <input
+                id='amount'
+                ref='amount'
+                v-model='amount'
+                type='number'
+                :class='{ "validate": !isPhone }'
+                required
+                @input='onChangeAmount'
+              >
+              <label for='amount' class='active'>{{ amountLable }}</label>
+            </div>
+            <div class='input-field col l3 s12'>
+              <select ref='selectCurrencies' v-model='currency' :class="{ 'browser-default': isPhone }">
                 <option
-                  v-for='color in colors'
-                  :key='color.id'
-                  :value='color.id'
+                  v-for='curr in currencies'
+                  :key='curr.id'
+                  :value='curr.name'
                 >
-                  {{ color.name }}
+                  {{ curr.name }}
                 </option>
               </select>
-              <label v-if='!isPhone'>Цвет</label>
+              <label v-if='!isPhone'>Валюта</label>
             </div>
-            <div class='input-field col l4 s12'>
+            <div class='input-field col l3 s12'>
               <select ref='selectKinds' v-model='kind' :class="{ 'browser-default': isPhone }">
                 <option
                   v-for='kind in kinds'
@@ -50,29 +59,32 @@
             </div>
           </div>
           <div class='row'>
-            <div class='input-field col l4 s12'>
-              <input
-                id='amount'
-                ref='amount'
-                v-model='amount'
-                type='number'
-                :class='{ "validate": !isPhone }'
-                required
-                @input='onChangeAmount'
-              >
-              <label for='amount' class='active'>{{ amountLable }}</label>
-            </div>
-            <div class='input-field col l4 s12'>
-              <select ref='selectCurrencies' v-model='currency' :class="{ 'browser-default': isPhone }">
+            <div
+              class='input-field col l3 s12'
+              :class='`color c-${color}`'
+            >
+              <select ref='selectColors' v-model='color' :class="{ 'browser-default': isPhone }">
                 <option
-                  v-for='curr in currencies'
-                  :key='curr.id'
-                  :value='curr.name'
+                  v-for='color in colors'
+                  :key='color.id'
+                  :value='color.id'
                 >
-                  {{ curr.name }}
+                  {{ color.name }}
                 </option>
               </select>
-              <label v-if='!isPhone'>Валюта</label>
+              <label v-if='!isPhone'>Цвет</label>
+            </div>
+            <div class='input-field col l3 s12'>
+              <input
+                id='position'
+                ref='position'
+                v-model='position'
+                type='number'
+                min='1'
+                step='1'
+                class='validate'
+              >
+              <label for='position' class='active'>Позиция в списке</label>
             </div>
           </div>
 
@@ -140,7 +152,8 @@ export default {
     color: '',
     currency: '',
     kind: '',
-    amount: 0,
+    amount: '0',
+    position: 0,
 
     isLoading: true,
     isSubmitting: false,
@@ -168,6 +181,7 @@ export default {
     this.currency = property.currency.name;
     this.kind = property.kind;
     this.amount = property.amount.toString();
+    this.position = property.position;
 
     await this.fetchCurrencies({ base: this.currency });
     await this.fetchColors();
@@ -196,10 +210,10 @@ export default {
       if (this.isSubmitting) { return; }
 
       this.isSubmitting = true;
-      const { id, name, color, kind, currency, amount } = this;
+      const { id, name, color, kind, currency, amount, position } = this;
       const isSuccess = await api.updateProperty(
         this.token,
-        { id, name, color, kind, currency, amount }
+        { id, name, color, kind, currency, amount, position: parseInt(position) }
       );
       if (isSuccess != null) {
         this.$router.push({ path: this.backPath }).catch(_e => {});
