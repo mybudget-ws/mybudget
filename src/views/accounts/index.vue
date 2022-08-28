@@ -27,7 +27,7 @@
             </thead>
 
             <tbody>
-              <tr v-for='item in orderedVisibleAccounts' :key='item.id'>
+              <tr v-for='item in accounts' :key='item.id'>
                 <td>
                   <RecordName v-bind='item'>
                     <span v-if='item.kind === "credit"' class='badge' title='Кредитная карта'>K</span>
@@ -92,7 +92,7 @@
                   </a>
                 </td>
               </tr>
-              <tr v-if='orderedVisibleAccounts.length > 1' class='totals'>
+              <tr v-if='accounts.length > 1' class='totals'>
                 <td>
                   <b>Всего</b>
                 </td>
@@ -117,7 +117,7 @@
             </tbody>
           </table>
           <Card
-            v-for='item in orderedVisibleAccounts'
+            v-for='item in accounts'
             v-else
             :key='item.id'
             v-bind='item'
@@ -190,13 +190,10 @@ export default {
       return !this.isLoading && this.items.length === 0;
     },
     isDeleteAllow() {
-      return this.orderedVisibleAccounts.length > 1;
+      return this.accounts.length > 1;
     },
-    orderedVisibleAccounts() {
-      return [
-        ...this.visibleItems.filter(v => v.isFavourite),
-        ...this.visibleItems.filter(v => !v.isFavourite)
-      ];
+    accounts() {
+      return this.visibleItems;
     },
     orderedTotals() {
       const totals = this.visibleItems.reduce((r, a) => {

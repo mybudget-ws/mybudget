@@ -149,7 +149,7 @@ export default {
   async accounts(token) {
     const query = `{
       items:accounts {
-        id name color kind isFavourite isHidden balance balanceBase
+        id name color kind isFavourite isHidden balance balanceBase position
         currency { name }
       }
     }`;
@@ -171,7 +171,7 @@ export default {
 
   async account(token, { id }) {
     const query = `query($id:ID!) {
-      item:account(id:$id) { id name color kind balance currency { name } }
+      item:account(id:$id) { id name color kind balance currency { name } position }
     }`;
     const vars = { id };
     const data = await this.client(token).request(query, vars);
@@ -198,19 +198,27 @@ export default {
     return data.createAccount;
   },
 
-  async updateAccount(token, { id, name, color, kind, currency }) {
+  async updateAccount(token, { id, name, color, kind, currency, position }) {
     const query = `
-      mutation($id:ID!, $name:String!, $color:String!, $kind:String!, $currency:String!) {
+      mutation(
+        $id:ID!,
+        $name:String!,
+        $color:String!,
+        $kind:String!,
+        $currency:String!,
+        $position:Int!
+      ) {
         action:updateAccount(
           id: $id,
           name: $name,
           color: $color,
           kind: $kind,
-          currency: $currency
-        ) { id name color currency { name } }
+          currency: $currency,
+          position: $position
+        ) { id name color currency { name } position }
       }
     `;
-    const vars = { id, name, color, kind, currency };
+    const vars = { id, name, color, kind, currency, position };
     const data = await this.client(token).request(query, vars);
     this.log('updateAccount', data);
 
@@ -325,6 +333,7 @@ export default {
           amount
           dueDateOn
           accounts { id name color }
+          position
         }
       }
     `;
@@ -353,19 +362,27 @@ export default {
     return data.action;
   },
 
-  async updateGoal(token, { id, name, amount, dueDateOn, accountIds }) {
+  async updateGoal(token, { id, name, amount, dueDateOn, accountIds, position }) {
     const query = `
-      mutation($id:ID!, $name:String!, $amount:String!, $dueDateOn:String!, $accountIds:[Int!]!) {
+      mutation(
+        $id:ID!,
+        $name:String!,
+        $amount:String!,
+        $dueDateOn:String!,
+        $accountIds:[Int!]!,
+        $position:Int!
+      ) {
         action:updateGoal(
           id: $id,
           name: $name,
           amount: $amount,
           dueDateOn: $dueDateOn,
-          accountIds: $accountIds
-        ) { id name }
+          accountIds: $accountIds,
+          position: $position
+        ) { id name position }
       }
     `;
-    const vars = { id, name, amount, dueDateOn, accountIds };
+    const vars = { id, name, amount, dueDateOn, accountIds, position };
     const data = await this.client(token).request(query, vars);
     this.log('updateGoal', data);
 
@@ -416,7 +433,7 @@ export default {
   },
 
   async project(token, { id }) {
-    const query = 'query($id:ID!) { item:project(id:$id) { id name color } }';
+    const query = 'query($id:ID!) { item:project(id:$id) { id name color position } }';
     const vars = { id };
     const data = await this.client(token).request(query, vars);
     this.log(query, data);
@@ -440,17 +457,18 @@ export default {
     return data.action;
   },
 
-  async updateProject(token, { id, name, color }) {
+  async updateProject(token, { id, name, color, position }) {
     const query = `
-      mutation($id:ID!, $name:String!, $color:String!) {
+      mutation($id:ID!, $name:String!, $color:String!, $position:Int!) {
         action:updateProject(
           id: $id,
           name: $name,
-          color: $color
+          color: $color,
+          position: $position
         ) { id name color }
       }
     `;
-    const vars = { id, name, color };
+    const vars = { id, name, color, position };
     const data = await this.client(token).request(query, vars);
     this.log('updateProject', data);
 
@@ -522,6 +540,7 @@ export default {
     const query = `query($id:ID!) {
       item:property(id:$id) {
         id name color kind amount:price currency { name }
+        position
         totalIncome
         totalExpense
         transactions {
@@ -551,10 +570,16 @@ export default {
     return data.item;
   },
 
-  async updateProperty(token, { id, name, color, kind, currency, amount }) {
+  async updateProperty(token, { id, name, color, kind, currency, amount, position }) {
     const query = `
       mutation(
-        $id:ID!, $name:String!, $color:String!, $kind:String!, $currency:String!, $amount:String!
+        $id:ID!,
+        $name:String!,
+        $color:String!,
+        $kind:String!,
+        $currency:String!,
+        $amount:String!,
+        $position:Int!
       ) {
         action:updateProperty(
           id: $id,
@@ -562,11 +587,12 @@ export default {
           color: $color,
           kind: $kind,
           currency: $currency
-          amount: $amount
+          amount: $amount,
+          position: $position
         ) { id }
       }
     `;
-    const vars = { id, name, color, kind, currency, amount };
+    const vars = { id, name, color, kind, currency, amount, position };
     const data = await this.client(token).request(query, vars);
     this.log('updateProperty', data);
 
