@@ -1,7 +1,7 @@
 import api from '../../api';
 
 const KINDS = [
-  { value: 'debit', name: 'Дебитовая карта, наличные' },
+  { value: 'debit', name: 'Дебетовая карта, наличные' },
   { value: 'credit', name: 'Кредитная карта' }
 ];
 
