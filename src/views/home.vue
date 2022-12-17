@@ -5,9 +5,9 @@
       <div class='row'>
         <div class='col'>
           <h1 class='white-text'>Мой Бюджет</h1>
-          <h5 class='grey-text text-lighten-3'>
+          <h2 class='grey-text text-lighten-3'>
             Домашняя бухгалтерия онлайн
-          </h5>
+          </h2>
 
           <div class='getstarted'>
             <Button
@@ -169,6 +169,11 @@ export default {
 <style scoped lang='sass'>
 h1
   margin-bottom: 0px
+
+h2
+  line-height: 110%
+  font-size: 1.64rem
+  margin: 1.1rem 0 0.656rem 0
 
 .getstarted
   margin-top: 40px
