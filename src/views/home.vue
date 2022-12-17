@@ -77,7 +77,7 @@
         <div class='col s12 m6'>
           <div class='card horizontal z-depth-0'>
             <div class='card-image'>
-              <img src='../assets/help/iphone-icon/main-screen-preview.png'>
+              <img src='../assets/help/iphone-icon/main-screen-preview.png' alt='Создание иконки на домашнем экране iPhone'>
             </div>
             <div class='card-stacked blue-grey lighten-5'>
               <div class='card-content'>
@@ -101,7 +101,7 @@
         <div class='col s12 m6'>
           <div class='card horizontal z-depth-0'>
             <div class='card-image'>
-              <img class='bordered' src='../assets/help/emoji-and-icons-in-categories/preview.png'>
+              <img class='bordered' src='../assets/help/emoji-and-icons-in-categories/preview.png' alt='Как добавить иконки в названия категорий?'>
             </div>
             <div class='card-stacked blue-grey lighten-5'>
               <div class='card-content'>
