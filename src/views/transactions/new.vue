@@ -28,7 +28,7 @@
                 v-if='!isPhone'
                 class='helper-text'
                 data-error='Похоже, что это не число'
-                data-success='Отлично'
+                data-success=''
               >
                 Например 20.4 или 10 + 3 * 2
               </span>
@@ -164,6 +164,7 @@
 <script>
 import Button from '@/components/button';
 import Categories from '@/components/categories';
+import DateFormat from '@/utils/date_format';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -284,29 +285,13 @@ export default {
     }
 
     /* eslint-disable */
-    M.Datepicker.init(
-      this.$refs.datepicker,
-      {
-        format: 'dd mmm, yyyy',
-        firstDay: 1,
-        autoClose: true,
-        setDefaultDate: true,
-        defaultDate: new Date(),
-        i18n: {
-          cancel: 'Закрыть',
-          months: [
-            'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-            'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-          monthsShort: [
-            'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-            'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-          ],
-          weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-          weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-        }
-      }
-    );
-    M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+    this.$nextTick(() => {
+      M.Datepicker.init(
+        this.$refs.datepicker,
+        DateFormat.datePickerInitData(this.date)
+      );
+      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+    });
     /* eslint-enable */
 
     this.accountId = this.initAccountId || this.defaultAccountId;

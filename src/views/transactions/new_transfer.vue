@@ -62,17 +62,16 @@
                 ref='amountSrc'
                 v-model='amountSrc'
                 :type='isPhone ? "number" : "text"'
-                class='validate'
-                pattern='[0-9,.+-/*\s]+'
+                :class='{ "validate": !isPhone }'
                 required
                 @focus='$event.target.select()'
-                @input='srcChange($event.target.value)'
+                @input='onChangeSrcAmount'
               >
               <label for='name' class='active'>{{ amountLableSrc }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
-                data-success='Отлично'
+                data-success=''
               />
             </div>
             <div class='input-field col l4 s12'>
@@ -85,12 +84,13 @@
                 pattern='[0-9,.+-/*\s]+'
                 required
                 @focus='$event.target.select()'
+                @input='onChangeDstAmount'
               >
               <label for='name' class='active'>{{ amountLableDst }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
-                data-success='Отлично'
+                data-success=''
               />
             </div>
           </div>
@@ -162,6 +162,7 @@
 
 <script>
 import Button from '@/components/button';
+import DateFormat from '@/utils/date_format';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -236,31 +237,13 @@ export default {
 
     if (!this.isAlert) {
       /* eslint-disable */
-      M.Datepicker.init(
-        this.$refs.datepicker,
-        {
-          format: 'dd mmm, yyyy',
-          firstDay: 1,
-          autoClose: true,
-          setDefaultDate: true,
-          defaultDate: new Date(),
-          i18n: {
-            cancel: 'Закрыть',
-            months: [
-              'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-              'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-            monthsShort: [
-              'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-              'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-            ],
-            weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-            weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-          }
-        }
-      );
-      /* eslint-enable */
-      /* eslint-disable */
-      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+      this.$nextTick(() => {
+        M.Datepicker.init(
+          this.$refs.datepicker,
+          DateFormat.datePickerInitData(this.date)
+        );
+        M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+      });
       /* eslint-enable */
 
       if (this.selectedAccounts.length > 0) {
@@ -338,7 +321,7 @@ export default {
         alert('Error');
       }
     },
-    srcChange(value) {
+    onChangeSrcAmount(_e) {
       if (this.selectedAccountSrc == null) { return; }
       if (this.selectedAccountDst == null) { return; }
 
@@ -346,7 +329,11 @@ export default {
         return;
       }
 
-      this.amountDst = value;
+      this.amountSrc = this.amountSrc.replace(/[^0-9,.+-/*\s]/g, '');
+      this.amountDst = this.amountSrc;
+    },
+    onChangeDstAmount(_e) {
+      this.amountDst = this.amountDst.replace(/[^0-9,.+-/*\s]/g, '');
     }
   }
 };
