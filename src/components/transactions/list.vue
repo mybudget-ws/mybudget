@@ -155,7 +155,7 @@
             Повторить
           </router-link>
           <a
-            class='grey-text text-darken-2 last'
+            class='grey-text text-darken-2'
             @click='onDestroy(item)'
           >
             Удалить
@@ -345,8 +345,13 @@ td
       display: flex
 
   .card-action
-    padding: 12px 0
+    padding: 0
+    display: flex
+    justify-content: space-between
 
-    a.last
+    a
+      display: inline-block
+      padding: 10px 0
       margin-right: 0 !important
+      font-size: 0.8rem
 </style>
