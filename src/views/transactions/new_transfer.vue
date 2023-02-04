@@ -162,6 +162,7 @@
 
 <script>
 import Button from '@/components/button';
+import DateFormat from '@/utils/date_format';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -236,31 +237,13 @@ export default {
 
     if (!this.isAlert) {
       /* eslint-disable */
-      M.Datepicker.init(
-        this.$refs.datepicker,
-        {
-          format: 'dd mmm, yyyy',
-          firstDay: 1,
-          autoClose: true,
-          setDefaultDate: true,
-          defaultDate: new Date(),
-          i18n: {
-            cancel: 'Закрыть',
-            months: [
-              'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-              'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-            monthsShort: [
-              'янв.', 'февр.', 'мар.', 'апр.', 'мая', 'июня', 'июля',
-              'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'
-            ],
-            weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-            weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-          }
-        }
-      );
-      /* eslint-enable */
-      /* eslint-disable */
-      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+      this.$nextTick(() => {
+        M.Datepicker.init(
+          this.$refs.datepicker,
+          DateFormat.datePickerInitData(this.date)
+        );
+        M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+      });
       /* eslint-enable */
 
       if (this.selectedAccounts.length > 0) {
