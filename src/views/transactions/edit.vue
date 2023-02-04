@@ -28,7 +28,7 @@
                 v-if='!isPhone'
                 class='helper-text'
                 data-error='Похоже, что это не число'
-                data-success='Отлично'
+                data-success=''
               >
                 Например 20.4 или 10 + 3 * 2
               </span>

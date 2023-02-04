@@ -62,17 +62,16 @@
                 ref='amountSrc'
                 v-model='amountSrc'
                 :type='isPhone ? "number" : "text"'
-                class='validate'
-                pattern='[0-9,.+-/*\s]+'
+                :class='{ "validate": !isPhone }'
                 required
                 @focus='$event.target.select()'
-                @input='srcChange($event.target.value)'
+                @input='onChangeSrcAmount'
               >
               <label for='name' class='active'>{{ amountLableSrc }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
-                data-success='Отлично'
+                data-success=''
               />
             </div>
             <div class='input-field col l4 s12'>
@@ -85,12 +84,13 @@
                 pattern='[0-9,.+-/*\s]+'
                 required
                 @focus='$event.target.select()'
+                @input='onChangeDstAmount'
               >
               <label for='name' class='active'>{{ amountLableDst }}</label>
               <span
                 class='helper-text'
                 data-error='Похоже, что это не число'
-                data-success='Отлично'
+                data-success=''
               />
             </div>
           </div>
@@ -338,7 +338,7 @@ export default {
         alert('Error');
       }
     },
-    srcChange(value) {
+    onChangeSrcAmount(_e) {
       if (this.selectedAccountSrc == null) { return; }
       if (this.selectedAccountDst == null) { return; }
 
@@ -346,7 +346,11 @@ export default {
         return;
       }
 
-      this.amountDst = value;
+      this.amountSrc = this.amountSrc.replace(/[^0-9,.+-/*\s]/g, '');
+      this.amountDst = this.amountSrc;
+    },
+    onChangeDstAmount(_e) {
+      this.amountDst = this.amountDst.replace(/[^0-9,.+-/*\s]/g, '');
     }
   }
 };
