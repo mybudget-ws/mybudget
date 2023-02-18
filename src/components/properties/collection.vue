@@ -59,7 +59,7 @@
     >
       <div class='name blue-grey-text text-darken-3'>
         {{ item.name }}
-        <span class='badge'>{{ kindName(item) }}</span>
+        <span class='badge badge-light'>{{ kindName(item) }}</span>
       </div>
       <Amount
         :value='item.price'

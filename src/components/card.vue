@@ -5,7 +5,7 @@
   >
     <div class='card-content'>
       <slot />
-      <slot name='card-action' />
+      <slot name='card-footer' />
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
       font-size: 18px
       font-weight: 400
 
-    .badge
+    .badge.badge-light
       border-radius: 4px
       border: 1px solid #90a4ae
       box-sizing: border-box
@@ -66,8 +66,13 @@ export default {
         border-radius: 4px
 
   .card-action
-    padding: 12px 0
+    padding: 0
+    display: flex
+    justify-content: space-between
 
-    a.last
+    a
+      display: inline-block
+      padding: 10px 0
       margin-right: 0 !important
+      font-size: 0.8rem
 </style>

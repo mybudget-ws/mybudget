@@ -1,54 +1,55 @@
 <template>
-  <div class='card z-depth-0 light-blue lighten-5'>
-    <div class='card-content'>
-      <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
-      <span class='date'>до {{ dateFormat }}</span>
-      <Amount :value='amount' :currency='currency' class='card-title' />
-      <div class='card-content blue-grey-text text-darken-3'>
-        <div>
-          <span class='info-left'>Прогресс:</span>
-          <Amount :value='balance' :currency='currency' class='inline-amount' />
-        </div>
-        <div>
-          <span class='info-left'>В месяц по:</span>
-          <Amount :value='amountPerMonth' :currency='currency' class='inline-amount' />
-        </div>
-        <div>
-          <span class='info-left'>Осталось:</span>
-          <Amount :value='rest' :currency='currency' class='inline-amount' />
-        </div>
-        <div class='due-months grey-text text-darken-2'>
-          <i>месяцев в запасе ~ {{ dueMonths }}</i>
-        </div>
+  <Card color='light-blue lighten-5'>
+    <div class='name blue-grey-text text-darken-3'>{{ name }}</div>
+    <span class='date'>до {{ dateFormat }}</span>
+    <Amount :value='amount' :currency='currency' class='card-title' />
+    <div class='card-content blue-grey-text text-darken-3'>
+      <div>
+        <span class='info-left'>Прогресс:</span>
+        <Amount :value='balance' :currency='currency' class='inline-amount' />
       </div>
-      <div v-for='account in accounts' :key='account.id' class='card-content tags'>
-        <BadgeAccount :account='account' />
+      <div>
+        <span class='info-left'>В месяц по:</span>
+        <Amount :value='amountPerMonth' :currency='currency' class='inline-amount' />
       </div>
-      <span
-        class='new badge tag blue percentage'
-        :data-badge-caption='percentage'
-      />
+      <div>
+        <span class='info-left'>Осталось:</span>
+        <Amount :value='rest' :currency='currency' class='inline-amount' />
+      </div>
+      <div class='due-months grey-text text-darken-2'>
+        <i>месяцев в запасе ~ {{ dueMonths }}</i>
+      </div>
     </div>
-    <div class='card-action'>
-      <router-link
-        :to="`/goals/${id}/edit`"
-        class='grey-text text-darken-2'
-      >
-        Изменить
-      </router-link>
-      <a
-        class='grey-text text-darken-2 last'
-        @click='$emit("destroy")'
-      >
-        Удалить
-      </a>
+    <div v-for='account in accounts' :key='account.id' class='card-content tags'>
+      <BadgeAccount :account='account' />
     </div>
-  </div>
+    <span
+      class='new badge tag blue percentage'
+      :data-badge-caption='percentage'
+    />
+    <slot class='card-footer'>
+      <div class='card-action'>
+        <router-link
+          :to="`/goals/${id}/edit`"
+          class='grey-text text-darken-2'
+        >
+          Изменить
+        </router-link>
+        <a
+          class='grey-text text-darken-2 last'
+          @click='$emit("destroy")'
+        >
+          Удалить
+        </a>
+      </div>
+    </slot>
+  </Card>
 </template>
 
 <script>
 import Amount from '@/components/amount';
 import BadgeAccount from '@/components/badges/account';
+import Card from '@/components/card';
 
 const moment = require('moment');
 moment.locale('ru');
@@ -57,7 +58,8 @@ export default {
   name: 'AccountCard',
   components: {
     Amount,
-    BadgeAccount
+    BadgeAccount,
+    Card
   },
   props: {
     id: { type: Number, required: true },
@@ -100,57 +102,37 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.card
-  border-radius: 8px
-  margin: 0 0 18px
-  padding: 14px 0 10px 0
-  padding: 8px 12px 0px
-  position: relative
+.card-content
+  margin-bottom: 10px
+  padding: 0
 
-  .card-title
-    margin-bottom: 2px
+  &.tags
+    min-height: 24px
 
-  .card-content
-    margin-bottom: 10px
-    padding: 0
+  span.badge
+    float: left
+    margin-left: 0
+    margin-bottom: 4px
 
-    .name
-      font-size: 18px
-      font-weight: 400
+.date
+  color: #424242
+  font-weight: 200
+  position: absolute
+  right: 14px
+  text-align: right
+  top: 10px
 
-    &.tags
-      min-height: 24px
+.percentage
+  display: inline-block
+  font-size: 12px
+  font-weight: 600
+  min-width: 50px
+  position: absolute
+  right: 14px
+  top: 39px
 
-    span.badge
-      float: left
-      margin-left: 0
-      margin-bottom: 4px
-
-  .card-action
-    padding: 12px 0
-
-    a.last
-      margin-right: 0 !important
-
-  .date
-    color: #424242
-    font-weight: 200
-    position: absolute
-    right: 14px
-    text-align: right
-    top: 10px
-
-  .percentage
-    display: inline-block
-    font-size: 12px
-    font-weight: 600
-    min-width: 50px
-    position: absolute
-    right: 14px
-    top: 39px
-
-  .due-months
-    font-weight: 200
+.due-months
+  font-weight: 200
 
 .inline-amount
   display: inline-block

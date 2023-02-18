@@ -35,7 +35,7 @@
         <i class='material-icons white-text' style='font-size: 1.4rem'>list</i>
       </router-link>
     </div>
-    <slot name='card-action'>
+    <slot name='card-footer'>
       <div class='card-action'>
         <a
           class='grey-text text-darken-2'
