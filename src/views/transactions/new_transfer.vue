@@ -23,14 +23,23 @@
           <div class='row'>
             <div v-if='isPhone' class='col l4 s12'>
               <label>Со счета</label>
-              <select ref='selectSrcAccounts' v-model='accountIdSrc' class='browser-default'>
+              <select
+                ref='selectSrcAccounts'
+                v-model='accountIdSrc'
+                class='browser-default'
+                @change='onChangeAccountSrc'
+              >
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                 </option>
               </select>
             </div>
             <div v-else class='input-field col l4 s12'>
-              <select ref='selectSrcAccounts' v-model='accountIdSrc'>
+              <select
+                ref='selectSrcAccounts'
+                v-model='accountIdSrc'
+                @change='onChangeAccountSrc'
+              >
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                 </option>
@@ -40,14 +49,23 @@
 
             <div v-if='isPhone' class='col l4 s12'>
               <label>На счет</label>
-              <select ref='selectDstAccounts' v-model='accountIdDst' class='browser-default'>
+              <select
+                ref='selectDstAccounts'
+                v-model='accountIdDst'
+                class='browser-default'
+                @change='onChangeAccountDst'
+              >
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                 </option>
               </select>
             </div>
             <div v-else class='input-field col l4 s12'>
-              <select ref='selectDstAccounts' v-model='accountIdDst'>
+              <select
+                ref='selectDstAccounts'
+                v-model='accountIdDst'
+                @change='onChangeAccountDst'
+              >
                 <option v-for='v in orderedAccounts' :key='v.id' :value='v.id'>
                   {{ v.name }}
                 </option>
@@ -253,7 +271,7 @@ export default {
       } else {
         if (this.$route.query.accountIdSrc) {
           this.accountIdSrc = this.orderedAccounts
-            .find(v => v.id == this.$route.query.accountIdSrc).id ||
+            .find(v => v.id == this.$route.query.accountIdSrc)?.id ||
               this.orderedAccounts[0].id;
 
           this.accountIdDst = this.orderedAccounts
@@ -334,6 +352,28 @@ export default {
     },
     onChangeDstAmount(_e) {
       this.amountDst = this.amountDst.replace(/[^0-9,.+-/*\s]/g, '');
+    },
+    onChangeAccountSrc(_e) {
+      if (this.accountIdSrc === this.accountIdDst) {
+        this.accountIdDst = this.orderedAccounts
+          .find(v => v.id !== this.accountIdSrc)?.id || this.accountIdDst;
+        this.$nextTick(() => {
+          /* eslint-disable */
+          M.FormSelect.init(this.$refs.selectDstAccounts, {});
+          /* eslint-enable */
+        });
+      }
+    },
+    onChangeAccountDst(_e) {
+      if (this.accountIdSrc === this.accountIdDst) {
+        this.accountIdSrc = this.orderedAccounts
+          .find(v => v.id !== this.accountIdDst)?.id || this.accountIdSrc;
+        this.$nextTick(() => {
+          /* eslint-disable */
+          M.FormSelect.init(this.$refs.selectSrcAccounts, {});
+          /* eslint-enable */
+        });
+      }
     }
   }
 };
