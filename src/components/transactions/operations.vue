@@ -93,7 +93,7 @@ export default {
     },
     newTransferPath() {
       if (this.accountId) {
-        return `/transactions/transfers/new?accountIdDst=${this.accountId}&backTo=${this.backPath}`;
+        return `/transactions/transfers/new?accountIdSrc=${this.accountId}&backTo=${this.backPath}`;
       }
       return `/transactions/transfers/new?backTo=${this.backPath}`;
     }

@@ -54,7 +54,7 @@
                     icon='arrow_upward'
                   />
                   <LinkAction
-                    :to="`/transactions/transfers/new?accountIdDst=${item.id}&${backTo}`"
+                    :to="`/transactions/transfers/new?accountIdSrc=${item.id}&${backTo}`"
                     title='Новый перевод'
                     color='indigo lighten-5'
                     icon='repeat'
