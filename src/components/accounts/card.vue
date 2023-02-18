@@ -2,7 +2,7 @@
   <Card :color='color'>
     <div class='name blue-grey-text text-darken-3'>
       {{ name }}
-      <span v-if='kind === "credit"' class='badge'>Кредит</span>
+      <span v-if='kind === "credit"' class='badge badge-light'>Кредит</span>
     </div>
     <a class='btn-flat star' @click='$emit("favourite")'>
       <i v-if='isFavourite' class='material-icons yellow-text text-accent-4' style='font-size: 1.8rem'>star</i>

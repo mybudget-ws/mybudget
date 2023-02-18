@@ -30,7 +30,7 @@
               <tr v-for='item in accounts' :key='item.id'>
                 <td>
                   <RecordName v-bind='item'>
-                    <span v-if='item.kind === "credit"' class='badge' title='Кредитная карта'>K</span>
+                    <span v-if='item.kind === "credit"' class='badge badge-light' title='Кредитная карта'>K</span>
                     <a class='btn-flat' :title='titleFavourite(item)' @click='onFavourite(item)'>
                       <i v-if='item.isFavourite' class='material-icons yellow-text text-accent-4'>star</i>
                       <i v-else class='material-icons grey-text'>star_border</i>
@@ -263,7 +263,7 @@ export default {
 </script>
 
 <style scoped lang='sass'>
-.badge
+.badge.badge-light
   background-color: #eceff1
   border-radius: 4px
   border: 1px solid #b0bec5
