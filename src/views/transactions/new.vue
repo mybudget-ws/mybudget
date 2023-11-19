@@ -369,6 +369,7 @@ export default {
         evalAmount = eval(
           amount.replace(/,/g, '.').replace(/\s/g, '').replace(/([.])\1+/g, '$1')
         );
+        evalAmount = Math.round(evalAmount * 100) / 100;
       } catch {
         /* eslint-disable */ M.toast({ html: 'Ошибка в выражении' }); /* eslint-enable */
         await delay(100); // Избегаем двойного отображения ошибки.
