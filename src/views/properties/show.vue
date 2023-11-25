@@ -60,9 +60,20 @@
         </h5>
         <div class='col s12'>
           <PriceList
-            :items='prices'
+            :items='visiblePrices'
             @onDestroy='onDestroyPrice'
           />
+        </div>
+      </div>
+      <div v-if='!isLoading && isMorePrices' class='row'>
+        <div class='col s12'>
+          <a
+            v-if='true'
+            class='btn btn-flat w-100'
+            @click='morePrices'
+          >
+            Вся история...
+          </a>
         </div>
       </div>
 
@@ -105,6 +116,7 @@ import { get, call } from 'vuex-pathify';
 import c3 from 'c3';
 import MobileDetect from 'mobile-detect';
 const md = new MobileDetect(window.navigator.userAgent);
+const DEFAULT_PRICES_LENGTH = 3;
 
 export default {
   components: {
@@ -116,9 +128,9 @@ export default {
     TransactionList
   },
   data: () => ({
+    isPhone: md.phone() != null,
     isDestroying: false,
-
-    isPhone: md.phone() != null
+    isShowAllPrices: false
   }),
   computed: {
     token: get('user/token'),
@@ -130,7 +142,12 @@ export default {
     },
     chartTickCount() {
       return this.isPhone ? 4 : 14;
-    }
+    },
+    visiblePrices() {
+      if (this.isShowAllPrices) return this.prices;
+      return this.prices.slice(0, DEFAULT_PRICES_LENGTH);
+    },
+    isMorePrices() { return this.prices.length > this.visiblePrices.length; }
   },
   created() {
     this.fetch({ token: this.token, id: this.id });
@@ -186,6 +203,9 @@ export default {
         this.isDestroying = false;
         this.fetch({ token: this.token, id: this.id });
       }
+    },
+    morePrices() {
+      this.isShowAllPrices = true;
     }
   }
 };
