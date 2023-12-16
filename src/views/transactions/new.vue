@@ -344,6 +344,9 @@ export default {
         /* eslint-enable */
       });
     },
+    onSelectDate(value) {
+      this.date = new Date(value);
+    },
     setSelectedDate(value) {
       this.date = new Date(value);
       /* eslint-disable */
