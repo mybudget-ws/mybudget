@@ -47,14 +47,15 @@ export default {
   i18nDatePicker() {
     return I18N_DATE_PICKER;
   },
-  datePickerInitData(date = new Date()) {
+  datePickerInitData(date = new Date(), onSelect = null) {
     return {
       format: 'dd mmm, yyyy',
       firstDay: 1,
       autoClose: true,
       setDefaultDate: true,
       defaultDate: date,
-      i18n: I18N_DATE_PICKER
+      i18n: I18N_DATE_PICKER,
+      onSelect
     };
   },
   month(date) {

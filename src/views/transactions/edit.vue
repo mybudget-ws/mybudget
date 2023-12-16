@@ -54,6 +54,10 @@
                 class='datepicker'
               >
               <label for='date' class='active'>Дата</label>
+              <FastDates
+                :selected-date='date'
+                @select='setSelectedDate'
+              />
             </div>
           </div>
           <div class='switch'>
@@ -158,6 +162,7 @@
 import Button from '@/components/button';
 import Categories from '@/components/categories';
 import DateFormat from '@/utils/date_format';
+import FastDates from '@/components/transactions/fast_dates';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -177,6 +182,7 @@ export default {
   components: {
     Button,
     Categories,
+    FastDates,
     Loader,
     Menu,
     PageHeader,
@@ -284,9 +290,9 @@ export default {
     this.$nextTick(() => {
       M.Datepicker.init(
         this.$refs.datepicker,
-        DateFormat.datePickerInitData(this.date)
+        DateFormat.datePickerInitData(this.date, this.onSelectDate)
       );
-      M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+      // M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
     });
     /* eslint-enable */
 
@@ -326,7 +332,6 @@ export default {
       this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');
     },
     selectTopAccount(id) {
-      console.log('selectTopAccount', id);
       this.accountId = id;
       this.$nextTick(() => {
         /* eslint-disable */
@@ -334,6 +339,19 @@ export default {
         M.updateTextFields();
         /* eslint-enable */
       });
+    },
+    onSelectDate(value) {
+      this.date = new Date(value);
+    },
+    async setSelectedDate(value) {
+      this.date = new Date(value);
+      /* eslint-disable */
+      this.$nextTick(() => {
+        const instance = M.Datepicker.getInstance(this.$refs.datepicker);
+        instance.setDate(this.date);
+        instance.setInputValue();
+      });
+      /* eslint-enable */
     },
     async submit() {
       if (this.isSubmitting) { return; }
