@@ -38,6 +38,9 @@ export default {
     if (current.year() === dateTime.year()) { return dateTime.format('D MMMM'); }
     return dateTime.format('D MMMM YYYY');
   },
+  short(date) {
+    return moment(date).utcOffset(SERVER_UTC_OFFSET, true).format('DD MMM');
+  },
   fixed(date) {
     return moment(date).utcOffset(SERVER_UTC_OFFSET, true).format('DD.MM.YYYY');
   },

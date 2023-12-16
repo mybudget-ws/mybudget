@@ -60,6 +60,8 @@ export default {
 
     &.selected
       color: #616161
+      background-color: #fffde7
+      // background-color: #fff9c4
 
     &:hover
       color: #616161

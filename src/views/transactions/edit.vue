@@ -343,7 +343,7 @@ export default {
     onSelectDate(value) {
       this.date = new Date(value);
     },
-    async setSelectedDate(value) {
+    setSelectedDate(value) {
       this.date = new Date(value);
       /* eslint-disable */
       this.$nextTick(() => {

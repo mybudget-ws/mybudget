@@ -17,11 +17,13 @@
 <script>
 import DateFormat from '@/utils/date_format';
 
-const yesterday = () => {
+const daysAgo = (n) => {
   const now = new Date();
-  now.setDate(now.getDate() - 1);
+  now.setDate(now.getDate() - n);
   return now;
 };
+
+const daysAgoStr = (n) =>  DateFormat.short(daysAgo(n));
 
 export default {
   name: 'FastDates',
@@ -32,7 +34,10 @@ export default {
   data: () => ({
     dates: [
       { label: 'Сегодня', value: new Date() },
-      { label: 'Вчера', value: yesterday() }
+      { label: 'Вчера', value: daysAgo(1) },
+      { label: daysAgoStr(2), value: daysAgo(2) },
+      { label: daysAgoStr(3), value: daysAgo(3) },
+      { label: daysAgoStr(4), value: daysAgo(4) }
     ]
   }),
   computed: {},
@@ -72,6 +77,8 @@ export default {
 
     &.selected
       color: #616161
+      background-color: #fffde7
+      // background-color: #fff9c4
 
     &:hover
       color: #616161
