@@ -60,7 +60,7 @@
       class='sidenav'
     >
       <li v-for='item in items' :key='item.path'>
-        <a href='#' @click='goto(item.path)'>
+        <a :href="`#${item.path}`" @click='goto(item.path)'>
           {{ item.name }}
           <span v-if='item.badge' class='badge new' :data-badge-caption='item.badge' />
         </a>
@@ -72,10 +72,10 @@
         </a>
       </li>
       <li>
-        <a href='#' @click='goto("currencies")'>Курсы валют</a>
+        <a href='#/currencies' @click='goto("currencies")'>Курсы валют</a>
       </li>
       <li>
-        <a href='#' @click='goto("settings/profile")'>Настройки</a>
+        <a href='#/settings/profile' @click='goto("settings/profile")'>Настройки</a>
       </li>
       <li class='divider' />
       <li>

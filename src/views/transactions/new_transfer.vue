@@ -122,6 +122,10 @@
                 class='datepicker'
               >
               <label for='date' class='active'>Дата</label>
+              <FastDates
+                :selected-date='date'
+                @select='setSelectedDate'
+              />
             </div>
             <div class='col l4 s12'>
               <div class='row'>
@@ -181,6 +185,7 @@
 <script>
 import Button from '@/components/button';
 import DateFormat from '@/utils/date_format';
+import FastDates from '@/components/transactions/fast_dates';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
@@ -197,8 +202,9 @@ export default {
   name: 'NewTransaction',
   components: {
     Button,
-    Menu,
+    FastDates,
     Loader,
+    Menu,
     PageHeader
   },
   props: {},
@@ -258,9 +264,9 @@ export default {
       this.$nextTick(() => {
         M.Datepicker.init(
           this.$refs.datepicker,
-          DateFormat.datePickerInitData(this.date)
+          DateFormat.datePickerInitData(this.date, this.onSelectDate)
         );
-        M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
+        // M.Datepicker.getInstance(this.$refs.datepicker).setDate(this.date);
       });
       /* eslint-enable */
 
@@ -299,6 +305,19 @@ export default {
   methods: {
     fetchAccounts: call('accounts/fetchFilter'),
     create: call('transactions/createTransfer'),
+    onSelectDate(value) {
+      this.date = new Date(value);
+    },
+    setSelectedDate(value) {
+      this.date = new Date(value);
+      /* eslint-disable */
+      this.$nextTick(() => {
+        const instance = M.Datepicker.getInstance(this.$refs.datepicker);
+        instance.setDate(this.date);
+        instance.setInputValue();
+      });
+      /* eslint-enable */
+    },
     async submit() {
       if (this.isSubmitting) { return; }
 

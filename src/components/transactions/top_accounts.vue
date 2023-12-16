@@ -1,15 +1,17 @@
 <template>
-  <span v-if='topAccounts.length > 1' class='top-accounts'>
-    <span
-      v-for='account in accounts'
-      :key='account.id'
-      class='top-account helper-text'
-      :class='account.id == accountId ? "selected" : ""'
-      @click='onClick(account.id)'
-    >
-      {{ account.name }}
+  <div v-if='topAccounts.length > 1' class='top-accounts-container'>
+    <span class='top-accounts'>
+      <span
+        v-for='account in accounts'
+        :key='account.id'
+        class='top-account helper-text'
+        :class='account.id == accountId ? "selected" : ""'
+        @click='onClick(account.id)'
+      >
+        {{ account.name }}
+      </span>
     </span>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -37,6 +39,9 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+.top-accounts-container
+  position: relative
+
 .top-accounts
   position: absolute
   margin-top: -4px
@@ -45,7 +50,7 @@ export default {
     padding-bottom: 6px
     display: inline-block
     position: inherit
-    margin-top: 10px
+    // margin-top: 10px
 
   .top-account
     cursor: pointer
@@ -55,6 +60,8 @@ export default {
 
     &.selected
       color: #616161
+      background-color: #fffde7
+      // background-color: #fff9c4
 
     &:hover
       color: #616161
