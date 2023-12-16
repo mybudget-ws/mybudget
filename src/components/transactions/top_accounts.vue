@@ -2,7 +2,7 @@
   <div v-if='topAccounts.length > 1' class='top-accounts-container'>
     <span class='top-accounts'>
       <span
-        v-for='account in accounts'
+        v-for='account in topAccounts'
         :key='account.id'
         class='top-account helper-text'
         :class='account.id == accountId ? "selected" : ""'
