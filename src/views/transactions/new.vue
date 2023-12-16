@@ -43,16 +43,11 @@
                 </option>
               </select>
               <label v-if='!isPhone'>Счет</label>
-              <span v-if='topAccounts.length > 0' class='top-accounts'>
-                <span
-                  v-for='account in topAccounts'
-                  :key='account.id'
-                  class='top-account helper-text'
-                  @click='selectTopAccount(account.id)'
-                >
-                  {{ account.name }}
-                </span>
-              </span>
+              <TopAccounts
+                :accounts='orderedAccounts'
+                :account-id='accountId'
+                @select='selectTopAccount'
+              />
             </div>
             <div class='input-field col l4 s12'>
               <input
@@ -168,6 +163,7 @@ import DateFormat from '@/utils/date_format';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import TopAccounts from '@/components/transactions/top_accounts';
 import delay from 'delay';
 import { get, call } from 'vuex-pathify';
 
@@ -184,7 +180,8 @@ export default {
     Categories,
     Menu,
     Loader,
-    PageHeader
+    PageHeader,
+    TopAccounts
   },
   props: {},
   data: () => ({
@@ -239,11 +236,6 @@ export default {
         ...this.accounts.filter(v => v.isFavourite),
         ...this.accounts.filter(v => !v.isFavourite)
       ];
-    },
-    topAccounts() {
-      return this.orderedAccounts
-        .filter(v => v.id !== this.accountId && v.id.toString() !== this.accountId)
-        .slice(0, 5);
     },
     defaultAccountId() {
       const filterAccount = this.filterAccounts
@@ -420,30 +412,6 @@ h6.subtitle
 
 select.browser-default
   margin-bottom: 1em
-
-.top-accounts
-  position: absolute
-  margin-top: -4px
-
-  @media only screen and (max-width: 996px)
-    padding-bottom: 6px
-    display: inline-block
-    position: inherit
-    margin-top: 10px
-
-  .top-account
-    cursor: pointer
-    display: inline-block
-    margin-right: 6px
-    border-bottom: 1px dashed #bdbdbd
-
-    &:hover
-      color: #616161
-      border-bottom: 1px dashed #757575
-
-    @media only screen and (max-width: 601px)
-      font-size: 14px
-      margin-right: 10px
 
 form
   @media only screen and (max-width: 601px)

@@ -40,6 +40,11 @@
                 </option>
               </select>
               <label v-if='!isPhone'>Счет</label>
+              <TopAccounts
+                :accounts='orderedAccounts'
+                :account-id='accountId'
+                @select='selectTopAccount'
+              />
             </div>
             <div class='input-field col l4 s12'>
               <input
@@ -156,6 +161,7 @@ import DateFormat from '@/utils/date_format';
 import Loader from '@/components/loader';
 import Menu from '@/components/menu';
 import PageHeader from '@/components/page_header';
+import TopAccounts from '@/components/transactions/top_accounts';
 import api from '@/api';
 import { get, call } from 'vuex-pathify';
 import delay from 'delay';
@@ -171,9 +177,10 @@ export default {
   components: {
     Button,
     Categories,
-    Menu,
     Loader,
-    PageHeader
+    Menu,
+    PageHeader,
+    TopAccounts
   },
   props: {},
   data: () => ({
@@ -317,6 +324,16 @@ export default {
     onSelectCategory(ids) { this.categoryIds = ids; },
     onChangeAmount(_e) {
       this.amount = this.amount.replace(/[^0-9,.+-/*\s]/g, '');
+    },
+    selectTopAccount(id) {
+      console.log('selectTopAccount', id);
+      this.accountId = id;
+      this.$nextTick(() => {
+        /* eslint-disable */
+        M.FormSelect.init(this.$refs.selectAccounts, {});
+        M.updateTextFields();
+        /* eslint-enable */
+      });
     },
     async submit() {
       if (this.isSubmitting) { return; }
