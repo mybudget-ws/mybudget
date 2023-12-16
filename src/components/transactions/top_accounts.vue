@@ -25,9 +25,10 @@ export default {
   data: () => ({}),
   computed: {
     topAccounts() {
-      return this.accounts
-        .filter(v => v.id !== this.accountId && v.id.toString() !== this.accountId)
-        .slice(0, 5);
+      // return this.accounts
+      //   .filter(v => v.id !== this.accountId && v.id.toString() !== this.accountId)
+      //   .slice(0, 5);
+      return this.accounts.slice(0, 5);
     }
   },
   methods: {
