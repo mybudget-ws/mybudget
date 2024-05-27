@@ -12,7 +12,7 @@
     "@sentry/tracing": "^6.15.0",
     "browser-cookies": "^1.2.0",
     "c3": "^0.7.13",
-    "core-js": "^3.4.4",
+    "core-js": "^3.37.1",
     "d3": "^5.15.0",
     "delay": "^5.0.0",
     "eslint-plugin-import": "^2.20.0",
