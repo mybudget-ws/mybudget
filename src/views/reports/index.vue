@@ -427,6 +427,10 @@ export default {
         margin-top: 4px
         margin-left: 0
 
+    .select-wrapper
+      input.select-dropdown
+        margin-bottom: 0px
+
   .custom-period
     display: flex
     align-items: center
