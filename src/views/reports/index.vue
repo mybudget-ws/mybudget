@@ -439,7 +439,7 @@ export default {
 
   .select-wrapper,
   .custom-period
-    input.select-dropdown
+    input
       margin-bottom: 0px
 
 .chart-description
