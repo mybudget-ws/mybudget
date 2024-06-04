@@ -427,10 +427,6 @@ export default {
         margin-top: 4px
         margin-left: 0
 
-    .select-wrapper
-      input.select-dropdown
-        margin-bottom: 0px
-
   .custom-period
     display: flex
     align-items: center
@@ -440,6 +436,10 @@ export default {
 
       @media only screen and (max-width: 601px)
         margin-left: 0
+
+  .select-wrapper
+    input.select-dropdown
+      margin-bottom: 0px
 
 .chart-description
   margin-top: -14px
