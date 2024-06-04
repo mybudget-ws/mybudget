@@ -437,7 +437,8 @@ export default {
       @media only screen and (max-width: 601px)
         margin-left: 0
 
-  .select-wrapper
+  .select-wrapper,
+  .custom-period
     input.select-dropdown
       margin-bottom: 0px
 
