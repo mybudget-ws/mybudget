@@ -20,7 +20,7 @@
     "materialize-css": "^1.0.0",
     "mobile-detect": "^1.4.4",
     "moment": "^2.29.4",
-    "node-sass": "^6.0.0",
+    "node-sass": "^9.0.0",
     "sass-loader": "^10",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
@@ -30,9 +30,8 @@
     "vuex-pathify": "^1.4.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^6.1.2",
