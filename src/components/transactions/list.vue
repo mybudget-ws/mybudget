@@ -283,7 +283,7 @@ td
   white-space: nowrap
 
 .amount
-  width: 140px
+  width: 150px
   text-align: right
 
 .actions
