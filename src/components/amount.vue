@@ -1,6 +1,8 @@
 <template>
   <div :class='classes'>
-    <span class='value'>{{ formatedValue }}</span>
+    <span class='value'>
+      {{ valueRound }}<span class='cent'>.{{ valueCent }}</span>
+    </span>
     <span class='currency grey-text text-darken-1' :title='titleCurrency'>
       {{ formatedCurrency }}
     </span>
@@ -25,8 +27,16 @@ export default {
         'red-text text-darken-4';
     },
     formatedValue() {
-      const digits = (this.value | 0) == this.value ? 0 : 2;
-      return Money.format(Math.abs(this.value), digits);
+      return Money.format(Math.abs(this.value), 2);
+    },
+    valueParts() {
+      return this.formatedValue.split('.');
+    },
+    valueRound() {
+      return this.valueParts[0];
+    },
+    valueCent() {
+      return this.valueParts[1];
     },
     isCurrency() {
       return this.currency != null && this.currency != '';
@@ -46,8 +56,17 @@ export default {
 <style scoped lang='sass'>
 .value
   font-weight: 500
-  margin-right: 4px
+  letter-spacing: 0.2px
+  text-align: right
   white-space: nowrap
+
+.cent
+  font-size: 12px
+  font-weight: 200
+  margin-right: 4px
+
+  @media only screen and (max-width: 601px)
+    font-size: 14px
 
 .currency
   font-size: 12px
