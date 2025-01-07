@@ -221,11 +221,10 @@ export default {
 
     &:before
       color: #757575
-      content: 'Всего по текущему курсу:'
-      font-size: 13px
-      font-weight: 200
-      margin-left: -164px
-      margin-top: -1.6px
-      padding-top: 4px
+      content: 'Итого:'
+      font-size: 14px
+      font-weight: 400
+      margin-left: -50px
+      padding-top: 1px
       position: absolute
 </style>

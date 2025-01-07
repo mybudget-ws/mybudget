@@ -312,16 +312,13 @@ export default {
   .amount-base-total
     border-top: 1px solid #d4d4d4
     padding-top: 4px
+    display: inline-block
 
     &:before
       color: #757575
-      content: 'Всего по текущему курсу:'
-      font-size: 13px
-      font-weight: 200
-      margin-left: -164px
-      margin-top: -1.6px
-      padding-top: 4px
-      position: absolute
+      content: 'Итого (по текущему курсу):'
+      font-size: 14px
+      font-weight: 400
 
 .card-total
   text-align: right
