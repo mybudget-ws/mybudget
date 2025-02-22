@@ -242,7 +242,7 @@ export default {
     async onDestroy(account) {
       if (this.isDestroying) { return; }
 
-      if (confirm('Удалить счет. Вы уверены?')) {
+      if (confirm('Удалить счет. Все операции будут удалены. Вы уверены?')) {
         const res = await this.destroy({ token: this.token, account });
         const message = res != null ? 'Счет успешно удален' : 'Непредвиденная ошибка';
         /* eslint-disable */ M.toast({ html: message }); /* eslint-enable */

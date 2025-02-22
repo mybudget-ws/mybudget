@@ -23,6 +23,7 @@
           >
             <i class='material-icons grey-text'>visibility</i>
           </a>
+          <!--
           <a
             class='waves-effect waves-teal btn-flat'
             title='Удалить'
@@ -30,6 +31,7 @@
           >
             <i class='material-icons grey-text'>delete</i>
           </a>
+          -->
         </td>
       </tr>
     </tbody>
