@@ -92,11 +92,16 @@ export default {
 
       this.isSubmitting = true;
 
-      await this.resetPassword({ email });
+      const result = await this.resetPassword({ email });
 
       this.isSubmitting = false;
       this.isSubmitted = true;
-      /* eslint-disable */ M.toast({ html: 'Инструкция отправлена.' }); /* eslint-enable */
+
+      if (result.error == null || result.error === '') {
+        /* eslint-disable */ M.toast({ html: 'Инструкция отправлена.' }); /* eslint-enable */
+      } else {
+        /* eslint-disable */ M.toast({ html: result.error }); /* eslint-enable */
+      }
     }
   }
 };
